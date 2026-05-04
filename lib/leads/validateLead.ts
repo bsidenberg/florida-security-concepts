@@ -26,7 +26,6 @@ const ALLOWED_SERVICES = [
   'Gate automation',
   'Access control',
   'Video surveillance',
-  'Fire alarm / life safety',
   'Emergency repair',
   'Maintenance / service',
   'Full security system integration',

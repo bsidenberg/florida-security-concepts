@@ -247,12 +247,12 @@ export const industries: Industry[] = [
     metaTitle:
       'Commercial Security Systems | Central Florida & Tampa Bay | Florida Security Concepts',
     metaDescription:
-      'Integrated commercial security systems — gates, access control, video surveillance, and life safety coordination — for offices, retail, and mixed-use across Central Florida and Tampa Bay.',
+      'Integrated commercial security systems — gates, access control, video surveillance, and emergency service — for offices, retail, and mixed-use across Central Florida and Tampa Bay.',
     eyebrow: 'Industry · Commercial',
     intro:
       'Commercial properties have the broadest range of security requirements — staff turnover, tenant access, vendor rotation, after-hours operations, and incident documentation — and the highest expectation that the system simply works.',
     directAnswer:
-      'Florida Security Concepts designs commercial security systems — gates, access control, video surveillance, and life safety coordination — for offices, retail, and mixed-use properties across Central Florida and Tampa Bay.',
+      'Florida Security Concepts designs commercial security systems — gates, access control, video surveillance, and integrated emergency service — for offices, retail, and mixed-use properties across Central Florida and Tampa Bay.',
     pains: [
       {
         title: 'Key-and-lock turnover',
@@ -276,7 +276,6 @@ export const industries: Industry[] = [
       'video-surveillance',
       'security-system-integration',
       'gate-automation',
-      'fire-alarm-systems',
       'emergency-service',
     ],
     recommendedReason:

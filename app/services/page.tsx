@@ -11,7 +11,7 @@ import { site } from '@/data/site';
 export const metadata: Metadata = {
   title: 'Security Services | Gates, Access Control, Surveillance & Integration',
   description:
-    'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, fire alarm coordination, system integration, and 24/7 emergency support.',
+    'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, system integration, and 24/7 emergency support.',
   alternates: { canonical: '/services' },
 };
 

@@ -101,7 +101,7 @@ Quick orientation:
 ## Editorial / copy rules
 
 - No fake testimonials, license numbers, certifications, awards, client logos, phone numbers, or addresses. Empty placeholders only.
-- Fire alarm / life safety copy avoids unsupported licensing or certification claims. See [`data/services.ts`](data/services.ts) (`fire-alarm-systems` entry) for the cautious phrasing in use.
+- Public service positioning is limited to gates, gate automation, access control, video surveillance, security system integration, and emergency service. Do not reintroduce fire-alarm or life-safety positioning without verified licensing context.
 - Real photography is preferred over stock; absent that, no images.
 
 ## License

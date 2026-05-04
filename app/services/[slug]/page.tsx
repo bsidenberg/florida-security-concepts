@@ -303,7 +303,6 @@ function defaultServiceLabel(slug: string): string | undefined {
     'gate-automation': 'Gate automation',
     'access-control': 'Access control',
     'video-surveillance': 'Video surveillance',
-    'fire-alarm-systems': 'Fire alarm / life safety',
     'security-system-integration': 'Full security system integration',
     'emergency-service': 'Emergency repair',
   };

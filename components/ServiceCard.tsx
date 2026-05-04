@@ -7,8 +7,6 @@ const iconBySlug: Record<string, string> = {
   'access-control':
     'M16 11V8a4 4 0 10-8 0v3M5 11h14v9H5zM12 14v3',
   'video-surveillance': 'M3 7l13-3v14L3 15V7zm13 1l5-2v8l-5-2',
-  'fire-alarm-systems':
-    'M12 3c2 4 5 6 5 10a5 5 0 11-10 0c0-2 1-3 2-4',
   'security-system-integration':
     'M5 7h5v5H5zM14 12h5v5h-5zM10 9.5l4 0M9.5 12v0M14.5 9.5v3',
   'emergency-service':

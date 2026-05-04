@@ -388,68 +388,6 @@ export const services: Service[] = [
     ],
   },
   {
-    slug: 'fire-alarm-systems',
-    title: 'Commercial Fire Alarm Systems & Life Safety Integration',
-    navLabel: 'Fire Alarm Systems',
-    shortLabel: 'Fire Alarm',
-    metaTitle:
-      'Commercial Fire Alarm Systems | Life Safety Integration | Florida Security Concepts',
-    metaDescription:
-      'Fire alarm and life safety coordination with access control, gates, and surveillance — where applicable. System planning and integration support for Central Florida and Tampa Bay.',
-    eyebrow: 'Service · Life Safety Coordination',
-    intro:
-      'Fire alarm and life safety systems live alongside security infrastructure. Where they already exist on a property, we provide coordination and integration support so access control, gates, and surveillance behave correctly during alarm conditions and stay out of the way of life safety priorities.',
-    directAnswer:
-      'Florida Security Concepts provides fire alarm and life-safety coordination and system integration support — where applicable — alongside the gate, access control, and surveillance work we perform. We do not assert specific fire alarm licensing or certification on this page. Customers should verify local code, permitting, and licensing requirements with the appropriate Authority Having Jurisdiction (AHJ), and confirm current credentials directly with our team during a site assessment.',
-    capabilities: [
-      {
-        title: 'Life safety integration review',
-        body: 'Review whether gates, doors, and access control fail safe during alarm conditions, and identify gaps relative to applicable code and AHJ requirements.',
-      },
-      {
-        title: 'Access control coordination',
-        body: 'Coordinate door schedules and credentialed access so emergency egress and responder access behave as the property’s life safety design intends.',
-      },
-      {
-        title: 'System documentation',
-        body: 'Documentation that helps inspectors, AHJs, and on-site staff understand how security and life safety systems interact on the property.',
-      },
-    ],
-    whoFor: [
-      'Properties where fire alarm and security systems share infrastructure',
-      'Property managers coordinating multiple specialty trades',
-      'Owners of buildings with mixed-use security and life safety needs',
-    ],
-    outcomes: [
-      'Documented review of how doors and gates behave during alarm conditions',
-      'Coordinated documentation across security and life safety',
-      'Fewer surprises during inspections and emergency drills',
-    ],
-    faqs: [
-      {
-        q: 'Does Florida Security Concepts perform fire alarm certification?',
-        a: 'This page does not assert specific fire alarm licensing or certification. Specific licensing and certification scope should be confirmed directly with our team during a site assessment, and customers should verify local code, permitting, and licensing requirements with the appropriate AHJ.',
-      },
-      {
-        q: 'Why does my access control need to know about the fire alarm?',
-        a: 'During an alarm, doors that are normally locked must release for egress where the property’s life safety design requires it, and access points may need to behave differently for responders. Coordinated systems handle this correctly; uncoordinated systems can become a liability.',
-      },
-    ],
-    relatedServices: ['access-control', 'security-system-integration'],
-    relatedIndustries: [
-      'commercial-properties',
-      'industrial-warehouses',
-      'multifamily-apartments-condos',
-      'property-managers',
-    ],
-    keywords: [
-      'commercial fire alarm',
-      'life safety integration',
-      'fire alarm and access control',
-      'commercial life safety Florida',
-    ],
-  },
-  {
     slug: 'security-system-integration',
     title: 'Integrated Security Systems for Properties, Communities & Facilities',
     navLabel: 'System Integration',
