@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  background-color: #070a13;
+  color-scheme: dark;
+}
+
+body {
+  color: #e2e8f0;
+  background-color: #070a13;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+@layer base {
+  ::selection {
+    background-color: rgba(59, 130, 246, 0.35);
+    color: #f8fafc;
+  }
+  *:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Dimensional card with hairline gradient border */
+  .fsc-card {
+    @apply relative rounded-xl bg-fsc-card shadow-fsc-card transition-all duration-300;
+  }
+  .fsc-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(96, 165, 250, 0.4) 0%,
+      rgba(31, 41, 64, 0) 35%,
+      rgba(31, 41, 64, 0) 65%,
+      rgba(96, 165, 250, 0.25) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .fsc-card-hover:hover {
+    @apply shadow-fsc-card-hover -translate-y-0.5;
+  }
+
+  /* Eyebrow label — uppercase tracking, accent color */
+  .fsc-eyebrow {
+    @apply text-xs font-mono uppercase tracking-fsc-eyebrow text-fsc-accent-glow;
+  }
+
+  /* Section section padding wrapper */
+  .fsc-section {
+    @apply relative py-20 md:py-28;
+  }
+  .fsc-section-tight {
+    @apply relative py-14 md:py-20;
+  }
+
+  /* Container for centered content */
+  .fsc-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Primary button — bright accent */
+  .fsc-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-fsc-accent
+           px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_-6px_rgba(59,130,246,0.55)]
+           hover:bg-fsc-accent-glow hover:shadow-[0_12px_30px_-6px_rgba(96,165,250,0.6)]
+           transition-all duration-200 active:translate-y-[1px];
+  }
+
+  /* Secondary button — outlined */
+  .fsc-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-fsc-border-strong
+           bg-fsc-surface/60 backdrop-blur px-5 py-3 text-sm font-semibold text-fsc-text
+           hover:border-fsc-accent-glow hover:text-fsc-accent-glow
+           transition-all duration-200 active:translate-y-[1px];
+  }
+
+  /* Emergency button — amber accent */
+  .fsc-btn-emergency {
+    @apply inline-flex items-center justify-center gap-2 rounded-md
+           border border-fsc-warn/40 bg-fsc-warn/10 px-4 py-2 text-sm font-semibold text-fsc-warn
+           hover:bg-fsc-warn/20 hover:border-fsc-warn transition-all duration-200;
+  }
+
+  /* Hairline divider */
+  .fsc-hr {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-fsc-border-strong to-transparent;
+  }
+
+  /* Blueprint grid background overlay */
+  .fsc-grid-bg {
+    background-image:
+      linear-gradient(rgba(96, 165, 250, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(96, 165, 250, 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: -1px -1px;
+  }
+
+  /* Subtle radial spotlight */
+  .fsc-spotlight {
+    background-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(59, 130, 246, 0.18) 0%,
+      rgba(7, 10, 19, 0) 60%
+    );
+  }
+}
+
+/* Animated underline for nav links */
+.fsc-nav-link {
+  position: relative;
+  transition: color 200ms ease;
+}
+.fsc-nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 1px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
+  background: linear-gradient(90deg, #60a5fa 0%, transparent 100%);
+}
+.fsc-nav-link:hover::after,
+.fsc-nav-link[data-active='true']::after {
+  transform: scaleX(1);
+}
