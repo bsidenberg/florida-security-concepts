@@ -125,7 +125,7 @@ export function LeadCaptureForm({
       urgency: fd.get('urgency')?.toString(),
       contactMethod: fd.get('contactMethod')?.toString(),
       message: fd.get('message')?.toString(),
-      honeypot: fd.get('company_name_extra')?.toString(),
+      honeypot: fd.get('fsc_check')?.toString(),
       sourcePage: pathname || undefined,
       serviceSlug: defaults.serviceSlug,
       industrySlug: defaults.industrySlug,
@@ -285,7 +285,12 @@ export function LeadCaptureForm({
         </div>
       </div>
 
-      {/* Honeypot — hidden from sighted users and assistive tech. Bots tend to fill it. */}
+      {/* Honeypot — hidden from sighted users and assistive tech. Bots tend to fill it.
+          Field name and label text are intentionally devoid of common autofill
+          keywords (no name/email/phone/address/company/organization/zip). Browsers
+          like Chrome ignore autoComplete="off" on non-password fields when the
+          field NAME contains a known autofill keyword — so the name is what matters,
+          not just the autoComplete attribute. */}
       <div
         aria-hidden="true"
         style={{
@@ -298,12 +303,13 @@ export function LeadCaptureForm({
         }}
       >
         <label>
-          Company name (do not fill)
+          Leave this field empty
           <input
             type="text"
-            name="company_name_extra"
+            name="fsc_check"
             tabIndex={-1}
             autoComplete="off"
+            defaultValue=""
           />
         </label>
       </div>
