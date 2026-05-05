@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { site } from '@/data/site';
+import { site, hasPhone, hasEmail } from '@/data/site';
 import { services } from '@/data/services';
 import { industries } from '@/data/industries';
 import { locations } from '@/data/locations';
@@ -32,6 +32,34 @@ export function Footer() {
                 </span>{' '}
                 · {site.hours}
               </div>
+              {hasPhone() && (
+                <div>
+                  <span className="font-mono uppercase tracking-fsc-eyebrow text-[10px] text-fsc-accent-glow">
+                    Phone
+                  </span>{' '}
+                  ·{' '}
+                  <a
+                    href={`tel:${site.phone}`}
+                    className="hover:text-fsc-text"
+                  >
+                    {site.phoneDisplay}
+                  </a>
+                </div>
+              )}
+              {hasEmail() && (
+                <div>
+                  <span className="font-mono uppercase tracking-fsc-eyebrow text-[10px] text-fsc-accent-glow">
+                    Email
+                  </span>{' '}
+                  ·{' '}
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="hover:text-fsc-text"
+                  >
+                    {site.email}
+                  </a>
+                </div>
+              )}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/contact" className="fsc-btn-primary">

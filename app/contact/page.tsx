@@ -8,7 +8,7 @@ import {
   type LeadFormDefaults,
 } from '@/components/LeadCaptureForm';
 import { ContactPageSchema, BreadcrumbSchema } from '@/components/Schema';
-import { site } from '@/data/site';
+import { site, hasPhone, hasEmail } from '@/data/site';
 import { getService } from '@/data/services';
 import { getIndustry } from '@/data/industries';
 import { getLocation } from '@/data/locations';
@@ -155,6 +155,46 @@ export default function ContactPage({
 
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-14">
             <aside className="lg:col-span-4 space-y-6">
+              {(hasPhone() || hasEmail()) && (
+                <div className="fsc-card p-6">
+                  <p className="text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-accent-glow mb-2">
+                    Reach us directly
+                  </p>
+                  <h3 className="text-base font-semibold text-fsc-text">
+                    Prefer to call or email?
+                  </h3>
+                  <ul className="mt-3 space-y-2 text-sm text-fsc-text-dim">
+                    {hasPhone() && (
+                      <li>
+                        <span className="font-mono uppercase tracking-fsc-eyebrow text-[10px] text-fsc-text-muted">
+                          Phone
+                        </span>{' '}
+                        ·{' '}
+                        <a
+                          href={`tel:${site.phone}`}
+                          className="text-fsc-text hover:text-fsc-accent-glow"
+                        >
+                          {site.phoneDisplay}
+                        </a>
+                      </li>
+                    )}
+                    {hasEmail() && (
+                      <li>
+                        <span className="font-mono uppercase tracking-fsc-eyebrow text-[10px] text-fsc-text-muted">
+                          Email
+                        </span>{' '}
+                        ·{' '}
+                        <a
+                          href={`mailto:${site.email}`}
+                          className="text-fsc-text hover:text-fsc-accent-glow break-all"
+                        >
+                          {site.email}
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
               <InfoCard
                 eyebrow="Coverage"
                 title="Central Florida & Tampa Bay"

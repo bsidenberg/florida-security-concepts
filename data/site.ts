@@ -31,18 +31,21 @@ export const site = {
   // Resolved at module load. Override via NEXT_PUBLIC_SITE_URL.
   url: resolveUrl(),
 
-  // PLACEHOLDER — replace with verified business contact info before launch.
-  // Empty string means "not set." Components should hide UI when unset.
-  phone: '', // E.164 form (e.g., '+13215551234') — used by tel: links and schema
-  phoneDisplay: '', // Human-readable (e.g., '(321) 555-1234')
-  emergencyPhone: '',
-  emergencyPhoneDisplay: '',
-  email: '',
+  // Verified business contact info. Empty string = not set; components and
+  // schema must hide UI / omit fields when unset.
+  phone: '+13522820692', // E.164 — used by tel: links and JSON-LD telephone
+  phoneDisplay: '(352) 282-0692', // Human-readable
+  emergencyPhone: '+13522820692',
+  emergencyPhoneDisplay: '(352) 282-0692',
+  email: 'info@floridasecurityconcepts.com',
 
   address: {
-    // Set street/postal only when a verified business address exists.
+    // No verified street address. street/postalCode intentionally blank — the
+    // hasPostalAddress() helper requires all three (street + city + postalCode)
+    // before any LocalBusiness PostalAddress schema is emitted, so partial
+    // address data is structurally prevented from leaking into JSON-LD.
     street: '',
-    city: '',
+    city: 'Clermont',
     region: 'FL',
     postalCode: '',
     country: 'US',
