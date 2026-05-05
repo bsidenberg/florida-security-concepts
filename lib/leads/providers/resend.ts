@@ -1,16 +1,31 @@
-// Resend delivery provider — sends a notification email per lead.
+// Resend delivery provider — sends two emails per validated lead:
+//
+//   1. Internal/company notification (primary, must succeed for the API to
+//      return success).
+//   2. Customer-facing confirmation to the submitter (best-effort; a failure
+//      logs a warning but does NOT fail the lead — the lead was already
+//      captured and the company already received it).
 //
 // Required env vars:
-//   RESEND_API_KEY         — secret API key from resend.com
-//   LEAD_NOTIFICATION_TO   — recipient address (or comma-separated list)
-//   LEAD_NOTIFICATION_FROM — verified sender address (must be on a domain
-//                            verified in Resend, or the Resend onboarding domain)
+//   RESEND_API_KEY            — secret API key from resend.com
+//   LEAD_NOTIFICATION_TO      — internal recipient(s); comma-separated list ok
+//   LEAD_NOTIFICATION_FROM    — verified sender address (on a Resend-verified
+//                               domain, or the Resend onboarding domain)
 //
-// Behavior on missing env vars: returns a clear configuration error so the API
-// route can respond with 503. The lead is NOT considered delivered.
+// Optional env vars for the customer confirmation:
+//   LEAD_CONFIRMATION_ENABLED  — "false"/"0"/"no"/"off" disables. Default on.
+//   LEAD_CONFIRMATION_FROM     — sender for confirmation. Falls back to
+//                                LEAD_NOTIFICATION_FROM when unset/blank.
+//   LEAD_CONFIRMATION_REPLY_TO — Reply-To on confirmation. Falls back to the
+//                                first address in LEAD_NOTIFICATION_TO so
+//                                replies route to the company inbox.
+//
+// Behavior on missing required env vars: returns a configuration error so the
+// API route can respond with 503. The lead is NOT considered delivered.
 
 import { Resend } from 'resend';
 import type { DeliveryResult, ValidatedLead } from '../types';
+import { site, hasPhone } from '@/data/site';
 
 type EnvCheck =
   | { ok: true; apiKey: string; to: string[]; from: string }
@@ -162,6 +177,185 @@ function buildHtml(lead: ValidatedLead): string {
 </body></html>`;
 }
 
+// --- Customer confirmation -------------------------------------------------
+
+type ConfirmationConfig = {
+  enabled: boolean;
+  from: string;
+  replyTo: string | undefined;
+};
+
+const FALSY = new Set(['false', '0', 'no', 'off']);
+
+function readConfirmationConfig(
+  internalFrom: string,
+  internalTo: string[]
+): ConfirmationConfig {
+  const rawEnabled = process.env.LEAD_CONFIRMATION_ENABLED?.trim().toLowerCase();
+  const enabled =
+    rawEnabled === undefined || rawEnabled === ''
+      ? true
+      : !FALSY.has(rawEnabled);
+
+  const fromOverride = process.env.LEAD_CONFIRMATION_FROM?.trim();
+  const replyToOverride = process.env.LEAD_CONFIRMATION_REPLY_TO?.trim();
+
+  return {
+    enabled,
+    from:
+      fromOverride && fromOverride.length > 0 ? fromOverride : internalFrom,
+    replyTo:
+      replyToOverride && replyToOverride.length > 0
+        ? replyToOverride
+        : internalTo.length > 0
+        ? internalTo[0]
+        : undefined,
+  };
+}
+
+function firstName(fullName: string): string | undefined {
+  const t = fullName.trim();
+  if (!t) return undefined;
+  const first = t.split(/\s+/)[0];
+  return first.length > 0 ? first : undefined;
+}
+
+const CONFIRMATION_SUBJECT = 'Florida Security Concepts received your request';
+
+// Customer-facing summary: ONLY user-submitted, user-relevant fields.
+// Excludes UTM, referrer, sourcePage, slugs, honeypot, system metadata.
+function customerSummaryRows(lead: ValidatedLead): { label: string; value: string }[] {
+  const rows: { label: string; value: string | undefined }[] = [
+    { label: 'Service needed', value: lead.service },
+    { label: 'Property type', value: lead.propertyType },
+    { label: 'City / service area', value: lead.city },
+    { label: 'Urgency', value: lead.urgency },
+    { label: 'Preferred contact method', value: lead.contactMethod },
+  ];
+  return rows.filter(
+    (r): r is { label: string; value: string } =>
+      typeof r.value === 'string' && r.value.trim().length > 0
+  );
+}
+
+function buildConfirmationPlainText(lead: ValidatedLead): string {
+  const fn = firstName(lead.fullName);
+  const greeting = fn ? `Hi ${fn},` : 'Hello,';
+  const lines: string[] = [
+    greeting,
+    '',
+    "Thanks for reaching out to Florida Security Concepts. We've received your request, and a member of our team will review your property and service details before following up.",
+    '',
+    'Most assessment requests are reviewed the same business day.',
+    '',
+    "Here's what we received:",
+  ];
+  for (const { label, value } of customerSummaryRows(lead)) {
+    lines.push(`- ${label}: ${value}`);
+  }
+  lines.push('');
+
+  if (hasPhone()) {
+    lines.push(
+      `If this is an urgent gate, access, or security system issue, please call us directly at ${site.phoneDisplay}.`
+    );
+  } else {
+    lines.push(
+      'If this is an urgent gate, access, or security system issue, please reply to this email and note that it is urgent so we can triage it quickly.'
+    );
+  }
+
+  lines.push('');
+  lines.push('— Florida Security Concepts');
+  return lines.join('\n');
+}
+
+function buildConfirmationHtml(lead: ValidatedLead): string {
+  const fn = firstName(lead.fullName);
+  const greeting = fn ? `Hi ${escapeHtml(fn)},` : 'Hello,';
+  const summary = customerSummaryRows(lead)
+    .map(
+      ({ label, value }) => `<tr>
+        <td style="padding:8px 14px 8px 0;border-bottom:1px solid #e5e7eb;font:12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;vertical-align:top;">${escapeHtml(label)}</td>
+        <td style="padding:8px 0;border-bottom:1px solid #e5e7eb;font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#111827;vertical-align:top;">${escapeHtml(value)}</td>
+      </tr>`
+    )
+    .join('');
+
+  const urgentLine = hasPhone()
+    ? `If this is an urgent gate, access, or security system issue, please call us directly at <strong>${escapeHtml(site.phoneDisplay)}</strong>.`
+    : 'If this is an urgent gate, access, or security system issue, please reply to this email and note that it is urgent so we can triage it quickly.';
+
+  return `<!doctype html>
+<html><body style="margin:0;background:#f3f4f6;padding:24px;font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#111827;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;">
+    <tr>
+      <td style="padding:18px 24px;background:#0f1422;color:#e2e8f0;">
+        <div style="font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#60a5fa;">REQUEST RECEIVED</div>
+        <div style="margin-top:6px;font:600 18px/1.3 -apple-system,Segoe UI,Roboto,sans-serif;">Florida Security Concepts</div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:22px 24px 6px;">
+        <p style="margin:0 0 12px;font:15px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;color:#111827;">${greeting}</p>
+        <p style="margin:0 0 12px;font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#374151;">Thanks for reaching out to Florida Security Concepts. We&rsquo;ve received your request, and a member of our team will review your property and service details before following up.</p>
+        <p style="margin:0 0 18px;font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#374151;">Most assessment requests are reviewed the same business day.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 24px 8px;">
+        <div style="font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#6b7280;text-transform:uppercase;margin-bottom:8px;">What we received</div>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">${summary}</table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:18px 24px 22px;">
+        <p style="margin:0;font:13px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;color:#374151;">${urgentLine}</p>
+        <p style="margin:14px 0 0;font:13px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;color:#6b7280;">&mdash; Florida Security Concepts</p>
+      </td>
+    </tr>
+  </table>
+</body></html>`;
+}
+
+type ConfirmationResult =
+  | { ok: true; deliveryId?: string }
+  | { ok: false; reason: string; errorName?: string };
+
+async function sendCustomerConfirmation(
+  client: Resend,
+  config: ConfirmationConfig,
+  lead: ValidatedLead
+): Promise<ConfirmationResult> {
+  try {
+    const { data, error } = await client.emails.send({
+      from: config.from,
+      to: lead.email,
+      replyTo: config.replyTo,
+      subject: CONFIRMATION_SUBJECT,
+      text: buildConfirmationPlainText(lead),
+      html: buildConfirmationHtml(lead),
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        reason: `${error.name || 'unknown'} — ${error.message || 'no message'}`,
+        errorName: error.name || undefined,
+      };
+    }
+    return { ok: true, deliveryId: data?.id };
+  } catch (err) {
+    const reason =
+      err instanceof Error
+        ? err.message
+        : 'Unknown error during confirmation send.';
+    return { ok: false, reason };
+  }
+}
+
+// --- Main delivery ---------------------------------------------------------
+
 export async function deliverViaResend(
   lead: ValidatedLead
 ): Promise<DeliveryResult> {
@@ -172,6 +366,8 @@ export async function deliverViaResend(
 
   const client = new Resend(env.apiKey);
 
+  // 1) Internal/company notification — primary, must succeed for API success.
+  let internalDeliveryId: string | undefined;
   try {
     const { data, error } = await client.emails.send({
       from: env.from,
@@ -183,8 +379,7 @@ export async function deliverViaResend(
     });
 
     if (error) {
-      // Resend SDK returns a structured error object — log and surface a safe message.
-      console.error('[lead-delivery:resend] send failed:', {
+      console.error('[lead-delivery:resend] internal send failed:', {
         name: error.name,
         message: error.message,
       });
@@ -194,13 +389,34 @@ export async function deliverViaResend(
         reason: `Resend API error: ${error.name || 'unknown'} — ${error.message || 'no message'}`,
       };
     }
-
-    return { ok: true, mode: 'resend', deliveryId: data?.id };
+    internalDeliveryId = data?.id;
   } catch (err) {
-    // Network / unexpected SDK errors. Do NOT pretend the lead was delivered.
     const reason =
       err instanceof Error ? err.message : 'Unknown error during Resend send.';
-    console.error('[lead-delivery:resend] unexpected error:', reason);
+    console.error('[lead-delivery:resend] internal unexpected error:', reason);
     return { ok: false, mode: 'resend', reason };
   }
+
+  // 2) Customer confirmation — best-effort. A failure does NOT fail the lead.
+  const confirmationConfig = readConfirmationConfig(env.from, env.to);
+  if (confirmationConfig.enabled) {
+    const result = await sendCustomerConfirmation(
+      client,
+      confirmationConfig,
+      lead
+    );
+    if (!result.ok) {
+      console.warn('[lead-delivery:resend] customer confirmation failed', {
+        mode: 'resend',
+        confirmationFailed: true,
+        errorName: result.errorName,
+        errorMessage: result.reason,
+        submittedAt: lead.submittedAt,
+        serviceNeeded: lead.service,
+        urgency: lead.urgency,
+      });
+    }
+  }
+
+  return { ok: true, mode: 'resend', deliveryId: internalDeliveryId };
 }

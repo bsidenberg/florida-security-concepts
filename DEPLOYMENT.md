@@ -56,6 +56,16 @@ Set these in the Vercel project's **Environment Variables** panel. Pick scopes p
 | `LEAD_NOTIFICATION_TO` | Production | `alerts@floridasecurityconcepts.com` | Single address or comma-separated list. |
 | `LEAD_NOTIFICATION_FROM` | Production | `leads@floridasecurityconcepts.com` | Must be on a domain verified in Resend (see § 7). |
 
+### Optional — customer confirmation email
+
+A second email is sent automatically to the submitter on every successful lead, summarizing what they submitted and setting expectations on response time. This is enabled by default in `resend` mode and reuses `LEAD_NOTIFICATION_FROM` as the sender unless overridden.
+
+| Name | Scopes | Default | Notes |
+|---|---|---|---|
+| `LEAD_CONFIRMATION_ENABLED` | Production / Preview | enabled | Set to `false`, `0`, `no`, or `off` to disable. |
+| `LEAD_CONFIRMATION_FROM` | Production / Preview | falls back to `LEAD_NOTIFICATION_FROM` | Must be on a Resend-verified domain. |
+| `LEAD_CONFIRMATION_REPLY_TO` | Production / Preview | falls back to first address in `LEAD_NOTIFICATION_TO` | So customer replies route to the company inbox. |
+
 ### Optional / future
 
 | Name | When to set |
@@ -96,11 +106,11 @@ Order of operations:
 1. Log into Resend → **Domains** → **Add Domain** → `floridasecurityconcepts.com`.
 2. Resend issues DNS records (SPF + DKIM, possibly tracking CNAMEs). Copy them into your DNS provider for that domain.
 3. Wait for propagation (usually minutes; up to a few hours). Resend's UI shows the verification status.
-4. Once verified, `LEAD_NOTIFICATION_FROM` can use any address on that domain (e.g., `leads@floridasecurityconcepts.com`).
+4. Once verified, both `LEAD_NOTIFICATION_FROM` and `LEAD_CONFIRMATION_FROM` (if overridden) can use any address on that domain (e.g., `leads@floridasecurityconcepts.com`).
 5. Send a test from Resend's UI to a real inbox; confirm it lands in inbox (not spam) and the `From` header looks right.
 6. Optionally set up DMARC (`p=none` to start, monitor reports, then tighten to `p=quarantine`).
 
-Until DKIM is verified, leads-from emails will be flagged or rejected — symptoms: lead UI says "submitted" but no email arrives, and Vercel Logs show Resend SDK errors like `domain not verified` or `from address not allowed`.
+Until DKIM is verified, both the internal notification AND the customer confirmation will be flagged or rejected — symptoms: lead UI says "submitted" but no email arrives, and Vercel Logs show Resend SDK errors like `domain not verified` or `from address not allowed`.
 
 ## 8. DNS / domain setup checklist
 
@@ -142,14 +152,11 @@ Once the production domain is live:
 - [ ] `https://floridasecurityconcepts.com` resolves over HTTPS.
 - [ ] `https://www.floridasecurityconcepts.com` resolves and redirects (or serves content) — depends on Vercel's domain config.
 - [ ] All preview smoke-test items above repeat successfully on the live domain.
-- [ ] Submit one real lead end-to-end. Confirm:
-  - HTTP 200 returned to the form.
-  - Notification email arrives at `LEAD_NOTIFICATION_TO`.
-  - Reply-To is the submitter's email (test by clicking "Reply" in your mail client).
-  - Email subject includes urgency / service / city / property type.
-  - All submitted fields appear in the email body.
-  - The honeypot field does **not** appear.
-- [ ] Vercel Logs show `[lead-delivery] success` with safe minimal metadata only — no full PII.
+- [ ] Submit one real lead end-to-end. Confirm both emails:
+  - **Internal notification** arrives at `LEAD_NOTIFICATION_TO`. Reply-To is the submitter's email. Subject includes urgency / service / city / property type. All submitted fields appear in the body. The honeypot field does **not** appear.
+  - **Customer confirmation** arrives at the submitter's address. Subject is `Florida Security Concepts received your request`. The body summarizes service / property type / city / urgency / preferred contact method only — no UTM, referrer, source page, or system metadata. Reply-To routes back to the company inbox.
+  - HTTP 200 returned to the form on the API call.
+- [ ] Vercel Logs show `[lead-delivery] success` with safe minimal metadata only — no full PII. If the customer confirmation failed but the internal notification succeeded, you'll also see a `[lead-delivery:resend] customer confirmation failed` warning with `confirmationFailed: true` — that means the lead is captured and the company was notified, but the submitter didn't receive their copy.
 - [ ] Submit Sitemap to Google Search Console (`https://search.google.com/search-console`).
 - [ ] Spot-check three pages with Google's [Rich Results Test](https://search.google.com/test/rich-results).
 

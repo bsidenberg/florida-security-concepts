@@ -121,13 +121,23 @@ In order, after the domain is live and Resend is verified:
 
 ## 7. Lead capture readiness (pre-flight)
 
+Each successful lead now triggers **two emails** sent through Resend:
+1. **Internal notification** to `LEAD_NOTIFICATION_TO` (company alert inbox).
+2. **Customer confirmation** to the submitter, summarizing what they sent.
+
+The customer confirmation is best-effort: a confirmation failure does not fail the lead, since the company has already been notified. A `[lead-delivery:resend] customer confirmation failed` warning is logged with safe metadata only when this happens.
+
 Before flipping to `LEAD_DELIVERY_MODE=resend` in production:
 
 - [ ] All five env vars in § 1 are set in Vercel Production scope.
-- [ ] Resend domain verification is complete (SPF + DKIM green).
+- [ ] Resend domain verification is complete (SPF + DKIM green) — required for both emails.
 - [ ] `LEAD_NOTIFICATION_TO` inbox is monitored.
-- [ ] Manual smoke test on Vercel preview deployment (`LEAD_DELIVERY_MODE=resend`, full env): submit a real lead, confirm email arrives within 30 seconds, confirm Reply-To routes back to the submitter address.
+- [ ] Decide whether to override `LEAD_CONFIRMATION_FROM` / `LEAD_CONFIRMATION_REPLY_TO` or accept defaults (defaults are sensible — confirmation reuses `LEAD_NOTIFICATION_FROM` and routes Reply-To to the company inbox).
+- [ ] Manual smoke test on Vercel preview deployment (`LEAD_DELIVERY_MODE=resend`, full env): submit a real lead and confirm BOTH emails:
+  - Internal notification arrives at `LEAD_NOTIFICATION_TO`, Reply-To routes to the submitter.
+  - Customer confirmation arrives at the submitter's address with subject `Florida Security Concepts received your request`, summarizes what they submitted, contains no UTM/referrer/source-page/system metadata, and Reply-To routes to the company inbox.
 - [ ] Manual smoke test on Vercel preview deployment **without** `RESEND_API_KEY`: confirm `/api/leads` returns 503 with the user-friendly error and the server log contains `Resend provider missing required env var(s)`.
+- [ ] (Optional) Manual smoke test with `LEAD_CONFIRMATION_ENABLED=false`: confirm the internal notification still arrives and no confirmation goes to the submitter.
 - [ ] Confirm the form's success state appears only after a 200 response.
 
 ---
