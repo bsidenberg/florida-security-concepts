@@ -66,6 +66,10 @@ export const metadata: Metadata = {
       'max-video-preview': -1,
     },
   },
+  verification: {
+    // Emits <meta name="google-site-verification" content="..." /> in <head>.
+    google: '6eUk_tq6HeTljucVT9bMJKri3z8eGdoXu1nXfQw48mI',
+  },
 };
 
 export default function RootLayout({
