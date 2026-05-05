@@ -20,7 +20,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Orange County',
     metaTitle:
-      'Orlando Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'Orlando Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Security gate, access control, and video surveillance systems for Orlando communities, commercial properties, and estates. Local Central Florida service team.',
     intro:
@@ -56,7 +56,7 @@ export const locations: Location[] = [
     region: 'Tampa Bay',
     county: 'Hillsborough County',
     metaTitle:
-      'Tampa Security Systems | Gates, Access Control & Surveillance | Florida Security Concepts',
+      'Tampa Security Systems | Gates, Access Control & Surveillance',
     metaDescription:
       'Tampa security gate systems, access control, and video surveillance for communities, commercial properties, storage, and industrial sites across Hillsborough County.',
     intro:
@@ -92,7 +92,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Polk County',
     metaTitle:
-      'Lakeland Security Gates, Access Control & Cameras | Florida Security Concepts',
+      'Lakeland Security Gates, Access Control & Cameras',
     metaDescription:
       'Security systems for Lakeland communities, commercial sites, and industrial properties — gate automation, access control, and video surveillance throughout Polk County.',
     intro:
@@ -125,7 +125,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Osceola County',
     metaTitle:
-      'Kissimmee Security Gate, Access Control & Camera Systems | Florida Security Concepts',
+      'Kissimmee Security Gate, Access Control & Camera Systems',
     metaDescription:
       'Kissimmee security systems for HOAs, gated communities, multifamily, vacation properties, and commercial sites in Osceola County.',
     intro:
@@ -158,7 +158,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Orange County',
     metaTitle:
-      'Winter Garden Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'Winter Garden Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Security gate, access control, and video surveillance for Winter Garden communities, estates, and commercial properties.',
     intro:
@@ -191,7 +191,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Lake County',
     metaTitle:
-      'Clermont Security Gate, Access Control & Camera Systems | Florida Security Concepts',
+      'Clermont Security Gate, Access Control & Camera Systems',
     metaDescription:
       'Security systems for Clermont communities, estates, and commercial properties in Lake County — gate automation, access control, and video surveillance.',
     intro:
@@ -224,7 +224,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Seminole County',
     metaTitle:
-      'Lake Mary Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'Lake Mary Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Security gate, access control, and video surveillance for Lake Mary corporate parks, communities, and commercial properties in Seminole County.',
     intro:
@@ -253,7 +253,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Seminole County',
     metaTitle:
-      'Sanford Security Gate, Access Control & Camera Systems | Florida Security Concepts',
+      'Sanford Security Gate, Access Control & Camera Systems',
     metaDescription:
       'Security systems for Sanford communities, commercial sites, and industrial properties — gate automation, access control, and video surveillance.',
     intro:
@@ -282,7 +282,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Marion County',
     metaTitle:
-      'Ocala Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'Ocala Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Security gate, access control, and video surveillance for Ocala estates, equestrian properties, communities, and commercial sites.',
     intro:
@@ -310,7 +310,7 @@ export const locations: Location[] = [
     city: 'The Villages',
     region: 'Central Florida',
     metaTitle:
-      'The Villages Security Systems | Gate, Access Control & Cameras | Florida Security Concepts',
+      'The Villages Security Systems | Gate, Access Control & Cameras',
     metaDescription:
       'Security systems for The Villages neighborhoods, commercial sites, and surrounding properties — gate automation, access control, and video surveillance.',
     intro:
@@ -338,7 +338,7 @@ export const locations: Location[] = [
     region: 'Tampa Bay',
     county: 'Pinellas County',
     metaTitle:
-      'St. Petersburg Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'St. Petersburg Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Security gate, access control, and video surveillance for St. Petersburg communities, commercial sites, condos, and industrial properties in Pinellas County.',
     intro:
@@ -367,7 +367,7 @@ export const locations: Location[] = [
     region: 'Tampa Bay',
     county: 'Pinellas County',
     metaTitle:
-      'Clearwater Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'Clearwater Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Clearwater gate automation, access control, and video surveillance for communities, condos, commercial properties, and estates.',
     intro:
@@ -396,7 +396,7 @@ export const locations: Location[] = [
     region: 'Tampa Bay',
     county: 'Hillsborough County',
     metaTitle:
-      'Brandon Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'Brandon Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Brandon and Valrico security gate, access control, and video surveillance for communities, multifamily, and commercial sites in eastern Hillsborough County.',
     intro:
@@ -425,7 +425,7 @@ export const locations: Location[] = [
     region: 'Tampa Bay',
     county: 'Pasco County',
     metaTitle:
-      'Wesley Chapel Security Systems | Gates, Access Control & Cameras | Florida Security Concepts',
+      'Wesley Chapel Security Systems | Gates, Access Control & Cameras',
     metaDescription:
       'Security systems for Wesley Chapel communities, multifamily, and commercial properties in Pasco County — gate automation, access control, and video surveillance.',
     intro:

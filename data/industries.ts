@@ -23,7 +23,7 @@ export const industries: Industry[] = [
     navLabel: 'HOAs & Gated Communities',
     shortLabel: 'HOAs & Gated Communities',
     metaTitle:
-      'HOA Gate, Access Control & Security Systems | Florida Security Concepts',
+      'HOA Gate, Access Control & Security Systems',
     metaDescription:
       'Security systems for HOAs and gated communities — gate automation, resident credentials, vendor access, video surveillance, and integrated property security across Central Florida and Tampa Bay.',
     eyebrow: 'Industry · HOAs & Gated Communities',
@@ -101,7 +101,7 @@ export const industries: Industry[] = [
     navLabel: 'Multifamily / Apartments / Condos',
     shortLabel: 'Multifamily',
     metaTitle:
-      'Multifamily Security Systems | Apartments & Condos | Florida Security Concepts',
+      'Multifamily Security Systems | Apartments & Condos',
     metaDescription:
       'Gate automation, access control, video surveillance, and integrated security for apartment communities and condominiums in Central Florida and Tampa Bay.',
     eyebrow: 'Industry · Multifamily',
@@ -173,7 +173,7 @@ export const industries: Industry[] = [
     navLabel: 'Storage Facilities',
     shortLabel: 'Storage Facilities',
     metaTitle:
-      'Storage Facility Security | Cameras & Access Control | Florida Security Concepts',
+      'Storage Facility Security | Cameras & Access Control',
     metaDescription:
       'Security camera, gate, and access control systems for self-storage facilities in Central Florida and Tampa Bay — tenant credentials, 24/7 recording, remote monitoring.',
     eyebrow: 'Industry · Storage Facilities',
@@ -245,7 +245,7 @@ export const industries: Industry[] = [
     navLabel: 'Commercial Properties',
     shortLabel: 'Commercial',
     metaTitle:
-      'Commercial Security Systems | Central Florida & Tampa Bay | Florida Security Concepts',
+      'Commercial Security Systems | Central Florida & Tampa Bay',
     metaDescription:
       'Integrated commercial security systems — gates, access control, video surveillance, and emergency service — for offices, retail, and mixed-use across Central Florida and Tampa Bay.',
     eyebrow: 'Industry · Commercial',
@@ -317,7 +317,7 @@ export const industries: Industry[] = [
     navLabel: 'Industrial & Warehouses',
     shortLabel: 'Industrial / Warehouse',
     metaTitle:
-      'Industrial Security & Warehouse Access Control | Florida Security Concepts',
+      'Industrial Security & Warehouse Access Control',
     metaDescription:
       'Industrial security systems — gate automation, access control, yard surveillance, and credentialed lane entry — for warehouses, yards, and logistics sites in Central Florida and Tampa Bay.',
     eyebrow: 'Industry · Industrial & Warehouse',
@@ -389,7 +389,7 @@ export const industries: Industry[] = [
     navLabel: 'Property Managers',
     shortLabel: 'Property Managers',
     metaTitle:
-      'Security Systems for Property Managers | Multi-Site | Florida Security Concepts',
+      'Security Systems for Property Managers | Multi-Site',
     metaDescription:
       'Standardized gate, access control, surveillance, and emergency service across multi-site portfolios in Central Florida and Tampa Bay. Built for property management workflows.',
     eyebrow: 'Industry · Property Managers',
@@ -461,7 +461,7 @@ export const industries: Industry[] = [
     navLabel: 'Residential Estates',
     shortLabel: 'Estates',
     metaTitle:
-      'Estate Gate Automation & Residential Security | Florida Security Concepts',
+      'Estate Gate Automation & Residential Security',
     metaDescription:
       'Estate-grade gate automation, access control, intercom, and surveillance for high-value residential properties across Central Florida and Tampa Bay.',
     eyebrow: 'Industry · Estates',

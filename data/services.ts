@@ -25,7 +25,7 @@ export const services: Service[] = [
     navLabel: 'Security Gate Systems',
     shortLabel: 'Security Gates',
     metaTitle:
-      'Security Gate System Installation | Central Florida & Tampa Bay | Florida Security Concepts',
+      'Security Gate System Installation | Central Florida & Tampa Bay',
     metaDescription:
       'Custom security gate systems engineered for HOAs, gated communities, commercial properties, and estates across Central Florida and Tampa Bay. Design, install, integrate.',
     eyebrow: 'Service · Security Gates',
@@ -127,7 +127,7 @@ export const services: Service[] = [
     navLabel: 'Gate Automation',
     shortLabel: 'Gate Automation',
     metaTitle:
-      'Automatic Gate Operators & Gate Automation | Florida Security Concepts',
+      'Automatic Gate Operators & Gate Automation',
     metaDescription:
       'Automatic gate operators for slide and swing gates, barrier arms, keypads, and intercoms. Engineered for Central Florida and Tampa Bay communities, commercial sites, and estates.',
     eyebrow: 'Service · Gate Automation',
@@ -216,7 +216,7 @@ export const services: Service[] = [
     navLabel: 'Access Control',
     shortLabel: 'Access Control',
     metaTitle:
-      'Access Control Systems | Card Readers, Keypads, Mobile Credentials | Florida Security Concepts',
+      'Access Control Systems | Card Readers, Keypads, Mobile Credentials',
     metaDescription:
       'Access control systems for gates, doors, and commercial properties — card readers, keypads, mobile credentials, telephone entry, and visitor management. Central Florida & Tampa Bay.',
     eyebrow: 'Service · Access Control',
@@ -305,7 +305,7 @@ export const services: Service[] = [
     navLabel: 'Video Surveillance',
     shortLabel: 'Video Surveillance',
     metaTitle:
-      'Commercial Video Surveillance & Security Cameras | Florida Security Concepts',
+      'Commercial Video Surveillance & Security Cameras',
     metaDescription:
       'HD and AI-enabled security camera systems for commercial properties, communities, storage facilities, and industrial sites across Central Florida and Tampa Bay.',
     eyebrow: 'Service · Surveillance',
@@ -393,7 +393,7 @@ export const services: Service[] = [
     navLabel: 'System Integration',
     shortLabel: 'System Integration',
     metaTitle:
-      'Integrated Security Systems | Gates, Access Control, Cameras, Monitoring | Florida Security Concepts',
+      'Integrated Security Systems | Gates, Access Control, Cameras, Monitoring',
     metaDescription:
       'End-to-end security system integration — gates, access control, video surveillance, monitoring, and service — engineered as one system for Central Florida and Tampa Bay.',
     eyebrow: 'Service · Integration',
@@ -472,7 +472,7 @@ export const services: Service[] = [
     navLabel: 'Emergency Service',
     shortLabel: 'Emergency Service',
     metaTitle:
-      'Emergency Gate & Security System Service | Same-Day When Available | Florida Security Concepts',
+      'Emergency Gate & Security System Service | Same-Day When Available',
     metaDescription:
       '24/7 emergency support for gates, access control, and security systems across Central Florida and Tampa Bay. Same-day service when available. Request emergency response now.',
     eyebrow: 'Service · Emergency',

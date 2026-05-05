@@ -28,7 +28,7 @@ export const resources: Resource[] = [
     slug: 'how-much-does-an-automatic-gate-cost',
     question: 'How Much Does an Automatic Gate Cost in Florida?',
     metaTitle:
-      'How Much Does an Automatic Gate Cost in Florida? | Florida Security Concepts',
+      'How Much Does an Automatic Gate Cost in Florida?',
     metaDescription:
       'A direct breakdown of automatic gate cost factors in Central Florida and Tampa Bay — gate type, operator class, access control, and infrastructure.',
     publishedDate: '2026-04-01',
@@ -112,7 +112,7 @@ export const resources: Resource[] = [
     slug: 'best-access-control-system-for-hoa',
     question: 'What Is the Best Access Control System for an HOA?',
     metaTitle:
-      'Best Access Control System for an HOA | Florida Security Concepts',
+      'Best Access Control System for an HOA',
     metaDescription:
       'How to choose an access control system for an HOA — credential types, vendor management, audit trail, and what most communities get wrong.',
     publishedDate: '2026-04-05',
@@ -186,7 +186,7 @@ export const resources: Resource[] = [
     slug: 'storage-facility-security-camera-guide',
     question: 'How Should a Storage Facility Set Up Security Cameras?',
     metaTitle:
-      'Storage Facility Security Camera Guide | Florida Security Concepts',
+      'Storage Facility Security Camera Guide',
     metaDescription:
       'A practical guide to security camera coverage for self-storage facilities — gate scenes, hallway coverage, license plate capture, retention, and remote monitoring.',
     publishedDate: '2026-04-08',
@@ -243,7 +243,7 @@ export const resources: Resource[] = [
     slug: 'gate-automation-vs-access-control',
     question: 'Gate Automation vs. Access Control — What Is the Difference?',
     metaTitle:
-      'Gate Automation vs. Access Control | Florida Security Concepts',
+      'Gate Automation vs. Access Control',
     metaDescription:
       'A clear explanation of how gate automation and access control differ, why both matter, and how they should be designed as one system.',
     publishedDate: '2026-04-12',
@@ -295,7 +295,7 @@ export const resources: Resource[] = [
     slug: 'property-manager-security-system-checklist',
     question: 'What Should a Property Manager Look for in a Security System?',
     metaTitle:
-      'Property Manager Security System Checklist | Florida Security Concepts',
+      'Property Manager Security System Checklist',
     metaDescription:
       'A practical checklist for property managers evaluating gate, access control, and surveillance systems across multi-site portfolios.',
     publishedDate: '2026-04-15',

@@ -6,7 +6,10 @@
 // - JSON-LD must omit absent fields, not render empty strings.
 // - CTAs always route to /contact even when phone/email are unset.
 
-const DEFAULT_URL = 'https://floridasecurityconcepts.com';
+// Canonical production URL is the www form. The apex (floridasecurityconcepts.com)
+// 308-redirects to www, so all canonical/sitemap/schema/OG output should use www.
+// Override per environment via NEXT_PUBLIC_SITE_URL.
+const DEFAULT_URL = 'https://www.floridasecurityconcepts.com';
 
 function resolveUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
