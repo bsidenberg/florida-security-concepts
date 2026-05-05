@@ -98,6 +98,22 @@ Quick orientation:
 - **CI:** none configured. Vercel runs the build on push.
 - **Observability:** Vercel Logs are the source of truth. The dispatcher emits safe minimal-metadata logs on success and failure; full lead PII is logged only by the `console` provider, intentionally gated behind `LEAD_DELIVERY_MODE=console`.
 
+## Brand assets
+
+Three brand assets are generated at build time by Next.js's built-in [`next/og`](https://nextjs.org/docs/app/api-reference/functions/image-response) `ImageResponse` (no extra dependencies):
+
+| File | Output | Size | Purpose |
+|---|---|---|---|
+| [`app/icon.tsx`](app/icon.tsx) | `/icon` (PNG) | 512×512 | Browser tab favicon (Next downsamples to 16×16 / 32×32 as needed) |
+| [`app/apple-icon.tsx`](app/apple-icon.tsx) | `/apple-icon` (PNG) | 180×180 | iOS home-screen icon (iOS adds its own rounded mask) |
+| [`app/opengraph-image.tsx`](app/opengraph-image.tsx) | `/opengraph-image` (PNG) | 1200×630 | Open Graph + Twitter card preview for shares (Slack, iMessage, X, LinkedIn, Facebook) |
+
+The runtime is set to `edge` on each file — that's the canonical runtime for `ImageResponse` and works around a Windows-specific `fileURLToPath` issue in `@vercel/og`'s bundled-font loader during local builds. On Vercel these become edge functions and the PNG output is cached at the edge after first hit.
+
+These are professional **placeholders** until an official Florida Security Concepts logo / brand kit exists. To regenerate after editing the JSX, just run `npm run build` (or hit the route in dev). To replace with real artwork later, swap each `app/<name>.tsx` for a static `app/<name>.png` (Next.js App Router will pick up either form).
+
+Editorial constraints: the assets carry only the company name, region, service line, and URL. No fake certifications, awards, badges, seals, client logos, license numbers, or stock photography.
+
 ## Editorial / copy rules
 
 - No fake testimonials, license numbers, certifications, awards, client logos, phone numbers, or addresses. Empty placeholders only.
