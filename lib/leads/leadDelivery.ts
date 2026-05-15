@@ -1,11 +1,13 @@
 import type { DeliveryMode, DeliveryResult, ValidatedLead } from './types';
 import { deliverViaConsole } from './providers/console';
 import { deliverViaResend } from './providers/resend';
+import { deliverViaSupabase } from './providers/supabase';
 import { deliverViaWebhook } from './providers/webhook';
 
 const VALID_MODES: ReadonlyArray<DeliveryMode> = [
   'console',
   'resend',
+  'resend+supabase',
   'supabase',
   'webhook',
 ];
@@ -26,6 +28,7 @@ function logSuccess(result: DeliveryResult, lead: ValidatedLead) {
   console.log('[lead-delivery] success', {
     mode: result.mode,
     deliveryId: result.deliveryId,
+    supabaseStatus: result.supabaseStatus,
     submittedAt: lead.submittedAt,
     city: lead.city,
     serviceNeeded: lead.service,
@@ -46,6 +49,48 @@ function logFailure(result: DeliveryResult, lead: ValidatedLead) {
   });
 }
 
+// Dual-write dispatcher: Resend is the primary (its success is the
+// user-facing 200 contract); Supabase is the secondary (Prime measurement,
+// best-effort).
+//
+// Failure semantics:
+//   - Resend fails → return Resend's failure. Do NOT attempt Supabase.
+//     The form will surface 503 and the user will retry. No point burning
+//     a row in Prime for a lead the customer hasn't actually been
+//     confirmed for.
+//   - Resend succeeds, Supabase fails → return success with
+//     supabaseStatus='failed'. Customer got their email; Brian sees the
+//     measurement gap in [LEAD-SUPABASE-FAILURE] logs.
+//   - Both succeed → return success with supabaseStatus='ok'.
+async function dispatchResendPlusSupabase(
+  lead: ValidatedLead
+): Promise<DeliveryResult> {
+  const resendResult = await deliverViaResend(lead);
+  if (!resendResult.ok) {
+    return resendResult; // already mode='resend', clear failure path
+  }
+
+  const supabaseResult = await deliverViaSupabase(lead);
+  if (!supabaseResult.ok) {
+    // The provider already logged with [LEAD-SUPABASE-FAILURE]. Add a
+    // dispatcher-level breadcrumb so the dual-write context is in logs.
+    console.warn(
+      '[lead-delivery:resend+supabase] supabase secondary write failed (resend succeeded)',
+      {
+        resendDeliveryId: resendResult.deliveryId,
+        supabaseReason: supabaseResult.reason,
+      }
+    );
+  }
+
+  return {
+    ok: true,
+    mode: 'resend+supabase',
+    deliveryId: resendResult.deliveryId,
+    supabaseStatus: supabaseResult.ok ? 'ok' : 'failed',
+  };
+}
+
 async function dispatch(
   mode: DeliveryMode,
   lead: ValidatedLead
@@ -58,12 +103,12 @@ async function dispatch(
     case 'webhook':
       return deliverViaWebhook(lead);
     case 'supabase':
-      return {
-        ok: false,
-        mode: 'supabase',
-        reason:
-          'Supabase delivery provider is not implemented yet. Set LEAD_DELIVERY_MODE to console, resend, or webhook — or implement lib/leads/providers/supabase.ts.',
-      };
+      // Supabase-only is supported for debugging and Supabase-only smoke
+      // tests. Production should generally use 'resend+supabase' so the
+      // customer still gets their confirmation email.
+      return deliverViaSupabase(lead);
+    case 'resend+supabase':
+      return dispatchResendPlusSupabase(lead);
   }
 }
 

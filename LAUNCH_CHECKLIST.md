@@ -21,14 +21,22 @@ Set these on the Vercel project (Production scope at minimum; Preview and Develo
 | `LEAD_NOTIFICATION_TO` | `alerts@floridasecurityconcepts.com` | Single address or comma-separated list. |
 | `LEAD_NOTIFICATION_FROM` | `leads@floridasecurityconcepts.com` | Must be on a domain verified in Resend (see § 3). |
 
+Required when `LEAD_DELIVERY_MODE` includes `supabase` (i.e. `supabase`
+or `resend+supabase`) — writes the lead into Prime's leads table for
+cross-tenant measurement:
+
+| Variable | Value | Notes |
+|---|---|---|
+| `PRIME_SUPABASE_URL` | `https://<ref>.supabase.co` | Prime project URL (production: `olpyqfuphiwdongzmazi`). |
+| `PRIME_SUPABASE_SERVICE_ROLE_KEY` | `eyJ…` | Service role key. Server-only. |
+| `PRIME_ACCOUNT_SLUG` | `fsc` | Prime `accounts.slug` to attach FSC leads to. |
+
 Optional — only if/when used:
 
 | Variable | Used by | Notes |
 |---|---|---|
 | `LEADS_WEBHOOK_URL` | Webhook lead provider | Set when `LEAD_DELIVERY_MODE=webhook`. |
 | `LEADS_WEBHOOK_SECRET` | Webhook lead provider | Optional. Sent as `X-Webhook-Secret` for receiver verification. |
-| `SUPABASE_URL` | Future Supabase provider | Not implemented yet. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Future Supabase provider | Not implemented yet. Server-only when added. |
 
 **Verification:** after deploying with these set, hit `/api/leads` from a real device and confirm a notification email is received (see § 8 Pre-launch QA).
 
@@ -214,7 +222,6 @@ Run `npm audit` to reproduce. Findings as of 2026-05-04 after the Next.js 14.2.1
 These are tracked but explicitly out of scope for the launch sprint.
 
 - Real branded photography. Currently zero placeholder images by design — no fake content.
-- Supabase lead provider (stub returns "not yet implemented").
 - Webhook lead provider tested against a real receiver (HubSpot / Zapier / Make).
 - Customer testimonials (only when real, attributable, and approved by the customer).
 - Awards, certifications, or licensing badges (only when verified and publicly defensible).

@@ -66,13 +66,31 @@ A second email is sent automatically to the submitter on every successful lead, 
 | `LEAD_CONFIRMATION_FROM` | Production / Preview | falls back to `LEAD_NOTIFICATION_FROM` | Must be on a Resend-verified domain. |
 | `LEAD_CONFIRMATION_REPLY_TO` | Production / Preview | falls back to first address in `LEAD_NOTIFICATION_TO` | So customer replies route to the company inbox. |
 
+### Required when `LEAD_DELIVERY_MODE` includes `supabase`
+
+Active for `LEAD_DELIVERY_MODE=supabase` and `LEAD_DELIVERY_MODE=resend+supabase`.
+Writes each validated lead into Prime's `leads` table (the FPB Marketing Bot
+Supabase project) tagged with the FSC tenant's `account_id`. Prime then
+measures FSC lead volume / attribution.
+
+| Name | Scopes | Value | Notes |
+|---|---|---|---|
+| `PRIME_SUPABASE_URL` | Production (Preview optional) | `https://<ref>.supabase.co` | Prime project's URL. Production: `olpyqfuphiwdongzmazi`. |
+| `PRIME_SUPABASE_SERVICE_ROLE_KEY` | Production | `eyJ…` | Service role key. Bypasses RLS. **Server-only** — never prefix with `NEXT_PUBLIC_`. |
+| `PRIME_ACCOUNT_SLUG` | Production, Preview | `fsc` | Prime `accounts.slug` to attach FSC leads to. Looked up at write time. |
+
+If any of these are missing in production while `LEAD_DELIVERY_MODE` is
+`supabase` or `resend+supabase`, the Supabase provider returns a
+configuration error. In `resend+supabase` mode that means the email still
+sends and the API still returns 200, but Prime measurement is silently
+lost — the failure is logged with the `[LEAD-SUPABASE-FAILURE]` tag.
+
 ### Optional / future
 
 | Name | When to set |
 |---|---|
 | `LEADS_WEBHOOK_URL` | Only when `LEAD_DELIVERY_MODE=webhook`. |
 | `LEADS_WEBHOOK_SECRET` | Optional with webhook mode. Sent as `X-Webhook-Secret`. |
-| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Reserved for the not-yet-built Supabase provider. |
 
 ### What never appears in Vercel env
 
@@ -204,8 +222,58 @@ The `/api/leads` endpoint enforces the env contract at request time:
 | `LEAD_DELIVERY_MODE=resend` with bad API key | 503 | Same. (server log: `Resend API error: validation_error — API key is invalid`) |
 | `LEAD_DELIVERY_MODE=console` (any env) | 200 | Lead logged to server console. In Production also emits `[PROD-FALLBACK]` warning. |
 | `LEAD_DELIVERY_MODE=resend`, all vars set, valid API key | 200 | Email sent; Reply-To = submitter. |
+| `LEAD_DELIVERY_MODE=supabase` but `PRIME_SUPABASE_URL` (or the other two Prime vars) missing | 503 | Same. (server log: `Supabase provider missing required env var(s): …`) |
+| `LEAD_DELIVERY_MODE=supabase`, all Prime vars set, slug not found in Prime accounts | 503 | Same. (server log: `[LEAD-SUPABASE-FAILURE] No Prime account found with slug "…"`) |
+| `LEAD_DELIVERY_MODE=supabase`, all Prime vars set, slug resolves, INSERT succeeds | 200 | Lead written to Prime's `leads` table. No email sent. |
+| `LEAD_DELIVERY_MODE=resend+supabase`, both succeed | 200 | Email sent; lead written to Prime; success log includes `supabaseStatus: 'ok'`. |
+| `LEAD_DELIVERY_MODE=resend+supabase`, Resend OK + Supabase fails | 200 | Email sent; success log includes `supabaseStatus: 'failed'` plus `[LEAD-SUPABASE-FAILURE]` log line with reason. Customer experience preserved; Prime measurement gap visible in logs. |
+| `LEAD_DELIVERY_MODE=resend+supabase`, Resend fails | 503 | Same as Resend failure. Supabase is NOT attempted (no point burning a row when the customer hasn't been confirmed). |
 
 There is **no silent fallback** in Production. A misconfigured environment fails closed with a 503, never with a fake-success 200.
+
+## 13a. Manual smoke test — Prime Supabase write (post-deploy)
+
+Run this once after first enabling `resend+supabase` in production. Before
+running, confirm `sql/009_parent_account_id.sql` has been applied in the
+Prime Supabase project so the FSC `accounts` row exists.
+
+1. In Vercel, set `LEAD_DELIVERY_MODE=supabase` (Supabase-only) on a
+   Preview deployment (NOT Production — leads sent during this test
+   should not generate emails).
+2. Set `PRIME_SUPABASE_URL`, `PRIME_SUPABASE_SERVICE_ROLE_KEY`, and
+   `PRIME_ACCOUNT_SLUG=fsc` on the Preview scope.
+3. Submit a test lead via the preview's `/contact` form.
+4. Confirm:
+   - Form returns success (the `Request received.` message).
+   - Vercel Logs show `[lead-delivery] success` with `mode: 'supabase'`
+     and a `deliveryId` UUID.
+   - In Prime's Supabase SQL Editor:
+     ```sql
+     SELECT id, account_id, source_platform, contact_name,
+            contact_email, ingest_source, raw_payload->'fsc' AS fsc_meta,
+            created_at
+       FROM leads
+      WHERE ingest_source = 'fsc-website'
+      ORDER BY created_at DESC
+      LIMIT 5;
+     ```
+     The submitted lead appears, `account_id` matches FSC's `accounts.id`,
+     `raw_payload.fsc` contains the FSC-specific fields (propertyType,
+     service, urgency, etc.).
+5. Switch the Preview's `LEAD_DELIVERY_MODE` to `resend+supabase`.
+   Submit a second test lead. Confirm:
+   - Form returns success.
+   - Internal notification email arrives.
+   - Customer confirmation email arrives at the submitter's address.
+   - Vercel Logs show `[lead-delivery] success` with
+     `mode: 'resend+supabase'` and `supabaseStatus: 'ok'`.
+   - Prime's `leads` table has the second row.
+6. Promote the env vars to Production scope and switch Production's
+   `LEAD_DELIVERY_MODE` from `resend` to `resend+supabase`.
+7. Submit one more test lead in Production. Repeat the verification.
+
+If step 4's Vercel Logs show `[LEAD-SUPABASE-FAILURE]`, fix the cause
+(usually missing env var or wrong slug) before promoting to Production.
 
 ## 14. No `vercel.json` — by design
 

@@ -45,10 +45,30 @@ export type ValidationResult =
   | { ok: true; lead: ValidatedLead }
   | { ok: false; errors: Record<string, string> };
 
-export type DeliveryMode = 'console' | 'resend' | 'supabase' | 'webhook';
+// Delivery modes:
+//   console            — log to server stdout only
+//   resend             — send notification + confirmation email via Resend
+//   webhook            — POST normalized lead JSON to LEADS_WEBHOOK_URL
+//   supabase           — INSERT into Prime's leads table (cross-project write)
+//   resend+supabase    — dual-write: Resend first (must succeed; user-facing
+//                        success contract), then Supabase as best-effort
+//                        (failure is logged but does NOT fail the lead).
+export type DeliveryMode =
+  | 'console'
+  | 'resend'
+  | 'resend+supabase'
+  | 'supabase'
+  | 'webhook';
 
+// supabaseStatus is set only by the 'resend+supabase' dispatcher to surface
+// the secondary write's result without overloading `ok`.
 export type DeliveryResult =
-  | { ok: true; mode: DeliveryMode; deliveryId?: string }
+  | {
+      ok: true;
+      mode: DeliveryMode;
+      deliveryId?: string;
+      supabaseStatus?: 'ok' | 'failed';
+    }
   | { ok: false; mode: DeliveryMode | 'unknown'; reason: string };
 
 export type ApiResponse =
