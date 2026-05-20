@@ -229,7 +229,7 @@ These are tracked but explicitly out of scope for the launch sprint.
 - Multi-language support (none planned).
 - Live chat / chatbot (none planned).
 - Service area map embed (currently a text grid; map embed deferred until needed).
-- Analytics (GA4 or Plausible) — wire whichever Brian prefers; the form already captures UTM and referrer fields, so attribution works without a third-party analytics script.
+- Analytics: Plausible installed via `next-plausible` v4. Script is loaded once `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` is set in Vercel. Brian must: (1) create Plausible account at plausible.io, (2) add `floridasecurityconcepts.com` as a site, (3) copy the site-specific script URL (looks like `https://plausible.io/js/pa-XXXXX.js`) into Vercel env var `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, (4) optionally create a "Lead Submitted" custom goal in Plausible dashboard for funnel reporting. Dashboard: https://plausible.io/floridasecurityconcepts.com
 
 ---
 

@@ -2,6 +2,7 @@
 
 import { FormEvent, useState, useEffect, useRef, useId } from 'react';
 import { usePathname } from 'next/navigation';
+import { usePlausible } from 'next-plausible';
 
 const propertyTypes = [
   'HOA / gated community',
@@ -75,6 +76,7 @@ export function LeadCaptureForm({
   defaults?: LeadFormDefaults;
   submitLabel?: string;
 }) {
+  const plausible = usePlausible();
   const pathname = usePathname();
   const formId = useId();
   const formRef = useRef<HTMLFormElement>(null);
@@ -159,6 +161,13 @@ export function LeadCaptureForm({
       }
 
       setSubmitted(true);
+      plausible('Lead Submitted', {
+        props: {
+          service: payload.service ?? 'unknown',
+          urgency: payload.urgency ?? 'unknown',
+          locationSlug: payload.locationSlug ?? 'unknown',
+        },
+      });
       // Reset form so a back-button doesn't repopulate stale values.
       form.reset();
     } catch {

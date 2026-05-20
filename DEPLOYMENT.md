@@ -92,9 +92,16 @@ lost — the failure is logged with the `[LEAD-SUPABASE-FAILURE]` tag.
 | `LEADS_WEBHOOK_URL` | Only when `LEAD_DELIVERY_MODE=webhook`. |
 | `LEADS_WEBHOOK_SECRET` | Optional with webhook mode. Sent as `X-Webhook-Secret`. |
 
+### Analytics — Plausible
+
+| Name | Scopes | Notes |
+|---|---|---|
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | Production, Preview | Site-specific script URL from Plausible dashboard (e.g. `https://plausible.io/js/pa-XXXXX.js`). If unset, the analytics provider is not loaded and the build is unaffected. See § 13b. |
+
 ### What never appears in Vercel env
 
-- No client-side secret. `NEXT_PUBLIC_SITE_URL` is the only `NEXT_PUBLIC_*` variable in use.
+- No analytics secret. `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` is a public script URL (safe to expose).
+- `NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` are the only `NEXT_PUBLIC_*` variables in use.
 - The Resend API key, webhook secret, and any future Supabase service role key are server-only and must not be prefixed with `NEXT_PUBLIC_`.
 
 ## 6. Preview deployment recommendation
@@ -274,6 +281,49 @@ Prime Supabase project so the FSC `accounts` row exists.
 
 If step 4's Vercel Logs show `[LEAD-SUPABASE-FAILURE]`, fix the cause
 (usually missing env var or wrong slug) before promoting to Production.
+
+## 13b. Analytics — Plausible
+
+Plausible analytics is installed via `next-plausible` v4. Tracking is activated by setting a single Vercel environment variable. Until the variable is set the provider does not load and no script is injected.
+
+### Setup (one-time, Brian does this manually)
+
+1. Create a Plausible account at https://plausible.io if you don't already have one.
+2. Add `floridasecurityconcepts.com` as a site in the Plausible dashboard.
+3. Copy the site-specific script URL from the dashboard (looks like `https://plausible.io/js/pa-XXXXX.js`).
+4. In Vercel: **Project → Settings → Environment Variables → Add**:
+
+   | Name | Scopes | Value |
+   |---|---|---|
+   | `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | Production, Preview | `https://plausible.io/js/pa-XXXXX.js` (your site's URL) |
+
+5. Redeploy or push a commit to trigger a new build — the script is baked in at build time.
+6. (Optional) In the Plausible dashboard, create a custom goal named **Lead Submitted** so the funnel view shows form views → submits → conversion rate. Plausible goal type: custom event.
+
+### Manual smoke test (run once after enabling)
+
+1. Deploy a Preview build with `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` set on the Preview scope.
+2. Open the Preview URL in an incognito window.
+3. Open the Plausible dashboard: https://plausible.io/floridasecurityconcepts.com
+4. Confirm a pageview appears within ~30 seconds.
+5. Navigate to `/contact` and submit a test lead via the form.
+6. In Plausible → **Goals** (or **Custom Events**), confirm a **Lead Submitted** event appears.
+7. Verify event properties are present: `service`, `urgency`, `locationSlug` — and that no PII (name, email, phone) appears.
+
+### What is tracked
+
+| Event | When | Props (non-PII only) |
+|---|---|---|
+| Pageview (automatic) | Every page navigation | — |
+| Lead Submitted (custom) | After successful `/api/leads` POST | `service`, `urgency`, `locationSlug` |
+
+### What is NOT tracked
+
+- No cookies, no cross-site tracking (Plausible is cookieless by design).
+- No PII in custom event props (`fullName`, `phone`, `email`, `message`, `company` are never sent).
+- No Meta Pixel, no Google Ads conversion script (not installed).
+
+---
 
 ## 14. No `vercel.json` — by design
 
