@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   description:
     'Request a site assessment from Florida Security Concepts — gate, access control, surveillance, and integrated security systems for Central Florida and Tampa Bay.',
   alternates: { canonical: '/contact' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact | Request a Site Assessment',
+    description:
+      'Request a site assessment from Florida Security Concepts — gate, access control, surveillance, and integrated security systems for Central Florida and Tampa Bay.',
+  },
 };
 
 // Map slug-style query params back to the form's option labels.

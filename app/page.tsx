@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: `${site.name} | Advanced Security Systems for Central Florida & Tampa Bay`,
   description: site.tagline,
   alternates: { canonical: '/' },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${site.name} | Advanced Security Systems for Central Florida & Tampa Bay`,
+    description: site.tagline,
+  },
 };
 
 const homeFaqs = [

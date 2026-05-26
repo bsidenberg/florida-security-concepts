@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -33,18 +34,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const svc = getService(params.slug);
   if (!svc) return {};
-  return {
+  return buildPageMetadata({
     title: svc.metaTitle,
     description: svc.metaDescription,
-    alternates: { canonical: `/services/${svc.slug}` },
+    path: `/services/${svc.slug}`,
     keywords: svc.keywords,
-    openGraph: {
-      title: svc.metaTitle,
-      description: svc.metaDescription,
-      url: `${site.url}/services/${svc.slug}`,
-      type: 'article',
-    },
-  };
+    ogType: 'article',
+  });
 }
 
 export default function ServicePage({ params }: Params) {

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -34,18 +35,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const loc = getLocation(params.slug);
   if (!loc) return {};
-  return {
+  return buildPageMetadata({
     title: loc.metaTitle,
     description: loc.metaDescription,
-    alternates: { canonical: `/service-areas/${loc.slug}` },
+    path: `/service-areas/${loc.slug}`,
     keywords: loc.keywords,
-    openGraph: {
-      title: loc.metaTitle,
-      description: loc.metaDescription,
-      url: `${site.url}/service-areas/${loc.slug}`,
-      type: 'article',
-    },
-  };
+    ogType: 'article',
+  });
 }
 
 const locationFaqs = (city: string) => [

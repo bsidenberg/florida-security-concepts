@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -28,20 +29,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const r = getResource(params.slug);
   if (!r) return {};
-  return {
+  return buildPageMetadata({
     title: r.metaTitle,
     description: r.metaDescription,
-    alternates: { canonical: `/resources/${r.slug}` },
+    path: `/resources/${r.slug}`,
     keywords: r.keywords,
-    openGraph: {
-      title: r.metaTitle,
-      description: r.metaDescription,
-      url: `${site.url}/resources/${r.slug}`,
-      type: 'article',
-      publishedTime: r.publishedDate,
-      modifiedTime: r.updatedDate,
-    },
-  };
+    ogType: 'article',
+    publishedTime: r.publishedDate,
+    modifiedTime: r.updatedDate,
+  });
 }
 
 export default function ResourcePage({ params }: Params) {

@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   description:
     'Practical guides on security gate cost, access control for HOAs, storage facility cameras, and more — written for Central Florida and Tampa Bay properties.',
   alternates: { canonical: '/resources' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Resources & Learning Center | Security System Guides',
+    description:
+      'Practical guides on security gate cost, access control for HOAs, storage facility cameras, and more — written for Central Florida and Tampa Bay properties.',
+  },
 };
 
 export default function ResourcesIndexPage() {

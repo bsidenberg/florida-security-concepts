@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -27,18 +28,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const ind = getIndustry(params.slug);
   if (!ind) return {};
-  return {
+  return buildPageMetadata({
     title: ind.metaTitle,
     description: ind.metaDescription,
-    alternates: { canonical: `/industries/${ind.slug}` },
+    path: `/industries/${ind.slug}`,
     keywords: ind.keywords,
-    openGraph: {
-      title: ind.metaTitle,
-      description: ind.metaDescription,
-      url: `${site.url}/industries/${ind.slug}`,
-      type: 'article',
-    },
-  };
+    ogType: 'article',
+  });
 }
 
 export default function IndustryPage({ params }: Params) {

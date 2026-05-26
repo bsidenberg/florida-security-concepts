@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   description:
     'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
   alternates: { canonical: '/service-areas' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Service Areas | Central Florida & Tampa Bay Security Systems',
+    description:
+      'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
+  },
 };
 
 export default function ServiceAreasPage() {
