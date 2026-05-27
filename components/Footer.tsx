@@ -7,6 +7,20 @@ import { locations } from '@/data/locations';
 export function Footer() {
   const featuredLocations = locations.slice(0, 8);
 
+  // NAP — full address block only when all three address fields are set
+  const hasFullAddress = Boolean(
+    site.address?.street &&
+    site.address?.city &&
+    site.address?.postalCode
+  );
+
+  // Credentials — build parts list from whatever is populated
+  const credentialParts: string[] = [];
+  if (site.licenses.lowVoltage) credentialParts.push(`FL Low-Voltage License ${site.licenses.lowVoltage}`);
+  if (site.licenses.electrical) credentialParts.push(`FL Electrical License ${site.licenses.electrical}`);
+  if (site.licenses.alarm) credentialParts.push(`FL Alarm License ${site.licenses.alarm}`);
+  if (site.licenses.other?.length) site.licenses.other.forEach((l) => credentialParts.push(l));
+
   return (
     <footer className="relative mt-20 border-t border-fsc-border bg-fsc-surface/40">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-fsc-accent/40 to-transparent" />
@@ -71,6 +85,93 @@ export function Footer() {
               >
                 Emergency Service
               </Link>
+            </div>
+
+            {/* NAP block */}
+            <div className="mt-7 text-sm text-fsc-text-dim leading-relaxed">
+              {hasFullAddress ? (
+                <address className="not-italic space-y-0.5">
+                  <strong className="font-semibold text-fsc-text">
+                    {site.legalName || site.name}
+                  </strong>
+                  <div itemProp="streetAddress">{site.address.street}</div>
+                  <div>
+                    <span itemProp="addressLocality">{site.address.city}</span>,{' '}
+                    <span itemProp="addressRegion">{site.address.region || 'FL'}</span>{' '}
+                    <span itemProp="postalCode">{site.address.postalCode}</span>
+                  </div>
+                  {hasPhone() && (
+                    <div>
+                      <a
+                        href={`tel:${site.phone}`}
+                        itemProp="telephone"
+                        className="hover:text-fsc-text"
+                      >
+                        {site.phoneDisplay}
+                      </a>
+                    </div>
+                  )}
+                  {hasEmail() && (
+                    <div>
+                      <a
+                        href={`mailto:${site.email}`}
+                        itemProp="email"
+                        className="hover:text-fsc-text break-all"
+                      >
+                        {site.email}
+                      </a>
+                    </div>
+                  )}
+                </address>
+              ) : (
+                <address className="not-italic space-y-0.5">
+                  <strong className="font-semibold text-fsc-text">
+                    {site.legalName || site.name}
+                  </strong>
+                  <div>Serving Central Florida &amp; Tampa Bay</div>
+                  {hasPhone() && (
+                    <div>
+                      <a href={`tel:${site.phone}`} className="hover:text-fsc-text">
+                        {site.phoneDisplay}
+                      </a>
+                    </div>
+                  )}
+                  {hasEmail() && (
+                    <div>
+                      <a
+                        href={`mailto:${site.email}`}
+                        className="hover:text-fsc-text break-all"
+                      >
+                        {site.email}
+                      </a>
+                    </div>
+                  )}
+                </address>
+              )}
+              {site.social.google && (
+                <div className="mt-2">
+                  <a
+                    href={site.social.google}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-fsc-text"
+                  >
+                    View us on Google
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* Credentials strip */}
+            <div className="mt-4 text-xs text-fsc-text-muted leading-relaxed space-y-1">
+              <div>
+                {credentialParts.length > 0
+                  ? `Licensed in Florida — ${credentialParts.join(' · ')}`
+                  : 'Licensed & insured in the State of Florida'}
+              </div>
+              {site.manufacturerCerts?.length > 0 && (
+                <div>Certified installers: {site.manufacturerCerts.join(', ')}</div>
+              )}
             </div>
           </div>
 

@@ -34,6 +34,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     path: `/industries/${ind.slug}`,
     keywords: ind.keywords,
     ogType: 'article',
+    modifiedTime: ind.updatedDate,
   });
 }
 
@@ -73,6 +74,9 @@ export default function IndustryPage({ params }: Params) {
             <Eyebrow>Direct answer</Eyebrow>
             <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
               {ind.directAnswer}
+            </p>
+            <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
+              Updated {formatDate(ind.updatedDate)} · {site.name}
             </p>
           </div>
         </Container>
@@ -197,6 +201,14 @@ export default function IndustryPage({ params }: Params) {
       />
     </>
   );
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 function defaultPropertyType(slug: string): string | undefined {

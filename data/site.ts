@@ -62,6 +62,15 @@ export const site = {
     facebook: '',
     linkedin: '',
   },
+
+  // TODO: Brian to populate with actual license numbers and manufacturer certifications
+  licenses: {
+    lowVoltage: '',
+    electrical: '',
+    alarm: '',
+    other: [] as string[],
+  },
+  manufacturerCerts: [] as string[],
 };
 
 // --- Helpers --------------------------------------------------------------

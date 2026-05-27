@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     path: `/services/${svc.slug}`,
     keywords: svc.keywords,
     ogType: 'article',
+    modifiedTime: svc.updatedDate,
   });
 }
 
@@ -88,6 +89,9 @@ export default function ServicePage({ params }: Params) {
             <Eyebrow>Direct answer</Eyebrow>
             <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
               {svc.directAnswer}
+            </p>
+            <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
+              Updated {formatDate(svc.updatedDate)} · {site.name}
             </p>
           </div>
         </Container>
@@ -290,6 +294,14 @@ function Bullet() {
   return (
     <span className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-fsc-accent-glow shrink-0" />
   );
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 // Map service slug to default form value (matches LeadCaptureForm option labels).
