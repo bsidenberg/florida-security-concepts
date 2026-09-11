@@ -14,7 +14,7 @@ export function CTASection({
   eyebrow = 'Next step',
   title,
   body,
-  primaryCta = { label: 'Request Site Assessment', href: '/contact' },
+  primaryCta = { label: 'Request a Free Property Assessment', href: '/contact' },
   secondaryCta,
   variant = 'default',
 }: CTAProps) {

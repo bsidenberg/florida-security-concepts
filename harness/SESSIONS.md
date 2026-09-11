@@ -8,7 +8,7 @@ Tier 3. Harness version 1.0 approved by Brian 2026-09-11. H-000 approved; S-001 
 |---|---|---|---|---|---|
 | H-000 | Approved spec to reviewed harness | Orchestrator | SPEC approved 2026-09-11 | APPROVED | website-discovery.md; harness-review.md |
 | S-001 | Verification foundation | Builder + test-guard | H-000 approved | ACCEPTED | S-001-verify-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.log; independent/package reviews |
-| S-002 | Safe local vertical slice | Builder + test-guard | S-001 accepted | IN PROGRESS | Pending verification and Brian preview |
+| S-002 | Safe local vertical slice | Builder + test-guard | S-001 accepted | MACHINE VERIFIED / AWAITING PREVIEW | S-002-verify-20260911-124844-318-5681ab0b47f14246b25ca54c1cdc167a.log; screenshots; independent review |
 | S-003 | Priority maintenance/service/audience content | Builder + test-guard | S-002 preview accepted | NOT STARTED | None |
 | S-004 | Remaining content and SEO preservation | Builder + test-guard | S-003 accepted | NOT STARTED | None |
 | S-005 | Production delivery contracts and isolated verification | Builder + test-guard | S-002 accepted; owner dependencies resolved | NOT STARTED | None |
@@ -122,6 +122,12 @@ Required unit of handoff, appended below each packet: assigned objective; actual
 - Done: complete technical release package and reviewable PR where authorized. Production deployment remains a separate owner action; no conversion uplift claimed without live measurement.
 
 ## Handoff log
+
+### S-002 — machine verified, awaiting Brian preview, 2026-09-11
+
+Compiled preview started on 127.0.0.1:3100 in owned terminal session 56829. Separate Chromium compiled smoke exited 0; evidence/S-002-compiled-smoke.json proves noindex, no analytics, no external browser request, and actual local assessment receipt. Compiled homepage and confirmation screenshots saved. Server remains running for Brian's review. No push/PR created because deployment triggers remain unverified under OD-03; all work checkpointed locally.
+
+Parent independent verifier ran `pwsh -NoProfile -File scripts/verify.ps1 -SessionId S-002`: exit 0, all six required stages, 96 unit tests, 11 gate tests and 62 browser tests. Raw log: evidence/S-002-verify-20260911-124844-318-5681ab0b47f14246b25ca54c1cdc167a.log, matching JSON reports and four home/contact screenshots. Parent independently reviewed app/test/isolation changes; evidence/S-002-independent-review.md records findings and fixes. Files cover the scoped homepage/contact/shared presentation, lead contract/local receipt, safe local helpers and tests. Next automatically added local generated type output to tsconfig without removing source coverage. No live provider calls or production changes. Browser/zoom evidence is emulation; global release requirements remain open. Local compiled preview smoke evidence is collected separately. Brian must accept the working preview before S-003/S-004. See LOCAL_REVIEW.md for the concrete click path and synthetic fixture.
 
 ### S-001 — accepted foundation, 2026-09-11
 

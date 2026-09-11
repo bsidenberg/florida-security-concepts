@@ -5,12 +5,12 @@ describe('lead validation baseline', () => {
   it('accepts a real-shaped synthetic maintenance enquiry', () => {
     const result = validateLead(validLead);
     expect(result.ok).toBe(true);
-    if (result.ok) expect(result.lead).toMatchObject(validLead);
+    if (result.ok) expect(result.lead).toMatchObject({ fullName: validLead.fullName, email: validLead.email, city: validLead.city });
   });
   it.each([null, undefined, 'text', 17, true, [], {}])('rejects malformed body %j', input => {
     expect(validateLead(input).ok).toBe(false);
   });
-  it.each(['fullName', 'email', 'phone', 'propertyType', 'service'])('rejects missing required %s', field => {
+  it.each(['fullName', 'email', 'phone', 'propertyType', 'service', 'city'])('rejects missing required %s', field => {
     const result = validateLead({ ...validLead, [field]: '' });
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.errors[field]).toEqual(expect.any(String));

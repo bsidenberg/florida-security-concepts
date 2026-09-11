@@ -1,87 +1,59 @@
+import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { validateLead } from '@/lib/leads/validateLead';
 import { deliverLead } from '@/lib/leads/leadDelivery';
 import type { ApiResponse } from '@/lib/leads/types';
-
-// Lead intake endpoint. Validates server-side, delivers via configured provider.
-// Honors the user's note: do not silently discard leads in production.
-
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
-
-const MAX_BODY_BYTES = 32 * 1024; // 32KB — generous for a contact form, hostile to abuse.
-
-export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
-  // Content-Type guard.
-  const contentType = req.headers.get('content-type') || '';
-  if (!contentType.toLowerCase().includes('application/json')) {
-    return NextResponse.json(
-      { ok: false, error: 'Expected application/json request body.' },
-      { status: 415 }
-    );
-  }
-
-  // Body size guard.
-  const text = await req.text();
-  if (text.length > MAX_BODY_BYTES) {
-    return NextResponse.json(
-      { ok: false, error: 'Request body too large.' },
-      { status: 413 }
-    );
-  }
-
-  let parsed: unknown;
+const MAX_BODY_BYTES = 32 * 1024;
+function error(status: number, message: string, code = 'INVALID', extra: Partial<ApiResponse> = {}, headers: Record<string, string> = {}) {
+  return NextResponse.json({ ok: false, error: message, code, ...extra }, { status, headers });
+}
+export async function POST(req: Request): Promise<NextResponse> {
+  if (req.headers.get('content-type')?.split(';')[0].trim().toLowerCase() !== 'application/json') return error(415, 'Expected application/json request body.');
+  const reader = req.body?.getReader();
+  let text = '';
+  let size = 0;
+  const decoder = new TextDecoder('utf-8', { fatal: true });
   try {
-    parsed = JSON.parse(text);
-  } catch {
-    return NextResponse.json(
-      { ok: false, error: 'Invalid JSON body.' },
-      { status: 400 }
-    );
-  }
-
+    if (reader) while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_BODY_BYTES) { await reader.cancel(); return error(413, 'Request body too large.'); }
+      text += decoder.decode(value, { stream: true });
+    }
+    text += decoder.decode();
+  } catch { return error(400, 'Unable to read request body.'); }
+  finally { reader?.releaseLock(); }
+  let parsed: unknown;
+  try { parsed = JSON.parse(text); } catch { return error(400, 'Invalid JSON body.'); }
   const result = validateLead(parsed);
-  if (!result.ok) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error:
-          result.errors._form ||
-          'Some fields need attention. Please review and try again.',
-        fields: result.errors,
-      },
-      { status: 400 }
-    );
+  if (!result.ok) return error(400, result.errors._form || 'Some fields need attention. Please review and try again.', 'INVALID', { fields: result.errors });
+  const requestId = result.lead.requestId || randomUUID();
+  let delivery;
+  try { delivery = await deliverLead(result.lead, requestId); }
+  catch {
+    if (process.env.FSC_LOCAL_PREVIEW !== '1') return error(503, 'Unable to confirm your request. Please contact us directly.', 'DELIVERY_FAILED', { requestId });
+    return error(504, 'We could not confirm receipt. Keep your details and retry this same request.', 'RECEIPT_UNKNOWN', { requestId });
   }
-
-  const delivery = await deliverLead(result.lead);
   if (!delivery.ok) {
-    // Configuration / provider error — surface as 503 so the client knows the
-    // request was well-formed but the server cannot fulfill it right now.
-    return NextResponse.json(
-      {
-        ok: false,
-        error:
-          'Lead delivery is temporarily unavailable. Please try again or contact us directly.',
-      },
-      { status: 503 }
-    );
+    const code = delivery.code || 'DELIVERY_FAILED';
+    const messages: Record<string, string> = {
+      LOCAL_ONLY: 'This local preview accepts test addresses ending in @example.invalid only.',
+      CONFLICT: 'This request ID belongs to different details. Start a new request.',
+      PENDING: 'Receipt is still uncertain. Keep these details and retry this same request.',
+      EXPIRED: 'This request has expired. Start a new request.',
+      RATE_LIMIT: 'Too many new requests. Please wait before trying again.',
+      RECEIPT_UNKNOWN: 'We could not confirm receipt. Keep your details and retry this same request.',
+    };
+    return error(delivery.status || 503, messages[code] || 'Request delivery is temporarily unavailable. Please try again or contact us directly.', code, { requestId }, delivery.retryAfter ? { 'Retry-After': String(delivery.retryAfter) } : {});
   }
-
-  return NextResponse.json(
-    {
-      ok: true,
-      message:
-        'Request received. A member of the Florida Security Concepts team will be in touch shortly.',
-    },
-    { status: 200 }
-  );
+  return NextResponse.json({ ok: true, requestId: delivery.mode === 'local' ? delivery.deliveryId : requestId, message: 'Request received. This is an assessment request, not a confirmed appointment.' }, { status: 200 });
 }
-
-// Reject other methods explicitly with 405 so probes/cache don't misbehave.
-export async function GET() {
-  return NextResponse.json(
-    { ok: false, error: 'Method Not Allowed.' },
-    { status: 405, headers: { Allow: 'POST' } }
-  );
-}
+export async function GET() { return error(405, 'Method Not Allowed.', 'METHOD', {}, { Allow: 'POST' }); }
+export const PUT = GET;
+export const PATCH = GET;
+export const DELETE = GET;
+export const HEAD = GET;
+export const OPTIONS = GET;

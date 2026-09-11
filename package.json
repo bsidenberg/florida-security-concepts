@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "preview:local": "node scripts/local-server.mjs --compiled",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

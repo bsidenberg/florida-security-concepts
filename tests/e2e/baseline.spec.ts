@@ -33,14 +33,21 @@ test('homepage navigates to contact and submits through real local endpoint', as
   await expect(page).toHaveURL(/\/contact/);
   const form = page.getByRole('form', { name: 'Site assessment request form' });
   for (const name of ['fullName', 'email', 'phone'] as const) await form.locator(`[name="${name}"]`).fill(validLead[name]);
-  for (const name of ['propertyType', 'service', 'city', 'urgency'] as const) await form.locator(`[name="${name}"]`).selectOption(validLead[name]);
+  for (const name of ['propertyType', 'service'] as const) await form.locator(`[name="${name}"]`).selectOption(validLead[name]);
+  await form.locator('[name="city"]').fill(validLead.city);
   const response = page.waitForResponse(r => r.url().endsWith('/api/leads') && r.request().method() === 'POST');
   await form.getByRole('button', { name: /submit|request|assessment/i }).click();
-  expect((await response).status()).toBe(200);
+  const received = await response;
+  expect(received.status()).toBe(200);
+  const body = await received.json();
+  expect(body.requestId).toMatch(/^[0-9a-f-]{36}$/);
   await expect(page.getByRole('status')).toContainText('Request received');
-  await expect.poll(async () => readFile(process.env.FSC_SERVER_LOG || '.fsc-test/server.log', 'utf8')).toContain(validLead.email);
+  await expect(page.getByRole('status')).toBeFocused();
+  const receipt = JSON.parse(await readFile(`.fsc-local/receipts/${body.requestId}.json`, 'utf8'));
+  expect(receipt.payload.email).toBe(validLead.email);
   const log = await readFile(process.env.FSC_SERVER_LOG || '.fsc-test/server.log', 'utf8');
-  expect(log).toContain('[lead-delivery:console] new lead');
+  expect(log).not.toContain(validLead.email);
+  expect(log).not.toContain(validLead.phone);
 });
 test('empty assessment displays server validation instead of confirmation', async ({ page }) => {
   await page.goto('/contact');

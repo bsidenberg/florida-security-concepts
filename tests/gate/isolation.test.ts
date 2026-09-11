@@ -17,5 +17,5 @@ it('launcher overrides inherited and Next environment-file delivery configuratio
   expect(result.status, result.stderr).toBe(0);
   const line = result.stdout.split('\n').find(s => s.startsWith('ISOLATION '));
   expect(line, 'synthetic launcher probe must emit its observation').toBeDefined();
-  expect(JSON.parse(line!.slice(10))).toEqual({ mode: 'console', secretEmpty: true, analyticsEmpty: true, confirmation: 'false' });
+  expect(JSON.parse(line!.slice(10))).toEqual({ mode: 'local', secretEmpty: true, analyticsEmpty: true, confirmation: 'false' });
 });

@@ -46,7 +46,7 @@ export function Hero({
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-fsc-border-strong bg-fsc-surface/70 backdrop-blur px-3 py-1.5">
                 <span className="relative inline-flex h-1.5 w-1.5">
-                  <span className="absolute inset-0 rounded-full bg-fsc-accent-glow opacity-75 animate-ping" />
+                  <span className="absolute inset-0 rounded-full bg-fsc-accent-glow opacity-75 " />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-fsc-accent-glow" />
                 </span>
                 <span className="text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-accent-glow">

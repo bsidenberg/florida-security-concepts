@@ -30,14 +30,14 @@ export async function deliverViaWebhook(
   let parsed: URL;
   try {
     parsed = new URL(url);
-    if (!['http:', 'https:'].includes(parsed.protocol)) {
+    if (parsed.protocol !== 'https:') {
       throw new Error('protocol');
     }
   } catch {
     return {
       ok: false,
       mode: 'webhook',
-      reason: 'LEADS_WEBHOOK_URL is not a valid http/https URL.',
+      reason: 'Webhook requires an HTTPS URL.',
     };
   }
 
@@ -62,18 +62,8 @@ export async function deliverViaWebhook(
     clearTimeout(timeoutId);
 
     if (!res.ok) {
-      // Capture a small slice of the response body for diagnostics; cap to avoid
-      // dragging huge HTML error pages into logs.
-      let bodyPreview = '';
-      try {
-        bodyPreview = (await res.text()).slice(0, 500);
-      } catch {
-        // ignore
-      }
       console.error('[lead-delivery:webhook] non-2xx response', {
         status: res.status,
-        statusText: res.statusText,
-        preview: bodyPreview,
       });
       return {
         ok: false,
@@ -91,7 +81,7 @@ export async function deliverViaWebhook(
           ? `Webhook request timed out after ${REQUEST_TIMEOUT_MS}ms.`
           : err.message
         : 'Unknown error during webhook send.';
-    console.error('[lead-delivery:webhook] error:', reason);
+    console.error('[lead-delivery:webhook] unavailable');
     return { ok: false, mode: 'webhook', reason };
   }
 }

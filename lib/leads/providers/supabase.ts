@@ -143,7 +143,7 @@ export async function deliverViaSupabase(
   const env = readEnv();
   if (!env.ok) {
     console.error('[lead-delivery:supabase][LEAD-SUPABASE-FAILURE]', {
-      reason: env.reason,
+      reason: 'CONFIGURATION',
     });
     return { ok: false, mode: 'supabase', reason: env.reason };
   }
@@ -153,8 +153,7 @@ export async function deliverViaSupabase(
   const accountResult = await resolveAccountId(client, env.slug);
   if (!accountResult.ok) {
     console.error('[lead-delivery:supabase][LEAD-SUPABASE-FAILURE]', {
-      reason: accountResult.reason,
-      slug: env.slug,
+      reason: 'ACCOUNT_UNAVAILABLE',
     });
     return { ok: false, mode: 'supabase', reason: accountResult.reason };
   }
@@ -205,9 +204,7 @@ export async function deliverViaSupabase(
 
     if (error) {
       console.error('[lead-delivery:supabase][LEAD-SUPABASE-FAILURE]', {
-        reason: error.message,
-        code: error.code,
-        slug: env.slug,
+        reason: 'INSERT_FAILED',
       });
       return {
         ok: false,
@@ -225,8 +222,7 @@ export async function deliverViaSupabase(
     const reason =
       err instanceof Error ? err.message : 'Unknown error during Supabase insert.';
     console.error('[lead-delivery:supabase][LEAD-SUPABASE-FAILURE]', {
-      reason,
-      slug: env.slug,
+      reason: 'INSERT_FAILED',
     });
     return { ok: false, mode: 'supabase', reason };
   }

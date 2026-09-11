@@ -1,487 +1,95 @@
 'use client';
-
-import { FormEvent, useState, useEffect, useRef, useId } from 'react';
+import Link from 'next/link';
+import { FormEvent, useContext, useEffect, useId, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { usePlausible } from 'next-plausible';
-
-const propertyTypes = [
-  'HOA / gated community',
-  'Multifamily / apartment / condo',
-  'Storage facility',
-  'Commercial property',
-  'Industrial / warehouse',
-  'Residential / estate',
-  'Other',
-];
-
-const serviceOptions = [
-  'New gate system',
-  'Gate automation',
-  'Access control',
-  'Video surveillance',
-  'Emergency repair',
-  'Maintenance / service',
-  'Full security system integration',
-  'Not sure yet',
-];
-
-const urgencyOptions = [
-  'Emergency',
-  'This week',
-  'This month',
-  'Planning / budgeting',
-];
-
-const cities = [
-  'Orlando',
-  'Tampa',
-  'Lakeland',
-  'Kissimmee',
-  'Winter Garden',
-  'Clermont',
-  'Lake Mary',
-  'Sanford',
-  'Ocala',
-  'The Villages',
-  'St. Petersburg',
-  'Clearwater',
-  'Brandon',
-  'Wesley Chapel',
-  'Other',
-];
-
-const contactMethods = ['Email', 'Phone call', 'Text message'];
-
-export type LeadFormDefaults = {
-  service?: string;
-  propertyType?: string;
-  city?: string;
-  urgency?: string;
-  serviceSlug?: string;
-  industrySlug?: string;
-  locationSlug?: string;
-};
-
-type Attribution = {
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
-  referrer?: string;
-};
-
-export function LeadCaptureForm({
-  defaults = {},
-  submitLabel = 'Submit Request',
-}: {
-  defaults?: LeadFormDefaults;
-  submitLabel?: string;
-}) {
-  const plausible = usePlausible();
+import { propertyTypes, serviceOptions, legacyServices, urgencyOptions, contactMethods } from '@/lib/leads/options';
+import { validateLead } from '@/lib/leads/validateLead';
+import type { LeadFormDefaults } from '@/lib/leads/query';
+import { site } from '@/data/site';
+import { LocalPreviewContext } from './LocalPreviewContext';
+export type { LeadFormDefaults } from '@/lib/leads/query';
+type Fields = Record<string,string>;
+const blank: Fields = { fullName:'', email:'', phone:'', propertyType:'', city:'', service:'', company:'', urgency:'Not specified', contactMethod:'Email', message:'', honeypot:'' };
+const labels: Fields = { fullName:'Full name', email:'Email', phone:'Phone', propertyType:'Property type', city:'City / service area', service:'Service needed', company:'Company / community name', urgency:'Timing', contactMethod:'Preferred contact method', message:'Tell us about your property and needs' };
+export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = false, localPreview: providedLocalPreview = false }: { defaults?: LeadFormDefaults; submitLabel?: string; showHeading?: boolean; localPreview?: boolean }) {
+  const localPreview = useContext(LocalPreviewContext) || providedLocalPreview;
+  const { service, propertyType, city, urgency } = defaults;
+  const id = useId();
   const pathname = usePathname();
-  const formId = useId();
-  const formRef = useRef<HTMLFormElement>(null);
-  const errorRef = useRef<HTMLParagraphElement>(null);
-
-  const [submitted, setSubmitted] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [attribution, setAttribution] = useState<Attribution>({});
-
+  const plausible = usePlausible();
+  const [values,setValues] = useState<Fields>(() => ({ ...blank, service:defaults.service || '', propertyType:defaults.propertyType || '', city:defaults.city || '', urgency:defaults.urgency || 'Not specified' }));
+  const previousDefaults = useRef(defaults);
+  const [errors,setErrors] = useState<Fields>({});
+  const [message,setMessage] = useState('');
+  const [busy,setBusy] = useState(false);
+  const [receipt,setReceipt] = useState<string|null>(null);
+  const [expired,setExpired] = useState(false);
+  const [detailsOpen,setDetailsOpen] = useState(defaults.urgency === 'Emergency');
+  const locked = useRef(false);
+  const attempt = useRef<{fingerprint:string; id:string}|null>(null);
+  const errorRef = useRef<HTMLDivElement>(null);
+  const receiptRef = useRef<HTMLDivElement>(null);
+  const isEmergency = values.urgency === 'Emergency';
+  const displayedServices = legacyServices.includes(values.service) ? [...serviceOptions, {value:values.service,label:values.service}] : serviceOptions;
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const params = new URLSearchParams(window.location.search);
-    setAttribution({
-      utmSource: params.get('utm_source') || undefined,
-      utmMedium: params.get('utm_medium') || undefined,
-      utmCampaign: params.get('utm_campaign') || undefined,
-      referrer: document.referrer || undefined,
+    const previous = previousDefaults.current;
+    setValues(v => {
+      const next = {...v};
+      const current = {service, propertyType, city, urgency};
+      for (const key of ['service','propertyType','city','urgency'] as const) if (current[key] !== previous[key]) next[key] = current[key] || (key === 'urgency' ? 'Not specified' : '');
+      return next;
     });
-  }, []);
-
-  // Move focus to the error region when a server error appears.
-  useEffect(() => {
-    if (formError && errorRef.current) {
-      errorRef.current.focus();
-    }
-  }, [formError]);
-
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (busy) return;
-
-    setBusy(true);
-    setFormError(null);
-    setFieldErrors({});
-
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-    const payload: Record<string, string | undefined> = {
-      fullName: fd.get('fullName')?.toString(),
-      phone: fd.get('phone')?.toString(),
-      email: fd.get('email')?.toString(),
-      company: fd.get('company')?.toString(),
-      propertyType: fd.get('propertyType')?.toString(),
-      service: fd.get('service')?.toString(),
-      city: fd.get('city')?.toString(),
-      urgency: fd.get('urgency')?.toString(),
-      contactMethod: fd.get('contactMethod')?.toString(),
-      message: fd.get('message')?.toString(),
-      honeypot: fd.get('fsc_check')?.toString(),
-      sourcePage: pathname || undefined,
-      serviceSlug: defaults.serviceSlug,
-      industrySlug: defaults.industrySlug,
-      locationSlug: defaults.locationSlug,
-      utmSource: attribution.utmSource,
-      utmMedium: attribution.utmMedium,
-      utmCampaign: attribution.utmCampaign,
-      referrer: attribution.referrer,
-    };
-
+    previousDefaults.current = {service, propertyType, city, urgency};
+    if (urgency === 'Emergency') setDetailsOpen(true);
+  }, [service, propertyType, city, urgency]);
+  useEffect(() => { if (message) errorRef.current?.focus(); }, [message, errors]);
+  useEffect(() => { if (receipt !== null) receiptRef.current?.focus(); }, [receipt]);
+  function change(name: string,value: string) { setValues(v => ({...v,[name]:value})); }
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (locked.current) return;
+    setMessage(''); setErrors({}); setExpired(false);
+    const validation = validateLead({...values,sourcePage:pathname});
+    if (!validation.ok) { setErrors(validation.errors); setMessage('Please review the highlighted fields. Your other details are still here.'); return; }
+    const normalized = validation.lead;
+    const fingerprint = JSON.stringify(['fullName','phone','email','propertyType','service','city','company','urgency','contactMethod','message'].map(key => normalized[key as keyof typeof normalized] || ''));
+    if (!attempt.current || attempt.current.fingerprint !== fingerprint) attempt.current = { fingerprint, id:crypto.randomUUID() };
+    locked.current = true; setBusy(true);
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(),20000);
     try {
-      const res = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data: {
-        ok: boolean;
-        error?: string;
-        fields?: Record<string, string>;
-        message?: string;
-      } = await res.json().catch(() => ({ ok: false, error: 'Unexpected response.' }));
-
-      if (!res.ok || !data.ok) {
-        setFormError(
-          data.error ||
-            'Something went wrong submitting your request. Please try again or contact us directly.'
-        );
-        if (data.fields) setFieldErrors(data.fields);
+      const response = await fetch('/api/leads',{ method:'POST', headers:{'Content-Type':'application/json'}, signal:controller.signal, body:JSON.stringify({...values, sourcePage:pathname, serviceSlug:defaults.serviceSlug, industrySlug:defaults.industrySlug, locationSlug:defaults.locationSlug, requestId:attempt.current.id}) });
+      const data = await response.json().catch(() => null);
+      if (response.ok && data?.ok === true) {
+        setReceipt(typeof data.requestId === 'string' ? data.requestId : attempt.current.id);
+        if (!localPreview) { try { plausible('Lead Submitted',{ props:{ service:normalized.service, urgency:normalized.urgency || 'Not specified' } }); } catch { /* Analytics cannot change confirmed receipt. */ } }
         return;
       }
-
-      setSubmitted(true);
-      plausible('Lead Submitted', {
-        props: {
-          service: payload.service ?? 'unknown',
-          urgency: payload.urgency ?? 'unknown',
-          locationSlug: payload.locationSlug ?? 'unknown',
-        },
-      });
-      // Reset form so a back-button doesn't repopulate stale values.
-      form.reset();
-    } catch {
-      setFormError(
-        'We could not reach the server. Please check your connection and try again, or contact us directly.'
-      );
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  if (submitted) {
-    return (
-      <div
-        className="fsc-card p-8 md:p-10 text-center"
-        role="status"
-        aria-live="polite"
-      >
-        <div className="mx-auto mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-fsc-ok/15 ring-1 ring-fsc-ok/40">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path
-              d="M5 12l5 5L20 7"
-              stroke="#10b981"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-        <h3 className="text-xl font-semibold text-fsc-text">Request received</h3>
-        <p className="mt-2 text-sm text-fsc-text-dim max-w-md mx-auto">
-          A member of the Florida Security Concepts team will be in touch
-          shortly. For an after-hours emergency, please also call our service
-          line if available.
-        </p>
-      </div>
-    );
+      if (data?.fields && typeof data.fields === 'object') setErrors(data.fields);
+      if (data?.code === 'LOCAL_ONLY') { setErrors({email:'Use a synthetic email ending in @example.invalid for this local review.'}); setMessage('This preview accepts test details only. Please update the email field.'); }
+      else if (data?.code === 'EXPIRED') { setExpired(true); setMessage('This request’s retry window has ended. Call us to check its status, or explicitly start a new request.'); }
+      else if (response.status === 504 || data?.code === 'PENDING' || data?.code === 'RECEIPT_UNKNOWN' || !data) setMessage('We could not confirm whether your request was received. Retry the same request below, or call us to check. Your details have been kept.');
+      else if (response.status === 429) setMessage('Please wait before trying again. Your details have been kept, or you can call us directly.');
+      else if (data?.code === 'CONFLICT') setMessage('This request could not be confirmed. Please call us to check its status before sending another request.');
+      else if (response.status === 400) setMessage('Please review the highlighted fields and try again.');
+      else setMessage(localPreview ? 'The local request could not be saved. Use an example.invalid email for this review, then retry or check the local service.' : 'Your request could not be confirmed. Please try again or contact us directly. Your details have been kept.');
+    } catch { setMessage('We could not confirm whether your request was received. Retry the same request below, or call us to check. Your details have been kept.'); }
+    finally { window.clearTimeout(timer); locked.current = false; setBusy(false); }
   }
-
-  return (
-    <form
-      ref={formRef}
-      id={formId}
-      onSubmit={onSubmit}
-      className="fsc-card p-6 md:p-8"
-      aria-label="Site assessment request form"
-      noValidate
-    >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <Field
-          label="Full name"
-          name="fullName"
-          required
-          autoComplete="name"
-          error={fieldErrors.fullName}
-        />
-        <Field
-          label="Phone"
-          name="phone"
-          type="tel"
-          required
-          autoComplete="tel"
-          error={fieldErrors.phone}
-        />
-        <Field
-          label="Email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          error={fieldErrors.email}
-        />
-        <Field
-          label="Company / community name"
-          name="company"
-          autoComplete="organization"
-          error={fieldErrors.company}
-        />
-        <Select
-          label="Property type"
-          name="propertyType"
-          required
-          options={propertyTypes}
-          defaultValue={defaults.propertyType}
-          error={fieldErrors.propertyType}
-        />
-        <Select
-          label="Service needed"
-          name="service"
-          required
-          options={serviceOptions}
-          defaultValue={defaults.service}
-          error={fieldErrors.service}
-        />
-        <Select
-          label="City / service area"
-          name="city"
-          options={cities}
-          defaultValue={defaults.city}
-          error={fieldErrors.city}
-        />
-        <Select
-          label="Urgency"
-          name="urgency"
-          required
-          options={urgencyOptions}
-          defaultValue={defaults.urgency}
-          error={fieldErrors.urgency}
-        />
-        <Select
-          label="Preferred contact method"
-          name="contactMethod"
-          options={contactMethods}
-          defaultValue="Email"
-          error={fieldErrors.contactMethod}
-        />
-        <div className="sm:col-span-2">
-          <Textarea
-            label="Tell us about your property and needs"
-            name="message"
-            rows={4}
-            error={fieldErrors.message}
-          />
-        </div>
-      </div>
-
-      {/* Honeypot — hidden from sighted users and assistive tech. Bots tend to fill it.
-          Field name and label text are intentionally devoid of common autofill
-          keywords (no name/email/phone/address/company/organization/zip). Browsers
-          like Chrome ignore autoComplete="off" on non-password fields when the
-          field NAME contains a known autofill keyword — so the name is what matters,
-          not just the autoComplete attribute. */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          left: '-10000px',
-          top: 'auto',
-          width: '1px',
-          height: '1px',
-          overflow: 'hidden',
-        }}
-      >
-        <label>
-          Leave this field empty
-          <input
-            type="text"
-            name="fsc_check"
-            tabIndex={-1}
-            autoComplete="off"
-            defaultValue=""
-          />
-        </label>
-      </div>
-
-      {/* Live region for status. */}
-      <p
-        ref={errorRef}
-        tabIndex={-1}
-        role="alert"
-        aria-live="assertive"
-        className={`mt-4 text-sm ${
-          formError ? 'text-fsc-warn' : 'sr-only'
-        }`}
-      >
-        {formError}
-      </p>
-
-      <div className="mt-6 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
-        <p className="text-xs text-fsc-text-muted">
-          We respond to most assessment requests the same business day.
-        </p>
-        <button
-          type="submit"
-          disabled={busy}
-          aria-disabled={busy}
-          className="fsc-btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {busy ? 'Submitting…' : submitLabel}
-        </button>
-      </div>
-    </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = 'text',
-  required,
-  autoComplete,
-  error,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-  autoComplete?: string;
-  error?: string;
-}) {
-  const errorId = error ? `${name}-error` : undefined;
-  return (
-    <label className="block">
-      <span className="block text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted mb-1.5">
-        {label}
-        {required && <span className="text-fsc-accent-glow"> *</span>}
-      </span>
-      <input
-        name={name}
-        type={type}
-        required={required}
-        autoComplete={autoComplete}
-        aria-invalid={error ? 'true' : undefined}
-        aria-describedby={errorId}
-        className={`w-full rounded-md border bg-fsc-bg/60 px-3.5 py-2.5 text-sm text-fsc-text placeholder-fsc-text-muted focus:ring-2 focus:outline-none transition ${
-          error
-            ? 'border-fsc-warn focus:border-fsc-warn focus:ring-fsc-warn/30'
-            : 'border-fsc-border-strong focus:border-fsc-accent-glow focus:ring-fsc-accent/30'
-        }`}
-      />
-      {error && (
-        <span id={errorId} className="mt-1 block text-xs text-fsc-warn">
-          {error}
-        </span>
-      )}
-    </label>
-  );
-}
-
-function Select({
-  label,
-  name,
-  options,
-  required,
-  defaultValue,
-  error,
-}: {
-  label: string;
-  name: string;
-  options: string[];
-  required?: boolean;
-  defaultValue?: string;
-  error?: string;
-}) {
-  const errorId = error ? `${name}-error` : undefined;
-  return (
-    <label className="block">
-      <span className="block text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted mb-1.5">
-        {label}
-        {required && <span className="text-fsc-accent-glow"> *</span>}
-      </span>
-      <select
-        name={name}
-        required={required}
-        defaultValue={defaultValue || ''}
-        aria-invalid={error ? 'true' : undefined}
-        aria-describedby={errorId}
-        className={`w-full rounded-md border bg-fsc-bg/60 px-3.5 py-2.5 text-sm text-fsc-text focus:ring-2 focus:outline-none transition ${
-          error
-            ? 'border-fsc-warn focus:border-fsc-warn focus:ring-fsc-warn/30'
-            : 'border-fsc-border-strong focus:border-fsc-accent-glow focus:ring-fsc-accent/30'
-        }`}
-      >
-        <option value="" disabled>
-          Select…
-        </option>
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-      {error && (
-        <span id={errorId} className="mt-1 block text-xs text-fsc-warn">
-          {error}
-        </span>
-      )}
-    </label>
-  );
-}
-
-function Textarea({
-  label,
-  name,
-  rows = 4,
-  error,
-}: {
-  label: string;
-  name: string;
-  rows?: number;
-  error?: string;
-}) {
-  const errorId = error ? `${name}-error` : undefined;
-  return (
-    <label className="block">
-      <span className="block text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted mb-1.5">
-        {label}
-      </span>
-      <textarea
-        name={name}
-        rows={rows}
-        aria-invalid={error ? 'true' : undefined}
-        aria-describedby={errorId}
-        className={`w-full rounded-md border bg-fsc-bg/60 px-3.5 py-3 text-sm text-fsc-text placeholder-fsc-text-muted focus:ring-2 focus:outline-none transition resize-y ${
-          error
-            ? 'border-fsc-warn focus:border-fsc-warn focus:ring-fsc-warn/30'
-            : 'border-fsc-border-strong focus:border-fsc-accent-glow focus:ring-fsc-accent/30'
-        }`}
-      />
-      {error && (
-        <span id={errorId} className="mt-1 block text-xs text-fsc-warn">
-          {error}
-        </span>
-      )}
-    </label>
-  );
+  function control(name: string, required = false, options?: {label:string;value:string}[]) {
+    const error = errors[name];
+    const props = { id:`${id}-${name}`, name, value:values[name], onChange:(e: React.ChangeEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>) => change(name,e.target.value), required, disabled:busy, 'aria-invalid':error ? true : undefined, 'aria-describedby':error ? `${id}-${name}-error` : undefined };
+    return <div className={name === 'message' ? 'fsc-field fsc-field-wide' : 'fsc-field'} key={name}><label htmlFor={props.id}>{labels[name]}{required && <span aria-hidden="true"> *</span>}</label>{options ? <select {...props}><option value="" disabled>Select…</option>{options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select> : name === 'message' ? <textarea {...props} rows={4}/> : <input {...props} type={name === 'email' ? 'email' : name === 'phone' ? 'tel' : 'text'} autoComplete={name === 'fullName' ? 'name' : name === 'phone' ? 'tel' : name === 'company' ? 'organization' : name === 'city' ? 'address-level2' : name === 'email' ? 'email' : undefined} placeholder={name === 'city' ? 'City or area of your property' : undefined}/>} {error && <p className="fsc-field-error" id={`${id}-${name}-error`}>{error}</p>}</div>;
+  }
+  const heading = showHeading && <div className="fsc-contact-intro"><p className="fsc-kicker">{isEmergency ? '24/7 emergency service' : 'Free property assessment'}</p><h1>{isEmergency ? 'Request emergency service.' : 'Tell us about your property.'}</h1><p>{isEmergency ? 'Call for urgent help. This form is an alternate contact option and does not dispatch a technician.' : 'Maintenance, repairs, an upgrade or a new installation. Let’s discuss what your community needs.'}</p><div className="fsc-contact-emergency"><a href={`tel:${site.emergencyPhone}`}>24/7 emergency service · Call {site.emergencyPhoneDisplay}</a><Link href={isEmergency ? '/contact' : '/contact?urgency=emergency'}>{isEmergency ? 'Return to a routine assessment' : 'Use the emergency contact form'}</Link></div></div>;
+  if (receipt !== null) return <>{heading}<div className="fsc-form fsc-receipt" ref={receiptRef} role="status" tabIndex={-1}><span className="fsc-receipt-icon" aria-hidden="true">✓</span><h2>Request received</h2><p>{localPreview ? 'Your test request was saved locally. No message was sent to FSC.' : 'We’ll contact you to discuss your property and the next step.'}</p><p>An assessment is not yet booked. No technician has been dispatched.</p><p className="fsc-receipt-id">Request reference: {receipt}</p><a href={`tel:${site.phone}`}>Call {site.phoneDisplay}</a></div></>;
+  return <>{heading}<form className="fsc-form" onSubmit={submit} aria-label="Site assessment request form" noValidate>
+    <p className="fsc-form-top">{localPreview ? 'Local review: use synthetic details and an example.invalid email.' : 'Property assessments are free.'} <span>Fields marked * are required.</span></p>
+    <div className="fsc-form-grid">{control('fullName',true)}{control('email',true)}{control('phone',true)}{control('propertyType',true,propertyTypes.map(value => ({value,label:value})))}{control('city',true)}{control('service',true,displayedServices)}</div>
+    <details className="fsc-form-details" open={detailsOpen || Boolean(errors.company || errors.urgency || errors.contactMethod || errors.message)} onToggle={event => setDetailsOpen(event.currentTarget.open)}><summary>Add details <span>(optional)</span></summary><div className="fsc-form-grid">{control('company')}{control('urgency',false,urgencyOptions.map(value => ({value,label:value})))}{control('contactMethod',false,contactMethods.map(value => ({value,label:value})))}{control('message')}</div></details>
+    <div className="fsc-honeypot" aria-hidden="true"><label>Leave this field empty<input name="fsc_check" tabIndex={-1} autoComplete="off" value={values.honeypot} onChange={e => change('honeypot',e.target.value)}/></label></div>
+    {message && <div className="fsc-form-error" role="alert" ref={errorRef} tabIndex={-1}><p>{message}</p>{Object.keys(errors).length > 0 && <ul>{Object.keys(errors).map(name => <li key={name}><a href={`#${id}-${name}`} onClick={e => {e.preventDefault();document.getElementById(`${id}-${name}`)?.focus();}}>{labels[name] || name}: {errors[name]}</a></li>)}</ul>}<a href={`tel:${site.phone}`}>Call {site.phoneDisplay}</a></div>}
+    <div className="fsc-form-submit"><p>Your request starts a conversation.<br/>It does not book a visit or dispatch service.</p>{expired ? <button type="button" className="fsc-btn-primary" onClick={() => {attempt.current=null;setExpired(false);setMessage('');}}>Start a new request</button> : <button type="submit" className="fsc-btn-primary" disabled={busy}>{busy ? 'Sending request…' : message && attempt.current ? 'Retry request' : isEmergency ? 'Send emergency request' : submitLabel || 'Request a Free Property Assessment'} <span aria-hidden="true">↗</span></button>}</div><p className="sr-only" aria-live="polite">{busy ? 'Sending your request. Please wait.' : ''}</p>
+  </form></>;
 }

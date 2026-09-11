@@ -6,11 +6,13 @@ import { Footer } from '@/components/Footer';
 import { OrganizationSchema } from '@/components/Schema';
 import { site } from '@/data/site';
 import PlausibleProvider from 'next-plausible';
+import { LocalPreviewProvider } from '@/components/LocalPreviewContext';
 
 // NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL is set in Vercel env vars once the Plausible
 // site is created (looks like https://plausible.io/js/pa-XXXXX.js).
 // Until it is set the provider is skipped and usePlausible() calls are no-ops.
-const PLAUSIBLE_SRC = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL;
+const LOCAL_PREVIEW = process.env.FSC_LOCAL_PREVIEW === '1';
+const PLAUSIBLE_SRC = LOCAL_PREVIEW ? '' : process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL;
 
 function Analytics({ children }: { children: React.ReactNode }) {
   if (!PLAUSIBLE_SRC) return <>{children}</>;
@@ -67,11 +69,11 @@ export const metadata: Metadata = {
     description: site.tagline,
   },
   robots: {
-    index: true,
-    follow: true,
+    index: !LOCAL_PREVIEW,
+    follow: !LOCAL_PREVIEW,
     googleBot: {
-      index: true,
-      follow: true,
+      index: !LOCAL_PREVIEW,
+      follow: !LOCAL_PREVIEW,
       'max-snippet': -1,
       'max-image-preview': 'large',
       'max-video-preview': -1,
@@ -91,7 +93,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
       <body className="font-sans">
-        <Analytics>
+        <LocalPreviewProvider local={LOCAL_PREVIEW}><Analytics>
+          {LOCAL_PREVIEW && <div className="fsc-preview-notice">Local review · Synthetic details only · Requests stay on this computer</div>}
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-fsc-accent focus:text-white focus:px-3 focus:py-2 focus:rounded-md"
@@ -104,7 +107,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <OrganizationSchema />
-        </Analytics>
+        </Analytics></LocalPreviewProvider>
       </body>
     </html>
   );

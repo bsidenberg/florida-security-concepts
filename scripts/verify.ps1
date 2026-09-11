@@ -57,12 +57,14 @@ try {
     $psi.RedirectStandardError = $true
     foreach ($arg in $check.args) { $psi.ArgumentList.Add([string]$arg) }
     # Allow only runtime essentials; never carry provider credentials to children.
-    $keep = @('PATH','Path','SystemRoot','SYSTEMROOT','WINDIR','TEMP','TMP','HOME','USERPROFILE','LOCALAPPDATA','APPDATA','COMSPEC','PATHEXT','NUMBER_OF_PROCESSORS','PROCESSOR_ARCHITECTURE','PLAYWRIGHT_BROWSERS_PATH')
+    $keep = @('PATH','Path','SystemRoot','SYSTEMROOT','SystemDrive','SYSTEMDRIVE','WINDIR','TEMP','TMP','HOME','USERPROFILE','LOCALAPPDATA','APPDATA','COMSPEC','PATHEXT','NUMBER_OF_PROCESSORS','PROCESSOR_ARCHITECTURE','PLAYWRIGHT_BROWSERS_PATH')
     foreach ($key in @($psi.Environment.Keys)) { if ($key -notin $keep) { $psi.Environment.Remove($key) | Out-Null } }
     $psi.Environment['CI'] = 'true'
     $psi.Environment['NO_COLOR'] = '1'
     $psi.Environment['NEXT_TELEMETRY_DISABLED'] = '1'
     $psi.Environment['LEAD_DELIVERY_MODE'] = 'console'
+    $psi.Environment['FSC_LOCAL_PREVIEW'] = ''
+    $psi.Environment['FSC_LOCAL_FAILURE'] = ''
     $psi.Environment['NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL'] = ''
     foreach ($key in @('RESEND_API_KEY','LEAD_NOTIFICATION_TO','LEAD_NOTIFICATION_FROM','LEAD_CONFIRMATION_FROM','LEAD_CONFIRMATION_REPLY_TO','LEADS_WEBHOOK_URL','LEADS_WEBHOOK_SECRET','PRIME_SUPABASE_URL','PRIME_SUPABASE_SERVICE_ROLE_KEY','PRIME_ACCOUNT_SLUG')) { $psi.Environment[$key] = '' }
     $psi.Environment['LEAD_CONFIRMATION_ENABLED'] = 'false'

@@ -379,10 +379,7 @@ export async function deliverViaResend(
     });
 
     if (error) {
-      console.error('[lead-delivery:resend] internal send failed:', {
-        name: error.name,
-        message: error.message,
-      });
+      console.error('[lead-delivery:resend] internal send failed');
       return {
         ok: false,
         mode: 'resend',
@@ -393,7 +390,7 @@ export async function deliverViaResend(
   } catch (err) {
     const reason =
       err instanceof Error ? err.message : 'Unknown error during Resend send.';
-    console.error('[lead-delivery:resend] internal unexpected error:', reason);
+    console.error('[lead-delivery:resend] internal unexpected error');
     return { ok: false, mode: 'resend', reason };
   }
 
@@ -409,11 +406,6 @@ export async function deliverViaResend(
       console.warn('[lead-delivery:resend] customer confirmation failed', {
         mode: 'resend',
         confirmationFailed: true,
-        errorName: result.errorName,
-        errorMessage: result.reason,
-        submittedAt: lead.submittedAt,
-        serviceNeeded: lead.service,
-        urgency: lead.urgency,
       });
     }
   }
