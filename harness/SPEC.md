@@ -1,8 +1,11 @@
 # SPEC — Florida Security Concepts website improvement
 
-Tier: **3 — customer-facing production website**  
-Status: **DRAFT FOR BRIAN'S REVIEW — NOT APPROVED**  
-Prepared: 2026-09-11  
+Tier: **3 — customer-facing production website**
+
+Status: **DRAFT FOR BRIAN'S REVIEW — NOT APPROVED**
+
+Prepared: 2026-09-11
+
 Authority: Brian's website request and subsequent business answers. This document proposes the redesign; it does not authorize implementation, production deployment, vendor spending, or live communications.
 
 ## 1. Objective and confirmed business direction
