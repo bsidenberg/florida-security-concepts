@@ -1,6 +1,6 @@
 # Florida Security Concepts — Specialist roles and handoffs
 
-Tier 3. Harness v1.0 draft. Only explicit session scope grants implementation authority. No agent may expand it silently. Agents share one checkout: preserve others' edits and stage only owned changes.
+Tier 3. Harness v1.0 approved 2026-09-11. OD-01 resolved: Brian authorized building as planned with separate Codex specialists. Earlier proposed routing language below is superseded. Only explicit session scope grants implementation authority. No agent may expand it silently. Agents share one checkout: preserve others' edits and stage only owned changes.
 
 ## Active role roster
 

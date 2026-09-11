@@ -1,13 +1,13 @@
 # Florida Security Concepts — Session ledger
 
-Tier 3. Harness version 1.0 draft. All implementation sessions are **NOT STARTED** until harness approval. Proposed command/script paths below become real during S-001; they are not claimed to exist now.
+Tier 3. Harness version 1.0 approved by Brian 2026-09-11. H-000 approved; S-001 now IN PROGRESS. S-001/S-002 authorized through the local preview gate. Historical pending entries below are superseded by this record. Proposed command/script paths become real during S-001.
 
 ## Status board
 
 | ID | Objective | Owner role | Depends on | Status | Evidence |
 |---|---|---|---|---|---|
-| H-000 | Approved spec to reviewed harness | Orchestrator | SPEC approved 2026-09-11 | IN REVIEW | website-discovery.md; harness-review.md |
-| S-001 | Verification foundation | Builder + test-guard | H-000 approved | NOT STARTED | None |
+| H-000 | Approved spec to reviewed harness | Orchestrator | SPEC approved 2026-09-11 | APPROVED | website-discovery.md; harness-review.md |
+| S-001 | Verification foundation | Builder + test-guard | H-000 approved | IN PROGRESS | Pending verification |
 | S-002 | Safe local vertical slice | Builder + test-guard | S-001 accepted | NOT STARTED | None |
 | S-003 | Priority maintenance/service/audience content | Builder + test-guard | S-002 preview accepted | NOT STARTED | None |
 | S-004 | Remaining content and SEO preservation | Builder + test-guard | S-003 accepted | NOT STARTED | None |

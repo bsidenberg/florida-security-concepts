@@ -1,6 +1,8 @@
 # Florida Security Concepts — Decisions, amendments and risks
 
-Tier 3 · 2026-09-11. Each entry states actual authority. Proposed decisions are not treated as approved simply because they appear here.
+Tier 3 · 2026-09-11. Each entry states actual authority.
+
+Approval recorded: Brian explicitly instructed “build the website as planned” and requested the local development version for review in response to the consolidated approval question. HARNESS v1.0, AM-000/AM-001, D-005/D-012 and OD-01 separate Codex specialists are approved. Earlier proposed/pending entries below are historical and superseded. S-001/S-002 proceed through local preview; remaining production and broad-build gates persist.
 
 ## Decisions
 

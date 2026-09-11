@@ -6,6 +6,8 @@ Status: **APPROVED BY BRIAN — 2026-09-11**
 
 Prepared: 2026-09-11
 
+Approved harness amendments 2026-09-11: Brian authorized building the local review version under HARNESS v1.0. AM-000 inserts verification foundation S-001 before local slice S-002. AM-001 proves durable local receipt/retry there; production duplicate mechanism and global AC-06 remain S-005 release blockers. See HARNESS C-03/C-04 and DECISIONS. Substantive release requirements remain in force.
+
 Authority: Brian's website request, subsequent business answers, and explicit approval on 2026-09-11. This authorizes harness planning for the redesign; implementation additionally requires the completed harness approval. Production deployment, vendor spending, and live communications remain separately gated.
 
 ## 1. Objective and confirmed business direction

@@ -2,9 +2,11 @@
 
 **Tier 3 — customer-facing production website**
 
-Status: **DRAFT FOR HARNESS APPROVAL** · Version 1.0 · Prepared 2026-09-11
+Status: **APPROVED BY BRIAN — 2026-09-11** · Version 1.0 · Prepared 2026-09-11
 
-Authority: [approved SPEC](SPEC.md). Existing application; replacing it with a golden-path template is not appropriate. No material implementation until Brian approves this completed harness. Approval does not waive preview, production, security or spending gates.
+Approval authority: Brian explicitly instructed “build the website as planned” and requested the local development version for review, in response to the consolidated harness approval question. AM-000/AM-001, local/test infrastructure and OD-01 separate Codex specialists are approved. Earlier proposal/pending language below is superseded by this record. S-001 and S-002 proceed through the local preview gate; production and later owner gates remain.
+
+Authority: [approved SPEC](SPEC.md) and Brian's explicit build instruction. Existing application; replacing it with a golden-path template is not appropriate. Approval does not waive preview, production, security or spending gates.
 
 ## 1. Business intent
 
@@ -119,7 +121,7 @@ Rule 7 applies regardless of Claude-hook execution in Codex. No dangerous enforc
 
 No production data changes, paid services, account creation, live communications, production deploys, security weakening, history rewrite or merges. Read-only deployment metadata is allowed. Independent review is required for every Tier 3 session and safety review for lead data/logging/isolation/production delivery. Builder is never its own verifier.
 
-Requested Opus/Fable/Sonnet names are not callable here. Current Codex specialists may perform reconnaissance and general planning review, but are not those models. OD-01 proposes the current Codex model with separate independent roles; implementation/safety routing waits for approval of that explicit alternative.
+Requested Opus/Fable/Sonnet names are not callable here. Brian approved OD-01: current Codex specialists with separate independent roles for implementation and safety review. They are not represented as the unavailable models.
 
 ## 5. Verification contract
 
@@ -168,6 +170,6 @@ S-005 read-only research may proceed while content sessions run after preview, b
 
 | Date | Version | Change | Approval |
 |---|---|---|---|
-| 2026-09-11 | 1.0 draft | SPEC mapped to sessions; verification foundation inserted; isolated durable local receipt proposed; production retry remains gated | Pending |
+| 2026-09-11 | 1.0 approved | SPEC mapped to sessions; verification foundation inserted; isolated durable local receipt approved; production retry remains gated | Brian explicitly requested build as planned and local review version |
 
-Harness approval: **PENDING**. After approval, record date/resolved OD-01, execute S-001 and S-002 autonomously, repair routine failures and present the preview. No repeated approvals for in-scope tests, dependencies or reversible fixes.
+Harness approval: **APPROVED — 2026-09-11**. OD-01 resolved. Execute S-001 and S-002 autonomously, repair routine failures and present the preview. No repeated approvals for in-scope tests, dependencies or reversible fixes.
