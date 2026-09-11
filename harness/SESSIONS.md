@@ -7,8 +7,8 @@ Tier 3. Harness version 1.0 approved by Brian 2026-09-11. H-000 approved; S-001 
 | ID | Objective | Owner role | Depends on | Status | Evidence |
 |---|---|---|---|---|---|
 | H-000 | Approved spec to reviewed harness | Orchestrator | SPEC approved 2026-09-11 | APPROVED | website-discovery.md; harness-review.md |
-| S-001 | Verification foundation | Builder + test-guard | H-000 approved | IN PROGRESS | Pending verification |
-| S-002 | Safe local vertical slice | Builder + test-guard | S-001 accepted | NOT STARTED | None |
+| S-001 | Verification foundation | Builder + test-guard | H-000 approved | ACCEPTED | S-001-verify-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.log; independent/package reviews |
+| S-002 | Safe local vertical slice | Builder + test-guard | S-001 accepted | IN PROGRESS | Pending verification and Brian preview |
 | S-003 | Priority maintenance/service/audience content | Builder + test-guard | S-002 preview accepted | NOT STARTED | None |
 | S-004 | Remaining content and SEO preservation | Builder + test-guard | S-003 accepted | NOT STARTED | None |
 | S-005 | Production delivery contracts and isolated verification | Builder + test-guard | S-002 accepted; owner dependencies resolved | NOT STARTED | None |
@@ -122,6 +122,10 @@ Required unit of handoff, appended below each packet: assigned objective; actual
 - Done: complete technical release package and reviewable PR where authorized. Production deployment remains a separate owner action; no conversion uplift claimed without live measurement.
 
 ## Handoff log
+
+### S-001 — accepted foundation, 2026-09-11
+
+Parent adopted independent verifier role (authored no application, tests or runner) and ran `pwsh -NoProfile -File scripts/verify.ps1 -SessionId S-001`. Exit 0, all six required stages: lint, typecheck, 29 unit tests, 11 gate tests, build, 40 browser tests. Raw log: evidence/S-001-verify-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.log with three matching JSON reports. Independent code/isolation review and separate package review recorded. Source revision 953e50f plus dirty file inventory in raw log. All 38 existing routes and synthetic console receipt verified; no production delivery claim. Next: S-002 frontend/backend/test specialists; stop for Brian's working-preview acceptance. Fresh S-002 reconnaissance confirms application files remain unchanged from discovery, with S-001 tooling now available.
 
 ### H-000 — planning handoff (pending harness review)
 

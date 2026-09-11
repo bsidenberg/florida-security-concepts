@@ -6,6 +6,10 @@
 
 # testing
 /coverage
+/.fsc-local/
+/.fsc-test/
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/

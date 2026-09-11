@@ -43,3 +43,5 @@ AM-000/AM-001 and D-005/D-012 become approved only when Brian accepts the writte
 ## Limitations and acceptance scope
 
 No application implementation, gate execution, release screenshot acceptance or safety certification has occurred during H-000. Local mocked/synthetic delivery does not certify external deliverability, production account mapping, privacy compliance or serverless duplicate control. Draft harness review is a planning review, not a substitute for required independent code/safety review after implementation. Model fallback is proposed, not silently accepted. Production release remains gated by SPEC and HARNESS open decisions.
+
+D-013 — Implementation clarification: S-001 next dev compiles pages on demand. Exact Google font hosts already used by next/font may be read by that compiler, as during next build. Other external server hosts and all external browser traffic remain blocked. This does not authorize delivery or analytics. S-002 compiled preview disables font network after its build.
