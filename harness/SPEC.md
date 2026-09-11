@@ -2,11 +2,11 @@
 
 Tier: **3 — customer-facing production website**
 
-Status: **DRAFT FOR BRIAN'S REVIEW — NOT APPROVED**
+Status: **APPROVED BY BRIAN — 2026-09-11**
 
 Prepared: 2026-09-11
 
-Authority: Brian's website request and subsequent business answers. This document proposes the redesign; it does not authorize implementation, production deployment, vendor spending, or live communications.
+Authority: Brian's website request, subsequent business answers, and explicit approval on 2026-09-11. This authorizes harness planning for the redesign; implementation additionally requires the completed harness approval. Production deployment, vendor spending, and live communications remain separately gated.
 
 ## 1. Objective and confirmed business direction
 
@@ -268,4 +268,4 @@ Out of scope: Sentinel R&D, hardware purchasing, telemetry dashboards, predictiv
 
 ## 12. Approval
 
-**Brian approval: PENDING.** Approval of this spec permits the next harness-planning step; it does not itself authorize production actions. Any changes requested during review must be incorporated before recording the approval date. Production dependencies remain gated even after the content direction is accepted.
+**Brian approval: 2026-09-11**, recorded from his explicit approval of the written spec and direction to continue. This permits the next harness-planning step; it does not itself authorize production actions. Production dependencies remain gated. Later scope changes require recorded change control.
