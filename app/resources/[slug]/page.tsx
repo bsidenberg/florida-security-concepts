@@ -91,7 +91,7 @@ export default function ResourcePage({ params }: Params) {
       {/* Long-form sections */}
       <Section tight>
         <Container>
-          <article className="prose-invert max-w-3xl">
+          <article className="max-w-3xl">
             {r.sections.map((sec, i) => (
               <div key={i} className="mt-10 first:mt-0">
                 <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text leading-tight">

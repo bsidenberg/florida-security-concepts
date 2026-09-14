@@ -3,19 +3,33 @@
 @tailwind utilities;
 
 :root {
+  --fsc-bg: 246 247 247;
+  --fsc-surface: 255 255 255;
+  --fsc-surface-2: 232 238 240;
+  --fsc-border: 203 215 222;
+  --fsc-border-strong: 148 170 188;
+  --fsc-text: 23 43 61;
+  --fsc-text-dim: 76 96 112;
+  --fsc-text-muted: 79 103 121;
+  --fsc-accent: 29 87 195;
+  --fsc-accent-glow: 25 77 164;
+  --fsc-accent-deep: 22 74 169;
+  --fsc-warn: 117 80 12;
+  --fsc-danger: 161 44 36;
+  --fsc-ok: 29 99 77;
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html {
-  background-color: #070a13;
-  color-scheme: dark;
+  background-color: rgb(var(--fsc-bg));
+  color-scheme: light;
 }
 
 body {
-  color: #e2e8f0;
-  background-color: #070a13;
+  color: rgb(var(--fsc-text));
+  background-color: rgb(var(--fsc-bg));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
@@ -23,11 +37,11 @@ body {
 
 @layer base {
   ::selection {
-    background-color: rgba(59, 130, 246, 0.35);
+    background-color: #1d57c3;
     color: #f8fafc;
   }
   *:focus-visible {
-    outline: 2px solid #60a5fa;
+    outline: 2px solid #1d57c3;
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -43,29 +57,9 @@ body {
 }
 
 @layer components {
-  /* Dimensional card with hairline gradient border */
+  /* Shared reading cards use the same quiet light surface as the assessment. */
   .fsc-card {
-    @apply relative rounded-xl bg-fsc-card shadow-fsc-card transition-all duration-300;
-  }
-  .fsc-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(96, 165, 250, 0.4) 0%,
-      rgba(31, 41, 64, 0) 35%,
-      rgba(31, 41, 64, 0) 65%,
-      rgba(96, 165, 250, 0.25) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+    @apply relative rounded-lg bg-fsc-surface border border-fsc-border shadow-fsc-card transition-all duration-200;
   }
   .fsc-card-hover:hover {
     @apply shadow-fsc-card-hover -translate-y-0.5;
@@ -73,15 +67,15 @@ body {
 
   /* Eyebrow label — uppercase tracking, accent color */
   .fsc-eyebrow {
-    @apply text-xs font-mono uppercase tracking-fsc-eyebrow text-fsc-accent-glow;
+    @apply text-xs font-semibold uppercase tracking-[0.12em] text-fsc-accent-glow;
   }
 
   /* Section section padding wrapper */
   .fsc-section {
-    @apply relative py-20 md:py-28;
+    @apply relative py-14 md:py-20;
   }
   .fsc-section-tight {
-    @apply relative py-14 md:py-20;
+    @apply relative py-12 md:py-16;
   }
 
   /* Container for centered content */
@@ -92,8 +86,7 @@ body {
   /* Primary button — bright accent */
   .fsc-btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-md bg-fsc-accent
-           px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_-6px_rgba(59,130,246,0.55)]
-           hover:bg-fsc-accent-glow hover:shadow-[0_12px_30px_-6px_rgba(96,165,250,0.6)]
+           px-5 py-3 text-sm font-semibold text-white
            transition-all duration-200 active:translate-y-[1px];
   }
 
@@ -158,7 +151,34 @@ body {
   transform: scaleX(1);
 }
 
-/* The review journey uses light reading surfaces without changing legacy pages. */
+/* Shared navy panels inherit readable semantic tokens; all other pages are light. */
+.fsc-navy {
+  --fsc-bg: 18 35 55;
+  --fsc-surface: 29 49 69;
+  --fsc-surface-2: 35 57 78;
+  --fsc-border: 55 79 100;
+  --fsc-border-strong: 111 143 167;
+  --fsc-text: 244 247 250;
+  --fsc-text-dim: 209 221 230;
+  --fsc-text-muted: 185 202 216;
+  --fsc-accent-glow: 168 199 216;
+  --fsc-warn: 245 207 146;
+  background: rgb(var(--fsc-bg));
+  color: rgb(var(--fsc-text));
+}
+.fsc-navy :focus-visible,
+.fsc-header :focus-visible,
+.fsc-footer :focus-visible,
+.fsc-emergency-block :focus-visible,
+.fsc-home-hero :focus-visible { outline-color: #a8c7d8; }
+.fsc-page-hero { padding: 58px 0 62px; }
+.fsc-page-hero h1 { font-weight: 550; letter-spacing: -.035em; }
+.fsc-shared-cta { padding: 52px 0; border-top: 1px solid rgb(var(--fsc-border)); }
+.fsc-shared-cta-emergency { border-top: 3px solid #c79750; }
+@media(max-width:767px) {
+  .fsc-page-hero { padding: 36px 0 40px; }
+  .fsc-shared-cta { padding: 38px 0; }
+}
 .fsc-header{background:#101f31;color:#edf3f8;position:relative;z-index:40;border-bottom:1px solid #2d4257}
 .fsc-header-main{min-height:86px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .fsc-brand{display:flex;gap:12px;align-items:center;font-weight:650;font-size:15px;line-height:1.25;flex-shrink:0}

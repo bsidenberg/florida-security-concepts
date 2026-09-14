@@ -1,12 +1,15 @@
 # Florida Security Concepts — Session ledger
 
-Tier 3. Harness version 1.0 approved by Brian 2026-09-11. H-000 approved; S-001 now IN PROGRESS. S-001/S-002 authorized through the local preview gate. Historical pending entries below are superseded by this record. Proposed command/script paths become real during S-001.
+Tier 3. Harness approved by Brian 2026-09-11, with AM-002 visual-continuity request approved 2026-09-14. The status board and latest handoffs are authoritative; earlier planning entries are historical.
 
 ## Status board
+
+2026-09-14: Brian accepted the homepage direction and requested continuity across all pages. S-002 preview direction accepted. S-UI-001 is now MACHINE VERIFIED / READY FOR PREVIEW; remaining content sessions retain their own scope.
 
 | ID | Objective | Owner role | Depends on | Status | Evidence |
 |---|---|---|---|---|---|
 | H-000 | Approved spec to reviewed harness | Orchestrator | SPEC approved 2026-09-11 | APPROVED | website-discovery.md; harness-review.md |
+| S-UI-001 | Sitewide visual continuity | Builder + test-guard | S-002 verified; homepage direction accepted | MACHINE VERIFIED / READY FOR PREVIEW | S-UI-001 verification log; independent review; 21 screenshots |
 | S-001 | Verification foundation | Builder + test-guard | H-000 approved | ACCEPTED | S-001-verify-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.log; independent/package reviews |
 | S-002 | Safe local vertical slice | Builder + test-guard | S-001 accepted | MACHINE VERIFIED / AWAITING PREVIEW | S-002-verify-20260911-124844-318-5681ab0b47f14246b25ca54c1cdc167a.log; screenshots; independent review |
 | S-003 | Priority maintenance/service/audience content | Builder + test-guard | S-002 preview accepted | NOT STARTED | None |
@@ -17,6 +20,17 @@ Tier 3. Harness version 1.0 approved by Brian 2026-09-11. H-000 approved; S-001 
 Status lifecycle: NOT STARTED → IN PROGRESS → IN REVIEW → ACCEPTED, or BLOCKED with exact reason. S-002 may be MACHINE VERIFIED / AWAITING PREVIEW after its gate, but cannot unlock S-003 until Brian approves. No session is ACCEPTED on agent claims alone.
 
 ## Common completion contract
+
+## S-UI-001 — Sitewide visual continuity
+
+- Objective: apply the approved homepage visual system to every existing page, including services, industries, service areas, resource listings/articles and not-found presentation.
+- Authority/dependencies: AM-002 explicit user request 2026-09-14; verified S-002 and accepted homepage direction.
+- Owners: scout reconnaissance, builder implementation, independent test-guard, independent code/visual reviewer, independent verifier. Parent may adopt review/verifier roles because it writes no application or tests.
+- Permitted: app route presentation/templates and globals/layout; shared presentation components; tailwind theme configuration; tests and test configuration; harness session registration/docs/evidence. No lead API/provider, data copy/pricing, or production changes.
+- Acceptance: matching navy heroes, light reading surfaces, coherent typography/spacing/borders/cards/CTAs; readable contrast; no remaining unintended old dark-body islands; existing homepage/contact direction preserved; all 38 routes, links, headings, metadata and forms retained; mobile widths 390 and desktop 1440 checked across all route families.
+- Validation: `pwsh -NoProfile -File scripts/verify.ps1 -SessionId S-UI-001`; common six-stage gate unchanged. Extend browser checks for route-family styles, responsive overflow, representative axe coverage and screenshots of services, industry, location and resource pages. No snapshot-only substitute for functional regression.
+- Evidence/done: exit-zero raw log and reports, representative desktop/mobile screenshots, independent review, updated ledger, compiled local preview rebuilt and opened for Brian. Stop only the previously owned preview process before building/testing; no unrelated process cleanup. No production deployment or push until existing deployment gate resolved.
+- Status: MACHINE VERIFIED / READY FOR PREVIEW.
 
 Each packet inherits HARNESS boundaries and SPEC acceptance criteria. Evidence uses unique run names under harness/evidence; test-only receipts/builds stay in ignored per-run directories. Run unit, integration and browser tests against isolated local data, never production. The verifier runs the single gate and records raw output. Builder must fix failures and verifier must rerun after repairs. Independent reviewer cannot review its own implementation; safety review is required where listed. Review defects are repaired before acceptance.
 
@@ -123,6 +137,13 @@ Required unit of handoff, appended below each packet: assigned objective; actual
 
 ## Handoff log
 
+### S-UI-001 — machine verified theme continuity, 2026-09-14
+
+Authority: Brian accepted the homepage direction and requested sitewide continuity (AM-002). Builder changed shared semantic colors, hero/CTA presentation, card surfaces and resource article color inheritance; no copy, route, metadata or lead contract changes. Independent reviewer foundation_gate found a homepage emergency focus-outline contrast issue; builder repaired it and review cleared. Review: evidence/S-UI-001-review.md.
+
+Parent adopted independent verifier, authored no application or tests, and ran scripts/verify.ps1 -SessionId S-UI-001. Exit 0: all six stages, 96 unit tests, 11 gate tests, 83 browser tests (190 total). Raw machine log: evidence/S-UI-001-verify-20260914-140814-085-89f86aaf5c0b4900b112049a5f0f86b8.log; matching JSON reports preserve counts. All 38 routes checked; 21 screenshots cover ten page families at 390/1440 pixels plus mobile not-found. These are browser emulations, not physical-device observations. Compiled local preview is rebuilt separately at http://127.0.0.1:3100/services for Brian's visual review. No production changes or live communications. No push/PR because deployment triggers remain unverified under OD-03. Remaining content sessions retain their separate scope.
+
+
 ### S-002 — machine verified, awaiting Brian preview, 2026-09-11
 
 Compiled preview started on 127.0.0.1:3100 in owned terminal session 56829. Separate Chromium compiled smoke exited 0; evidence/S-002-compiled-smoke.json proves noindex, no analytics, no external browser request, and actual local assessment receipt. Compiled homepage and confirmation screenshots saved. Server remains running for Brian's review. No push/PR created because deployment triggers remain unverified under OD-03; all work checkpointed locally.
@@ -136,3 +157,5 @@ Parent adopted independent verifier role (authored no application, tests or runn
 ### H-000 — planning handoff (pending harness review)
 
 Objective: translate approved spec into safe sessions. Files: SPEC approval metadata, HARNESS, SESSIONS, AGENTS, ENVIRONMENT, DECISIONS, review evidence. Application changes: none. Tests: none claimed; documentation checks only. Findings: missing test floor, no current durable production idempotency, unsafe legacy console fallback, unverified deployment triggers, named model unavailability. Next role: Brian approves concrete harness and routing choice; then builder/test-guard S-001 with independent verifier.
+
+S-UI-001 compiled preview follow-up: launcher session 16846 is running. Independent Chromium smoke exited 0: /services HTTP 200, light body rgb(246,247,247), navy hero rgb(18,35,55), noindex/nofollow. Evidence: S-UI-001-compiled-smoke.json and S-UI-001-compiled-services.png. Codex browser open was queued; direct review URL remains http://127.0.0.1:3100/services.

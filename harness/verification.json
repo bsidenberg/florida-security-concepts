@@ -1,5 +1,6 @@
 {
   "sessions": {
+    "S-UI-001": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
     "S-001": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
     "S-002": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
     "S-003": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],

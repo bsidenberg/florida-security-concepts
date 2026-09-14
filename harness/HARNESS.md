@@ -10,6 +10,8 @@ Authority: [approved SPEC](SPEC.md) and Brian's explicit build instruction. Exis
 
 ## 1. Business intent
 
+2026-09-14 approved amendment AM-002: Brian accepted the homepage direction and explicitly requested its colors/theme across all pages. Insert S-UI-001 before the remaining content sessions: carry the established navy heroes, light reading surfaces, typography, cards, buttons and spacing across every existing route. This is a presentation-only extension; preserve content, URLs, SEO and lead/provider contracts. No new service page or production change is part of this session. Its completed local preview is presented for review.
+
 Make gate/access-control maintenance, repairs, 24/7 emergency service, retrofits and installations immediately clear to HOAs, property managers and CAMs. Orlando leads; Tampa remains supported. Qualified conversations and preventive-maintenance contracts are the business outcomes. Form submissions are not bookings or qualified leads.
 
 Journey: understand offer → request free assessment → receive one confirmed server receipt → understand next step. Urgent service has a separate call action. No invented proof, SOPs, response times, free emergency visit, Sentinel availability, compatibility guarantees, maintenance inclusions or savings. SPEC AC-01–AC-13 controls release acceptance.

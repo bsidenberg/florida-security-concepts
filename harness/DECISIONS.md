@@ -6,6 +6,8 @@ Approval recorded: Brian explicitly instructed “build the website as planned�
 
 ## Decisions
 
+AM-002 / 2026-09-14 — APPROVED by Brian's explicit request to apply the homepage theme to all pages. Homepage design direction accepted; S-UI-001 performs sitewide visual continuity before the broader content rewrite. Existing copy, metadata, routes, pricing and lead behavior remain. No further design-plan approval required for this requested work.
+
 | ID | Class | Decision | Authority/status | Affected work |
 |---|---|---|---|---|
 | D-001 | OWNER DECISION | Written website SPEC approved; maintenance-led HOA/CAM offer, Orlando/Tampa, free assessment, retain 24/7, no fabricated proof/Sentinel claims | Brian explicitly approved 2026-09-11; SPEC metadata updated | Harness planning authorized |

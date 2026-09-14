@@ -24,6 +24,9 @@ for (const path of routes) {
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('h1')).not.toHaveText('');
     await expect(page.locator('main')).toBeVisible();
+    const canvas = await page.locator('body').evaluate(element => getComputedStyle(element).backgroundColor.match(/[\d.]+/g)?.slice(0, 3).map(Number));
+    expect(canvas, 'Every preserved route must retain the light page canvas').toBeDefined();
+    expect(Math.min(...canvas!)).toBeGreaterThan(200);
   });
 }
 test('homepage navigates to contact and submits through real local endpoint', async ({ page }) => {
