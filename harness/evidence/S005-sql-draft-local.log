@@ -1,0 +1,34 @@
+SQL draft SHA256 f46a88bf623e3b8ba6ac9b93e78a45937f08d84fd686eaff70e3548441279ba1
+Runtime Node v24.16.0 PGlite 0.5.8; in-memory only; no network/database credentials
+PASS exact draft applies as one transaction
+PASS both tables RLS enabled
+PASS all public RPCs invoker with fixed search path
+PASS anon cannot read table or call RPC
+PASS authenticated cannot read table or call RPC
+PASS create receipt and three effect rows
+PASS unchanged retry stable receipt and envelope
+PASS changed fingerprint conflicts without overwrite
+PASS wrong account refused
+PASS immutable payload cannot update
+PASS secondary requires primary
+PASS claim and second caller busy
+PASS wrong lease token cannot finish
+PASS uncertain outcome reacquires same key
+PASS primary success durable and replayable
+PASS Prime transaction inserts once and replays
+PASS disabled confirmation skipped
+PASS inactive account cannot claim
+PASS inactive account can erase receipt for deletion request
+PASS erased tombstone cannot recreate or send
+PASS cleanup never touches existing Prime lead
+PASS expired ID refused
+PASS seven-day purge clears payload preserving tombstone
+PASS existing source mapping  cpc 
+PASS existing source mapping ppc
+PASS existing source mapping adwords
+PASS existing source mapping  Meta ads 
+PASS existing source mapping fb
+PASS existing source mapping newsletter
+PASS existing source mapping empty
+RESULT 30 checks passed
+LIMITATION PGlite has one exclusive connection. This does not prove inter-session lock contention, server restart recovery, network/PostgREST ACL exposure, deployed Supabase grants or live provider delivery. Full PostgreSQL concurrency tests and independent review remain required.

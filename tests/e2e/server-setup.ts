@@ -5,7 +5,7 @@ export default async function setup() {
   const url = `http://127.0.0.1:${process.env.FSC_TEST_PORT || 3100}`;
   try { await fetch(url, { signal: AbortSignal.timeout(1000) }); throw new Error('Test port already occupied; refusing to reuse or stop unrelated server'); }
   catch (error) { if (error instanceof Error && error.message.startsWith('Test port')) throw error; }
-  const child = spawn(process.execPath, [resolve('scripts/local-server.mjs')], { shell: false, windowsHide: true, stdio: 'inherit' });
+  const child = spawn(process.execPath, [resolve('scripts/local-server.mjs'), '--compiled'], { shell: false, windowsHide: true, stdio: 'inherit' });
   const stop = async () => {
     if (child.exitCode === null && !child.killed) {
       const ended = new Promise<void>(r => child.once('exit', () => r()));

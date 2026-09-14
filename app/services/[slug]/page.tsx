@@ -23,7 +23,7 @@ import {
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -32,7 +32,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const svc = getService(params.slug);
+  const svc = getService((await params).slug);
   if (!svc) return {};
   return buildPageMetadata({
     title: svc.metaTitle,
@@ -44,8 +44,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   });
 }
 
-export default function ServicePage({ params }: Params) {
-  const svc = getService(params.slug);
+export default async function ServicePage({ params }: Params) {
+  const svc = getService((await params).slug);
   if (!svc) notFound();
 
   const related = svc.relatedServices

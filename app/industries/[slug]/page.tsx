@@ -17,7 +17,7 @@ import { industries, getIndustry } from '@/data/industries';
 import { servicesBySlug } from '@/data/services';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -26,7 +26,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const ind = getIndustry(params.slug);
+  const ind = getIndustry((await params).slug);
   if (!ind) return {};
   return buildPageMetadata({
     title: ind.metaTitle,
@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   });
 }
 
-export default function IndustryPage({ params }: Params) {
-  const ind = getIndustry(params.slug);
+export default async function IndustryPage({ params }: Params) {
+  const ind = getIndustry((await params).slug);
   if (!ind) notFound();
 
   const recommended = ind.recommendedServices

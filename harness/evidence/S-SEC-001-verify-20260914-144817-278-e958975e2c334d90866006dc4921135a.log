@@ -1,0 +1,384 @@
+VERIFICATION session=S-SEC-001 run=20260914-144817-278-e958975e2c334d90866006dc4921135a
+Project=C:\Python\florida-security-concepts
+Log=C:\Python\florida-security-concepts\harness\evidence\S-SEC-001-verify-20260914-144817-278-e958975e2c334d90866006dc4921135a.log
+Revision: 4d481d2f6d0635a2cec0602fc2fa8076c555a3a7
+Dirty files:
+ M app/contact/page.tsx
+ M app/industries/[slug]/page.tsx
+ M app/resources/[slug]/page.tsx
+ M app/service-areas/[slug]/page.tsx
+ M app/services/[slug]/page.tsx
+ M harness/DECISIONS.md
+ M harness/ENVIRONMENT.md
+ M harness/SESSIONS.md
+ M harness/evidence/S-002-contact-1440.png
+ M harness/evidence/S-002-contact-390.png
+ M harness/evidence/S-002-home-1440.png
+ M harness/evidence/S-002-home-390.png
+ M harness/evidence/S-UI-001-area-detail-1440.png
+ M harness/evidence/S-UI-001-area-detail-390.png
+ M harness/evidence/S-UI-001-areas-1440.png
+ M harness/evidence/S-UI-001-areas-390.png
+ M harness/evidence/S-UI-001-article-1440.png
+ M harness/evidence/S-UI-001-article-390.png
+ M harness/evidence/S-UI-001-article-table-1440.png
+ M harness/evidence/S-UI-001-article-table-390.png
+ M harness/evidence/S-UI-001-emergency-1440.png
+ M harness/evidence/S-UI-001-emergency-390.png
+ M harness/evidence/S-UI-001-industries-1440.png
+ M harness/evidence/S-UI-001-industries-390.png
+ M harness/evidence/S-UI-001-industry-detail-1440.png
+ M harness/evidence/S-UI-001-industry-detail-390.png
+ M harness/evidence/S-UI-001-not-found-390.png
+ M harness/evidence/S-UI-001-resources-1440.png
+ M harness/evidence/S-UI-001-resources-390.png
+ M harness/evidence/S-UI-001-service-detail-1440.png
+ M harness/evidence/S-UI-001-service-detail-390.png
+ M harness/evidence/S-UI-001-services-1440.png
+ M harness/evidence/S-UI-001-services-390.png
+ M harness/verification.json
+ M next.config.mjs
+ M package-lock.json
+ M package.json
+ M tests/e2e/server-setup.ts
+?? %SystemDrive%/
+?? harness/PRODUCTION-RECEIPT-PROPOSAL.md
+?? harness/evidence/S-SEC-001-compiled-smoke.json
+?? harness/evidence/S-SEC-001-production-audit.json
+?? harness/evidence/S-SEC-001-resolved-dependencies.json
+?? harness/evidence/S-SEC-001-review.md
+?? harness/evidence/S-SEC-001-test-e2e-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.json
+?? harness/evidence/S-SEC-001-test-e2e-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.network
+?? harness/evidence/S-SEC-001-test-gate-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.json
+?? harness/evidence/S-SEC-001-test-unit-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.json
+?? harness/evidence/S-SEC-001-verify-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.log
+?? harness/evidence/S-SEC-001-verify-20260914-144817-278-e958975e2c334d90866006dc4921135a.log
+?? harness/evidence/S005-sql-draft-check.mjs
+?? harness/evidence/S005-sql-draft-local.log
+?? harness/evidence/S005-sql-draft-review.md
+?? harness/evidence/S006-dependency-audit-20260914.json
+?? harness/evidence/S006-dependency-remediation-plan.md
+?? harness/evidence/S006-readonly-route-sweep-20260914.json
+?? harness/evidence/S006-readonly-route-sweep-20260914.md
+?? harness/evidence/prime-schema-metadata-20260914.json
+?? harness/evidence/release-qa-plan-20260914.md
+?? harness/evidence/release-readiness-20260914.md
+?? sql/
+?? tmp/
+Node: v24.16.0
+Dependency versions: {"@axe-core/playwright":"4.13.0","@playwright/test":"1.63.0","@types/node":"^20.14.10","@types/react":"19.3.0","@types/react-dom":"19.3.0","autoprefixer":"^10.4.20","eslint":"^8.57.0","eslint-config-next":"15.5.25","postcss":"8.5.28","tailwindcss":"^3.4.17","typescript":"^5.5.4","vitest":"4.1.11"}
+CHECK lint COMMAND node ["node_modules/next/dist/bin/next","lint"]
+STDOUT
+✔ No ESLint warnings or errors
+
+STDERR
+`next lint` is deprecated and will be removed in Next.js 16.
+For new projects, use create-next-app to choose your preferred linter.
+For existing projects, migrate to the ESLint CLI:
+npx @next/codemod@canary next-lint-to-eslint-cli .
+
+
+CHECK lint EXIT 0
+CHECK typecheck COMMAND node ["node_modules/typescript/bin/tsc","--noEmit"]
+STDOUT
+
+STDERR
+
+CHECK typecheck EXIT 0
+CHECK test:unit COMMAND node ["node_modules/vitest/vitest.mjs","run"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ ✓ tests/unit/validation.test.ts (21 tests) 13ms
+ ✓ tests/unit/contract.test.ts (30 tests) 13ms
+stdout | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation preserves primary success when secondary fails
+[lead-delivery] { result: 'received', mode: 'resend+supabase' }
+
+stdout | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation preserves primary success when secondary throws
+[lead-delivery] { result: 'received', mode: 'resend+supabase' }
+
+stdout | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation does not invoke secondary after primary failure
+[lead-delivery] { result: 'unavailable', mode: 'resend' }
+
+ ✓ tests/unit/delivery-safety.test.ts (15 tests) 26ms
+ ✓ tests/unit/endpoint.test.ts (19 tests) 33ms
+ ✓ tests/unit/local-receipt.test.ts (11 tests) 333ms
+
+ Test Files  5 passed (5)
+      Tests  96 passed (96)
+   Start at  14:48:24
+   Duration  739ms (transform 321ms, setup 0ms, import 662ms, tests 418ms, environment 1ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-SEC-001-test-unit-20260914-144817-278-e958975e2c334d90866006dc4921135a.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+stderr | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation preserves primary success when secondary throws
+[lead-delivery] secondary_unavailable
+
+
+CHECK test:unit EXIT 0
+TEST COUNTS test:unit passed=96 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-SEC-001-test-unit-20260914-144817-278-e958975e2c334d90866006dc4921135a.json
+CHECK test:gate COMMAND node ["node_modules/vitest/vitest.mjs","run","--config","vitest.gate.config.ts"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ ✓ tests/gate/network.test.ts (1 test) 87ms
+ ✓ tests/gate/isolation.test.ts (1 test) 110ms
+ ✓ tests/gate/runner.test.ts (9 tests) 11551ms
+     ✓ rejects unknown session  776ms
+     ✓ rejects a missing package script  756ms
+     ✓ rejects empty passing report  1221ms
+     ✓ rejects skipped tests  1128ms
+     ✓ rejects missing reports  1159ms
+     ✓ propagates child failure  988ms
+     ✓ malformed manifest fails with visible diagnostic  734ms
+     ✓ runs valid checks and preserves both streams in unique raw logs  2708ms
+     ✓ timeout stops only its owned process tree  2078ms
+
+ Test Files  3 passed (3)
+      Tests  11 passed (11)
+   Start at  14:48:26
+   Duration  11.85s (transform 94ms, setup 0ms, import 161ms, tests 11.75s, environment 0ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-SEC-001-test-gate-20260914-144817-278-e958975e2c334d90866006dc4921135a.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.gate.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+CHECK test:gate EXIT 0
+TEST COUNTS test:gate passed=11 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-SEC-001-test-gate-20260914-144817-278-e958975e2c334d90866006dc4921135a.json
+CHECK build COMMAND node ["node_modules/next/dist/bin/next","build"]
+STDOUT
+   ▲ Next.js 15.5.25
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 2.9s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/43) ...
+   Generating static pages (10/43) 
+   Generating static pages (21/43) 
+   Generating static pages (32/43) 
+ ✓ Generating static pages (43/43)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                 Size  First Load JS
+┌ ○ /                                                      165 B         106 kB
+├ ○ /_not-found                                            140 B         103 kB
+├ ƒ /api/leads                                             140 B         103 kB
+├ ƒ /apple-icon                                            140 B         103 kB
+├ ƒ /contact                                               166 B         114 kB
+├ ƒ /icon                                                  140 B         103 kB
+├ ○ /industries                                            170 B         106 kB
+├ ● /industries/[slug]                                     922 B         114 kB
+├   ├ /industries/hoa-gated-communities
+├   ├ /industries/multifamily-apartments-condos
+├   ├ /industries/storage-facilities
+├   └ [+4 more paths]
+├ ƒ /opengraph-image                                       140 B         103 kB
+├ ○ /resources                                             170 B         106 kB
+├ ● /resources/[slug]                                      900 B         107 kB
+├   ├ /resources/how-much-does-an-automatic-gate-cost
+├   ├ /resources/best-access-control-system-for-hoa
+├   ├ /resources/storage-facility-security-camera-guide
+├   └ [+2 more paths]
+├ ○ /robots.txt                                            140 B         103 kB
+├ ○ /service-areas                                         170 B         106 kB
+├ ● /service-areas/[slug]                                  922 B         114 kB
+├   ├ /service-areas/orlando
+├   ├ /service-areas/tampa
+├   ├ /service-areas/lakeland
+├   └ [+11 more paths]
+├ ○ /services                                              170 B         106 kB
+├ ● /services/[slug]                                       922 B         114 kB
+├   ├ /services/security-gate-systems
+├   ├ /services/gate-automation
+├   ├ /services/access-control
+├   └ [+3 more paths]
+└ ○ /sitemap.xml                                           140 B         103 kB
++ First Load JS shared by all                             103 kB
+  ├ chunks/255-37e0f0325134c4d7.js                       46.4 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js                  54.2 kB
+  └ other shared chunks (total)                          1.99 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+STDERR
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+
+CHECK build EXIT 0
+CHECK test:e2e COMMAND node ["node_modules/@playwright/test/cli.js","test"]
+STDOUT
+   ▲ Next.js 15.5.25
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 3.0s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/43) ...
+   Generating static pages (10/43) 
+   Generating static pages (21/43) 
+   Generating static pages (32/43) 
+ ✓ Generating static pages (43/43)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                 Size  First Load JS
+┌ ○ /                                                      165 B         106 kB
+├ ○ /_not-found                                            140 B         103 kB
+├ ƒ /api/leads                                             140 B         103 kB
+├ ƒ /apple-icon                                            140 B         103 kB
+├ ƒ /contact                                               166 B         114 kB
+├ ƒ /icon                                                  140 B         103 kB
+├ ○ /industries                                            170 B         106 kB
+├ ● /industries/[slug]                                     922 B         114 kB
+├   ├ /industries/hoa-gated-communities
+├   ├ /industries/multifamily-apartments-condos
+├   ├ /industries/storage-facilities
+├   └ [+4 more paths]
+├ ƒ /opengraph-image                                       140 B         103 kB
+├ ○ /resources                                             170 B         106 kB
+├ ● /resources/[slug]                                      900 B         107 kB
+├   ├ /resources/how-much-does-an-automatic-gate-cost
+├   ├ /resources/best-access-control-system-for-hoa
+├   ├ /resources/storage-facility-security-camera-guide
+├   └ [+2 more paths]
+├ ○ /robots.txt                                            140 B         103 kB
+├ ○ /service-areas                                         170 B         106 kB
+├ ● /service-areas/[slug]                                  922 B         114 kB
+├   ├ /service-areas/orlando
+├   ├ /service-areas/tampa
+├   ├ /service-areas/lakeland
+├   └ [+11 more paths]
+├ ○ /services                                              170 B         106 kB
+├ ● /services/[slug]                                       922 B         114 kB
+├   ├ /services/security-gate-systems
+├   ├ /services/gate-automation
+├   ├ /services/access-control
+├   └ [+3 more paths]
+└ ○ /sitemap.xml                                           140 B         103 kB
++ First Load JS shared by all                             103 kB
+  ├ chunks/255-37e0f0325134c4d7.js                       46.4 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js                  54.2 kB
+  └ other shared chunks (total)                          1.99 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+   ▲ Next.js 15.5.25
+   - Local:        http://127.0.0.1:3100
+   - Network:      http://127.0.0.1:3100
+
+ ✓ Starting...
+ ✓ Ready in 304ms
+
+Running 83 tests using 1 worker
+
+  ok  1 tests\e2e\baseline.spec.ts:21:7 › public route renders: / (572ms)
+  ok  2 tests\e2e\baseline.spec.ts:21:7 › public route renders: /contact (445ms)
+  ok  3 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services (403ms)
+  ok  4 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries (404ms)
+  ok  5 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas (409ms)
+  ok  6 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources (494ms)
+  ok  7 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/security-gate-systems (482ms)
+  ok  8 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/gate-automation (593ms)
+  ok  9 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/access-control (507ms)
+  ok 10 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/video-surveillance (477ms)
+  ok 11 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/security-system-integration (479ms)
+  ok 12 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/emergency-service (558ms)
+  ok 13 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/hoa-gated-communities (523ms)
+  ok 14 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/multifamily-apartments-condos (486ms)
+  ok 15 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/storage-facilities (447ms)
+  ok 16 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/commercial-properties (456ms)
+  ok 17 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/industrial-warehouses (490ms)
+  ok 18 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/property-managers (442ms)
+  ok 19 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/residential-estates (456ms)
+  ok 20 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/orlando (455ms)
+  ok 21 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/tampa (473ms)
+  ok 22 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/lakeland (449ms)
+  ok 23 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/kissimmee (460ms)
+  ok 24 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/winter-garden (497ms)
+  ok 25 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/clermont (457ms)
+  ok 26 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/lake-mary (444ms)
+  ok 27 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/sanford (449ms)
+  ok 28 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/ocala (450ms)
+  ok 29 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/the-villages (483ms)
+  ok 30 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/st-petersburg (483ms)
+  ok 31 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/clearwater (465ms)
+  ok 32 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/brandon (458ms)
+  ok 33 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/wesley-chapel (459ms)
+  ok 34 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/how-much-does-an-automatic-gate-cost (443ms)
+  ok 35 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/best-access-control-system-for-hoa (454ms)
+  ok 36 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/storage-facility-security-camera-guide (432ms)
+  ok 37 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/gate-automation-vs-access-control (409ms)
+  ok 38 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/property-manager-security-system-checklist (435ms)
+  ok 39 tests\e2e\baseline.spec.ts:32:5 › homepage navigates to contact and submits through real local endpoint (811ms)
+  ok 40 tests\e2e\baseline.spec.ts:55:5 › empty assessment displays server validation instead of confirmation (431ms)
+  ok 41 tests\e2e\compatibility.spec.ts:5:119 › legacy prefill gate-automation (372ms)
+  ok 42 tests\e2e\compatibility.spec.ts:5:119 › legacy prefill emergency-service (374ms)
+  ok 43 tests\e2e\compatibility.spec.ts:9:5 › local receipts have no public listing or retrieval route (71ms)
+  ok 44 tests\e2e\compatibility.spec.ts:13:5 › reduced motion and simulated 200percent reflow preserve contact controls (390ms)
+  ok 45 tests\e2e\form-recovery.spec.ts:9:5 › simulated ambiguous response keeps values and logical ID for explicit retry (799ms)
+  ok 46 tests\e2e\form-recovery.spec.ts:33:38 › simulated 503 retains assessment input (626ms)
+  ok 47 tests\e2e\form-recovery.spec.ts:33:38 › simulated 429 retains assessment input (621ms)
+  ok 48 tests\e2e\form-recovery.spec.ts:42:5 › two rapid clicks submit one pending request (887ms)
+  ok 49 tests\e2e\preview.spec.ts:13:7 › / layout at 320 (407ms)
+  ok 50 tests\e2e\preview.spec.ts:13:7 › /contact layout at 320 (364ms)
+  ok 51 tests\e2e\preview.spec.ts:13:7 › / layout at 390 (555ms)
+  ok 52 tests\e2e\preview.spec.ts:13:7 › /contact layout at 390 (452ms)
+  ok 53 tests\e2e\preview.spec.ts:13:7 › / layout at 768 (455ms)
+  ok 54 tests\e2e\preview.spec.ts:13:7 › /contact layout at 768 (382ms)
+  ok 55 tests\e2e\preview.spec.ts:13:7 › / layout at 1024 (422ms)
+  ok 56 tests\e2e\preview.spec.ts:13:7 › /contact layout at 1024 (370ms)
+  ok 57 tests\e2e\preview.spec.ts:13:7 › / layout at 1440 (704ms)
+  ok 58 tests\e2e\preview.spec.ts:13:7 › /contact layout at 1440 (550ms)
+  ok 59 tests\e2e\preview.spec.ts:26:43 › / automated accessibility (1.1s)
+  ok 60 tests\e2e\preview.spec.ts:26:43 › /contact automated accessibility (1.0s)
+  ok 61 tests\e2e\preview.spec.ts:31:5 › emergency navigation preserves entered identity across history (560ms)
+  ok 62 tests\e2e\preview.spec.ts:44:5 › mobile menu Escape returns focus to its trigger (465ms)
+  ok 63 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme services at 390 (1.1s)
+  ok 64 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme service-detail at 390 (1.5s)
+  ok 65 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme emergency at 390 (1.6s)
+  ok 66 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industries at 390 (1.2s)
+  ok 67 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industry-detail at 390 (1.4s)
+  ok 68 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme areas at 390 (1.1s)
+  ok 69 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme area-detail at 390 (1.5s)
+  ok 70 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme resources at 390 (1.1s)
+  ok 71 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article at 390 (1.3s)
+  ok 72 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article-table at 390 (1.4s)
+  ok 73 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme services at 1440 (1.5s)
+  ok 74 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme service-detail at 1440 (1.7s)
+  ok 75 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme emergency at 1440 (1.8s)
+  ok 76 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industries at 1440 (1.3s)
+  ok 77 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industry-detail at 1440 (1.5s)
+  ok 78 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme areas at 1440 (1.2s)
+  ok 79 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme area-detail at 1440 (1.7s)
+  ok 80 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme resources at 1440 (1.3s)
+  ok 81 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article at 1440 (1.5s)
+  ok 82 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article-table at 1440 (1.5s)
+  ok 83 tests\e2e\theme-continuity.spec.ts:65:5 › not-found page remains readable in the shared theme (984ms)
+
+  83 passed (1.4m)
+
+STDERR
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+(node:35684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+CHECK test:e2e EXIT 0
+TEST COUNTS test:e2e passed=83 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-SEC-001-test-e2e-20260914-144817-278-e958975e2c334d90866006dc4921135a.json
+RESULT: ALL CHECKS PASSED (6/6)

@@ -1,0 +1,772 @@
+[
+  {
+    "name": "public.leads",
+    "rls_enabled": true,
+    "rows": 573,
+    "comment": "Inbound lead contacts for Florida Pole Barn. One row per lead event.",
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "client_key",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'fpb'::text"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "lead_date",
+        "data_type": "date",
+        "format": "date",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "source_platform",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'unknown'::text",
+        "check": "source_platform = ANY (ARRAY['google'::text, 'meta'::text, 'organic'::text, 'referral'::text, 'manual'::text, 'unknown'::text])"
+      },
+      {
+        "name": "campaign_id",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "campaign_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "ad_id",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "ad_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "ad_set_id",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "ad_set_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "keyword",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "utm_source",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "utm_medium",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "utm_campaign",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "utm_content",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "lead_type",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'unknown'::text",
+        "check": "lead_type = ANY (ARRAY['form'::text, 'call'::text, 'message'::text, 'chat'::text, 'manual'::text, 'unknown'::text])"
+      },
+      {
+        "name": "contact_name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "contact_email",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "contact_phone",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "contact_location",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "qualification_status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'new'::text",
+        "check": "qualification_status = ANY (ARRAY['new'::text, 'qualified'::text, 'unqualified'::text, 'booked'::text, 'lost'::text, 'unknown'::text])"
+      },
+      {
+        "name": "qualified_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "booked_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "lost_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "lost_reason",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "estimated_value",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "booked_revenue",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "gross_profit",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "attribution_confidence",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "'low'::text",
+        "check": "attribution_confidence = ANY (ARRAY['high'::text, 'medium'::text, 'low'::text, 'none'::text])",
+        "comment": "high = direct click-through; medium = same-session; low = same-campaign inferred; none = no data"
+      },
+      {
+        "name": "attribution_notes",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "raw_payload",
+        "data_type": "jsonb",
+        "format": "jsonb",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "default_value": "'{}'::jsonb"
+      },
+      {
+        "name": "ingest_source",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "dedup_key",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "notes",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "utm_term",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "comment": "Search keyword from utm_term param or URL query string"
+      },
+      {
+        "name": "gclid",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "comment": "Google Click ID — auto-tagged on Google Ads clicks"
+      },
+      {
+        "name": "fbclid",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "comment": "Facebook Click ID — auto-tagged on Meta Ads clicks"
+      },
+      {
+        "name": "account_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "leads_account_id_fkey",
+        "source_table": "public.leads",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "public.accounts",
+    "rls_enabled": true,
+    "rows": 4,
+    "comment": "Marketing bot tenants. One row per business the bot operates on behalf of.",
+    "columns": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ]
+      },
+      {
+        "name": "slug",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable",
+          "unique"
+        ]
+      },
+      {
+        "name": "industry",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "website_domain",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "primary_location",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "service_area",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "reporting_timezone",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'America/New_York'::text"
+      },
+      {
+        "name": "monthly_budget",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "monthly_budget IS NULL OR monthly_budget >= 0::numeric"
+      },
+      {
+        "name": "daily_spend_cap",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "daily_spend_cap IS NULL OR daily_spend_cap >= 0::numeric"
+      },
+      {
+        "name": "monthly_spend_cap",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "monthly_spend_cap IS NULL OR monthly_spend_cap >= 0::numeric"
+      },
+      {
+        "name": "target_cost_per_lead",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "target_cost_per_lead IS NULL OR target_cost_per_lead >= 0::numeric"
+      },
+      {
+        "name": "target_cost_per_qualified_lead",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "target_cost_per_qualified_lead IS NULL OR target_cost_per_qualified_lead >= 0::numeric"
+      },
+      {
+        "name": "target_cost_per_booked_job",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ],
+        "check": "target_cost_per_booked_job IS NULL OR target_cost_per_booked_job >= 0::numeric"
+      },
+      {
+        "name": "target_margin_goal",
+        "data_type": "numeric",
+        "format": "numeric",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "tracking_health_score",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0",
+        "check": "tracking_health_score >= 0 AND tracking_health_score <= 100",
+        "comment": "Computed rollup 0-100 — quality of tracking pixels, conversion events, attribution coverage."
+      },
+      {
+        "name": "crm_hygiene_score",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0",
+        "check": "crm_hygiene_score >= 0 AND crm_hygiene_score <= 100",
+        "comment": "Computed rollup 0-100 — quality of lead status updates, dedup, revenue attribution."
+      },
+      {
+        "name": "account_health_score",
+        "data_type": "integer",
+        "format": "int4",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "0",
+        "check": "account_health_score >= 0 AND account_health_score <= 100",
+        "comment": "Computed rollup 0-100 — combined health signal used to gate autonomous action."
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "'active'::text",
+        "check": "status = ANY (ARRAY['active'::text, 'inactive'::text, 'archived'::text])"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "format": "timestamptz",
+        "options": [
+          "updatable"
+        ],
+        "default_value": "now()"
+      },
+      {
+        "name": "parent_account_id",
+        "data_type": "uuid",
+        "format": "uuid",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      },
+      {
+        "name": "product_line",
+        "data_type": "text",
+        "format": "text",
+        "options": [
+          "nullable",
+          "updatable"
+        ]
+      }
+    ],
+    "primary_keys": [
+      "id"
+    ],
+    "foreign_key_constraints": [
+      {
+        "name": "autonomy_posture_account_id_fkey",
+        "source_table": "public.autonomy_posture",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "ad_platform_connections_account_id_fkey",
+        "source_table": "public.ad_platform_connections",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "ai_analysis_runs_account_id_fkey",
+        "source_table": "public.ai_analysis_runs",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "leads_account_id_fkey",
+        "source_table": "public.leads",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "action_outcomes_account_id_fkey",
+        "source_table": "public.action_outcomes",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "campaign_daily_stats_account_id_fkey",
+        "source_table": "public.campaign_daily_stats",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "actions_account_id_fkey",
+        "source_table": "public.actions",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "automation_log_account_id_fkey",
+        "source_table": "public.automation_log",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "performance_snapshots_account_id_fkey",
+        "source_table": "public.performance_snapshots",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "accounts_parent_account_id_fkey",
+        "source_table": "public.accounts",
+        "source_columns": [
+          "parent_account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "cost_subscriptions_allocation_account_id_fkey",
+        "source_table": "public.cost_subscriptions",
+        "source_columns": [
+          "allocation_account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "cost_api_events_account_id_fkey",
+        "source_table": "public.cost_api_events",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "cost_rollups_monthly_account_id_fkey",
+        "source_table": "public.cost_rollups_monthly",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      },
+      {
+        "name": "chat_messages_account_id_fkey",
+        "source_table": "public.chat_messages",
+        "source_columns": [
+          "account_id"
+        ],
+        "target_table": "public.accounts",
+        "target_columns": [
+          "id"
+        ]
+      }
+    ]
+  }
+]

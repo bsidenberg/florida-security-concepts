@@ -24,7 +24,7 @@ import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const loc = getLocation(params.slug);
+  const loc = getLocation((await params).slug);
   if (!loc) return {};
   return buildPageMetadata({
     title: loc.metaTitle,
@@ -63,8 +63,8 @@ const locationFaqs = (city: string) => [
   },
 ];
 
-export default function LocationPage({ params }: Params) {
-  const loc = getLocation(params.slug);
+export default async function LocationPage({ params }: Params) {
+  const loc = getLocation((await params).slug);
   if (!loc) notFound();
 
   const services = loc.highlightServices

@@ -18,7 +18,7 @@ import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const r = getResource(params.slug);
+  const r = getResource((await params).slug);
   if (!r) return {};
   return buildPageMetadata({
     title: r.metaTitle,
@@ -40,8 +40,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   });
 }
 
-export default function ResourcePage({ params }: Params) {
-  const r = getResource(params.slug);
+export default async function ResourcePage({ params }: Params) {
+  const r = getResource((await params).slug);
   if (!r) notFound();
 
   const url = `${site.url}/resources/${r.slug}`;
