@@ -33,7 +33,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".fsc-local/build/types/**/*.ts"
+    ".fsc-local/build/types/**/*.ts",
+    ".next-measure/types/**/*.ts",
+    ".next-measure-analytics/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

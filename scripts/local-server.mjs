@@ -1,9 +1,18 @@
 import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
-import { createWriteStream, mkdirSync } from 'node:fs';
+import { createWriteStream, mkdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 const root = process.cwd();
 const compiled = process.argv.includes('--compiled');
+// --measure: production-equivalent (indexable, no local-preview flag) compiled build in a
+// separate distDir with lead delivery unconfigured (API 503 before any provider) and all
+// provider variables blank. --analytics-fixture additionally sets the synthetic pa- script URL.
+const measure = process.argv.includes('--measure');
+const analyticsFixture = process.argv.includes('--analytics-fixture');
+if (measure && !compiled) throw new Error('--measure requires --compiled');
+if (analyticsFixture && !measure) throw new Error('--analytics-fixture requires --measure');
+const ANALYTICS_FIXTURE_SCRIPT_URL = 'https://plausible.io/js/pa-fsc-release-fixture.js';
+const measureDistDir = analyticsFixture ? '.next-measure-analytics' : '.next-measure';
 for (const marker of ['VERCEL','VERCEL_ENV','VERCEL_TARGET_ENV','NETLIFY','RENDER','AWS_LAMBDA_FUNCTION_NAME']) {
   if (process.env[marker]) throw new Error('Local launcher refuses a hosted environment');
 }
@@ -21,7 +30,17 @@ Object.assign(env, {
   NODE_OPTIONS: `--require="${path.join(root, 'scripts/network-guard.cjs').replaceAll('\\', '/')}"`,
 });
 if (process.env.FSC_NETWORK_VIOLATION) env.FSC_NETWORK_VIOLATION = process.env.FSC_NETWORK_VIOLATION;
-if (process.env.FSC_LOCAL_FAILURE === '1') env.FSC_LOCAL_FAILURE = '1';
+if (measure) {
+  // Blank (defined) rather than deleted, so no Next environment file can supply these values;
+  // the application treats blank FSC_LOCAL_PREVIEW/LEAD_DELIVERY_MODE exactly as unset.
+  Object.assign(env, {
+    FSC_LOCAL_PREVIEW: '', LEAD_DELIVERY_MODE: '', FSC_LOCAL_FAILURE: '', FSC_DIST_DIR: measureDistDir,
+    NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL: analyticsFixture ? ANALYTICS_FIXTURE_SCRIPT_URL : '',
+  });
+  // Next adds `<distDir>/types/**/*.ts` to tsconfig.json when missing; refuse rather than mutate a tracked file.
+  const include = JSON.parse(readFileSync(path.join(root, 'tsconfig.json'), 'utf8')).include;
+  if (!Array.isArray(include) || !include.includes(`${measureDistDir}/types/**/*.ts`)) throw new Error(`tsconfig.json include must list ${measureDistDir}/types/**/*.ts before a measurement build`);
+} else if (process.env.FSC_LOCAL_FAILURE === '1') env.FSC_LOCAL_FAILURE = '1';
 for (const key of ['RESEND_API_KEY','LEAD_NOTIFICATION_TO','LEAD_NOTIFICATION_FROM','LEAD_CONFIRMATION_FROM','LEAD_CONFIRMATION_REPLY_TO','LEADS_WEBHOOK_URL','LEADS_WEBHOOK_SECRET','PRIME_SUPABASE_URL','PRIME_SUPABASE_SERVICE_ROLE_KEY','PRIME_ACCOUNT_SLUG']) env[key] = '';
 const port = process.env.FSC_TEST_PORT || '3100';
 if (!/^\d+$/.test(port) || Number(port) < 1024 || Number(port) > 65535) throw new Error('Invalid local port');
@@ -36,7 +55,7 @@ const require = createRequire(import.meta.url);
 require('./network-guard.cjs');
 if (compiled) {
   const built = spawnSync(process.execPath, ['node_modules/next/dist/bin/next', 'build'], { cwd: root, env: process.env, stdio: 'inherit', windowsHide: true, shell: false });
-  if (built.status !== 0) throw new Error('Local preview build failed');
+  if (built.status !== 0) throw new Error(measure ? 'Local measurement build failed' : 'Local preview build failed');
   process.env.FSC_ALLOW_FONT_NETWORK = '0';
 }
 const { startServer } = require('next/dist/server/lib/start-server');

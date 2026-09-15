@@ -25,7 +25,7 @@ export function Hero({ eyebrow, title, subtitle, primaryCta, secondaryCta, align
           </p>
           {(primaryCta || secondaryCta) && (
             <div className={`mt-8 flex flex-wrap gap-3 ${align === 'center' ? 'justify-center' : ''}`}>
-              {primaryCta && <Link href={primaryCta.href} className="fsc-btn-primary">{primaryCta.label}</Link>}
+              {primaryCta && <Link href={primaryCta.href} className="fsc-btn-primary" data-fsc-event={primaryCta.href.startsWith('/contact') ? 'assessment_cta' : undefined} data-fsc-placement={primaryCta.href.startsWith('/contact') ? 'page_hero' : undefined}>{primaryCta.label}</Link>}
               {secondaryCta && <Link href={secondaryCta.href} className="fsc-btn-secondary">{secondaryCta.label}</Link>}
             </div>
           )}

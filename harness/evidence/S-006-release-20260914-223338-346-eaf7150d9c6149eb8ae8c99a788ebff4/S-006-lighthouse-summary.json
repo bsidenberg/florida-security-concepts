@@ -1,0 +1,512 @@
+{
+  "session": "S-006",
+  "runId": "20260914-223338-346-eaf7150d9c6149eb8ae8c99a788ebff4",
+  "generatedAt": "2026-09-15T02:40:50.404Z",
+  "tools": {
+    "lighthouse": "13.4.1",
+    "lighthousePackage": "13.4.1",
+    "playwright": "1.63.0",
+    "node": "v24.16.0"
+  },
+  "chromium": {
+    "build": "Playwright bundled chromium-headless-shell via chromium.launch() (headless default); Playwright default Chromium switches plus the flags below",
+    "browserVersion": "153.0.8010.12",
+    "proxy": {
+      "server": "http://127.0.0.1:3169",
+      "bypass": "127.0.0.1,localhost"
+    },
+    "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "version": "153.0.8010.12",
+    "benchmarkIndex": 2180.5,
+    "flags": [
+      "--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE 127.0.0.1, EXCLUDE localhost",
+      "--remote-debugging-port=3167"
+    ]
+  },
+  "preset": "Lighthouse default configuration (mobile form factor, simulated throttling); categories performance, accessibility, best-practices, seo",
+  "settings": {
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "screenEmulation": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36"
+  },
+  "build": {
+    "server": "scripts/local-server.mjs --compiled --measure (FSC_LOCAL_PREVIEW and LEAD_DELIVERY_MODE blank, analytics off)",
+    "origin": "http://127.0.0.1:3163",
+    "buildId": "pvIs6r7lYfYCWQb7oe3zX",
+    "revision": "7ffea10df675eaf7cbd7147a8dfd351581c05524",
+    "dirtyFiles": 53
+  },
+  "targets": {
+    "performance": 90,
+    "accessibility": 95,
+    "best-practices": 95,
+    "seo": 95
+  },
+  "caveats": [
+    "Loopback HTTP/1.1 from a local Next.js production server on the verification workstation; no CDN, TLS, HTTP/2 or edge caching as on Vercel.",
+    "Performance uses Lighthouse simulated throttling; lab scores are not field Core Web Vitals.",
+    "The measurement build has analytics disabled; production additionally loads the Plausible pa- script.",
+    "Browser is the Playwright-bundled chrome-headless-shell (Chromium 153 old-headless build), chosen because full Chromium attempted Google background services; scores can differ slightly from full Chrome."
+  ],
+  "pages": [
+    {
+      "id": "home",
+      "path": "/",
+      "url": "http://127.0.0.1:3163/",
+      "runs": [
+        {
+          "run": 1,
+          "file": "lighthouse/home-run1.json",
+          "fetchTime": "2026-09-15T02:38:39.591Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 94,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.2 s",
+            "largest-contentful-paint": "2.2 s",
+            "total-blocking-time": "240 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.2 s"
+          }
+        },
+        {
+          "run": 2,
+          "file": "lighthouse/home-run2.json",
+          "fetchTime": "2026-09-15T02:39:24.559Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.2 s",
+            "largest-contentful-paint": "2.2 s",
+            "total-blocking-time": "150 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.2 s"
+          }
+        },
+        {
+          "run": 3,
+          "file": "lighthouse/home-run3.json",
+          "fetchTime": "2026-09-15T02:40:07.784Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.2 s",
+            "largest-contentful-paint": "2.1 s",
+            "total-blocking-time": "120 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.2 s"
+          }
+        }
+      ],
+      "medians": {
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "belowTarget": []
+    },
+    {
+      "id": "contact",
+      "path": "/contact",
+      "url": "http://127.0.0.1:3163/contact",
+      "runs": [
+        {
+          "run": 1,
+          "file": "lighthouse/contact-run1.json",
+          "fetchTime": "2026-09-15T02:38:47.525Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 96,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.2 s",
+            "largest-contentful-paint": "2.2 s",
+            "total-blocking-time": "190 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.2 s"
+          }
+        },
+        {
+          "run": 2,
+          "file": "lighthouse/contact-run2.json",
+          "fetchTime": "2026-09-15T02:39:31.907Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.2 s",
+            "largest-contentful-paint": "2.1 s",
+            "total-blocking-time": "70 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.2 s"
+          }
+        },
+        {
+          "run": 3,
+          "file": "lighthouse/contact-run3.json",
+          "fetchTime": "2026-09-15T02:40:15.105Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 94,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.2 s",
+            "largest-contentful-paint": "2.2 s",
+            "total-blocking-time": "240 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.2 s"
+          }
+        }
+      ],
+      "medians": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "belowTarget": []
+    },
+    {
+      "id": "services",
+      "path": "/services",
+      "url": "http://127.0.0.1:3163/services",
+      "runs": [
+        {
+          "run": 1,
+          "file": "lighthouse/services-run1.json",
+          "fetchTime": "2026-09-15T02:38:54.922Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.5 s",
+            "total-blocking-time": "100 ms",
+            "cumulative-layout-shift": "0.024",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 2,
+          "file": "lighthouse/services-run2.json",
+          "fetchTime": "2026-09-15T02:39:38.654Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.2 s",
+            "total-blocking-time": "70 ms",
+            "cumulative-layout-shift": "0.024",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 3,
+          "file": "lighthouse/services-run3.json",
+          "fetchTime": "2026-09-15T02:40:22.390Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.0 s",
+            "total-blocking-time": "140 ms",
+            "cumulative-layout-shift": "0.024",
+            "speed-index": "1.4 s"
+          }
+        }
+      ],
+      "medians": {
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "belowTarget": []
+    },
+    {
+      "id": "industry",
+      "path": "/industries/hoa-gated-communities",
+      "url": "http://127.0.0.1:3163/industries/hoa-gated-communities",
+      "runs": [
+        {
+          "run": 1,
+          "file": "lighthouse/industry-run1.json",
+          "fetchTime": "2026-09-15T02:39:02.443Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 96,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "1.9 s",
+            "total-blocking-time": "200 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 2,
+          "file": "lighthouse/industry-run2.json",
+          "fetchTime": "2026-09-15T02:39:45.457Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.0 s",
+            "total-blocking-time": "90 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 3,
+          "file": "lighthouse/industry-run3.json",
+          "fetchTime": "2026-09-15T02:40:29.831Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.0 s",
+            "total-blocking-time": "100 ms",
+            "cumulative-layout-shift": "0",
+            "speed-index": "1.4 s"
+          }
+        }
+      ],
+      "medians": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "belowTarget": []
+    },
+    {
+      "id": "area",
+      "path": "/service-areas/orlando",
+      "url": "http://127.0.0.1:3163/service-areas/orlando",
+      "runs": [
+        {
+          "run": 1,
+          "file": "lighthouse/area-run1.json",
+          "fetchTime": "2026-09-15T02:39:10.285Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.4 s",
+            "total-blocking-time": "110 ms",
+            "cumulative-layout-shift": "0.001",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 2,
+          "file": "lighthouse/area-run2.json",
+          "fetchTime": "2026-09-15T02:39:52.495Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.4 s",
+            "total-blocking-time": "80 ms",
+            "cumulative-layout-shift": "0.001",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 3,
+          "file": "lighthouse/area-run3.json",
+          "fetchTime": "2026-09-15T02:40:37.460Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.4 s",
+            "total-blocking-time": "100 ms",
+            "cumulative-layout-shift": "0.001",
+            "speed-index": "1.4 s"
+          }
+        }
+      ],
+      "medians": {
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "belowTarget": []
+    },
+    {
+      "id": "article",
+      "path": "/resources/how-much-does-an-automatic-gate-cost",
+      "url": "http://127.0.0.1:3163/resources/how-much-does-an-automatic-gate-cost",
+      "runs": [
+        {
+          "run": 1,
+          "file": "lighthouse/article-run1.json",
+          "fetchTime": "2026-09-15T02:39:17.563Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.2 s",
+            "total-blocking-time": "80 ms",
+            "cumulative-layout-shift": "0.001",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 2,
+          "file": "lighthouse/article-run2.json",
+          "fetchTime": "2026-09-15T02:40:00.685Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.0 s",
+            "total-blocking-time": "120 ms",
+            "cumulative-layout-shift": "0.001",
+            "speed-index": "1.4 s"
+          }
+        },
+        {
+          "run": 3,
+          "file": "lighthouse/article-run3.json",
+          "fetchTime": "2026-09-15T02:40:44.724Z",
+          "runWarnings": [],
+          "runtimeError": null,
+          "scores": {
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": "1.4 s",
+            "largest-contentful-paint": "2.0 s",
+            "total-blocking-time": "150 ms",
+            "cumulative-layout-shift": "0.001",
+            "speed-index": "1.4 s"
+          }
+        }
+      ],
+      "medians": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "belowTarget": []
+    }
+  ]
+}

@@ -31,7 +31,7 @@ try {
     if (-not $manifest.checks.ContainsKey($name) -or -not $package.scripts.ContainsKey($name)) { throw "Missing script/check: $name" }
     if (-not $package.scripts[$name]) { throw "Empty script: $name" }
     if ($name.StartsWith('test:')) {
-      $expectedFormat = $(if ($name -eq 'test:e2e') { 'playwright' } else { 'vitest' })
+      $expectedFormat = $(if ($name -in @('test:e2e','test:release')) { 'playwright' } else { 'vitest' })
       if ($manifest.checks[$name].report -ne $expectedFormat -or -not $manifest.checks[$name].reportEnv) { throw "Missing required report contract: $name" }
     }
   }

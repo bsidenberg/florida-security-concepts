@@ -38,7 +38,7 @@ Status: proposal and additive draft only, not applied. AM-003/AM-004 acceptance,
 
 ## Current evidence
 
-The authoritative evidence for this session is the S-005 verification gate log: **see `harness/evidence/S-005-verify-*.log`** (orchestrator fills in the exact timestamped filename once `scripts/verify.ps1 -SessionId S-005` has run against the real PostgreSQL 17 test runtime and mocked-Resend coordinator tests). That real-PostgreSQL evidence supersedes the historical PGlite note below for concurrency/lock/ACL claims.
+The authoritative evidence for this session is the S-005 verification gate log `harness/evidence/S-005-verify-20260914-204740-745-c0c0c1cc3e164327a5f1e7e88e288de8.log` (exit 0: 172 unit, 157 gate tests against real PostgreSQL 17.11, 83 browser), with the independent safety review in `harness/evidence/S-005-safety-review.md`. SHA-256 of the gated SQL: receipts migration db36d14afef74eaf7cb0bcc4ebdc08ae02b2f9f13ab3da098f931354d2e6a228; schedule a6ca1f60e9bbc9a2f74f335b7ed1c9177953df2b2eb648adb884239f6d552bd4; health 73c9be41655d679dbf7686af4c1bb158ac52505f6482d786305417b8f54d5e17; reconciliation report a83df65be5d51c3b14614c9e84d5a95a1136b4244431a21db3106a74ce891eb1. Verify the hashes of the files you paste into the SQL editor match these. That real-PostgreSQL evidence supersedes the historical PGlite note below for concurrency/lock/ACL claims.
 
 ### Historical note: early disposable PGlite design check (superseded)
 

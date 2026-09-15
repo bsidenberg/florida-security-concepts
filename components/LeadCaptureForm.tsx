@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import { FormEvent, useContext, useEffect, useId, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { usePlausible } from 'next-plausible';
+import { track, trackLeadSubmitted, validationErrorProps, deliveryErrorClass, type AnalyticsEvent, type AnalyticsProps } from '@/lib/analytics/events';
+import { regionFromCity } from '@/lib/analytics/region';
 import { propertyTypes, serviceOptions, legacyServices, urgencyOptions, contactMethods } from '@/lib/leads/options';
 import { validateLead } from '@/lib/leads/validateLead';
 import type { LeadFormDefaults } from '@/lib/leads/query';
@@ -17,7 +18,6 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
   const { service, propertyType, city, urgency } = defaults;
   const id = useId();
   const pathname = usePathname();
-  const plausible = usePlausible();
   const [values,setValues] = useState<Fields>(() => ({ ...blank, service:defaults.service || '', propertyType:defaults.propertyType || '', city:defaults.city || '', urgency:defaults.urgency || 'Not specified' }));
   const previousDefaults = useRef(defaults);
   const [errors,setErrors] = useState<Fields>({});
@@ -30,6 +30,9 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
   const attempt = useRef<{fingerprint:string; id:string}|null>(null);
   const errorRef = useRef<HTMLDivElement>(null);
   const receiptRef = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
+  // Analytics is categorical only and never runs in local preview. Arguments are computed inside the guard so nothing analytics-related can throw in the submit path.
+  function emit<E extends AnalyticsEvent>(event: E, props: () => AnalyticsProps<E>) { if (localPreview) return; try { track(event, props()); } catch { /* Analytics cannot change form or delivery state. */ } }
   const isEmergency = values.urgency === 'Emergency';
   const displayedServices = legacyServices.includes(values.service) ? [...serviceOptions, {value:values.service,label:values.service}] : serviceOptions;
   useEffect(() => {
@@ -45,16 +48,18 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
   }, [service, propertyType, city, urgency]);
   useEffect(() => { if (message) errorRef.current?.focus(); }, [message, errors]);
   useEffect(() => { if (receipt !== null) receiptRef.current?.focus(); }, [receipt]);
-  function change(name: string,value: string) { setValues(v => ({...v,[name]:value})); }
+  function change(name: string,value: string) { setValues(v => ({...v,[name]:value})); if (name !== 'honeypot' && !started.current) { started.current = true; emit('assessment_form_start',() => ({ page_template:pathname })); } }
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (locked.current) return;
     setMessage(''); setErrors({}); setExpired(false);
     const validation = validateLead({...values,sourcePage:pathname});
-    if (!validation.ok) { setErrors(validation.errors); setMessage('Please review the highlighted fields. Your other details are still here.'); return; }
+    if (!validation.ok) { setErrors(validation.errors); setMessage('Please review the highlighted fields. Your other details are still here.'); emit('assessment_validation_error',() => validationErrorProps(validation.errors,values)); return; }
     const normalized = validation.lead;
     const fingerprint = JSON.stringify(['fullName','phone','email','propertyType','service','city','company','urgency','contactMethod','message'].map(key => normalized[key as keyof typeof normalized] || ''));
     if (!attempt.current || attempt.current.fingerprint !== fingerprint) attempt.current = { fingerprint, id:crypto.randomUUID() };
+    const logicalRequestId = attempt.current.id;
+    emit('assessment_submit_attempt',() => ({ service_category:normalized.service, property_category:normalized.propertyType, region:regionFromCity(normalized.city), urgency_category:normalized.urgency }));
     locked.current = true; setBusy(true);
     const controller = new AbortController();
     const timer = window.setTimeout(() => controller.abort(),20000);
@@ -63,9 +68,11 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
       const data = await response.json().catch(() => null);
       if (response.ok && data?.ok === true) {
         setReceipt(typeof data.requestId === 'string' ? data.requestId : attempt.current.id);
-        if (!localPreview) { try { plausible('Lead Submitted',{ props:{ service:normalized.service, urgency:normalized.urgency || 'Not specified' } }); } catch { /* Analytics cannot change confirmed receipt. */ } }
+        if (!localPreview) { try { trackLeadSubmitted(logicalRequestId,{ service_category:normalized.service, urgency_category:normalized.urgency || 'Not specified' }); } catch { /* Analytics cannot change confirmed receipt. */ } }
         return;
       }
+      if (data?.code === 'INVALID' && data?.fields && typeof data.fields === 'object') emit('assessment_validation_error',() => validationErrorProps(data.fields,values));
+      else emit('assessment_delivery_error',() => ({ error_class:deliveryErrorClass({ status:response.status, code:data?.code, hasBody:Boolean(data) }) }));
       if (data?.fields && typeof data.fields === 'object') setErrors(data.fields);
       if (data?.code === 'LOCAL_ONLY') { setErrors({email:'Use a synthetic email ending in @example.invalid for this local review.'}); setMessage('This preview accepts test details only. Please update the email field.'); }
       else if (data?.code === 'EXPIRED') { setExpired(true); setMessage('This request’s retry window has ended. Call us to check its status, or explicitly start a new request.'); }
@@ -76,7 +83,7 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
       else if (data?.code === 'CONFIGURATION') setMessage("We couldn't process your request right now. Your details have been kept — please try again shortly or call us.");
       else if (response.status === 400) setMessage('Please review the highlighted fields and try again.');
       else setMessage(localPreview ? 'The local request could not be saved. Use an example.invalid email for this review, then retry or check the local service.' : 'Your request could not be confirmed. Please try again or contact us directly. Your details have been kept.');
-    } catch { setMessage('We could not confirm whether your request was received. Retry the same request below, or call us to check. Your details have been kept.'); }
+    } catch { emit('assessment_delivery_error',() => ({ error_class:deliveryErrorClass({ thrown:true, timedOut:controller.signal.aborted }) })); setMessage('We could not confirm whether your request was received. Retry the same request below, or call us to check. Your details have been kept.'); }
     finally { window.clearTimeout(timer); locked.current = false; setBusy(false); }
   }
   function control(name: string, required = false, options?: {label:string;value:string}[]) {
@@ -84,7 +91,7 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
     const props = { id:`${id}-${name}`, name, value:values[name], onChange:(e: React.ChangeEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>) => change(name,e.target.value), required, disabled:busy, 'aria-invalid':error ? true : undefined, 'aria-describedby':error ? `${id}-${name}-error` : undefined };
     return <div className={name === 'message' ? 'fsc-field fsc-field-wide' : 'fsc-field'} key={name}><label htmlFor={props.id}>{labels[name]}{required && <span aria-hidden="true"> *</span>}</label>{options ? <select {...props}><option value="" disabled>Select…</option>{options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select> : name === 'message' ? <textarea {...props} rows={4}/> : <input {...props} type={name === 'email' ? 'email' : name === 'phone' ? 'tel' : 'text'} autoComplete={name === 'fullName' ? 'name' : name === 'phone' ? 'tel' : name === 'company' ? 'organization' : name === 'city' ? 'address-level2' : name === 'email' ? 'email' : undefined} placeholder={name === 'city' ? 'City or area of your property' : undefined}/>} {error && <p className="fsc-field-error" id={`${id}-${name}-error`}>{error}</p>}</div>;
   }
-  const heading = showHeading && <div className="fsc-contact-intro"><p className="fsc-kicker">{isEmergency ? '24/7 emergency service' : 'Free property assessment'}</p><h1>{isEmergency ? 'Request emergency service.' : 'Tell us about your property.'}</h1><p>{isEmergency ? 'Call for urgent help. This form is an alternate contact option and does not dispatch a technician.' : 'Maintenance, repairs, an upgrade or a new installation. Let’s discuss what your community needs.'}</p><div className="fsc-contact-emergency"><a href={`tel:${site.emergencyPhone}`}>24/7 emergency service · Call {site.emergencyPhoneDisplay}</a><Link href={isEmergency ? '/contact' : '/contact?urgency=emergency'}>{isEmergency ? 'Return to a routine assessment' : 'Use the emergency contact form'}</Link></div></div>;
+  const heading = showHeading && <div className="fsc-contact-intro"><p className="fsc-kicker">{isEmergency ? '24/7 emergency service' : 'Free property assessment'}</p><h1>{isEmergency ? 'Request emergency service.' : 'Tell us about your property.'}</h1><p>{isEmergency ? 'Call for urgent help. This form is an alternate contact option and does not dispatch a technician.' : 'Maintenance, repairs, an upgrade or a new installation. Let’s discuss what your community needs.'}</p><div className="fsc-contact-emergency"><a href={`tel:${site.emergencyPhone}`} data-fsc-event="emergency_call" data-fsc-placement="contact_intro">24/7 emergency service · Call {site.emergencyPhoneDisplay}</a><Link href={isEmergency ? '/contact' : '/contact?urgency=emergency'}>{isEmergency ? 'Return to a routine assessment' : 'Use the emergency contact form'}</Link></div></div>;
   if (receipt !== null) return <>{heading}<div className="fsc-form fsc-receipt" ref={receiptRef} role="status" tabIndex={-1}><span className="fsc-receipt-icon" aria-hidden="true">✓</span><h2>Request received</h2><p>{localPreview ? 'Your test request was saved locally. No message was sent to FSC.' : 'We’ll contact you to discuss your property and the next step.'}</p><p>An assessment is not yet booked. No technician has been dispatched.</p><p className="fsc-receipt-id">Request reference: {receipt}</p><a href={`tel:${site.phone}`}>Call {site.phoneDisplay}</a></div></>;
   return <>{heading}<form className="fsc-form" onSubmit={submit} aria-label="Site assessment request form" noValidate>
     <p className="fsc-form-top">{localPreview ? 'Local review: use synthetic details and an example.invalid email.' : 'Property assessments are free.'} <span>Fields marked * are required.</span></p>

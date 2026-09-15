@@ -19,7 +19,7 @@ export function CTASection({ eyebrow = 'Next step', title, body, primaryCta = { 
           <h2 className="mt-4 text-2xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">{title}</h2>
           {body && <p className="mt-4 text-base md:text-lg text-fsc-text-dim leading-relaxed">{body}</p>}
           <div className="mt-7 flex flex-wrap gap-3">
-            {primaryCta && <Link href={primaryCta.href} className={variant === 'emergency' ? 'fsc-btn-emergency px-5 py-3' : 'fsc-btn-primary'}>{primaryCta.label}</Link>}
+            {primaryCta && <Link href={primaryCta.href} className={variant === 'emergency' ? 'fsc-btn-emergency px-5 py-3' : 'fsc-btn-primary'} data-fsc-event={primaryCta.href.startsWith('/contact') ? 'assessment_cta' : undefined} data-fsc-placement={primaryCta.href.startsWith('/contact') ? 'cta_section' : undefined}>{primaryCta.label}</Link>}
             {secondaryCta && <Link href={secondaryCta.href} className="fsc-btn-secondary">{secondaryCta.label}</Link>}
           </div>
         </div>

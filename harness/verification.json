@@ -1,21 +1,126 @@
 {
   "sessions": {
-    "S-SEC-001": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
-    "S-UI-001": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
-    "S-001": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
-    "S-002": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
-    "S-003": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
-    "S-004": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
-    "S-005": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e"],
-    "S-006": ["lint", "typecheck", "test:unit", "test:gate", "build", "test:e2e", "test:release"]
+    "S-SEC-001": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
+    ],
+    "S-UI-001": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
+    ],
+    "S-001": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
+    ],
+    "S-002": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
+    ],
+    "S-003": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
+    ],
+    "S-004": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
+    ],
+    "S-005": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
+    ],
+    "S-006": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e",
+      "test:release"
+    ]
   },
   "buildArtifact": ".next/BUILD_ID",
   "checks": {
-    "lint": { "args": ["node_modules/next/dist/bin/next", "lint"] },
-    "typecheck": { "args": ["node_modules/typescript/bin/tsc", "--noEmit"] },
-    "test:unit": { "args": ["node_modules/vitest/vitest.mjs", "run"], "report": "vitest", "reportEnv": "FSC_UNIT_REPORT" },
-    "test:gate": { "args": ["node_modules/vitest/vitest.mjs", "run", "--config", "vitest.gate.config.ts"], "report": "vitest", "reportEnv": "FSC_GATE_REPORT" },
-    "build": { "args": ["node_modules/next/dist/bin/next", "build"] },
-    "test:e2e": { "args": ["node_modules/@playwright/test/cli.js", "test"], "report": "playwright", "reportEnv": "FSC_E2E_REPORT" }
+    "lint": {
+      "args": [
+        "node_modules/next/dist/bin/next",
+        "lint"
+      ]
+    },
+    "typecheck": {
+      "args": [
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ]
+    },
+    "test:unit": {
+      "args": [
+        "node_modules/vitest/vitest.mjs",
+        "run"
+      ],
+      "report": "vitest",
+      "reportEnv": "FSC_UNIT_REPORT"
+    },
+    "test:gate": {
+      "args": [
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "vitest.gate.config.ts"
+      ],
+      "report": "vitest",
+      "reportEnv": "FSC_GATE_REPORT"
+    },
+    "build": {
+      "args": [
+        "node_modules/next/dist/bin/next",
+        "build"
+      ]
+    },
+    "test:e2e": {
+      "args": [
+        "node_modules/@playwright/test/cli.js",
+        "test"
+      ],
+      "report": "playwright",
+      "reportEnv": "FSC_E2E_REPORT"
+    },
+    "test:release": {
+      "args": [
+        "node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "playwright.release.config.ts"
+      ],
+      "report": "playwright",
+      "reportEnv": "FSC_RELEASE_REPORT"
+    }
   }
 }
