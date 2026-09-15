@@ -2,17 +2,19 @@
 
 Prepared 2026-09-15 by the Claude Code orchestrator for Brian. Everything below is an owner-only action (production configuration, production SQL, merge/publication, live test communication). Agents have not performed any of these. Do them in order; each step says how to confirm it worked.
 
-Release candidate: branch `codex/website-spec` (PR to `main`). Machine evidence: S-005 gate `harness/evidence/S-005-verify-20260914-204740-745-c0c0c1cc3e164327a5f1e7e88e288de8.log`; S-006 gate `harness/evidence/S-006-verify-20260914-223338-346-eaf7150d9c6149eb8ae8c99a788ebff4.log`; requirements map `harness/evidence/S-006-traceability.md`. Reviews: `harness/evidence/S-005-safety-review.md`, `harness/evidence/S-006-privacy-review.md`.
+Release candidate: branch `codex/website-spec` (PR to `main`). Machine evidence: S-005 gate `harness/evidence/S-005-verify-20260914-204740-745-c0c0c1cc3e164327a5f1e7e88e288de8.log`; S-006 gate `harness/evidence/S-006-verify-20260915-074700-671-8242639fba904fdcb8995e7e4672cf4d.log` (final OD-07 wording); requirements map `harness/evidence/S-006-traceability.md`. Reviews: `harness/evidence/S-005-safety-review.md`, `harness/evidence/S-006-privacy-review.md`.
 
 ## 0. Decide before merge (cannot be delegated)
 
-1. **OD-07 — form privacy wording.** The assessment form now shows this text (components/LeadCaptureForm.tsx). Approve it as written, or tell me the changes:
+1. **OD-07 — form privacy wording: APPROVED 2026-09-15 (D-027).** The assessment form (components/LeadCaptureForm.tsx) shows Brian's approved text:
 
-   > We use your contact and property details, along with the page and campaign information that brought you here, to respond to your request, with email delivery through Resend and inquiry records in our private business system. Please do not include gate codes, passwords or other sensitive security information.
+   > We use the details you submit, plus the page and campaign that brought you here, to respond to your request. Submissions are emailed to us via Resend and stored in our private business system. Please don't include gate codes, passwords, or other sensitive information.
    >
-   > To prevent duplicate messages and resolve delivery problems, we keep an additional private copy of your request for seven days before scheduled cleanup, and minimal request identifiers and status records afterward. To limit repeated submissions, we temporarily use a protected identifier derived from your network address; this check does not store the address itself. For questions about your information, email info@floridasecurityconcepts.com.
+   > We keep a short-lived copy of each submission for seven days to prevent duplicates and troubleshoot delivery, then minimal records after that. To limit repeat submissions we use a protected identifier derived from your network address; the address itself is not stored. We use Plausible, a cookie-free analytics service, to measure page visits and form steps by general category only — never your contact details or message.
+   >
+   > Questions about your information: info@floridasecurityconcepts.com.
 
-   Reviewers noted, for your decision: it does not mention analytics (optional added sentence: "We use Plausible, a cookie-free analytics service, to count page visits and form steps using general categories only — never your contact details or message."); the minimal identifiers/status records are kept indefinitely; page/campaign details are also used for lead-source measurement in Prime; the seven-day statement is only true while the cleanup job (step 2) is healthy.
+   Still true, and worth keeping in mind: the minimal records are kept indefinitely; page and campaign details are also used for lead-source measurement in Prime; the seven-day statement holds only while the cleanup job (step 2) is healthy; and the "page visits" Plausible receives are sanitized (canonical path, normalized UTMs, referrer origin only).
 
 2. **Customer confirmation email.** Existing behavior is preserved: it is sent unless `LEAD_CONFIRMATION_ENABLED` is false. For abuse safety it no longer repeats the visitor's name, city, company or message (D-024). No action needed unless you want it off.
 
@@ -27,7 +29,7 @@ Project `florida-security-concepts` → Settings → Environment Variables. Neve
    Paste the output directly into Vercel. Do not reuse the Resend or Supabase keys. Without it the site stays up but refuses every new form submission (503).
 2. **Set `LEAD_DELIVERY_MODE` = `resend+supabase`** in Production.
 3. **Confirm** Production has `PRIME_ACCOUNT_SLUG` = `fsc`, `PRIME_SUPABASE_URL` (https), `PRIME_SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, and `LEAD_NOTIFICATION_FROM` = your verified Resend sender. Company notifications always go to info@floridasecurityconcepts.com (fixed in code and SQL); `LEAD_NOTIFICATION_TO` is no longer used.
-4. **Recommended defense in depth:** remove Preview scope from `RESEND_API_KEY`, `PRIME_SUPABASE_SERVICE_ROLE_KEY`, `PRIME_SUPABASE_URL`, `LEAD_NOTIFICATION_FROM`, `LEAD_DELIVERY_MODE` and `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` (keep Production). The code already refuses delivery, analytics and indexing on previews; this removes the credentials too.
+4. **DONE by Brian 2026-09-15.** **Recommended defense in depth:** remove Preview scope from `RESEND_API_KEY`, `PRIME_SUPABASE_SERVICE_ROLE_KEY`, `PRIME_SUPABASE_URL`, `LEAD_NOTIFICATION_FROM`, `LEAD_DELIVERY_MODE` and `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` (keep Production). The code already refuses delivery, analytics and indexing on previews; this removes the credentials too.
 
 ## 2. Supabase SQL (before merge — the new code must not run against a missing schema)
 
