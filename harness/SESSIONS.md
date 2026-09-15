@@ -16,6 +16,7 @@ Tier 3. Harness approved by Brian 2026-09-11, with AM-002 visual-continuity requ
 | S-004 | Remaining content and SEO preservation | Builder + test-guard | S-003 accepted | NOT STARTED | None |
 | S-005 | Production delivery contracts and isolated verification | Builder + test-guard | S-002 accepted; AM-003 approved (D-017); AM-004 activated (D-021) | MACHINE VERIFIED; independent safety review CLEAR WITH MINOR (rounds 1-3); hosted/owner prerequisites open | S-005-verify-20260914-204740-745-c0c0c1cc3e164327a5f1e7e88e288de8.log; S-005-safety-review.md |
 | S-006 | Release QA, analytics and reviewable PR | Builder + test-guard | S-005 machine verified; S-003/S-004 deferred by owner launch scope | MACHINE VERIFIED; privacy review CLEAR WITH MINOR; owner/hosted prerequisites open | S-006-verify-20260914-223338-346-eaf7150d9c6149eb8ae8c99a788ebff4.log; S-006-privacy-review.md; S-006-traceability.md |
+| S-CI-001 | Real PostgreSQL 17 runtime in GitHub Actions so the CI gate is honest | Builder + test-guard + safety reviewer | S-006 pushed; Brian's go-ahead | DRAFT CONTRACT — NOT AUTHORIZED TO RUN | sessions/S-CI-001-postgres-ci-contract.md |
 
 Status lifecycle: NOT STARTED → IN PROGRESS → IN REVIEW → ACCEPTED, or BLOCKED with exact reason. S-002 may be MACHINE VERIFIED / AWAITING PREVIEW after its gate, but cannot unlock S-003 until Brian approves. No session is ACCEPTED on agent claims alone.
 
