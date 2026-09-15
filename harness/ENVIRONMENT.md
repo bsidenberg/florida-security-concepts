@@ -75,3 +75,15 @@ At S-005/S-006, collect privately: Vercel project/branch-trigger visibility; act
 Vercel browser dashboard confirms project prj_cpbGOvkXONhMVXGwzkkA4iUVtuj4 under bsidenbergs-projects. Build runtime is already Node 24.x, matching local/CI major version; no runtime change needed. Framework Next.js, root field empty, default build/install/output commands, ignored build step Automatic, main production branch. No deployment checks configured in Vercel; manual release gate must not assume CI is enforced by hosting. Existing Turbo build-machine setting and disabled on-demand concurrent builds observed; neither changed.
 
 Nine project variables are present in Production and Preview, values not revealed. Current shared live-provider scope means preview isolation is unresolved. Company recipient is now explicitly owner-directed to info@floridasecurityconcepts.com via Resend. Active provider mode and sender validity still require safe validation before any new live submission. No environment setting was changed during this inspection.
+
+## 2026-09-14 S-005 production receipt/admission configuration (names only)
+
+| Name | Purpose | Environment/source | Secret | Cost/status | Safe validation | Owner stage / rotation |
+|---|---|---|---|---|---|---|
+| FSC_ADMISSION_HMAC_KEY | AM-004 keyed digest of trusted source address for the 20-new-requests/10-minutes admission counter | Vercel **Production** server runtime only; never Preview, never NEXT_PUBLIC | Yes | New variable, no cost; not yet created | Format only: exactly 64 hex characters (32 random bytes); presence/format check without printing; if absent or malformed, every NEW request is refused (503 CONFIGURATION, no rows written) while unchanged same-ID retries still reconcile (D-023) | Brian generates and enters it before merge; rotation is a coordinated operational action (AM-004), never automatic |
+| LEAD_DELIVERY_MODE | Must be `resend+supabase` (or `resend`, same receipt path) for production receipts | Production | Private config (write-only secret in Vercel UI) | Existing | Behavior via controlled post-merge check only | Brian sets at launch |
+| PRIME_ACCOUNT_SLUG | Must equal `fsc`; receipt RPCs verify active account + FSC domain | Production | Private config | Existing | Receipt path refuses any other value | Unchanged |
+| LEAD_NOTIFICATION_TO | No longer used by the receipt path: company notifications are fixed to info@floridasecurityconcepts.com in code and enforced in SQL | Production/Preview | Private routing | Existing | None required | May remain; changing it does not reroute receipts |
+| LEAD_NOTIFICATION_FROM, RESEND_API_KEY, PRIME_SUPABASE_URL (https), PRIME_SUPABASE_SERVICE_ROLE_KEY | Required by the receipt path; missing → 503 before any RPC/send | Production | As above | Existing | Presence only | Unchanged |
+
+Preview: the application refuses delivery on any hosted non-production Vercel environment before provider import, and renders noindex with analytics off. Removing live provider credentials from Preview scope remains recommended defense in depth (owner action). Webhook-only and Supabase-only modes are no longer selectable; they return 503.

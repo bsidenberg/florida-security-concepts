@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { validateLead } from '@/lib/leads/validateLead';
 import { deliverLead } from '@/lib/leads/leadDelivery';
@@ -30,11 +29,14 @@ export async function POST(req: Request): Promise<NextResponse> {
   try { parsed = JSON.parse(text); } catch { return error(400, 'Invalid JSON body.'); }
   const result = validateLead(parsed);
   if (!result.ok) return error(400, result.errors._form || 'Some fields need attention. Please review and try again.', 'INVALID', { fields: result.errors });
-  const requestId = result.lead.requestId || randomUUID();
+  if (!result.lead.requestId) return error(400, 'A request ID is required. Please reload the form and try again.', 'INVALID', { fields: { requestId: 'Required.' } });
+  const requestId = result.lead.requestId;
   let delivery;
-  try { delivery = await deliverLead(result.lead, requestId); }
+  try { delivery = await deliverLead(result.lead, requestId, req.headers); }
   catch {
-    if (process.env.FSC_LOCAL_PREVIEW !== '1') return error(503, 'Unable to confirm your request. Please contact us directly.', 'DELIVERY_FAILED', { requestId });
+    // M-2a: an unexpected throw here can never be proven a known failure —
+    // never label it DELIVERY_FAILED (503). Always uncertain/504, same as
+    // the local path already did.
     return error(504, 'We could not confirm receipt. Keep your details and retry this same request.', 'RECEIPT_UNKNOWN', { requestId });
   }
   if (!delivery.ok) {
@@ -46,6 +48,11 @@ export async function POST(req: Request): Promise<NextResponse> {
       EXPIRED: 'This request has expired. Start a new request.',
       RATE_LIMIT: 'Too many new requests. Please wait before trying again.',
       RECEIPT_UNKNOWN: 'We could not confirm receipt. Keep your details and retry this same request.',
+      // M-2/item 3: CONFIGURATION must not assert non-delivery — it can occur
+      // before any provider attempt (e.g. missing config) and must not read
+      // like a confirmed failed send.
+      CONFIGURATION: "We couldn't process your request right now. Your details have been kept — please try again shortly or call us directly.",
+      DELIVERY_FAILED: 'We were unable to deliver your request. Please contact us directly.',
     };
     return error(delivery.status || 503, messages[code] || 'Request delivery is temporarily unavailable. Please try again or contact us directly.', code, { requestId }, delivery.retryAfter ? { 'Retry-After': String(delivery.retryAfter) } : {});
   }

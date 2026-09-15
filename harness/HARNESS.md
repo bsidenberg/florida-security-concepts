@@ -175,3 +175,13 @@ S-005 read-only research may proceed while content sessions run after preview, b
 | 2026-09-11 | 1.0 approved | SPEC mapped to sessions; verification foundation inserted; isolated durable local receipt approved; production retry remains gated | Brian explicitly requested build as planned and local review version |
 
 Harness approval: **APPROVED — 2026-09-11**. OD-01 resolved. Execute S-001 and S-002 autonomously, repair routine failures and present the preview. No repeated approvals for in-scope tests, dependencies or reversible fixes.
+
+### AM-003 approval and S-005 activation — 2026-09-14
+
+Brian approved the concrete receipt-storage proposal with “approved, lets get this published”. PRODUCTION-RECEIPT-PROPOSAL.md is now the approved C-04 implementation contract, including seven-day additional inquiry/envelope retention and indefinite minimal private retry tombstones. Existing Prime and Resend only; company notifications go to info@floridasecurityconcepts.com. No new paid service. Brian alone runs production SQL and merges main. Production approval persists after verification; do not re-ask the architecture or visual direction.
+
+Implementation may now execute S-005, with hosted preview provider refusal/noindex/no analytics included as required deployment isolation. Preserve existing optional customer-copy configuration and best-effort Prime recording. Cleanup scheduling and distributed abuse enforcement must be concretely implemented or recorded as unresolved release dependencies; approval does not turn a draft or unmonitored manual task into verified operational behavior. Broader S-003/S-004 content remains deferred; release inventory is 38 existing canonical routes.
+
+### AM-004 activation — 2026-09-14
+
+Brian renewed approval to finish launch after the update on bounded no-raw-IP/no-paid-service spam protection. The existing source threshold remains20newlogicalrequests/rolling10minutes, unchanged retries exempt. Adopt the concrete technical design in ABUSE-AND-PRIVACY-PROPOSAL.md: dedicated server HMAC key, transient private source counter, atomic quota+receipt creation, expiry tenminutes afterlastadmission and next-minute cleanup. New paidservices/rawIPstorage remain prohibited. This is a recorded amendment before implementation; owner alone enters production secret and executes SQL. Builder extends current S-005 permittedlib/API/SQL paths and sharedform only for factual disclosure; testguard adds contractcoverage; independent safetyreview required. No new contentpage or new trackingtechnology.

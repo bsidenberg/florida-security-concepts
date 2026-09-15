@@ -1,6 +1,6 @@
 # AM-003 — Production assessment receipt safeguard proposal
 
-Status: **PROPOSED; architecture and retention acceptance required before application implementation.** Prepared 2026-09-14 by independent safety-reviewer. Brian has authorized finishing safeguards and publishing promptly. That already authorizes investigation, concrete design, additive SQL drafts, isolated verification preparation and routine fixes. This proposal makes the remaining material production persistence/privacy decision reviewable; it is not a request to reconfirm the website design or ordinary coding steps.
+Status: **APPROVED by Brian, 2026-09-14: “approved, lets get this published”.** This approves the presented AM-003 architecture and retention plan: seven-day extra payload retention followed by indefinite minimal private retry tombstones. Application implementation and isolated verification may proceed. Publication authorization persists subject to verification; Brian alone executes production SQL and merges main under his standing workflow. Prepared by independent safety-reviewer; approval does not claim deployed schema or external delivery verification.
 
 ## Outcome and scope
 

@@ -44,7 +44,23 @@ describe('endpoint rejection before delivery', () => {
     expect(response.status).toBe(503); expect(delivery).toHaveBeenCalledOnce();
     expect((await response.json()).ok).toBe(false);
   });
-  it.each([['CONFLICT', 409], ['PENDING', 409], ['EXPIRED', 409], ['RATE_LIMIT', 429], ['RECEIPT_UNKNOWN', 504], ['CONFIGURATION', 503]])('exposes safe %s state and retains request ID', async (code, status) => {
+  it('passes the incoming request headers to delivery so the dispatcher can read the trusted source header', async () => {
+    delivery.mockResolvedValue({ ok: true, mode: 'resend+supabase', deliveryId: 'synthetic' });
+    const req = new Request('http://127.0.0.1/api/leads', { method: 'POST', headers: { 'content-type': 'application/json', 'x-vercel-forwarded-for': '203.0.113.61' }, body: JSON.stringify(validLead) });
+    expect((await POST(req)).status).toBe(200);
+    const [passedLead, passedId, passedHeaders] = delivery.mock.calls[0];
+    expect(passedLead).toMatchObject({ email: validLead.email, requestId: validLead.requestId });
+    expect(passedId).toBe(validLead.requestId);
+    expect((passedHeaders as Headers).get('x-vercel-forwarded-for')).toBe('203.0.113.61');
+  });
+  it('rejects a valid lead without a request ID before delivery', async () => {
+    const { requestId: _omit, ...withoutId } = validLead;
+    const response = await POST(request(JSON.stringify(withoutId)));
+    expect(response.status).toBe(400);
+    expect(await response.json()).toMatchObject({ ok: false, code: 'INVALID', fields: { requestId: expect.any(String) } });
+    expect(delivery).not.toHaveBeenCalled();
+  });
+  it.each([['CONFLICT', 409],['PENDING', 409], ['EXPIRED', 409], ['RATE_LIMIT', 429], ['RECEIPT_UNKNOWN', 504], ['CONFIGURATION', 503]])('exposes safe %s state and retains request ID', async (code, status) => {
     delivery.mockResolvedValue({ ok: false, mode: 'local', code, status, retryAfter: code === 'RATE_LIMIT' ? 600 : undefined });
     const response = await POST(request(JSON.stringify(validLead)));
     expect(response.status).toBe(status);

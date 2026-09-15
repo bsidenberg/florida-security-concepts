@@ -1,3 +1,4 @@
+import { isHostedPreview } from '@/lib/leads/environment';
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
@@ -12,7 +13,8 @@ import { LocalPreviewProvider } from '@/components/LocalPreviewContext';
 // site is created (looks like https://plausible.io/js/pa-XXXXX.js).
 // Until it is set the provider is skipped and usePlausible() calls are no-ops.
 const LOCAL_PREVIEW = process.env.FSC_LOCAL_PREVIEW === '1';
-const PLAUSIBLE_SRC = LOCAL_PREVIEW ? '' : process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL;
+const PRIVATE_PREVIEW = LOCAL_PREVIEW || isHostedPreview();
+const PLAUSIBLE_SRC = PRIVATE_PREVIEW ? '' : process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL;
 
 function Analytics({ children }: { children: React.ReactNode }) {
   if (!PLAUSIBLE_SRC) return <>{children}</>;
@@ -69,11 +71,11 @@ export const metadata: Metadata = {
     description: site.tagline,
   },
   robots: {
-    index: !LOCAL_PREVIEW,
-    follow: !LOCAL_PREVIEW,
+    index: !PRIVATE_PREVIEW,
+    follow: !PRIVATE_PREVIEW,
     googleBot: {
-      index: !LOCAL_PREVIEW,
-      follow: !LOCAL_PREVIEW,
+      index: !PRIVATE_PREVIEW,
+      follow: !PRIVATE_PREVIEW,
       'max-snippet': -1,
       'max-image-preview': 'large',
       'max-video-preview': -1,

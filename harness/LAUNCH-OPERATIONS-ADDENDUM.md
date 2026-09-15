@@ -1,0 +1,32 @@
+# AM-003 operational completion — reviewable adoption notes
+
+2026-09-14. Documentation proposal by independent safety-reviewer. AM-003 persistence/retention and publication are approved; production SQL remains owner-executed. This note does not enable an extension, create a job, change a firewall rule or implement an admission policy.
+
+## Cleanup within the existing database
+
+Parent's read-only extension inventory confirms pg_cron version 1.6.4 is available but **not installed**. The shortest path is to enable that existing Prime extension and run the approved private-copy purge function directly in PostgreSQL. Supabase Cron supports SQL/function jobs and stores run history in the database ([official overview](https://supabase.com/docs/guides/cron), [installation](https://supabase.com/docs/guides/cron/install)). No additional vendor account, HTTP endpoint, queue or credential is needed. Database compute/storage use remains on the existing plan; no unverified claim about the account's available capacity is made.
+
+Treat activation as the concrete existing-database scheduling implementation under approved cleanup scope, record it before drafting/applying, and include it in Brian's manual SQL handoff. Builder drafts an independently reviewed, separately labeled operational SQL file. It must verify expected database/account identity, enable only pg_cron if absent, create one uniquely named FSC cleanup job and refuse a same-name job with an unexpected command instead of overwriting it. Do not alter or delete other projects' jobs, cron history or existing leads/accounts. Never disable pg_cron as rollback because that can remove unrelated jobs.
+
+Recommended cadence: every minute, invoking only the approved purge function for the FSC account. Existing data becomes eligible at seven days; ordinary deletion occurs on the next scheduled tick. Explicitly document this scheduling granularity rather than claim hard real-time deletion at the exact millisecond. If Brian intends a strict maximum age of seven days rather than seven-day eligibility, the purge deadline must be advanced by the scheduling allowance and formally reflected in the contract before implementation.
+
+Add read-only operational evidence: job identity/active flag/schedule, last successful run time, due receipt count and oldest overdue age. Output only counts/timestamps/job status, never payload or recipient details. Declare health degraded if no successful run within five minutes or any payload remains more than five minutes overdue. A missing/failed job is a visible launch blocker. At handoff, observe an actual successful scheduled run and verify a synthetic, explicitly authorized cleanup case; mocks do not establish that the hosted scheduler works.
+
+Do not promise continuous human response from a dashboard alone. Brian's existing operations workflow must inspect degraded health; automatic email alerts or a paid monitor are not silently authorized. If this cannot be monitored through an existing approved facility, report that operational gap before publication. A manual command without scheduled execution and backlog evidence does not satisfy the adopted retention behavior.
+
+## Abuse enforcement: exact remaining choice
+
+The approved draft threshold is 20 **new logical** requests per source per ten minutes, with unchanged-ID retries exempt. No source-IP identity/retention policy was approved. Vercel documents WAF rate limiting as a priced feature; verify actual account entitlement/cost before enabling it ([official pricing](https://vercel.com/docs/vercel-firewall/vercel-waf/usage-and-pricing)). A generic all-POST rule also counts retries and cannot be called equivalent to the agreed logical-request policy.
+
+Two bounded choices can be presented with the completed handoff, without adding a vendor:
+
+1. Preserve per-network-source semantics only after approving a concrete source identifier and short retention. This would require a private, atomic admission counter keyed by a keyed digest of a platform-trusted source address, never raw IP or an untrusted forwarded header. Specify the exact lifetime, key custody/rotation and cleanup before code. A digest is still private/linkable data, not anonymous data. This is a new privacy decision; AM-003's contact receipt storage alone does not authorize it.
+2. Avoid collecting any new source identifier by adopting a per-contact plus site-wide cap using already-approved normalized contact data/private receipts. Proposed comparison point: 20 new requests per normalized email per ten minutes plus a site-wide ceiling to contain randomized-email floods, enforced atomically before creating a receipt. The global ceiling must be selected from expected traffic and failure handling; do not invent it or describe email as the same as network source. This is an explicit narrow policy amendment, not implementation clarification. Changing the source model has abuse and shared-inbox tradeoffs.
+
+Whichever choice is accepted, serialize the admission decision and receipt insertion in PostgreSQL; unchanged logical retries must read the existing receipt without consuming quota. A memory-only counter across serverless instances is insufficient. A simple count before insert without a transaction lock permits concurrent bypass. Local and isolated tests can prove limits/atomicity, not actual platform source provenance or hosted entitlement.
+
+## Preview isolation
+
+Existing Preview variables include live provider credentials. Before any branch deployment can be exercised, server delivery must reject hosted nonproduction environments **before importing or invoking providers**, independent of LEAD_DELIVERY_MODE. Preview rendering must emit noindex/nofollow and disable analytics at both build/runtime boundaries. Local loopback behavior remains separate. Do not broaden the local filesystem receipt adapter to hosted previews.
+
+Remove live provider credentials from Preview scope where configuration authority permits, while retaining Production values unchanged. This is defense in depth, not a substitute for the application guard. Verify the preview with non-delivering requests and network evidence; do not submit a real or synthetic lead to a live provider merely to prove the preview blocks it. Production schema application and main merge remain Brian's actions; deployment approval already given need not be re-asked unless these material policy choices change.

@@ -27,6 +27,23 @@ import { Resend } from 'resend';
 import type { DeliveryResult, ValidatedLead } from '../types';
 import { site, hasPhone } from '@/data/site';
 
+export type EmailEnvelope = { from: string; to: string; reply_to?: string; subject: string; text: string; html: string };
+export const RECEIPT_TEMPLATE_VERSION = 'fsc-assessment-v3'; // D-024: confirmation content changed (no free-text echo)
+export function snapshotEmailEnvelopes(lead: ValidatedLead): Record<string, EmailEnvelope> {
+  const from = process.env.LEAD_NOTIFICATION_FROM?.trim();
+  if (!from) throw new Error('CONFIGURATION');
+  const to = 'info@floridasecurityconcepts.com';
+  const envelopes: Record<string, EmailEnvelope> = {
+    company_email: { from, to, reply_to: lead.email, subject: buildSubject(lead), text: buildPlainText(lead), html: buildHtml(lead) },
+  };
+  const confirmation = readConfirmationConfig(from, [to]);
+  if (confirmation.enabled) envelopes.customer_email = {
+    from: confirmation.from, to: lead.email, ...(confirmation.replyTo ? { reply_to: confirmation.replyTo } : {}),
+    subject: CONFIRMATION_SUBJECT, text: buildConfirmationPlainText(lead), html: buildConfirmationHtml(lead),
+  };
+  return envelopes;
+}
+
 type EnvCheck =
   | { ok: true; apiKey: string; to: string[]; from: string }
   | { ok: false; reason: string };
@@ -213,24 +230,18 @@ function readConfirmationConfig(
   };
 }
 
-function firstName(fullName: string): string | undefined {
-  const t = fullName.trim();
-  if (!t) return undefined;
-  const first = t.split(/\s+/)[0];
-  return first.length > 0 ? first : undefined;
-}
-
 const CONFIRMATION_SUBJECT = 'Florida Security Concepts received your request';
 
-// Customer-facing summary: ONLY user-submitted, user-relevant fields.
-// Excludes UTM, referrer, sourcePage, slugs, honeypot, system metadata.
+// D-024 (safety review M-10): customer-facing summary lists ONLY allowlisted
+// categorical selections (service / property type / timing) — never
+// visitor-controlled free text (name, city, company, message), which would
+// otherwise let an arbitrary submitted address be used as a spam/phishing
+// relay through our verified sender.
 function customerSummaryRows(lead: ValidatedLead): { label: string; value: string }[] {
   const rows: { label: string; value: string | undefined }[] = [
     { label: 'Service needed', value: lead.service },
     { label: 'Property type', value: lead.propertyType },
-    { label: 'City / service area', value: lead.city },
-    { label: 'Urgency', value: lead.urgency },
-    { label: 'Preferred contact method', value: lead.contactMethod },
+    { label: 'Timing', value: lead.urgency },
   ];
   return rows.filter(
     (r): r is { label: string; value: string } =>
@@ -239,14 +250,14 @@ function customerSummaryRows(lead: ValidatedLead): { label: string; value: strin
 }
 
 function buildConfirmationPlainText(lead: ValidatedLead): string {
-  const fn = firstName(lead.fullName);
-  const greeting = fn ? `Hi ${fn},` : 'Hello,';
+  // D-024: generic greeting only — the submitted name is never echoed back.
+  const greeting = 'Hello,';
   const lines: string[] = [
     greeting,
     '',
     "Thanks for reaching out to Florida Security Concepts. We've received your request, and a member of our team will review your property and service details before following up.",
     '',
-    'Most assessment requests are reviewed the same business day.',
+    'Our team will review the property details you provided.',
     '',
     "Here's what we received:",
   ];
@@ -271,8 +282,8 @@ function buildConfirmationPlainText(lead: ValidatedLead): string {
 }
 
 function buildConfirmationHtml(lead: ValidatedLead): string {
-  const fn = firstName(lead.fullName);
-  const greeting = fn ? `Hi ${escapeHtml(fn)},` : 'Hello,';
+  // D-024: generic greeting only — the submitted name is never echoed back.
+  const greeting = 'Hello,';
   const summary = customerSummaryRows(lead)
     .map(
       ({ label, value }) => `<tr>
@@ -299,7 +310,7 @@ function buildConfirmationHtml(lead: ValidatedLead): string {
       <td style="padding:22px 24px 6px;">
         <p style="margin:0 0 12px;font:15px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;color:#111827;">${greeting}</p>
         <p style="margin:0 0 12px;font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#374151;">Thanks for reaching out to Florida Security Concepts. We&rsquo;ve received your request, and a member of our team will review your property and service details before following up.</p>
-        <p style="margin:0 0 18px;font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#374151;">Most assessment requests are reviewed the same business day.</p>
+        <p style="margin:0 0 18px;font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#374151;">Our team will review the property details you provided.</p>
       </td>
     </tr>
     <tr>
