@@ -20,12 +20,15 @@ export function JsonLd({ data }: { data: object }) {
   );
 }
 
-// Strip undefined/null/'' values so generated JSON-LD stays clean.
+// Strip undefined/null/'' and empty arrays so generated JSON-LD stays clean.
+// Empty arrays (e.g. sameAs: []) must not be emitted — they are valid JSON but
+// confuse some validators and provide no signal to crawlers.
 function pruned<T extends Record<string, unknown>>(obj: T): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(obj)) {
     if (v === undefined || v === null) continue;
     if (typeof v === 'string' && v.length === 0) continue;
+    if (Array.isArray(v) && v.length === 0) continue;
     out[k] = v;
   }
   return out;
@@ -62,6 +65,13 @@ export function OrganizationSchema() {
         telephone: hasPhone() ? site.phone : undefined,
         email: hasEmail() ? site.email : undefined,
         sameAs: sameAs.length > 0 ? sameAs : undefined,
+        // TODO: Once Google Business Profile has ≥10 verified reviews, uncomment and populate:
+        // aggregateRating: {
+        //   '@type': 'AggregateRating',
+        //   ratingValue: 'X.X',   // average from GBP
+        //   reviewCount: N,        // count from GBP
+        //   bestRating: '5',
+        // },
       })}
     />
   );

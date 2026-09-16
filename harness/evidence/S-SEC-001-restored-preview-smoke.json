@@ -1,0 +1,86 @@
+{
+  "checks": 9,
+  "results": [
+    {
+      "browser": "chromium",
+      "path": "/",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "chromium",
+      "path": "/contact?service=access-control",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "chromium",
+      "path": "/services/access-control",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "firefox",
+      "path": "/",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "firefox",
+      "path": "/contact?service=access-control",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "firefox",
+      "path": "/services/access-control",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "webkit",
+      "path": "/",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "webkit",
+      "path": "/contact?service=access-control",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    },
+    {
+      "browser": "webkit",
+      "path": "/services/access-control",
+      "status": 200,
+      "body": "rgb(246, 247, 247)",
+      "overflow": false,
+      "robots": "noindex, nofollow",
+      "blocked": 0
+    }
+  ]
+}

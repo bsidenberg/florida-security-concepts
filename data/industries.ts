@@ -14,6 +14,7 @@ export type Industry = {
   keyConsiderations: { title: string; body: string }[];
   faqs: { q: string; a: string }[];
   keywords: string[];
+  updatedDate: string; // ISO date, e.g. '2026-05-27'
 };
 
 export const industries: Industry[] = [
@@ -94,6 +95,7 @@ export const industries: Industry[] = [
       'HOA video surveillance',
       'resident credentials HOA',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'multifamily-apartments-condos',
@@ -166,6 +168,7 @@ export const industries: Industry[] = [
       'multifamily video surveillance',
       'apartment gate automation',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'storage-facilities',
@@ -238,6 +241,7 @@ export const industries: Industry[] = [
       'storage gate access',
       'storage license plate camera',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'commercial-properties',
@@ -310,6 +314,7 @@ export const industries: Industry[] = [
       'commercial video surveillance',
       'commercial gate Florida',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'industrial-warehouses',
@@ -382,6 +387,7 @@ export const industries: Industry[] = [
       'logistics gate automation',
       'yard surveillance Florida',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'property-managers',
@@ -454,6 +460,7 @@ export const industries: Industry[] = [
       'portfolio access control',
       'community security manager',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'residential-estates',
@@ -527,6 +534,7 @@ export const industries: Industry[] = [
       'luxury home security',
       'estate access control',
     ],
+    updatedDate: '2026-05-27',
   },
 ];
 

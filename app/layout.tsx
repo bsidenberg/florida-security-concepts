@@ -1,3 +1,4 @@
+import { isHostedPreview } from '@/lib/leads/environment';
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
@@ -5,17 +6,22 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { OrganizationSchema } from '@/components/Schema';
 import { site } from '@/data/site';
-import PlausibleProvider from 'next-plausible';
+import { LocalPreviewProvider } from '@/components/LocalPreviewContext';
+import { analyticsScriptSrc } from '@/lib/analytics/config';
+import { PlausibleAnalytics } from '@/lib/analytics/PlausibleAnalytics';
 
 // NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL is set in Vercel env vars once the Plausible
-// site is created (looks like https://plausible.io/js/pa-XXXXX.js).
-// Until it is set the provider is skipped and usePlausible() calls are no-ops.
-const PLAUSIBLE_SRC = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL;
-
-function Analytics({ children }: { children: React.ReactNode }) {
-  if (!PLAUSIBLE_SRC) return <>{children}</>;
-  return <PlausibleProvider src={PLAUSIBLE_SRC}>{children}</PlausibleProvider>;
-}
+// site is created (https://plausible.io/js/pa-XXXXX.js). Analytics renders only for
+// that exact URL shape in a production build that is neither local nor hosted
+// preview; otherwise nothing is rendered and track() calls are no-ops.
+const LOCAL_PREVIEW = process.env.FSC_LOCAL_PREVIEW === '1';
+const PRIVATE_PREVIEW = LOCAL_PREVIEW || isHostedPreview();
+const PLAUSIBLE_SRC = analyticsScriptSrc({
+  scriptUrl: process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL,
+  localPreview: LOCAL_PREVIEW,
+  hostedPreview: isHostedPreview(),
+  production: process.env.NODE_ENV === 'production',
+});
 
 const inter = Inter({
   subsets: ['latin'],
@@ -67,11 +73,11 @@ export const metadata: Metadata = {
     description: site.tagline,
   },
   robots: {
-    index: true,
-    follow: true,
+    index: !PRIVATE_PREVIEW,
+    follow: !PRIVATE_PREVIEW,
     googleBot: {
-      index: true,
-      follow: true,
+      index: !PRIVATE_PREVIEW,
+      follow: !PRIVATE_PREVIEW,
       'max-snippet': -1,
       'max-image-preview': 'large',
       'max-video-preview': -1,
@@ -91,7 +97,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
       <body className="font-sans">
-        <Analytics>
+        <LocalPreviewProvider local={LOCAL_PREVIEW}>
+          {LOCAL_PREVIEW && <div className="fsc-preview-notice">Local review · Synthetic details only · Requests stay on this computer</div>}
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-fsc-accent focus:text-white focus:px-3 focus:py-2 focus:rounded-md"
@@ -104,7 +111,8 @@ export default function RootLayout({
           </main>
           <Footer />
           <OrganizationSchema />
-        </Analytics>
+          {PLAUSIBLE_SRC && <PlausibleAnalytics src={PLAUSIBLE_SRC} />}
+        </LocalPreviewProvider>
       </body>
     </html>
   );

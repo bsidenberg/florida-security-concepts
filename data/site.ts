@@ -26,7 +26,7 @@ export const site = {
   businessName: 'Florida Security Concepts',
   domain: 'floridasecurityconcepts.com',
   tagline:
-    'Gate automation, access control, video surveillance, and security system integration for Central Florida and Tampa Bay.',
+    'Gate and access-control maintenance, repairs and installations for HOAs and property managers in Orlando and Tampa.',
 
   // Resolved at module load. Override via NEXT_PUBLIC_SITE_URL.
   url: resolveUrl(),
@@ -51,7 +51,7 @@ export const site = {
     country: 'US',
   },
 
-  hours: '24/7 emergency support · Standard service hours weekdays',
+  hours: '24/7 emergency service',
   serviceRegions: ['Central Florida', 'Tampa Bay'],
   serviceAreaSummary:
     'Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
@@ -62,6 +62,15 @@ export const site = {
     facebook: '',
     linkedin: '',
   },
+
+  // TODO: Brian to populate with actual license numbers and manufacturer certifications
+  licenses: {
+    lowVoltage: '',
+    electrical: '',
+    alarm: '',
+    other: [] as string[],
+  },
+  manufacturerCerts: [] as string[],
 };
 
 // --- Helpers --------------------------------------------------------------
@@ -94,17 +103,12 @@ export function activeSocialLinks(): { name: string; url: string }[] {
 
 export const nav = {
   primary: [
-    { label: 'Home', href: '/' },
+    { label: 'Maintenance', href: '/#maintenance' },
     { label: 'Services', href: '/services' },
-    { label: 'Industries', href: '/industries' },
+    { label: 'HOAs & Property Managers', href: '/industries/property-managers' },
     { label: 'Service Areas', href: '/service-areas' },
     { label: 'Resources', href: '/resources' },
-    { label: 'Emergency Service', href: '/services/emergency-service' },
-    { label: 'Contact', href: '/contact' },
   ],
-  cta: { label: 'Request Site Assessment', href: '/contact' },
-  emergencyCta: {
-    label: 'Emergency Service',
-    href: '/services/emergency-service',
-  },
+  cta: { label: 'Request a Free Property Assessment', href: '/contact' },
+  emergencyCta: { label: '24/7 Emergency Service', href: '/services/emergency-service' },
 } as const;

@@ -1,0 +1,21 @@
+import { it, expect } from 'vitest';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, copyFileSync, writeFileSync } from 'node:fs';
+import { resolve, join } from 'node:path';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+it('launcher overrides inherited and Next environment-file delivery configuration', () => {
+  mkdirSync('.fsc-test/fixtures', { recursive: true });
+  const root = mkdtempSync(resolve('.fsc-test/fixtures/isolation-'));
+  mkdirSync(join(root, 'scripts'));
+  for (const file of ['local-server.mjs', 'network-guard.cjs']) copyFileSync(resolve('scripts', file), join(root, 'scripts', file));
+  const moduleDir = join(root, 'node_modules/next/dist/server/lib');
+  mkdirSync(moduleDir, { recursive: true });
+  writeFileSync(join(root, '.env.local'), 'LEAD_DELIVERY_MODE=resend\nRESEND_API_KEY=synthetic-fixture-only\nNEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL=https://example.invalid/script.js\n');
+  writeFileSync(join(moduleDir, 'start-server.js'), `exports.startServer=async()=>{require(${JSON.stringify(require.resolve('@next/env'))}).loadEnvConfig(process.cwd(),true);console.log('ISOLATION',JSON.stringify({mode:process.env.LEAD_DELIVERY_MODE,secretEmpty:process.env.RESEND_API_KEY==='',analyticsEmpty:process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL==='',confirmation:process.env.LEAD_CONFIRMATION_ENABLED}));};`);
+  const result = spawnSync(process.execPath, [join(root, 'scripts/local-server.mjs')], { cwd: root, encoding: 'utf8', timeout: 10000, env: { ...process.env, LEAD_DELIVERY_MODE: 'webhook', RESEND_API_KEY: 'synthetic-inherited-only', NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL: 'https://example.invalid/script.js' } });
+  expect(result.status, result.stderr).toBe(0);
+  const line = result.stdout.split('\n').find(s => s.startsWith('ISOLATION '));
+  expect(line, 'synthetic launcher probe must emit its observation').toBeDefined();
+  expect(JSON.parse(line!.slice(10))).toEqual({ mode: 'local', secretEmpty: true, analyticsEmpty: true, confirmation: 'false' });
+});

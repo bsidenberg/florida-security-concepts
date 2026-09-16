@@ -6,9 +6,15 @@
 
 # testing
 /coverage
+/.fsc-local/
+/.fsc-test/
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/
+/.next-measure/
+/.next-measure-analytics/
 /out/
 
 # production
@@ -35,3 +41,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code local settings
+.claude/

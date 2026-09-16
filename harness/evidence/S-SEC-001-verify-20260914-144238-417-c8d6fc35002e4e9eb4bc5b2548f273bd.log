@@ -1,0 +1,404 @@
+VERIFICATION session=S-SEC-001 run=20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd
+Project=C:\Python\florida-security-concepts
+Log=C:\Python\florida-security-concepts\harness\evidence\S-SEC-001-verify-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.log
+Revision: 4d481d2f6d0635a2cec0602fc2fa8076c555a3a7
+Dirty files:
+ M app/contact/page.tsx
+ M app/industries/[slug]/page.tsx
+ M app/resources/[slug]/page.tsx
+ M app/service-areas/[slug]/page.tsx
+ M app/services/[slug]/page.tsx
+ M harness/DECISIONS.md
+ M harness/ENVIRONMENT.md
+ M harness/SESSIONS.md
+ M harness/verification.json
+ M next.config.mjs
+ M package-lock.json
+ M package.json
+?? %SystemDrive%/
+?? harness/PRODUCTION-RECEIPT-PROPOSAL.md
+?? harness/evidence/S-SEC-001-compiled-smoke.json
+?? harness/evidence/S-SEC-001-production-audit.json
+?? harness/evidence/S-SEC-001-resolved-dependencies.json
+?? harness/evidence/S-SEC-001-review.md
+?? harness/evidence/S-SEC-001-verify-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.log
+?? harness/evidence/S005-sql-draft-check.mjs
+?? harness/evidence/S005-sql-draft-local.log
+?? harness/evidence/S005-sql-draft-review.md
+?? harness/evidence/S006-dependency-audit-20260914.json
+?? harness/evidence/S006-dependency-remediation-plan.md
+?? harness/evidence/S006-readonly-route-sweep-20260914.json
+?? harness/evidence/S006-readonly-route-sweep-20260914.md
+?? harness/evidence/prime-schema-metadata-20260914.json
+?? harness/evidence/release-qa-plan-20260914.md
+?? harness/evidence/release-readiness-20260914.md
+?? sql/
+?? tmp/
+Node: v24.16.0
+Dependency versions: {"@axe-core/playwright":"4.13.0","@playwright/test":"1.63.0","@types/node":"^20.14.10","@types/react":"19.3.0","@types/react-dom":"19.3.0","autoprefixer":"^10.4.20","eslint":"^8.57.0","eslint-config-next":"15.5.25","postcss":"8.5.28","tailwindcss":"^3.4.17","typescript":"^5.5.4","vitest":"4.1.11"}
+CHECK lint COMMAND node ["node_modules/next/dist/bin/next","lint"]
+STDOUT
+✔ No ESLint warnings or errors
+
+STDERR
+`next lint` is deprecated and will be removed in Next.js 16.
+For new projects, use create-next-app to choose your preferred linter.
+For existing projects, migrate to the ESLint CLI:
+npx @next/codemod@canary next-lint-to-eslint-cli .
+
+
+CHECK lint EXIT 0
+CHECK typecheck COMMAND node ["node_modules/typescript/bin/tsc","--noEmit"]
+STDOUT
+
+STDERR
+
+CHECK typecheck EXIT 0
+CHECK test:unit COMMAND node ["node_modules/vitest/vitest.mjs","run"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ ✓ tests/unit/validation.test.ts (21 tests) 16ms
+ ✓ tests/unit/contract.test.ts (30 tests) 17ms
+stdout | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation preserves primary success when secondary fails
+[lead-delivery] { result: 'received', mode: 'resend+supabase' }
+
+stdout | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation preserves primary success when secondary throws
+[lead-delivery] { result: 'received', mode: 'resend+supabase' }
+
+stdout | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation does not invoke secondary after primary failure
+[lead-delivery] { result: 'unavailable', mode: 'resend' }
+
+ ✓ tests/unit/delivery-safety.test.ts (15 tests) 31ms
+ ✓ tests/unit/endpoint.test.ts (19 tests) 34ms
+ ✓ tests/unit/local-receipt.test.ts (11 tests) 424ms
+   ✓ concurrent independent processes and a restarted process create only one receipt  331ms
+
+ Test Files  5 passed (5)
+      Tests  96 passed (96)
+   Start at  14:42:46
+   Duration  877ms (transform 376ms, setup 0ms, import 789ms, tests 522ms, environment 1ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-SEC-001-test-unit-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+stderr | tests/unit/delivery-safety.test.ts > isolated dispatch and timeout contract > simulation preserves primary success when secondary throws
+[lead-delivery] secondary_unavailable
+
+
+CHECK test:unit EXIT 0
+TEST COUNTS test:unit passed=96 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-SEC-001-test-unit-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.json
+CHECK test:gate COMMAND node ["node_modules/vitest/vitest.mjs","run","--config","vitest.gate.config.ts"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ ✓ tests/gate/network.test.ts (1 test) 110ms
+ ✓ tests/gate/isolation.test.ts (1 test) 158ms
+ ✓ tests/gate/runner.test.ts (9 tests) 13159ms
+     ✓ rejects unknown session  1080ms
+     ✓ rejects a missing package script  847ms
+     ✓ rejects empty passing report  1319ms
+     ✓ rejects skipped tests  1320ms
+     ✓ rejects missing reports  1297ms
+     ✓ propagates child failure  1132ms
+     ✓ malformed manifest fails with visible diagnostic  812ms
+     ✓ runs valid checks and preserves both streams in unique raw logs  3153ms
+     ✓ timeout stops only its owned process tree  2192ms
+
+ Test Files  3 passed (3)
+      Tests  11 passed (11)
+   Start at  14:42:48
+   Duration  13.54s (transform 80ms, setup 0ms, import 174ms, tests 13.43s, environment 1ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-SEC-001-test-gate-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.gate.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+CHECK test:gate EXIT 0
+TEST COUNTS test:gate passed=11 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-SEC-001-test-gate-20260914-144238-417-c8d6fc35002e4e9eb4bc5b2548f273bd.json
+CHECK build COMMAND node ["node_modules/next/dist/bin/next","build"]
+STDOUT
+   ▲ Next.js 15.5.25
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 14.4s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/43) ...
+   Generating static pages (10/43) 
+   Generating static pages (21/43) 
+   Generating static pages (32/43) 
+ ✓ Generating static pages (43/43)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                 Size  First Load JS
+┌ ○ /                                                      165 B         106 kB
+├ ○ /_not-found                                            140 B         103 kB
+├ ƒ /api/leads                                             140 B         103 kB
+├ ƒ /apple-icon                                            140 B         103 kB
+├ ƒ /contact                                               166 B         114 kB
+├ ƒ /icon                                                  140 B         103 kB
+├ ○ /industries                                            170 B         106 kB
+├ ● /industries/[slug]                                     922 B         114 kB
+├   ├ /industries/hoa-gated-communities
+├   ├ /industries/multifamily-apartments-condos
+├   ├ /industries/storage-facilities
+├   └ [+4 more paths]
+├ ƒ /opengraph-image                                       140 B         103 kB
+├ ○ /resources                                             170 B         106 kB
+├ ● /resources/[slug]                                      900 B         107 kB
+├   ├ /resources/how-much-does-an-automatic-gate-cost
+├   ├ /resources/best-access-control-system-for-hoa
+├   ├ /resources/storage-facility-security-camera-guide
+├   └ [+2 more paths]
+├ ○ /robots.txt                                            140 B         103 kB
+├ ○ /service-areas                                         170 B         106 kB
+├ ● /service-areas/[slug]                                  922 B         114 kB
+├   ├ /service-areas/orlando
+├   ├ /service-areas/tampa
+├   ├ /service-areas/lakeland
+├   └ [+11 more paths]
+├ ○ /services                                              170 B         106 kB
+├ ● /services/[slug]                                       922 B         114 kB
+├   ├ /services/security-gate-systems
+├   ├ /services/gate-automation
+├   ├ /services/access-control
+├   └ [+3 more paths]
+└ ○ /sitemap.xml                                           140 B         103 kB
++ First Load JS shared by all                             103 kB
+  ├ chunks/255-37e0f0325134c4d7.js                       46.4 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js                  54.2 kB
+  └ other shared chunks (total)                          1.99 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+STDERR
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+
+CHECK build EXIT 0
+CHECK test:e2e COMMAND node ["node_modules/@playwright/test/cli.js","test"]
+STDOUT
+   ▲ Next.js 15.5.25
+   - Local:        http://127.0.0.1:3100
+   - Network:      http://127.0.0.1:3100
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ○ Compiling / ...
+ ✓ Compiled / in 6.3s (686 modules)
+ GET / 200 in 1589ms
+ GET / 200 in 373ms
+
+Running 83 tests using 1 worker
+
+ GET / 200 in 215ms
+  ok  1 tests\e2e\baseline.spec.ts:21:7 › public route renders: / (1.1s)
+ ○ Compiling /contact ...
+ ✓ Compiled /contact in 725ms (683 modules)
+ GET /contact 200 in 1114ms
+  ok  2 tests\e2e\baseline.spec.ts:21:7 › public route renders: /contact (2.0s)
+ ✓ Compiled /services in 342ms (678 modules)
+ GET /services 200 in 666ms
+  ok  3 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services (1.5s)
+ ✓ Compiled /industries in 329ms (681 modules)
+ GET /industries 200 in 598ms
+  ok  4 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries (1.5s)
+ ✓ Compiled /service-areas in 332ms (684 modules)
+ GET /service-areas 200 in 567ms
+  ok  5 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas (1.4s)
+ ✓ Compiled /resources in 361ms (687 modules)
+ GET /resources 200 in 592ms
+  ok  6 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources (1.4s)
+ ○ Compiling /services/[slug] ...
+ ✓ Compiled /services/[slug] in 871ms (704 modules)
+ GET /services/security-gate-systems 200 in 1837ms
+  ok  7 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/security-gate-systems (2.9s)
+ GET /services/gate-automation 200 in 380ms
+  ok  8 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/gate-automation (1.3s)
+ GET /services/access-control 200 in 352ms
+  ok  9 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/access-control (1.3s)
+ GET /services/video-surveillance 200 in 316ms
+  ok 10 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/video-surveillance (1.2s)
+ GET /services/security-system-integration 200 in 317ms
+  ok 11 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/security-system-integration (1.2s)
+ GET /services/emergency-service 200 in 291ms
+  ok 12 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/emergency-service (1.4s)
+ ○ Compiling /industries/[slug] ...
+ ✓ Compiled /industries/[slug] in 560ms (706 modules)
+ GET /industries/hoa-gated-communities 200 in 1571ms
+  ok 13 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/hoa-gated-communities (2.6s)
+ GET /industries/multifamily-apartments-condos 200 in 366ms
+  ok 14 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/multifamily-apartments-condos (1.5s)
+ GET /industries/storage-facilities 200 in 349ms
+  ok 15 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/storage-facilities (1.3s)
+ GET /industries/commercial-properties 200 in 291ms
+  ok 16 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/commercial-properties (1.2s)
+ GET /industries/industrial-warehouses 200 in 301ms
+  ok 17 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/industrial-warehouses (1.2s)
+ GET /industries/property-managers 200 in 257ms
+  ok 18 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/property-managers (1.1s)
+ GET /industries/residential-estates 200 in 278ms
+  ok 19 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/residential-estates (1.3s)
+ ○ Compiling /service-areas/[slug] ...
+ ✓ Compiled /service-areas/[slug] in 566ms (708 modules)
+ GET /service-areas/orlando 200 in 1359ms
+  ok 20 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/orlando (2.2s)
+ GET /service-areas/tampa 200 in 307ms
+  ok 21 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/tampa (1.2s)
+ GET /service-areas/lakeland 200 in 345ms
+  ok 22 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/lakeland (1.2s)
+ GET /service-areas/kissimmee 200 in 288ms
+  ok 23 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/kissimmee (1.2s)
+ GET /service-areas/winter-garden 200 in 302ms
+  ok 24 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/winter-garden (1.2s)
+ GET /service-areas/clermont 200 in 335ms
+  ok 25 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/clermont (1.4s)
+ GET /service-areas/lake-mary 200 in 285ms
+  ok 26 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/lake-mary (1.2s)
+ GET /service-areas/sanford 200 in 282ms
+  ok 27 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/sanford (1.2s)
+ GET /service-areas/ocala 200 in 291ms
+  ok 28 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/ocala (1.2s)
+ GET /service-areas/the-villages 200 in 340ms
+  ok 29 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/the-villages (1.3s)
+ GET /service-areas/st-petersburg 200 in 305ms
+  ok 30 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/st-petersburg (1.2s)
+ GET /service-areas/clearwater 200 in 277ms
+  ok 31 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/clearwater (1.1s)
+ GET /service-areas/brandon 200 in 353ms
+  ok 32 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/brandon (1.2s)
+ GET /service-areas/wesley-chapel 200 in 281ms
+  ok 33 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/wesley-chapel (1.2s)
+ ○ Compiling /resources/[slug] ...
+ ✓ Compiled /resources/[slug] in 528ms (713 modules)
+ GET /resources/how-much-does-an-automatic-gate-cost 200 in 1305ms
+  ok 34 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/how-much-does-an-automatic-gate-cost (2.3s)
+ GET /resources/best-access-control-system-for-hoa 200 in 291ms
+  ok 35 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/best-access-control-system-for-hoa (1.2s)
+ GET /resources/storage-facility-security-camera-guide 200 in 247ms
+  ok 36 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/storage-facility-security-camera-guide (1.2s)
+ GET /resources/gate-automation-vs-access-control 200 in 230ms
+  ok 37 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/gate-automation-vs-access-control (1.2s)
+ GET /resources/property-manager-security-system-checklist 200 in 253ms
+  ok 38 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/property-manager-security-system-checklist (1.2s)
+ GET / 200 in 191ms
+ GET /contact 200 in 99ms
+ ○ Compiling /api/leads ...
+ ✓ Compiled /api/leads in 3.2s (1063 modules)
+ POST /api/leads 200 in 3513ms
+  ok 39 tests\e2e\baseline.spec.ts:32:5 › homepage navigates to contact and submits through real local endpoint (5.3s)
+ GET /contact 200 in 270ms
+  ok 40 tests\e2e\baseline.spec.ts:55:5 › empty assessment displays server validation instead of confirmation (1.3s)
+ GET /contact?service=gate-automation 200 in 138ms
+  ok 41 tests\e2e\compatibility.spec.ts:5:119 › legacy prefill gate-automation (1.0s)
+ GET /contact?service=emergency-service 200 in 136ms
+  ok 42 tests\e2e\compatibility.spec.ts:5:119 › legacy prefill emergency-service (990ms)
+ ✓ Compiled /_not-found in 510ms (1064 modules)
+ GET /api/receipts 404 in 762ms
+ GET /.fsc-local/receipts 404 in 112ms
+ GET /.fsc-local/receipts/18a85f2b-5ba9-43c2-a475-84ac0ac98310.json 404 in 123ms
+ GET /api/leads 405 in 30ms
+  ok 43 tests\e2e\compatibility.spec.ts:9:5 › local receipts have no public listing or retrieval route (1.1s)
+ GET /contact 200 in 154ms
+  ok 44 tests\e2e\compatibility.spec.ts:13:5 › reduced motion and simulated 200percent reflow preserve contact controls (1.0s)
+ GET /contact 200 in 149ms
+  ok 45 tests\e2e\form-recovery.spec.ts:9:5 › simulated ambiguous response keeps values and logical ID for explicit retry (1.4s)
+ GET /contact 200 in 162ms
+  ok 46 tests\e2e\form-recovery.spec.ts:33:38 › simulated 503 retains assessment input (1.3s)
+ GET /contact 200 in 136ms
+  ok 47 tests\e2e\form-recovery.spec.ts:33:38 › simulated 429 retains assessment input (1.2s)
+ GET /contact 200 in 152ms
+  ok 48 tests\e2e\form-recovery.spec.ts:42:5 › two rapid clicks submit one pending request (1.7s)
+ GET / 200 in 215ms
+  ok 49 tests\e2e\preview.spec.ts:13:7 › / layout at 320 (1.1s)
+ GET /contact 200 in 144ms
+  ok 50 tests\e2e\preview.spec.ts:13:7 › /contact layout at 320 (1.0s)
+ GET / 200 in 184ms
+  ok 51 tests\e2e\preview.spec.ts:13:7 › / layout at 390 (1.3s)
+ GET /contact 200 in 159ms
+  ok 52 tests\e2e\preview.spec.ts:13:7 › /contact layout at 390 (1.3s)
+ GET / 200 in 221ms
+  ok 53 tests\e2e\preview.spec.ts:13:7 › / layout at 768 (1.3s)
+ GET /contact 200 in 276ms
+  ok 54 tests\e2e\preview.spec.ts:13:7 › /contact layout at 768 (1.4s)
+ GET / 200 in 227ms
+  ok 55 tests\e2e\preview.spec.ts:13:7 › / layout at 1024 (1.4s)
+ GET /contact 200 in 141ms
+  ok 56 tests\e2e\preview.spec.ts:13:7 › /contact layout at 1024 (1.0s)
+ GET / 200 in 197ms
+  ok 57 tests\e2e\preview.spec.ts:13:7 › / layout at 1440 (1.5s)
+ GET /contact 200 in 187ms
+  ok 58 tests\e2e\preview.spec.ts:13:7 › /contact layout at 1440 (1.2s)
+ GET / 200 in 197ms
+  ok 59 tests\e2e\preview.spec.ts:26:43 › / automated accessibility (1.8s)
+ GET /contact 200 in 149ms
+  ok 60 tests\e2e\preview.spec.ts:26:43 › /contact automated accessibility (1.6s)
+ GET /contact 200 in 207ms
+ GET /contact?urgency=emergency 200 in 74ms
+  ok 61 tests\e2e\preview.spec.ts:31:5 › emergency navigation preserves entered identity across history (1.5s)
+ GET / 200 in 172ms
+  ok 62 tests\e2e\preview.spec.ts:44:5 › mobile menu Escape returns focus to its trigger (1.1s)
+ GET /services 200 in 203ms
+  ok 63 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme services at 390 (1.8s)
+ GET /services/access-control 200 in 415ms
+  ok 64 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme service-detail at 390 (2.6s)
+ GET /services/emergency-service 200 in 358ms
+  ok 65 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme emergency at 390 (2.6s)
+ GET /industries 200 in 300ms
+  ok 66 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industries at 390 (2.0s)
+ GET /industries/hoa-gated-communities 200 in 323ms
+  ok 67 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industry-detail at 390 (2.2s)
+ GET /service-areas 200 in 221ms
+  ok 68 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme areas at 390 (1.9s)
+ GET /service-areas/orlando 200 in 318ms
+  ok 69 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme area-detail at 390 (2.2s)
+ GET /resources 200 in 248ms
+  ok 70 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme resources at 390 (2.1s)
+ GET /resources/property-manager-security-system-checklist 200 in 296ms
+  ok 71 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article at 390 (2.0s)
+ GET /resources/how-much-does-an-automatic-gate-cost 200 in 280ms
+  ok 72 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article-table at 390 (2.1s)
+ GET /services 200 in 195ms
+  ok 73 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme services at 1440 (1.8s)
+ GET /services/access-control 200 in 361ms
+  ok 74 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme service-detail at 1440 (2.5s)
+ GET /services/emergency-service 200 in 317ms
+  ok 75 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme emergency at 1440 (2.6s)
+ GET /industries 200 in 201ms
+  ok 76 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industries at 1440 (1.9s)
+ GET /industries/hoa-gated-communities 200 in 307ms
+  ok 77 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme industry-detail at 1440 (2.3s)
+ GET /service-areas 200 in 222ms
+  ok 78 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme areas at 1440 (2.1s)
+ GET /service-areas/orlando 200 in 301ms
+  ok 79 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme area-detail at 1440 (2.6s)
+ GET /resources 200 in 180ms
+  ok 80 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme resources at 1440 (2.0s)
+ GET /resources/property-manager-security-system-checklist 200 in 280ms
+  ok 81 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article at 1440 (2.5s)
+ GET /resources/how-much-does-an-automatic-gate-cost 200 in 332ms
+  ok 82 tests\e2e\theme-continuity.spec.ts:40:7 › shared theme article-table at 1440 (2.9s)
+ GET /fsc-theme-missing-page 404 in 193ms
+  ok 83 tests\e2e\theme-continuity.spec.ts:65:5 › not-found page remains readable in the shared theme (2.3s)
+
+  83 passed (2.5m)
+
+STDERR
+(node:33532) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+CHECK test:e2e EXIT 0
+RESULT: FAILED - Forbidden network attempt: test:e2e

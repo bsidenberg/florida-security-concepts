@@ -1,6 +1,7 @@
 // Lead capture types — shared between the form, API route, and delivery providers.
 
 export type LeadInput = {
+  requestId?: string;
   // Required user fields
   fullName: string;
   phone: string;
@@ -54,6 +55,7 @@ export type ValidationResult =
 //                        success contract), then Supabase as best-effort
 //                        (failure is logged but does NOT fail the lead).
 export type DeliveryMode =
+  | 'local'
   | 'console'
   | 'resend'
   | 'resend+supabase'
@@ -69,8 +71,8 @@ export type DeliveryResult =
       deliveryId?: string;
       supabaseStatus?: 'ok' | 'failed';
     }
-  | { ok: false; mode: DeliveryMode | 'unknown'; reason: string };
+  | { ok: false; mode: DeliveryMode | 'unknown'; reason: string; code?: string; status?: number; retryAfter?: number };
 
 export type ApiResponse =
-  | { ok: true; message: string }
-  | { ok: false; error: string; fields?: Record<string, string> };
+  | { ok: true; message: string; requestId?: string }
+  | { ok: false; error: string; fields?: Record<string, string>; requestId?: string; code?: string };

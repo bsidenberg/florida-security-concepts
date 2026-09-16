@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -22,7 +23,7 @@ import {
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -31,24 +32,20 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const svc = getService(params.slug);
+  const svc = getService((await params).slug);
   if (!svc) return {};
-  return {
+  return buildPageMetadata({
     title: svc.metaTitle,
     description: svc.metaDescription,
-    alternates: { canonical: `/services/${svc.slug}` },
+    path: `/services/${svc.slug}`,
     keywords: svc.keywords,
-    openGraph: {
-      title: svc.metaTitle,
-      description: svc.metaDescription,
-      url: `${site.url}/services/${svc.slug}`,
-      type: 'article',
-    },
-  };
+    ogType: 'article',
+    modifiedTime: svc.updatedDate,
+  });
 }
 
-export default function ServicePage({ params }: Params) {
-  const svc = getService(params.slug);
+export default async function ServicePage({ params }: Params) {
+  const svc = getService((await params).slug);
   if (!svc) notFound();
 
   const related = svc.relatedServices
@@ -92,6 +89,9 @@ export default function ServicePage({ params }: Params) {
             <Eyebrow>Direct answer</Eyebrow>
             <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
               {svc.directAnswer}
+            </p>
+            <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
+              Updated {formatDate(svc.updatedDate)} · {site.name}
             </p>
           </div>
         </Container>
@@ -294,6 +294,14 @@ function Bullet() {
   return (
     <span className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-fsc-accent-glow shrink-0" />
   );
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 // Map service slug to default form value (matches LeadCaptureForm option labels).

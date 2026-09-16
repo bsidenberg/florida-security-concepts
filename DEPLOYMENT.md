@@ -1,5 +1,15 @@
 # Deployment
 
+## Current release candidate — 2026-09-14
+
+The historical setup instructions below do not constitute launch clearance. The current candidate uses Next.js 15.5.25 / React 19.3.0 and Node 24.x. Vercel already uses Node 24.x. The approved content inventory is 38 canonical pages; framework-generated assets are not additional content pages.
+
+Production is the existing `florida-security-concepts` Vercel project, with `main` tracked and custom domains assigned automatically. Brian alone merges main. Feature branch `codex/website-spec` includes the earlier SEO work and the accepted visual redesign; its PR must describe both. Preview currently has shared provider variables: application-level refusal of real delivery, noindex and analytics isolation must be verified before pushing.
+
+Company form notifications must use Resend to `info@floridasecurityconcepts.com`. The approved production receipt integration is tracked in [AM-003](harness/PRODUCTION-RECEIPT-PROPOSAL.md), with [operational requirements](harness/LAUNCH-OPERATIONS-ADDENDUM.md). Brian alone applies the reviewed SQL. Never deploy the new receipt path against absent tables/functions or infer external delivery from local tests.
+
+Release evidence is maintained in `harness/evidence/` and `harness/SESSIONS.md`. The completed security gate is not the production-integration or final release gate. No production publication has been performed for this candidate.
+
 Operator's mechanical guide for shipping `florida-security-concepts/` to Vercel. For pre-launch readiness items (real contact info, brand assets, search setup, QA), see [`LAUNCH_CHECKLIST.md`](LAUNCH_CHECKLIST.md). This document covers the deployment plumbing.
 
 ---

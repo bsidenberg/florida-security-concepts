@@ -1,143 +1,55 @@
-import type { DeliveryMode, DeliveryResult, ValidatedLead } from './types';
-import { deliverViaConsole } from './providers/console';
-import { deliverViaResend } from './providers/resend';
-import { deliverViaSupabase } from './providers/supabase';
-import { deliverViaWebhook } from './providers/webhook';
-
-const VALID_MODES: ReadonlyArray<DeliveryMode> = [
-  'console',
-  'resend',
-  'resend+supabase',
-  'supabase',
-  'webhook',
-];
-
-function readMode(): { mode: DeliveryMode | null; raw: string | undefined } {
-  const raw = process.env.LEAD_DELIVERY_MODE?.trim();
-  if (!raw) return { mode: null, raw };
-  if ((VALID_MODES as ReadonlyArray<string>).includes(raw)) {
-    return { mode: raw as DeliveryMode, raw };
+import { randomUUID } from 'node:crypto';
+import type { DeliveryResult, ValidatedLead } from './types';
+import { deliverLocalReceipt } from './localReceipt';
+import { allowLocalRequest } from './localRate';
+import { isHostedPreview } from './environment';
+export const hostedMarkers = ['VERCEL','VERCEL_ENV','VERCEL_TARGET_ENV','NETLIFY','RENDER','AWS_LAMBDA_FUNCTION_NAME'];
+function unavailable(): DeliveryResult { return { ok: false, mode: 'unknown', reason: 'CONFIGURATION', code: 'CONFIGURATION', status: 503 }; }
+export async function deliverLead(lead: ValidatedLead, requestId = lead.requestId || randomUUID(), headers?: Headers): Promise<DeliveryResult> {
+  const mode = process.env.LEAD_DELIVERY_MODE?.trim();
+  const localFlag = process.env.FSC_LOCAL_PREVIEW;
+  const hosted = hostedMarkers.some(key => Boolean(process.env[key]));
+  if (isHostedPreview()) return unavailable();
+  // Exclusive branch before provider imports: environment-file credentials cannot escape local mode.
+  if (localFlag || mode === 'local') {
+    if (localFlag !== '1' || mode !== 'local' || hosted) return unavailable();
+    if (process.env.FSC_LOCAL_FAILURE === '1') return { ok: false, mode: 'local', reason: 'DELIVERY_FAILED', code: 'DELIVERY_FAILED', status: 503 };
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    try {
+      return await Promise.race([
+        deliverLocalReceipt(lead, requestId, { beforeCreate: () => allowLocalRequest('loopback', requestId) }),
+        new Promise<DeliveryResult>(resolve => { timeout = setTimeout(() => resolve({ ok: false, mode: 'local', reason: 'RECEIPT_UNKNOWN', code: 'RECEIPT_UNKNOWN', status: 504 }), 15000); }),
+      ]);
+    } finally { if (timeout) clearTimeout(timeout); }
   }
-  return { mode: null, raw };
-}
-
-// Minimal post-delivery log — safe in production. Excludes phone, email,
-// full name, and message body. Useful for ops dashboards and audits.
-function logSuccess(result: DeliveryResult, lead: ValidatedLead) {
-  if (!result.ok) return;
-  console.log('[lead-delivery] success', {
-    mode: result.mode,
-    deliveryId: result.deliveryId,
-    supabaseStatus: result.supabaseStatus,
-    submittedAt: lead.submittedAt,
-    city: lead.city,
-    serviceNeeded: lead.service,
-    urgency: lead.urgency,
-    sourcePage: lead.sourcePage,
-  });
-}
-
-function logFailure(result: DeliveryResult, lead: ValidatedLead) {
-  if (result.ok) return;
-  console.error('[lead-delivery] failure', {
-    mode: result.mode,
-    reason: result.reason,
-    submittedAt: lead.submittedAt,
-    city: lead.city,
-    serviceNeeded: lead.service,
-    urgency: lead.urgency,
-  });
-}
-
-// Dual-write dispatcher: Resend is the primary (its success is the
-// user-facing 200 contract); Supabase is the secondary (Prime measurement,
-// best-effort).
-//
-// Failure semantics:
-//   - Resend fails → return Resend's failure. Do NOT attempt Supabase.
-//     The form will surface 503 and the user will retry. No point burning
-//     a row in Prime for a lead the customer hasn't actually been
-//     confirmed for.
-//   - Resend succeeds, Supabase fails → return success with
-//     supabaseStatus='failed'. Customer got their email; Brian sees the
-//     measurement gap in [LEAD-SUPABASE-FAILURE] logs.
-//   - Both succeed → return success with supabaseStatus='ok'.
-async function dispatchResendPlusSupabase(
-  lead: ValidatedLead
-): Promise<DeliveryResult> {
-  const resendResult = await deliverViaResend(lead);
-  if (!resendResult.ok) {
-    return resendResult; // already mode='resend', clear failure path
-  }
-
-  const supabaseResult = await deliverViaSupabase(lead);
-  if (!supabaseResult.ok) {
-    // The provider already logged with [LEAD-SUPABASE-FAILURE]. Add a
-    // dispatcher-level breadcrumb so the dual-write context is in logs.
-    console.warn(
-      '[lead-delivery:resend+supabase] supabase secondary write failed (resend succeeded)',
-      {
-        resendDeliveryId: resendResult.deliveryId,
-        supabaseReason: supabaseResult.reason,
+  if (!mode || (mode === 'console' && (hosted || process.env.NODE_ENV === 'production'))) return unavailable();
+  let result: DeliveryResult;
+  try {
+    switch (mode) {
+      case 'console': result = await (await import('./providers/console')).deliverViaConsole(lead); break;
+      case 'resend':
+      case 'resend+supabase': {
+        const receipt = await import('./productionReceipt');
+        let deps: ReturnType<typeof receipt.productionDependencies>;
+        try { deps = receipt.productionDependencies(); }
+        catch { result = { ok: false, mode: 'resend+supabase', reason: 'CONFIGURATION', code: 'CONFIGURATION', status: 503 }; break; }
+        const { trustedSourceDigest } = await import('./admission');
+        const source = headers ? trustedSourceDigest(headers) : null;
+        // M-2a: deliverProductionReceipt is designed never to throw, but an
+        // unexpected exception here must never be mislabeled a known
+        // failure — the provider state may be genuinely unknown.
+        try { result = await receipt.deliverProductionReceipt(lead, requestId, deps, source); }
+        catch { result = { ok: false, mode: 'resend+supabase', reason: 'RECEIPT_UNKNOWN', code: 'RECEIPT_UNKNOWN', status: 504 }; }
+        break;
       }
-    );
-  }
-
-  return {
-    ok: true,
-    mode: 'resend+supabase',
-    deliveryId: resendResult.deliveryId,
-    supabaseStatus: supabaseResult.ok ? 'ok' : 'failed',
-  };
-}
-
-async function dispatch(
-  mode: DeliveryMode,
-  lead: ValidatedLead
-): Promise<DeliveryResult> {
-  switch (mode) {
-    case 'console':
-      return deliverViaConsole(lead);
-    case 'resend':
-      return deliverViaResend(lead);
-    case 'webhook':
-      return deliverViaWebhook(lead);
-    case 'supabase':
-      // Supabase-only is supported for debugging and Supabase-only smoke
-      // tests. Production should generally use 'resend+supabase' so the
-      // customer still gets their confirmation email.
-      return deliverViaSupabase(lead);
-    case 'resend+supabase':
-      return dispatchResendPlusSupabase(lead);
-  }
-}
-
-export async function deliverLead(lead: ValidatedLead): Promise<DeliveryResult> {
-  const { mode, raw } = readMode();
-  const isProd = process.env.NODE_ENV === 'production';
-
-  // Production guardrail — never silently accept a misconfigured pipeline.
-  if (!mode) {
-    if (isProd) {
-      const reason = raw
-        ? `LEAD_DELIVERY_MODE="${raw}" is not a supported provider.`
-        : 'LEAD_DELIVERY_MODE is not configured.';
-      const failure: DeliveryResult = { ok: false, mode: 'unknown', reason };
-      logFailure(failure, lead);
-      return failure;
+      default: return unavailable();
     }
-    // In development, fall back to console with a notice.
-    console.warn(
-      '[lead-delivery] LEAD_DELIVERY_MODE not set — defaulting to "console" for development.'
-    );
-    const result = await deliverViaConsole(lead);
-    if (result.ok) logSuccess(result, lead);
-    else logFailure(result, lead);
-    return result;
+  } catch {
+    // R2-2: reachable before any RPC (e.g. a dynamic import failure) on a
+    // same-ID retry of a possibly-already-sent email — never label an
+    // unknown outcome a known failure.
+    result = { ok: false, mode: 'unknown', reason: 'RECEIPT_UNKNOWN', code: 'RECEIPT_UNKNOWN', status: 504 };
   }
-
-  const result = await dispatch(mode, lead);
-  if (result.ok) logSuccess(result, lead);
-  else logFailure(result, lead);
+  console.info('[lead-delivery]', { result: result.ok ? 'received' : 'unavailable', mode: result.mode });
   return result;
 }

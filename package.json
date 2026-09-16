@@ -4,28 +4,44 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "preview:local": "node scripts/local-server.mjs --compiled",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run --reporter=json",
+    "test:e2e": "playwright test",
+    "test:gate": "vitest run --config vitest.gate.config.ts",
+    "test:release": "playwright test --config playwright.release.config.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.4",
-    "next": "^14.2.35",
-    "next-plausible": "^4.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "resend": "^6.12.2"
+    "next": "15.5.25",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "resend": "6.12.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@plausible-analytics/tracker": "0.4.6",
+    "@playwright/test": "1.63.0",
     "@types/node": "^20.14.10",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.35",
-    "postcss": "^8.4.49",
+    "eslint-config-next": "15.5.25",
+    "lighthouse": "13.4.1",
+    "pg": "8.23.0",
+    "postcss": "8.5.28",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vitest": "4.1.11"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.28"
+    }
   }
 }

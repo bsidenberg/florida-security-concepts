@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   description:
     'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties across Central Florida and Tampa Bay.',
   alternates: { canonical: '/industries' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
+    description:
+      'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties across Central Florida and Tampa Bay.',
+  },
 };
 
 export default function IndustriesIndexPage() {

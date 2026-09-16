@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -16,7 +17,7 @@ import { industries, getIndustry } from '@/data/industries';
 import { servicesBySlug } from '@/data/services';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -25,24 +26,20 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const ind = getIndustry(params.slug);
+  const ind = getIndustry((await params).slug);
   if (!ind) return {};
-  return {
+  return buildPageMetadata({
     title: ind.metaTitle,
     description: ind.metaDescription,
-    alternates: { canonical: `/industries/${ind.slug}` },
+    path: `/industries/${ind.slug}`,
     keywords: ind.keywords,
-    openGraph: {
-      title: ind.metaTitle,
-      description: ind.metaDescription,
-      url: `${site.url}/industries/${ind.slug}`,
-      type: 'article',
-    },
-  };
+    ogType: 'article',
+    modifiedTime: ind.updatedDate,
+  });
 }
 
-export default function IndustryPage({ params }: Params) {
-  const ind = getIndustry(params.slug);
+export default async function IndustryPage({ params }: Params) {
+  const ind = getIndustry((await params).slug);
   if (!ind) notFound();
 
   const recommended = ind.recommendedServices
@@ -77,6 +74,9 @@ export default function IndustryPage({ params }: Params) {
             <Eyebrow>Direct answer</Eyebrow>
             <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
               {ind.directAnswer}
+            </p>
+            <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
+              Updated {formatDate(ind.updatedDate)} · {site.name}
             </p>
           </div>
         </Container>
@@ -201,6 +201,14 @@ export default function IndustryPage({ params }: Params) {
       />
     </>
   );
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 function defaultPropertyType(slug: string): string | undefined {

@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "environment": "compiled local preview",
+  "url": "http://127.0.0.1:3100",
+  "homepageStatus": 200,
+  "noindex": true,
+  "analyticsAbsent": true,
+  "externalBrowserRequests": 0,
+  "assessmentStatus": 200,
+  "durableReceiptVerified": true,
+  "observedAt": "2026-09-11T16:52:14.975Z"
+}

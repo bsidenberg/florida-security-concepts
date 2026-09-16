@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -23,7 +24,7 @@ import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -32,20 +33,15 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const loc = getLocation(params.slug);
+  const loc = getLocation((await params).slug);
   if (!loc) return {};
-  return {
+  return buildPageMetadata({
     title: loc.metaTitle,
     description: loc.metaDescription,
-    alternates: { canonical: `/service-areas/${loc.slug}` },
+    path: `/service-areas/${loc.slug}`,
     keywords: loc.keywords,
-    openGraph: {
-      title: loc.metaTitle,
-      description: loc.metaDescription,
-      url: `${site.url}/service-areas/${loc.slug}`,
-      type: 'article',
-    },
-  };
+    ogType: 'article',
+  });
 }
 
 const locationFaqs = (city: string) => [
@@ -67,8 +63,8 @@ const locationFaqs = (city: string) => [
   },
 ];
 
-export default function LocationPage({ params }: Params) {
-  const loc = getLocation(params.slug);
+export default async function LocationPage({ params }: Params) {
+  const loc = getLocation((await params).slug);
   if (!loc) notFound();
 
   const services = loc.highlightServices

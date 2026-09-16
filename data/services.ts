@@ -16,6 +16,7 @@ export type Service = {
   relatedServices: string[]; // slugs
   relatedIndustries: string[]; // slugs
   keywords: string[];
+  updatedDate: string; // ISO date, e.g. '2026-05-27'
 };
 
 export const services: Service[] = [
@@ -120,6 +121,7 @@ export const services: Service[] = [
       'gated community gate',
       'slide gate installation Florida',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'gate-automation',
@@ -209,6 +211,7 @@ export const services: Service[] = [
       'barrier arm gate',
       'keypad entry gate',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'access-control',
@@ -298,6 +301,7 @@ export const services: Service[] = [
       'telephone entry system',
       'commercial access control Florida',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'video-surveillance',
@@ -386,6 +390,7 @@ export const services: Service[] = [
       'license plate recognition',
       'remote video monitoring',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'security-system-integration',
@@ -465,6 +470,7 @@ export const services: Service[] = [
       'unified security platform',
       'commercial security integrator Florida',
     ],
+    updatedDate: '2026-05-27',
   },
   {
     slug: 'emergency-service',
@@ -546,6 +552,7 @@ export const services: Service[] = [
       'same-day gate service Florida',
       'emergency access control repair',
     ],
+    updatedDate: '2026-05-27',
   },
 ];
 

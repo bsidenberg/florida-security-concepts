@@ -1,0 +1,282 @@
+VERIFICATION session=S-001 run=20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57
+Project=C:\Python\florida-security-concepts
+Log=C:\Python\florida-security-concepts\harness\evidence\S-001-verify-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.log
+Revision: 953e50fac9dcbb3340507548d1c1bf3c2d2ae217
+Dirty files:
+ M .gitignore
+ M harness/DECISIONS.md
+ M package-lock.json
+ M package.json
+?? .github/
+?? harness/evidence/S-001-independent-review.md
+?? harness/evidence/S-001-package-review.md
+?? harness/evidence/S-001-verify-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.log
+?? harness/verification.json
+?? playwright.config.ts
+?? scripts/
+?? tests/
+?? tmp/
+?? vitest.config.ts
+?? vitest.gate.config.ts
+Node: v24.16.0
+Dependency versions: {"@axe-core/playwright":"4.13.0","@playwright/test":"1.63.0","@types/node":"^20.14.10","@types/react":"^18.3.3","@types/react-dom":"^18.3.0","autoprefixer":"^10.4.20","eslint":"^8.57.0","eslint-config-next":"^14.2.35","postcss":"^8.4.49","tailwindcss":"^3.4.17","typescript":"^5.5.4","vitest":"4.1.11"}
+CHECK lint COMMAND node ["node_modules/next/dist/bin/next","lint"]
+STDOUT
+✔ No ESLint warnings or errors
+
+STDERR
+
+CHECK lint EXIT 0
+CHECK typecheck COMMAND node ["node_modules/typescript/bin/tsc","--noEmit"]
+STDOUT
+
+STDERR
+
+CHECK typecheck EXIT 0
+CHECK test:unit COMMAND node ["node_modules/vitest/vitest.mjs","run"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ ✓ tests/unit/validation.test.ts (20 tests) 12ms
+ ✓ tests/unit/endpoint.test.ts (9 tests) 19ms
+
+ Test Files  2 passed (2)
+      Tests  29 passed (29)
+   Start at  12:34:08
+   Duration  418ms (transform 133ms, setup 0ms, import 254ms, tests 31ms, environment 0ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-001-test-unit-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+CHECK test:unit EXIT 0
+TEST COUNTS test:unit passed=29 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-001-test-unit-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.json
+CHECK test:gate COMMAND node ["node_modules/vitest/vitest.mjs","run","--config","vitest.gate.config.ts"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ ✓ tests/gate/network.test.ts (1 test) 107ms
+ ✓ tests/gate/isolation.test.ts (1 test) 143ms
+ ✓ tests/gate/runner.test.ts (9 tests) 11654ms
+     ✓ rejects unknown session  1084ms
+     ✓ rejects a missing package script  786ms
+     ✓ rejects empty passing report  1190ms
+     ✓ rejects skipped tests  1131ms
+     ✓ rejects missing reports  1131ms
+     ✓ propagates child failure  1023ms
+     ✓ malformed manifest fails with visible diagnostic  721ms
+     ✓ runs valid checks and preserves both streams in unique raw logs  2579ms
+     ✓ timeout stops only its owned process tree  2004ms
+
+ Test Files  3 passed (3)
+      Tests  11 passed (11)
+   Start at  12:34:09
+   Duration  12.03s (transform 93ms, setup 0ms, import 202ms, tests 11.90s, environment 0ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-001-test-gate-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.gate.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+CHECK test:gate EXIT 0
+TEST COUNTS test:gate passed=11 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-001-test-gate-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.json
+CHECK build COMMAND node ["node_modules/next/dist/bin/next","build"]
+STDOUT
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/43) ...
+   Generating static pages (10/43) 
+   Generating static pages (21/43) 
+   Generating static pages (32/43) 
+ ✓ Generating static pages (43/43)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                              Size     First Load JS
+┌ ○ /                                                    934 B           103 kB
+├ ○ /_not-found                                          138 B          87.5 kB
+├ ƒ /api/leads                                           0 B                0 B
+├ ƒ /apple-icon                                          0 B                0 B
+├ ƒ /contact                                             188 B           103 kB
+├ ƒ /icon                                                0 B                0 B
+├ ○ /industries                                          186 B          96.2 kB
+├ ● /industries/[slug]                                   934 B           103 kB
+├   ├ /industries/hoa-gated-communities
+├   ├ /industries/multifamily-apartments-condos
+├   ├ /industries/storage-facilities
+├   └ [+4 more paths]
+├ ƒ /opengraph-image                                     0 B                0 B
+├ ○ /resources                                           186 B          96.2 kB
+├ ● /resources/[slug]                                    911 B          96.9 kB
+├   ├ /resources/how-much-does-an-automatic-gate-cost
+├   ├ /resources/best-access-control-system-for-hoa
+├   ├ /resources/storage-facility-security-camera-guide
+├   └ [+2 more paths]
+├ ○ /robots.txt                                          0 B                0 B
+├ ○ /service-areas                                       186 B          96.2 kB
+├ ● /service-areas/[slug]                                934 B           103 kB
+├   ├ /service-areas/orlando
+├   ├ /service-areas/tampa
+├   ├ /service-areas/lakeland
+├   └ [+11 more paths]
+├ ○ /services                                            186 B          96.2 kB
+├ ● /services/[slug]                                     934 B           103 kB
+├   ├ /services/security-gate-systems
+├   ├ /services/gate-automation
+├   ├ /services/access-control
+├   └ [+3 more paths]
+└ ○ /sitemap.xml                                         0 B                0 B
++ First Load JS shared by all                            87.3 kB
+  ├ chunks/117-55c29052f832aec5.js                       31.7 kB
+  ├ chunks/fd9d1056-42ad19599468d179.js                  53.6 kB
+  └ other shared chunks (total)                          1.95 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses getStaticProps)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+STDERR
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+
+CHECK build EXIT 0
+CHECK test:e2e COMMAND node ["node_modules/@playwright/test/cli.js","test"]
+STDOUT
+  ▲ Next.js 14.2.35
+  - Local:        http://127.0.0.1:3100
+  - Network:      http://127.0.0.1:3100
+
+ ✓ Starting...
+ ✓ Ready in 1696ms
+ ○ Compiling / ...
+ ✓ Compiled / in 657ms (572 modules)
+ GET / 200 in 53ms
+
+Running 40 tests using 1 worker
+
+ GET / 200 in 203ms
+  ok  1 tests\e2e\baseline.spec.ts:21:7 › public route renders: / (1.2s)
+ ✓ Compiled /contact in 351ms (577 modules)
+ GET /contact 200 in 476ms
+  ok  2 tests\e2e\baseline.spec.ts:21:7 › public route renders: /contact (1.2s)
+ ✓ Compiled /services in 325ms (579 modules)
+ GET /services 200 in 413ms
+  ok  3 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services (1.3s)
+ ✓ Compiled /industries in 209ms (581 modules)
+ GET /industries 200 in 293ms
+  ok  4 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries (998ms)
+ ✓ Compiled /service-areas in 189ms (583 modules)
+ GET /service-areas 200 in 260ms
+  ok  5 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas (934ms)
+ ✓ Compiled /resources in 177ms (586 modules)
+ GET /resources 200 in 248ms
+  ok  6 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources (946ms)
+ ✓ Compiled /services/[slug] in 213ms (594 modules)
+ GET /services/security-gate-systems 200 in 621ms
+  ok  7 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/security-gate-systems (1.4s)
+ GET /services/gate-automation 200 in 56ms
+  ok  8 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/gate-automation (791ms)
+ GET /services/access-control 200 in 55ms
+  ok  9 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/access-control (778ms)
+ GET /services/video-surveillance 200 in 48ms
+  ok 10 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/video-surveillance (788ms)
+ GET /services/security-system-integration 200 in 47ms
+  ok 11 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/security-system-integration (756ms)
+ GET /services/emergency-service 200 in 43ms
+  ok 12 tests\e2e\baseline.spec.ts:21:7 › public route renders: /services/emergency-service (888ms)
+ ✓ Compiled /industries/[slug] in 341ms (596 modules)
+ GET /industries/hoa-gated-communities 200 in 803ms
+  ok 13 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/hoa-gated-communities (1.7s)
+ GET /industries/multifamily-apartments-condos 200 in 61ms
+  ok 14 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/multifamily-apartments-condos (913ms)
+ GET /industries/storage-facilities 200 in 46ms
+  ok 15 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/storage-facilities (752ms)
+ GET /industries/commercial-properties 200 in 39ms
+  ok 16 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/commercial-properties (817ms)
+ GET /industries/industrial-warehouses 200 in 67ms
+  ok 17 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/industrial-warehouses (1.0s)
+ GET /industries/property-managers 200 in 41ms
+  ok 18 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/property-managers (806ms)
+ GET /industries/residential-estates 200 in 56ms
+  ok 19 tests\e2e\baseline.spec.ts:21:7 › public route renders: /industries/residential-estates (791ms)
+ ✓ Compiled /service-areas/[slug] in 265ms (598 modules)
+ GET /service-areas/orlando 200 in 645ms
+  ok 20 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/orlando (1.3s)
+ GET /service-areas/tampa 200 in 46ms
+  ok 21 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/tampa (790ms)
+ GET /service-areas/lakeland 200 in 47ms
+  ok 22 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/lakeland (766ms)
+ GET /service-areas/kissimmee 200 in 44ms
+  ok 23 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/kissimmee (780ms)
+ GET /service-areas/winter-garden 200 in 46ms
+  ok 24 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/winter-garden (762ms)
+ GET /service-areas/clermont 200 in 38ms
+  ok 25 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/clermont (771ms)
+ GET /service-areas/lake-mary 200 in 42ms
+  ok 26 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/lake-mary (741ms)
+ GET /service-areas/sanford 200 in 43ms
+  ok 27 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/sanford (747ms)
+ GET /service-areas/ocala 200 in 46ms
+  ok 28 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/ocala (764ms)
+ GET /service-areas/the-villages 200 in 43ms
+  ok 29 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/the-villages (758ms)
+ GET /service-areas/st-petersburg 200 in 49ms
+  ok 30 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/st-petersburg (765ms)
+ GET /service-areas/clearwater 200 in 44ms
+  ok 31 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/clearwater (761ms)
+ GET /service-areas/brandon 200 in 50ms
+  ok 32 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/brandon (778ms)
+ GET /service-areas/wesley-chapel 200 in 42ms
+  ok 33 tests\e2e\baseline.spec.ts:21:7 › public route renders: /service-areas/wesley-chapel (801ms)
+ ✓ Compiled /resources/[slug] in 402ms (602 modules)
+ GET /resources/how-much-does-an-automatic-gate-cost 200 in 826ms
+  ok 34 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/how-much-does-an-automatic-gate-cost (1.5s)
+ GET /resources/best-access-control-system-for-hoa 200 in 43ms
+  ok 35 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/best-access-control-system-for-hoa (785ms)
+ GET /resources/storage-facility-security-camera-guide 200 in 46ms
+  ok 36 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/storage-facility-security-camera-guide (760ms)
+ GET /resources/gate-automation-vs-access-control 200 in 40ms
+  ok 37 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/gate-automation-vs-access-control (751ms)
+ GET /resources/property-manager-security-system-checklist 200 in 37ms
+  ok 38 tests\e2e\baseline.spec.ts:21:7 › public route renders: /resources/property-manager-security-system-checklist (737ms)
+ GET / 200 in 70ms
+ ○ Compiling /api/leads ...
+ ✓ Compiled /api/leads in 2.3s (713 modules)
+[lead-delivery:console] new lead {"submittedAt":"2026-09-11T16:35:45.105Z","fullName":"FSC Synthetic Assessment","email":"fsc-test@example.invalid","phone":"2025550100","propertyType":"HOA / gated community","service":"Maintenance / service","city":"Orlando","urgency":"Planning / budgeting","contactMethod":"Email","sourcePage":"/contact","utm":{}}
+[lead-delivery] success {
+  mode: 'console',
+  deliveryId: undefined,
+  supabaseStatus: undefined,
+  submittedAt: '2026-09-11T16:35:45.105Z',
+  city: 'Orlando',
+  serviceNeeded: 'Maintenance / service',
+  urgency: 'Planning / budgeting',
+  sourcePage: '/contact'
+}
+ POST /api/leads 200 in 2597ms
+  ok 39 tests\e2e\baseline.spec.ts:29:5 › homepage navigates to contact and submits through real local endpoint (4.0s)
+ GET /contact 200 in 105ms
+ POST /api/leads 400 in 21ms
+  ok 40 tests\e2e\baseline.spec.ts:45:5 › empty assessment displays server validation instead of confirmation (1.2s)
+
+  40 passed (44.3s)
+
+STDERR
+(node:53824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+CHECK test:e2e EXIT 0
+TEST COUNTS test:e2e passed=40 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-001-test-e2e-20260911-123401-568-6fad0a97fde74a989eff9cb2809bbf57.json
+RESULT: ALL CHECKS PASSED (6/6)

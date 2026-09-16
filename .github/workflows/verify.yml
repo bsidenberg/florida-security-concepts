@@ -1,0 +1,36 @@
+name: verify
+on:
+  push:
+    branches: ['codex/**']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --script-shell=pwsh
+      - name: Install Chromium
+        run: node node_modules/@playwright/test/cli.js install chromium
+      - name: Verification gate
+        run: ./scripts/verify.ps1 -SessionId S-001
+      - name: Retain raw verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            harness/evidence/*.log
+            harness/evidence/*.json
+            harness/evidence/*.network
+            test-results/
+          if-no-files-found: error

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -17,7 +18,7 @@ import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -26,26 +27,21 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const r = getResource(params.slug);
+  const r = getResource((await params).slug);
   if (!r) return {};
-  return {
+  return buildPageMetadata({
     title: r.metaTitle,
     description: r.metaDescription,
-    alternates: { canonical: `/resources/${r.slug}` },
+    path: `/resources/${r.slug}`,
     keywords: r.keywords,
-    openGraph: {
-      title: r.metaTitle,
-      description: r.metaDescription,
-      url: `${site.url}/resources/${r.slug}`,
-      type: 'article',
-      publishedTime: r.publishedDate,
-      modifiedTime: r.updatedDate,
-    },
-  };
+    ogType: 'article',
+    publishedTime: r.publishedDate,
+    modifiedTime: r.updatedDate,
+  });
 }
 
-export default function ResourcePage({ params }: Params) {
-  const r = getResource(params.slug);
+export default async function ResourcePage({ params }: Params) {
+  const r = getResource((await params).slug);
   if (!r) notFound();
 
   const url = `${site.url}/resources/${r.slug}`;
@@ -95,7 +91,7 @@ export default function ResourcePage({ params }: Params) {
       {/* Long-form sections */}
       <Section tight>
         <Container>
-          <article className="prose-invert max-w-3xl">
+          <article className="max-w-3xl">
             {r.sections.map((sec, i) => (
               <div key={i} className="mt-10 first:mt-0">
                 <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text leading-tight">
