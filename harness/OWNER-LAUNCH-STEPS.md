@@ -54,7 +54,9 @@ Create goals for the SPEC events: `assessment_cta_click`, `assessment_form_start
 
 Review the PR, then merge to `main`. Vercel deploys Production automatically. Keep the previous Production deployment available for rollback.
 
-## 5. Post-deploy verification
+## 5. Post-deploy verification — COMPLETED 2026-09-15
+
+**Done.** Merged as `0498794`; read-only checks, the live `/api/event` payload check and the controlled live receipt test all passed. Results: `harness/evidence/S-006-post-deploy-20260915.md`. Open follow-up: customer confirmation inbox placement (OD-08 / S-DELIV-001). The original instructions are kept below for reference.
 
 Agents may do the read-only part once you say so: homepage/contact/robots/sitemap load, canonical and indexable on www, analytics script present, no console errors.
 
