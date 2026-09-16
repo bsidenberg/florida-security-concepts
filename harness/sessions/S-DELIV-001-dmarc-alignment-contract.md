@@ -1,6 +1,6 @@
 # S-DELIV-001 draft contract — customer confirmation deliverability and DMARC alignment, 2026-09-15
 
-**Status: DRAFT — NOT AUTHORIZED TO RUN.** Drafted at Brian's request after the 2026-09-15 live form test. Running it needs his go-ahead. Most of the likely remedies are DNS and mail-policy changes, which are owner-only under Rule 7.
+**Status: DRAFT — NOT AUTHORIZED TO RUN. LOW PRIORITY (downgraded 2026-09-15).** Drafted at Brian's request after the 2026-09-15 live form test, then downgraded the same day: a second owner-run test submission from an external email address was received normally, confirming the quarantine is limited to same-tenant recipients. Ordinary customers are not affected, so this is a documentation and hygiene item, not a launch defect. Running it still needs Brian's go-ahead. Most of the likely remedies are DNS and mail-policy changes, which are owner-only under Rule 7.
 
 ## Observation (ground truth)
 
@@ -8,9 +8,9 @@ During the authorized live test, the customer confirmation to brian@floridapoleb
 
 Owner-confirmed sender authentication in Resend for floridasecurityconcepts.com: domain Verified, DKIM TXT `resend._domainkey` Verified, SPF MX and TXT on the send subdomain Verified, sending enabled.
 
-So: not a send failure, not a Resend configuration gap, and not caused by any code in the S-005/S-006 release. It is inbox placement at the receiving mail tenant. It matters because it affects every customer who receives a confirmation, and a silently quarantined confirmation looks to the customer like the business never replied.
+So: not a send failure, not a Resend configuration gap, and not caused by any code in the S-005/S-006 release. It is inbox placement at the receiving mail tenant. At the time of writing it was unknown whether ordinary customers were affected; see the scope note below, which establishes that they are not.
 
-One caveat about the sample: the test recipient (floridapolebarn.com) is a domain Brian also controls, and its tenant may apply stricter spoof rules to mail that references a known display name from outside the organization. A single held message at one tenant is not proof of a general deliverability problem. Establishing the real rate is the first job of this session, before any change is proposed.
+**Scope now established (2026-09-15).** The caveat about the sample proved correct. The held message went to floridapolebarn.com, a domain Brian also controls, whose tenant applies stricter rules to outside mail referencing a familiar display name. A second owner-run test submission using an **external** email address was received normally. The quarantine is therefore confined to same-tenant recipients, and customer confirmations reach ordinary recipients as intended. Investigation step 3 (blast-radius) is largely answered; what remains is optional hardening and documenting the known-good behavior.
 
 ## Objective
 
