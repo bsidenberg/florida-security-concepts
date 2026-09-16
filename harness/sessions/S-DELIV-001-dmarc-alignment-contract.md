@@ -8,7 +8,7 @@ During the authorized live test, the customer confirmation to brian@floridapoleb
 
 Owner-confirmed sender authentication in Resend for floridasecurityconcepts.com: domain Verified, DKIM TXT `resend._domainkey` Verified, SPF MX and TXT on the send subdomain Verified, sending enabled.
 
-So: not a send failure, not a Resend configuration gap, and not caused by any code in the S-005/S-006 release. It is inbox placement at the receiving mail tenant. It matters because it affects every customer who receives a confirmation, and a silently quarantined confirmation looks to the customer like the business never replied.
+So: not a send failure, not a Resend configuration gap, and not caused by any code in the S-005/S-006 release. It is inbox placement at the receiving mail tenant. At the time of writing it was unknown whether ordinary customers were affected; see the scope note below, which establishes that they are not.
 
 **Scope now established (2026-09-15).** The caveat about the sample proved correct. The held message went to floridapolebarn.com, a domain Brian also controls, whose tenant applies stricter rules to outside mail referencing a familiar display name. A second owner-run test submission using an **external** email address was received normally. The quarantine is therefore confined to same-tenant recipients, and customer confirmations reach ordinary recipients as intended. Investigation step 3 (blast-radius) is largely answered; what remains is optional hardening and documenting the known-good behavior.
 
