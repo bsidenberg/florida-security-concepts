@@ -1,0 +1,526 @@
+VERIFICATION session=S-CRM-001 run=20260918-102634-095-6d2d23c4012f45338c8fa970007024ad
+Project=C:\Python\florida-security-concepts
+Log=C:\Python\florida-security-concepts\harness\evidence\S-CRM-001-verify-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.log
+Revision: e4773411c9d5cb0f5088d1640ecac54a8521f26b
+Dirty files:
+?? %SystemDrive%/
+?? harness/evidence/S-CRM-001-verify-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.log
+?? harness/fsc-crm/
+?? tmp/
+Node: v24.16.0
+Dependency versions: {"@axe-core/playwright":"4.13.0","@plausible-analytics/tracker":"0.4.6","@playwright/test":"1.63.0","@types/node":"^20.14.10","@types/pg":"8.23.1","@types/react":"19.3.0","@types/react-dom":"19.3.0","autoprefixer":"^10.4.20","eslint":"^8.57.0","eslint-config-next":"15.5.25","lighthouse":"13.4.1","pg":"8.23.0","postcss":"8.5.28","tailwindcss":"^3.4.17","typescript":"^5.5.4","vitest":"4.1.11"}
+CHECK lint COMMAND node ["node_modules/next/dist/bin/next","lint"]
+STDOUT
+Γ£ö No ESLint warnings or errors
+
+STDERR
+`next lint` is deprecated and will be removed in Next.js 16.
+For new projects, use create-next-app to choose your preferred linter.
+For existing projects, migrate to the ESLint CLI:
+npx @next/codemod@canary next-lint-to-eslint-cli .
+
+
+CHECK lint EXIT 0
+CHECK typecheck COMMAND node ["node_modules/typescript/bin/tsc","--noEmit"]
+STDOUT
+
+STDERR
+
+CHECK typecheck EXIT 0
+CHECK test:unit COMMAND node ["node_modules/vitest/vitest.mjs","run"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ Γ£ô tests/unit/crm-intake.test.ts (97 tests) 112ms
+ Γ£ô tests/unit/source-digest.test.ts (42 tests) 101ms
+ Γ£ô tests/unit/analytics-region.test.ts (5 tests) 138ms
+stdout | tests/unit/delivery-safety.test.ts > hosted preview and production boundaries > control: a production deployment loads the coordinator once and passes the trusted-header digest (never x-forwarded-for)
+[lead-delivery] { result: 'received', mode: 'resend+supabase' }
+
+stdout | tests/unit/delivery-safety.test.ts > hosted preview and production boundaries > missing production configuration (dependencies refuse) returns 503 CONFIGURATION and never runs the coordinator
+[lead-delivery] { result: 'unavailable', mode: 'resend+supabase' }
+
+stdout | tests/unit/delivery-safety.test.ts > hosted preview and production boundaries > an unexpected coordinator rejection is reported as 504 RECEIPT_UNKNOWN, never a known failure (D-023)
+[lead-delivery] { result: 'unavailable', mode: 'resend+supabase' }
+
+ Γ£ô tests/unit/delivery-safety.test.ts (19 tests) 156ms
+ Γ£ô tests/unit/analytics-sanitize.test.ts (116 tests) 68ms
+ Γ£ô tests/unit/analytics-tracker.test.ts (8 tests) 448ms
+     Γ£ô installs privacy options: no automatic pageviews, outbound, download or form tracking, and a transformRequest  313ms
+ Γ£ô tests/unit/route-unexpected-error.test.ts (2 tests) 40ms
+ Γ£ô tests/unit/analytics-events.test.ts (77 tests) 60ms
+ Γ£ô tests/unit/endpoint.test.ts (21 tests) 77ms
+ Γ£ô tests/unit/envelope-content.test.ts (7 tests) 26ms
+ Γ£ô tests/unit/crm-config-isolation.test.ts (2 tests) 552ms
+     Γ£ô productionDependencies() does not throw and attaches no crm when crmDependencies() throws  483ms
+ Γ£ô tests/unit/production-dispatch.test.ts (11 tests) 435ms
+     Γ£ô PRIME_SUPABASE_URL missing ΓåÆ 503 CONFIGURATION before any RPC or send  387ms
+ Γ£ô tests/unit/contract.test.ts (30 tests) 16ms
+ Γ£ô tests/unit/preview-isolation.test.ts (20 tests) 681ms
+ Γ£ô tests/unit/local-receipt.test.ts (11 tests) 728ms
+   Γ£ô concurrent independent processes and a restarted process create only one receipt  618ms
+ Γ£ô tests/unit/validation.test.ts (21 tests) 14ms
+ Γ£ô tests/unit/crm-coordinator.test.ts (82 tests) 184ms
+
+ Test Files  17 passed (17)
+      Tests  571 passed (571)
+   Start at  10:26:39
+   Duration  1.72s (transform 3.81s, setup 0ms, import 5.67s, tests 3.84s, environment 5ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-CRM-001-test-unit-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+CHECK test:unit EXIT 0
+TEST COUNTS test:unit passed=571 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-CRM-001-test-unit-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.json
+CHECK test:gate COMMAND node ["node_modules/vitest/vitest.mjs","run","--config","vitest.gate.config.ts"]
+STDOUT
+
+ RUN  v4.1.11 C:/Python/florida-security-concepts
+
+ Γ£ô tests/gate/network.test.ts (1 test) 207ms
+ Γ£ô tests/gate/isolation.test.ts (1 test) 249ms
+ Γ£ô tests/gate/lease-racing.test.ts (14 tests) 45897ms
+     Γ£ô six separate node processes race one claim: exactly one CLAIMED, five BUSY, and the stored token is the winner  1606ms
+     Γ£ô after the winner dies (lease expiry) four processes race the reclaim: exactly one wins with the identical key and envelope  1299ms
+ Γ£ô tests/gate/isolation-acl.test.ts (12 tests) 47128ms
+     Γ£ô authenticated cannot execute any fsc function (catalog-discovered) and execution is denied  309ms
+     Γ£ô control: in this cluster an unrevoked new public function IS executable by anon (so the denials above are earned)  2806ms
+ Γ£ô tests/gate/receipt-lifecycle.test.ts (37 tests) 47669ms
+     Γ£ô lead insert and effect update commit together (fault injection: effect update fails after the insert)  3078ms
+ Γ£ô tests/gate/postgres-reliability.test.ts (5 tests) 58041ms
+     Γ£ô is the pinned 17.11 server listening only on loopback in its own synthetic data directory  2572ms
+     Γ£ô receipt migration refuses to run twice and leaves the existing schema untouched  3047ms
+     Γ£ô receipt migration refuses a database without exactly one active FSC account and creates nothing  2269ms
+     Γ£ô server process crash (pg_ctl immediate stop) mid-lease preserves committed state; restart recovers with the same key and envelope  9010ms
+ Γ£ô tests/gate/admission-rate-limit.test.ts (21 tests) 68120ms
+     Γ£ô five processes creating the same new ID with the same source produce one receipt and charge once  1702ms
+     Γ£ô five processes creating the same new ID from five different sources charge exactly one admission in total  1237ms
+     Γ£ô four processes submitting 8 distinct new IDs each from one source admit exactly 20 and rate-limit the other 12  817ms
+     Γ£ô repeated concurrent expiry + cleanup of counters while new IDs are admitted never produces an error in any process  3895ms
+     Γ£ô a create that fails after admission rolls back both the charge and the receipt (fault injection on effect insert)  1520ms
+     Γ£ô cleanup deletes only this account's expired counters and never touches receipts, effects, leads or payloads due for purge  1446ms
+     Γ£ô no raw source address used in this file appears in any private table or lead row  301ms
+stdout | tests/gate/coordinator-receipts.test.ts > route ΓåÆ dispatcher ΓåÆ coordinator (production configuration) > without an HMAC key a new request is refused 503 with no receipt, while an earlier uncertain receipt still reconciles to 200 (D-023)
+[lead-delivery] { result: 'unavailable', mode: 'resend+supabase' }
+
+stdout | tests/gate/coordinator-receipts.test.ts > route ΓåÆ dispatcher ΓåÆ coordinator (production configuration) > without an HMAC key a new request is refused 503 with no receipt, while an earlier uncertain receipt still reconciles to 200 (D-023)
+[lead-delivery] { result: 'received', mode: 'resend+supabase' }
+
+stdout | tests/gate/coordinator-receipts.test.ts > route ΓåÆ dispatcher ΓåÆ coordinator (production configuration) > without an HMAC key a new request is refused 503 with no receipt, while an earlier uncertain receipt still reconciles to 200 (D-023)
+[lead-delivery] { result: 'unavailable', mode: 'resend+supabase' }
+
+stdout | tests/gate/coordinator-receipts.test.ts > route ΓåÆ dispatcher ΓåÆ coordinator (production configuration) > ignores spoofable x-forwarded-for / x-real-ip: without the Vercel header a new request is refused 503 with no receipt or send
+[lead-delivery] { result: 'unavailable', mode: 'resend+supabase' }
+
+stdout | tests/gate/coordinator-receipts.test.ts > route ΓåÆ dispatcher ΓåÆ coordinator (production configuration) > IPv4-mapped IPv6 shares the IPv4 counter and a full counter returns 429 with a Retry-After header
+[lead-delivery] { result: 'unavailable', mode: 'resend+supabase' }
+
+ Γ£ô tests/gate/crm-coordinator.test.ts (71 tests) 74930ms
+     Γ£ô a CRM that never answers is aborted at the 4 s cap; the uncertain outcome is recorded and customer_email still runs afterwards  4035ms
+     Γ£ô a claim RPC that stalls (lock wait / slow PostgREST) is abandoned at the Γëñ1.5 s CRM RPC cap; customer_email still gets ΓëÑ3 s and is sent  1525ms
+     Γ£ô with ~6.2 s left, a hanging CRM POST plus a stalling finish still leave customer_email ΓëÑ3 s, and it is sent  3288ms
+     Γ£ô 200 RECEIVED  522ms
+     Γ£ô 503  406ms
+     Γ£ô 409  348ms
+     Γ£ô 422  330ms
+     Γ£ô 401  354ms
+     Γ£ô network error  387ms
+     Γ£ô unparseable body  326ms
+     Γ£ô hang until abort  4433ms
+ Γ£ô tests/gate/coordinator-receipts.test.ts (38 tests) 76804ms
+     Γ£ô a send that never answers is aborted at the 8 s cap ΓåÆ 504; the same-ID retry reuses the key/envelope and records success once  8049ms
+     Γ£ô the send abort reserves 1 s of the server budget so the uncertain outcome is still recorded (review M-6)  4272ms
+     Γ£ô an RPC failure on create before primary acceptance ΓåÆ 504 with no provider call  328ms
+     Γ£ô Prime record failure keeps 200; retries while leased insert nothing; a later retry records exactly one lead and never resends company  333ms
+     Γ£ô an inactive account ΓåÆ 503 CONFIGURATION with no send and no receipt  17126ms
+ Γ£ô tests/gate/schedule-health.test.ts (19 tests) 80954ms
+     Γ£ô (simulation) creates exactly one FSC minute job with the exact cleanup command and leaves other jobs untouched  2817ms
+     Γ£ô (simulation) re-running is idempotent: still one job with the same jobid  2925ms
+     Γ£ô (simulation) refuses a conflicting same-name job with a different command and changes nothing  2497ms
+     Γ£ô (simulation) refuses a conflicting same-name job with a different schedule and changes nothing  1900ms
+     Γ£ô (simulation) with pg_cron absent the script attempts CREATE EXTENSION, fails in this runtime and commits no job  1571ms
+     Γ£ô (simulation) refuses to run before the receipts migration and creates no job  1430ms
+     Γ£ô (simulation) preflight refuses when the FSC account domain does not match and creates no job (D-023 M-8)  1901ms
+     Γ£ô (simulation) preflight refuses when a private table is missing and creates no job (D-023 M-8)  6777ms
+     Γ£ô (simulation) preflight refuses when the account resolver function is missing and creates no job (D-023 M-8)  16441ms
+     Γ£ô (simulation) the stored job command, executed as the scheduler would, purges due receipts and deletes expired counters only  1691ms
+ Γ£ô tests/gate/runner.test.ts (18 tests) 113505ms
+     Γ£ô rejects unknown session  1320ms
+     Γ£ô rejects a missing package script  1479ms
+     Γ£ô rejects empty passing report  2445ms
+     Γ£ô rejects skipped tests  3970ms
+     Γ£ô rejects missing reports  15652ms
+     Γ£ô propagates child failure  11699ms
+     Γ£ô malformed manifest fails with visible diagnostic  2526ms
+     Γ£ô runs valid checks and preserves both streams in unique raw logs  10725ms
+       Γ£ô S-006 fails when the manifest omits test:release  2006ms
+       Γ£ô S-006 passes with a Playwright-format test:release report (control for the rejections below)  23376ms
+       Γ£ô rejects test:release registered with the vitest report contract even when the vitest report is green  1863ms
+       Γ£ô rejects a vitest-format report file produced for a playwright-contract test:release  3567ms
+       Γ£ô rejects a Playwright release report with zero results  2546ms
+       Γ£ô rejects a Playwright release report with skipped results  2185ms
+       Γ£ô rejects a Playwright release report with flaky results  2131ms
+       Γ£ô rejects a Playwright release report with unexpected results  2238ms
+       Γ£ô rejects a Playwright release report with errors results  17876ms
+     Γ£ô timeout stops only its owned process tree  5886ms
+ Γ£ô tests/gate/crm-lead-effect.test.ts (49 tests) 114106ms
+     Γ£ô applies on AM-003, widens exactly the two CHECKs in place (same names), adds one function and replaces no existing function body, trigger or grant  3030ms
+     Γ£ô before the migration a crm_lead row is impossible (AM-003 CHECK) ΓÇö proving the widening is what enables it  2200ms
+     Γ£ô a second application refuses with FSC_CRM_CLAIM_FUNCTION_ALREADY_EXISTS and changes nothing  1937ms
+     Γ£ô refuses on a Prime database without AM-003 and creates nothing  1428ms
+     Γ£ô refuses when the FSC account identity guard fails (inactive account) and changes nothing  1424ms
+     Γ£ô strict constraint discovery (D-031 m-1): effect CHECK drifted (hand-added value) ΓåÆ RAISE and nothing changes  1816ms
+     Γ£ô strict constraint discovery (D-031 m-1): effect CHECK duplicated ΓåÆ RAISE and nothing changes  3822ms
+     Γ£ô strict constraint discovery (D-031 m-1): error_category CHECK drifted (value removed) ΓåÆ RAISE and nothing changes  18993ms
+     Γ£ô strict constraint discovery (D-031 m-1): error_category CHECK duplicated ΓåÆ RAISE and nothing changes  1820ms
+     Γ£ô applies to a database that already holds AM-003 rows in every state (existing rows satisfy the widened CHECKs)  1594ms
+     Γ£ô insert-if-absent on a receipt created and accepted BEFORE the migration was applied  1424ms
+     Γ£ô six separate processes race the first claim on a receipt with no crm_lead row: exactly one CLAIMED (with payload), five BUSY, one row  750ms
+     Γ£ô seven-day purge nulls the crm_lead row (inflight ΓåÆ uncertain, succeeded stays succeeded) and later claims are EXPIRED without inserting  1099ms
+     Γ£ô on an AM-003-only database (migration not applied) it runs read-only and reports no missing rows  846ms
+     Γ£ô succeeds while live crm_lead rows and conflict/validation categories exist: drops the function, keeps every row and the widened CHECKs  1038ms
+     Γ£ô succeeds on a clean migrated database too  925ms
+     Γ£ô succeeds WITH live crm_lead rows: the widened CHECKs are a no-op, the function is re-created, existing rows are untouched and new receipts can be claimed  945ms
+     Γ£ô a double apply without Part A still refuses with FSC_CRM_CLAIM_FUNCTION_ALREADY_EXISTS  910ms
+     Γ£ô after Part A, a drifted effect CHECK (neither AM-003 nor the exact widened text) still RAISEs and changes nothing  898ms
+     Γ£ô after Part A, a drifted error_category CHECK (neither AM-003 nor the exact widened text) still RAISEs and changes nothing  1023ms
+     Γ£ô refuses while any crm_lead row exists and changes nothing  4949ms
+     Γ£ô refuses to run before Part A (function still present) and changes nothing  13116ms
+     Γ£ô refuses while a conflict/validation category exists on any effect (no crm_lead rows) and changes nothing  4185ms
+     Γ£ô after Part A on a clean database it restores exactly the AM-003 catalog, and the migration can then be re-applied  1684ms
+
+ Test Files  12 passed (12)
+      Tests  286 passed (286)
+   Start at  10:26:42
+   Duration  115.09s (transform 2.08s, setup 0ms, import 5.14s, tests 727.61s, environment 3ms)
+
+JSON report written to C:/Python/florida-security-concepts/harness/evidence/S-CRM-001-test-gate-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.json
+
+STDERR
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.gate.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+stderr | tests/gate/coordinator-receipts.test.ts > primary success and retries > success: one company send (claim key, stored envelope, approved inbox), one Prime lead, customer copy when enabled
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > primary success and retries > customer copy disabled: customer effect skipped and exactly one provider call
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > primary success and retries > an unchanged retry after success sends nothing new, inserts no lead and returns the same receipt
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > primary success and retries > an unchanged retry after success sends nothing new, inserts no lead and returns the same receipt
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > primary success and retries > an unchanged retry after success sends nothing new, inserts no lead and returns the same receipt
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > primary success and retries > a retry with different attribution and submittedAt reuses the frozen envelope/key and never rewrites stored payload or timestamps
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > a send that never answers is aborted at the 8 s cap ΓåÆ 504; the same-ID retry reuses the key/envelope and records success once
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > a send that never answers is aborted at the 8 s cap ΓåÆ 504; the same-ID retry reuses the key/envelope and records success once
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > network error ΓåÆ 504 uncertain/ambiguous; retry reuses the key and the provider holds exactly one delivery
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > provider 500 ΓåÆ 504 uncertain/ambiguous; retry reuses the key and the provider holds exactly one delivery
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > provider 429 ΓåÆ 504 uncertain/ambiguous; retry reuses the key and the provider holds exactly one delivery
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > 2xx without an id ΓåÆ 504 uncertain/ambiguous; retry reuses the key and the provider holds exactly one delivery
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > accepted but the response was lost ΓåÆ 504 uncertain/ambiguous; retry reuses the key and the provider holds exactly one delivery
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > ambiguous company sends and crash recovery > process death after provider acceptance (finish never reaches the DB) ΓåÆ 504; retry is PENDING while the lease lives, then recovers with the same key
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > provider rejections and conflicts > Resend 409 payload mismatch ΓåÆ 504, uncertain/configuration, and a retry never uses a new key
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > provider rejections and conflicts > changed payload ΓåÆ 409 CONFLICT and expired ID ΓåÆ 409 EXPIRED, neither sends nor adds effects
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime record failure keeps 200; retries while leased insert nothing; a later retry records exactly one lead and never resends company
+[lead-receipt] prime_pending
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime record failure keeps 200; retries while leased insert nothing; a later retry records exactly one lead and never resends company
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime record failure keeps 200; retries while leased insert nothing; a later retry records exactly one lead and never resends company
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime record failure keeps 200; retries while leased insert nothing; a later retry records exactly one lead and never resends company
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime record failure keeps 200; retries while leased insert nothing; a later retry records exactly one lead and never resends company
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime claim transport error keeps 200 and the next retry records one lead
+[lead-receipt] prime_pending
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime claim transport error keeps 200 and the next retry records one lead
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > Prime claim transport error keeps 200 and the next retry records one lead
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > customer copy failure keeps 200; a retry resends only the customer copy with the same key and never the company email
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > secondary effects never change primary success > customer copy failure keeps 200; a retry resends only the customer copy with the same key and never the company email
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > admission outcomes through the coordinator > SOURCE_UNAVAILABLE (no trusted source) ΓåÆ 503 CONFIGURATION for a new ID, while an existing ID still succeeds without a source
+[lead-receipt] crm_configuration
+
+stderr | tests/gate/coordinator-receipts.test.ts > route ΓåÆ dispatcher ΓåÆ coordinator (production configuration) > without an HMAC key a new request is refused 503 with no receipt, while an earlier uncertain receipt still reconciles to 200 (D-023)
+[lead-receipt] crm_configuration
+
+
+CHECK test:gate EXIT 0
+TEST COUNTS test:gate passed=286 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-CRM-001-test-gate-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.json
+CHECK build COMMAND node ["node_modules/next/dist/bin/next","build"]
+STDOUT
+   Γû▓ Next.js 15.5.25
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 6.1s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/43) ...
+   Generating static pages (10/43) 
+   Generating static pages (21/43) 
+   Generating static pages (32/43) 
+ Γ£ô Generating static pages (43/43)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                 Size  First Load JS
+Γöî Γùï /                                                      165 B         106 kB
+Γö£ Γùï /_not-found                                            140 B         103 kB
+Γö£ ╞Æ /api/leads                                             140 B         103 kB
+Γö£ ╞Æ /apple-icon                                            140 B         103 kB
+Γö£ ╞Æ /contact                                               165 B         116 kB
+Γö£ ╞Æ /icon                                                  140 B         103 kB
+Γö£ Γùï /industries                                            170 B         106 kB
+Γö£ ΓùÅ /industries/[slug]                                     923 B         117 kB
+Γö£   Γö£ /industries/hoa-gated-communities
+Γö£   Γö£ /industries/multifamily-apartments-condos
+Γö£   Γö£ /industries/storage-facilities
+Γö£   Γöö [+4 more paths]
+Γö£ ╞Æ /opengraph-image                                       140 B         103 kB
+Γö£ Γùï /resources                                             170 B         106 kB
+Γö£ ΓùÅ /resources/[slug]                                      900 B         107 kB
+Γö£   Γö£ /resources/how-much-does-an-automatic-gate-cost
+Γö£   Γö£ /resources/best-access-control-system-for-hoa
+Γö£   Γö£ /resources/storage-facility-security-camera-guide
+Γö£   Γöö [+2 more paths]
+Γö£ Γùï /robots.txt                                            140 B         103 kB
+Γö£ Γùï /service-areas                                         170 B         106 kB
+Γö£ ΓùÅ /service-areas/[slug]                                  923 B         117 kB
+Γö£   Γö£ /service-areas/orlando
+Γö£   Γö£ /service-areas/tampa
+Γö£   Γö£ /service-areas/lakeland
+Γö£   Γöö [+11 more paths]
+Γö£ Γùï /services                                              170 B         106 kB
+Γö£ ΓùÅ /services/[slug]                                       923 B         117 kB
+Γö£   Γö£ /services/security-gate-systems
+Γö£   Γö£ /services/gate-automation
+Γö£   Γö£ /services/access-control
+Γö£   Γöö [+3 more paths]
+Γöö Γùï /sitemap.xml                                           140 B         103 kB
++ First Load JS shared by all                             103 kB
+  Γö£ chunks/255-37e0f0325134c4d7.js                       46.4 kB
+  Γö£ chunks/4bd1b696-c023c6e3521b1417.js                  54.2 kB
+  Γöö other shared chunks (total)                          1.99 kB
+
+
+Γùï  (Static)   prerendered as static content
+ΓùÅ  (SSG)      prerendered as static HTML (uses generateStaticParams)
+╞Æ  (Dynamic)  server-rendered on demand
+
+
+STDERR
+ ΓÜá Using edge runtime on a page currently disables static generation for that page
+
+CHECK build EXIT 0
+CHECK test:e2e COMMAND node ["node_modules/@playwright/test/cli.js","test"]
+STDOUT
+   Γû▓ Next.js 15.5.25
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 10.6s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/43) ...
+   Generating static pages (10/43) 
+   Generating static pages (21/43) 
+   Generating static pages (32/43) 
+ Γ£ô Generating static pages (43/43)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                 Size  First Load JS
+Γöî Γùï /                                                      165 B         106 kB
+Γö£ Γùï /_not-found                                            140 B         103 kB
+Γö£ ╞Æ /api/leads                                             140 B         103 kB
+Γö£ ╞Æ /apple-icon                                            140 B         103 kB
+Γö£ ╞Æ /contact                                               165 B         116 kB
+Γö£ ╞Æ /icon                                                  140 B         103 kB
+Γö£ Γùï /industries                                            170 B         106 kB
+Γö£ ΓùÅ /industries/[slug]                                     923 B         117 kB
+Γö£   Γö£ /industries/hoa-gated-communities
+Γö£   Γö£ /industries/multifamily-apartments-condos
+Γö£   Γö£ /industries/storage-facilities
+Γö£   Γöö [+4 more paths]
+Γö£ ╞Æ /opengraph-image                                       140 B         103 kB
+Γö£ Γùï /resources                                             170 B         106 kB
+Γö£ ΓùÅ /resources/[slug]                                      900 B         107 kB
+Γö£   Γö£ /resources/how-much-does-an-automatic-gate-cost
+Γö£   Γö£ /resources/best-access-control-system-for-hoa
+Γö£   Γö£ /resources/storage-facility-security-camera-guide
+Γö£   Γöö [+2 more paths]
+Γö£ Γùï /robots.txt                                            140 B         103 kB
+Γö£ Γùï /service-areas                                         170 B         106 kB
+Γö£ ΓùÅ /service-areas/[slug]                                  923 B         117 kB
+Γö£   Γö£ /service-areas/orlando
+Γö£   Γö£ /service-areas/tampa
+Γö£   Γö£ /service-areas/lakeland
+Γö£   Γöö [+11 more paths]
+Γö£ Γùï /services                                              170 B         106 kB
+Γö£ ΓùÅ /services/[slug]                                       923 B         117 kB
+Γö£   Γö£ /services/security-gate-systems
+Γö£   Γö£ /services/gate-automation
+Γö£   Γö£ /services/access-control
+Γö£   Γöö [+3 more paths]
+Γöö Γùï /sitemap.xml                                           140 B         103 kB
++ First Load JS shared by all                             103 kB
+  Γö£ chunks/255-37e0f0325134c4d7.js                       46.4 kB
+  Γö£ chunks/4bd1b696-c023c6e3521b1417.js                  54.2 kB
+  Γöö other shared chunks (total)                          1.99 kB
+
+
+Γùï  (Static)   prerendered as static content
+ΓùÅ  (SSG)      prerendered as static HTML (uses generateStaticParams)
+╞Æ  (Dynamic)  server-rendered on demand
+
+   Γû▓ Next.js 15.5.25
+   - Local:        http://127.0.0.1:3100
+   - Network:      http://127.0.0.1:3100
+
+ Γ£ô Starting...
+ Γ£ô Ready in 4.4s
+
+Running 87 tests using 1 worker
+
+  ok  1 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: / (592ms)
+  ok  2 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /contact (452ms)
+  ok  3 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /services (449ms)
+  ok  4 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries (453ms)
+  ok  5 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas (471ms)
+  ok  6 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /resources (538ms)
+  ok  7 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /services/security-gate-systems (531ms)
+  ok  8 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /services/gate-automation (535ms)
+  ok  9 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /services/access-control (518ms)
+  ok 10 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /services/video-surveillance (510ms)
+  ok 11 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /services/security-system-integration (651ms)
+  ok 12 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /services/emergency-service (497ms)
+  ok 13 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries/hoa-gated-communities (518ms)
+  ok 14 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries/multifamily-apartments-condos (508ms)
+  ok 15 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries/storage-facilities (474ms)
+  ok 16 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries/commercial-properties (631ms)
+  ok 17 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries/industrial-warehouses (525ms)
+  ok 18 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries/property-managers (509ms)
+  ok 19 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /industries/residential-estates (495ms)
+  ok 20 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/orlando (471ms)
+  ok 21 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/tampa (485ms)
+  ok 22 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/lakeland (540ms)
+  ok 23 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/kissimmee (494ms)
+  ok 24 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/winter-garden (540ms)
+  ok 25 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/clermont (503ms)
+  ok 26 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/lake-mary (507ms)
+  ok 27 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/sanford (467ms)
+  ok 28 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/ocala (464ms)
+  ok 29 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/the-villages (464ms)
+  ok 30 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/st-petersburg (470ms)
+  ok 31 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/clearwater (474ms)
+  ok 32 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/brandon (569ms)
+  ok 33 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /service-areas/wesley-chapel (463ms)
+  ok 34 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /resources/how-much-does-an-automatic-gate-cost (479ms)
+  ok 35 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /resources/best-access-control-system-for-hoa (488ms)
+  ok 36 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /resources/storage-facility-security-camera-guide (470ms)
+  ok 37 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /resources/gate-automation-vs-access-control (434ms)
+  ok 38 tests\e2e\baseline.spec.ts:21:7 ΓÇ║ public route renders: /resources/property-manager-security-system-checklist (450ms)
+  ok 39 tests\e2e\baseline.spec.ts:32:5 ΓÇ║ homepage navigates to contact and submits through real local endpoint (985ms)
+  ok 40 tests\e2e\baseline.spec.ts:55:5 ΓÇ║ empty assessment displays server validation instead of confirmation (4.3s)
+  ok 41 tests\e2e\compatibility.spec.ts:5:119 ΓÇ║ legacy prefill gate-automation (5.0s)
+  ok 42 tests\e2e\compatibility.spec.ts:5:119 ΓÇ║ legacy prefill emergency-service (5.2s)
+  ok 43 tests\e2e\compatibility.spec.ts:9:5 ΓÇ║ local receipts have no public listing or retrieval route (859ms)
+  ok 44 tests\e2e\compatibility.spec.ts:13:5 ΓÇ║ reduced motion and simulated 200percent reflow preserve contact controls (4.5s)
+  ok 45 tests\e2e\form-recovery.spec.ts:9:5 ΓÇ║ simulated ambiguous response keeps values and logical ID for explicit retry (831ms)
+  ok 46 tests\e2e\form-recovery.spec.ts:33:38 ΓÇ║ simulated 503 retains assessment input (623ms)
+  ok 47 tests\e2e\form-recovery.spec.ts:33:38 ΓÇ║ simulated 429 retains assessment input (701ms)
+  ok 48 tests\e2e\form-recovery.spec.ts:42:5 ΓÇ║ two rapid clicks submit one pending request (861ms)
+  ok 49 tests\e2e\preview.spec.ts:13:7 ΓÇ║ / layout at 320 (413ms)
+  ok 50 tests\e2e\preview.spec.ts:13:7 ΓÇ║ /contact layout at 320 (362ms)
+  ok 51 tests\e2e\preview.spec.ts:13:7 ΓÇ║ / layout at 390 (714ms)
+  ok 52 tests\e2e\preview.spec.ts:13:7 ΓÇ║ /contact layout at 390 (497ms)
+  ok 53 tests\e2e\preview.spec.ts:13:7 ΓÇ║ / layout at 768 (428ms)
+  ok 54 tests\e2e\preview.spec.ts:13:7 ΓÇ║ /contact layout at 768 (384ms)
+  ok 55 tests\e2e\preview.spec.ts:13:7 ΓÇ║ / layout at 1024 (429ms)
+  ok 56 tests\e2e\preview.spec.ts:13:7 ΓÇ║ /contact layout at 1024 (390ms)
+  ok 57 tests\e2e\preview.spec.ts:13:7 ΓÇ║ / layout at 1440 (889ms)
+  ok 58 tests\e2e\preview.spec.ts:13:7 ΓÇ║ /contact layout at 1440 (574ms)
+  ok 59 tests\e2e\preview.spec.ts:26:43 ΓÇ║ / automated accessibility (1.2s)
+  ok 60 tests\e2e\preview.spec.ts:26:43 ΓÇ║ /contact automated accessibility (1.1s)
+  ok 61 tests\e2e\preview.spec.ts:31:5 ΓÇ║ emergency navigation preserves entered identity across history (608ms)
+  ok 62 tests\e2e\preview.spec.ts:44:5 ΓÇ║ mobile menu Escape returns focus to its trigger (550ms)
+  ok 63 tests\e2e\privacy-disclosure.spec.ts:52:7 ΓÇ║ privacy disclosure renders the approved wording exactly: /contact (581ms)
+  ok 64 tests\e2e\privacy-disclosure.spec.ts:52:7 ΓÇ║ privacy disclosure renders the approved wording exactly: /services/access-control (640ms)
+  ok 65 tests\e2e\privacy-disclosure.spec.ts:52:7 ΓÇ║ privacy disclosure renders the approved wording exactly: /industries/hoa-gated-communities (631ms)
+  ok 66 tests\e2e\privacy-disclosure.spec.ts:52:7 ΓÇ║ privacy disclosure renders the approved wording exactly: /service-areas/orlando (666ms)
+  ok 67 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme services at 390 (1.5s)
+  ok 68 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme service-detail at 390 (9.8s)
+  ok 69 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme emergency at 390 (10.3s)
+  ok 70 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme industries at 390 (1.2s)
+  ok 71 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme industry-detail at 390 (1.5s)
+  ok 72 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme areas at 390 (1.3s)
+  ok 73 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme area-detail at 390 (1.6s)
+  ok 74 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme resources at 390 (1.3s)
+  ok 75 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme article at 390 (1.4s)
+  ok 76 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme article-table at 390 (1.3s)
+  ok 77 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme services at 1440 (1.4s)
+  ok 78 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme service-detail at 1440 (2.0s)
+  ok 79 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme emergency at 1440 (2.0s)
+  ok 80 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme industries at 1440 (1.4s)
+  ok 81 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme industry-detail at 1440 (1.9s)
+  ok 82 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme areas at 1440 (1.3s)
+  ok 83 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme area-detail at 1440 (1.9s)
+  ok 84 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme resources at 1440 (9.2s)
+  ok 85 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme article at 1440 (7.4s)
+  ok 86 tests\e2e\theme-continuity.spec.ts:40:7 ΓÇ║ shared theme article-table at 1440 (1.6s)
+  ok 87 tests\e2e\theme-continuity.spec.ts:65:5 ΓÇ║ not-found page remains readable in the shared theme (999ms)
+
+  87 passed (3.1m)
+
+STDERR
+ ΓÜá Using edge runtime on a page currently disables static generation for that page
+(node:6280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+CHECK test:e2e EXIT 0
+TEST COUNTS test:e2e passed=87 rejected=0 report=C:\Python\florida-security-concepts\harness\evidence\S-CRM-001-test-e2e-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.json
+RESULT: ALL CHECKS PASSED (6/6)

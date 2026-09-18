@@ -18,7 +18,7 @@ Tier 3. Harness approved by Brian 2026-09-11, with AM-002 visual-continuity requ
 | S-006 | Release QA, analytics and reviewable PR | Builder + test-guard | S-005 machine verified; S-003/S-004 deferred by owner launch scope | **ACCEPTED — RELEASED to production 2026-09-15** (merge 0498794); gate exit 0; OD-07 closed (D-027); post-deploy and live receipt test verified | S-006-verify-20260915-074700-671-8242639fba904fdcb8995e7e4672cf4d.log (supersedes S-006-verify-20260914-223338-346-eaf7150d9c6149eb8ae8c99a788ebff4.log); S-006-privacy-review.md; S-006-traceability.md |
 | S-CI-001 | Real PostgreSQL 17 runtime in GitHub Actions so the CI gate is honest | Builder + test-guard + safety reviewer | S-006 pushed; Brian's go-ahead | DRAFT CONTRACT — NOT AUTHORIZED TO RUN | sessions/S-CI-001-postgres-ci-contract.md |
 | S-DELIV-001 | Customer confirmation deliverability and DMARC alignment | Scout + staff architect + safety reviewer | S-006 released; Brian's go-ahead | DRAFT CONTRACT — NOT AUTHORIZED TO RUN; **LOW PRIORITY** (external recipient delivers normally; same-tenant only) | sessions/S-DELIV-001-dmarc-alignment-contract.md; evidence/S-006-post-deploy-20260915.md §5 |
-| S-CRM-001 | Website lead → FSC CRM intake as AM-003 `crm_lead` secondary effect | Scout + builder + test-guard + safety reviewer + verifier | S-006 released; CRM NEEDS-BRIAN #7 decided 2026-09-16; Brian's contract approval | **IN PROGRESS** — approved 2026-09-18 (AM-005, D-029); stop at PR | sessions/S-CRM-001-crm-intake-contract.md |
+| S-CRM-001 | Website lead → FSC CRM intake as AM-003 `crm_lead` secondary effect | Scout + builder + test-guard + safety reviewer + verifier | S-006 released; CRM NEEDS-BRIAN #7 decided 2026-09-16; Brian's contract approval | **MACHINE VERIFIED / PR OPEN — awaiting Brian** (secret, SQL, merge, live test) — gate exit 0; safety review APPROVED WITH NOTES (round 3) | S-CRM-001-verify-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.log; S-CRM-001-safety-review.md; sessions/S-CRM-001-crm-intake-contract.md |
 
 Status lifecycle: NOT STARTED → IN PROGRESS → IN REVIEW → ACCEPTED, or BLOCKED with exact reason. S-002 may be MACHINE VERIFIED / AWAITING PREVIEW after its gate, but cannot unlock S-003 until Brian approves. No session is ACCEPTED on agent claims alone.
 
@@ -263,3 +263,35 @@ Controlled live receipt test (owner-authorized, request ID ending `5362eecc`): o
 This closes the hosted prerequisites that isolated tests could not prove: PostgREST exposure of the `fsc_private` RPCs with a reloaded schema cache, and a working production `FSC_ADMISSION_HMAC_KEY` and `LEAD_DELIVERY_MODE`. AC-06 is now observed on real infrastructure. S-005 and S-006 are ACCEPTED.
 
 One open finding, not a release defect: the customer confirmation was sent and Delivered per Resend, then held tenant-side by recipient anti-spoof filtering, with the sending domain fully Verified (DKIM, SPF, sending enabled). Drafted as S-DELIV-001, not run. Limitations remain as recorded in the evidence file: metadata row counts rather than `count(*)`, effect states inferred from an empty reconciliation report, one success-path scenario only, and no physical device, screen reader or field Core Web Vitals.
+
+### S-CRM-001 — machine verified, PR open, awaiting Brian's owner steps, 2026-09-18
+
+Roles:
+- Scout/orchestrator: contract, ledger, gate registration.
+- Builder: SQL drafts, crmIntake.ts, resolveCrmLead, runbook, and the disclosure word.
+- Test-guard: the first test-guard's tests were rejected (fakes did not model the real protocol, and a false "implementation pending" report). They were replaced by a second test-guard's suite: 181 unit and 120 gate tests, with real-SQL coordinator tests.
+- Independent safety reviewer: 3 rounds.
+  - Round 1 was BLOCKED (B-1 rollback dead after the first live lead; M-1 CRM step could starve customer_email).
+  - Rounds 2 and 3 were APPROVED WITH NOTES.
+- Verifier: official gate.
+- No agent reviewed or verified its own work.
+
+Official gate:
+- Command: `pwsh -NoProfile -File scripts/verify.ps1 -SessionId S-CRM-001` (portable pwsh, D-025).
+- Log: evidence/S-CRM-001-verify-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.log, revision e4773411c9d5cb0f5088d1640ecac54a8521f26b.
+- Result: ALL CHECKS PASSED (6/6). Unit 571 (390 existing + 181), gate 286 (166 existing + 120), e2e 87; 0 rejected.
+- Pre-existing tests are unmodified, except the owner-approved privacy wording line (D-029(4)).
+
+Deviations, all recorded:
+- D-030/D-030a: the CRM reconciliation view is a separate report, so the existing report stays byte-identical.
+- D-031: the budget is now a whole-step window. customer_email keeps at least 3 s; the contract's earlier "keeps the time it had" wording was wrong. Host pinned, secret untrimmed, rollback split.
+- D-032: re-apply after Part A re-enables; the log follows the recorded result; bounded cutoff finish; runbook fixes.
+
+Limitations:
+- No live CRM call was made.
+- The constraint strings were verified on PostgreSQL 17.11 only. Brian runs the step-0 pre-check.
+- Retries of ambiguous outcomes happen only on a same-ID resubmission (OD-CRM-2); otherwise they show in sql/fsc-crm-lead-reconciliation-report.sql.
+- Deletion requests require manual deletion in the CRM.
+
+Next, owner-only: runbook AM-005 steps 0–3, then a controlled live test (contract §12).
+
