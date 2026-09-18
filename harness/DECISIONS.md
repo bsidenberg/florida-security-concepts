@@ -147,6 +147,6 @@ D-033 / 2026-09-18 — OWNER ACCEPTANCE: S-CRM-001 CLOSED.
 - Brian confirmed "two-cards-is-correct, no fix needed": distinct manual submissions carry distinct requestIds and are distinct leads. Dedup applies only to same-requestId retries (C-02, as in D-028).
 - Read-only logs confirmed two RECEIVED with distinct requestIds and one complete effect sequence per request.
 - Brian elected to skip the live same-ID replay test. Retry dedup rests on gate evidence (S-CRM-001-verify-20260918-102634-095-….log).
-- D-031's corrected customer_email guarantee (at least 3 s) shipped as described in the PR. Brian did not separately confirm it in writing.
+- D-031's corrected customer_email guarantee shipped as described in the PR. Brian explicitly accepted it on 2026-09-18: "I accept the 3-second minimum customer-confirmation guarantee as shipped." This closes the OD-CRM-3 re-acceptance precondition from safety review rounds 2 and 3.
 - Brian directed close-out.
 
