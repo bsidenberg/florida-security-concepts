@@ -110,3 +110,35 @@ This satisfies AM-003's explicit wording-approval requirement and S-006 privacy 
 D-028 / 2026-09-15 — OWNER AUTHORIZATION AND RESULT: controlled live receipt test. Brian authorized one real submission plus an identical repeat ("Go-ahead for the controlled live form test"), supplying the submitter address brian@floridapolebarn.com and the message "TEST — Brian, S-006 live test". Unspecified required fields used clearly-labelled test values; the phone number used was FSC's own published number so no third party's line entered the records. The repeat was executed as a byte-identical same-ID replay, which is the retry contract, rather than a fresh request ID (a new ID would legitimately be a second request and a second email). Result: one receipt, three effects, one admission count, one Prime lead, both provider messages Delivered exactly once, reconciliation clean. Production data created: one real lead row, retained at the owner's discretion; the fsc_private copy purges after seven days. See evidence/S-006-post-deploy-20260915.md.
 
 OD-08 (open, LOW PRIORITY as of 2026-09-15) — Customer confirmation inbox placement. **Scope narrowed the same day:** Brian ran a second test submission from an external email address and it was received normally, so the quarantine is limited to same-tenant recipients and ordinary customers are unaffected. S-DELIV-001 is downgraded to low priority; no launch impact. Original entry follows. The confirmation is sent and Delivered by Resend but was held tenant-side by recipient anti-spoof filtering; the sending domain is Verified with DKIM and SPF in place. Likely candidates are DMARC alignment between the visible From domain and the DKIM signing domain, or display-name impersonation heuristics. Any fix is a DNS or mail-policy change, which is owner-only and irreversible enough to require explicit approval. Investigation drafted as sessions/S-DELIV-001-dmarc-alignment-contract.md and NOT run. Until resolved, treat customer confirmation delivery as best effort; the company notification, which is the user-facing success criterion, is unaffected.
+
+AM-005 / 2026-09-18 — HARNESS AMENDMENT (owner-approved). Brian approved S-CRM-001 (sessions/S-CRM-001-crm-intake-contract.md): the AM-003 receipt protocol gains a fourth effect, `crm_lead`, which posts the stored AM-003 payload to the FSC CRM `crm-intake` Edge Function. Signed with HMAC (CRM-repo D-025), after `prime_lead` and before `customer_email`, best-effort, never affecting the visitor response. Narrow N-2 exception: the new `fsc_crm_claim_draft` returns the stored payload for a successful crm_lead claim only, to service_role only. No existing SQL function body is replaced. Prime delivery continues (CRM NEEDS-BRIAN #7, 2026-09-16).
+
+D-029 / 2026-09-18 — OWNER DECISIONS OD-CRM-1..6 (Brian). (1) Env scope Production only. (2) 503/timeout recorded pending in the reconciliation report; no queue or cron. (3) CRM call capped at 4 s, skipped to pending if under 6 s remain. (4) Disclosure wording "private business systems" (plural); update the pinned test text. (5) SQL approved as written. (6) No backfill. Conditions: existing email/Prime tests pass unmodified; missing CRM env vars = no-op kill switch.
+
+D-030 / 2026-09-18 — CLARIFICATION (in service of D-029(2)). A crm_lead skipped before its row exists (kill switch, budget skip, RPC failure) would be invisible to the effect-state report. The read-only reconciliation report therefore also lists accepted receipts inside the 7-day payload window that have no crm_lead row (state `missing`). Read-only; no schema or behavior change.
+
+D-030a / 2026-09-18 — CORRECTION of D-030 (orchestrator, Rule 8 class 1). Adding the `missing` rows to the existing `sql/fsc-receipt-reconciliation-report.sql` changed its pinned output and failed the pre-existing gate test `schedule-health.test.ts`, which violates Brian's condition that existing tests pass unmodified. The existing report is restored byte-identical to main. The CRM view (non-succeeded crm_lead rows, plus accepted receipts with no crm_lead row as `missing`, the latter only once `fsc_crm_claim_draft` exists) moves to a new read-only `sql/fsc-crm-lead-reconciliation-report.sql` with the same guard and columns. Brian runs both reports. No behavior change.
+
+D-031 / 2026-09-18 — SAFETY REVIEW ROUND 1 DISPOSITIONS (evidence/S-CRM-001-safety-review.md, verdict BLOCKED). All findings accepted; none weakens an owner decision.
+- B-1: The rollback is split. Part A (REVOKE + DROP FUNCTION IF EXISTS, widened CHECKs kept as harmless supersets) always succeeds, including with live crm_lead rows. Part B (narrowing the CHECKs) is a separate, clearly destructive, owner-only step that is not recommended, and the draft never runs it by default. The runbook is corrected, and a gate test proves Part A works with crm_lead rows present.
+- M-1: The whole CRM step is bounded, not just the POST. It is attempted only with at least 6 s remaining (Brian's OD-CRM-3 threshold, unchanged). CRM window = min(7 s, remaining − 3 s). Claim and finish RPCs are capped at 1.5 s each and share that window. The POST stays capped at 4 s. customer_email therefore always keeps at least 3 s.
+  - Contract invariant 7 said customer_email "keeps at least the time it had before". That was wrong and is corrected to the real guarantee (at least 3 s). Brian is told explicitly.
+  - Stricter than OD-CRM-3, not looser.
+- m-1: Constraint discovery requires exactly one matching CHECK whose pg_get_constraintdef equals the AM-003 definition, and RAISEs otherwise (migration and rollback).
+- m-2: The URL allowlist is pinned to the CRM project host izhandnebyywemsjisye.supabase.co (confirmed by CRM DECISIONS as the fsc-crm project) with no port.
+- m-3: The secret is not trimmed. Leading or trailing whitespace is invalid config (kill switch + crm_configuration).
+- m-4: The CRM is added to the owner deletion procedure (PRODUCTION-RECEIPT-PROPOSAL.md AM-005 note, runbook).
+- m-5: Only explicit paths are staged. tmp/, %SystemDrive%/ and harness/fsc-crm/ are never committed.
+- N-8: The runbook order and the ACL query are fixed (has_function_privilege).
+- N-9: crmDependencies() is wrapped so it can never throw into the primary configuration path.
+- N-1 `server-only` import: not adopted, because it would add a dependency. The build scan already proves no client exposure.
+
+D-032 / 2026-09-18 — ROUND-2 DISPOSITIONS (safety review APPROVED WITH NOTES; test-guard findings).
+- TG-1: the migration accepts an already-widened CHECK as a no-op, so re-applying it after rollback Part A re-enables the CRM step. Any other definition still RAISEs.
+- TG-2: log lines follow the recorded finish code.
+- R2-N1: a claimed-but-unpostable lease is finished as uncertain/cutoff within the window.
+- R2-N2: pre-apply constraint check added to the runbook.
+- R2-N3: contract §14.3 updated.
+- R2-N4: runbook wording corrected.
+- R2-N5: rollback Part A is paired with the env kill switch plus a redeploy.
+

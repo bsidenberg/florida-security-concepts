@@ -1,6 +1,6 @@
 # S-CRM-001 session contract — website lead → FSC CRM intake (`crm_lead` effect), 2026-09-18
 
-**Status: DRAFT — AWAITING BRIAN'S APPROVAL. NOT AUTHORIZED TO RUN.** No application code, SQL, test, environment or deployment change has been made for this session.
+**Status: APPROVED BY BRIAN 2026-09-18 — IN PROGRESS.** Brian: "Approved" with OD-CRM-1..6 decided as recorded in §13a and DECISIONS AM-005/D-029. Stop point: PR opened; Brian alone sets the secret, applies SQL and merges.
 
 Tier 3 (customer-facing production, lead data, new outbound integration holding a secret). Full standard applies: machine gate, independent safety review, owner-applied SQL, owner merge.
 
@@ -89,7 +89,7 @@ Log lines use categories only: `crm_pending` and `crm_configuration`. They never
 4. **Stored snapshot.** A retry with a freshly validated lead (new `submittedAt`) sends a body byte-identical to the first attempt, built from the DB payload. Only the timestamp and signature differ.
 5. **Keys.** The sent `lead` keys are a subset of the `ValidatedLead` key set. `honeypot` is never present.
 6. **Signer.** Output matches a vector generated from the CRM's `signRequest` (pinned literal) and an independent `node:crypto` HMAC. Short secrets and non-integer timestamps are rejected.
-7. **Budget.** The CRM request timeout is `min(4 s, remaining − 1 s)`. It is skipped (left pending) when the remaining budget is under 6 s, so `customer_email` keeps at least the time it had before this change. See OD-CRM-3.
+7. **Budget (corrected by D-031 after safety review M-1).** The CRM step runs only when at least 6 s remain. The whole step (claim + POST + finish) is bounded by min(7 s, remaining − 3 s). The claim and finish RPCs are capped at 1.5 s each, and the POST at 4 s. `customer_email` therefore always keeps at least 3 s. (The earlier wording, "keeps at least the time it had before", was incorrect.)
 8. **Secrets.** `FSC_CRM_*` names and values never appear in `.next/static`, logs or evidence. The PII/secret log scan covers the new paths.
 9. **Preview isolation.** Hosted previews still refuse all delivery (`isHostedPreview`), so the CRM is never called from a preview, whatever the env scope.
 
@@ -140,3 +140,77 @@ Scout (ground truth, read-only) → builder (SQL draft + lib) → test-guard (te
 | OD-CRM-4 | **Privacy wording** (AM-003 requires your approval). The current approved text (D-027) says submissions are "emailed to us via Resend and stored in our private business system." | Minimal edit: "stored in our private business systems" (plural). Or keep the text as is, since the CRM is a private business system. Tell me which. Any change updates the pinned e2e test. |
 | OD-CRM-5 | **Scope of the SQL (§4–§5).** It goes beyond "add to allowed values": two CHECK widenings plus one new function that returns the payload for `crm_lead` claims only (a narrow N-2 exception). | Approve as written. No existing function is replaced. |
 | OD-CRM-6 | **Pre-migration receipts.** | No backfill. Receipts from before the SQL reach the CRM only on a same-ID retry (insert-if-absent). Live history is not replayed into the CRM. |
+
+## 13a. Owner decisions — CLOSED 2026-09-18 (Brian)
+
+| ID | Decision |
+|---|---|
+| OD-CRM-1 | Production only. Vercel `FSC_CRM_INTAKE_URL` / `FSC_CRM_INTAKE_HMAC_SECRET` scoped to Production. |
+| OD-CRM-2 | Ambiguous outcomes recorded pending/uncertain and surfaced in the reconciliation report. No queue, no cron. |
+| OD-CRM-3 | CRM request capped at 4 s; skipped (pending) when under 6 s of server budget remain. |
+| OD-CRM-4 | Disclosure wording: "stored in our private business systems" (plural); pinned e2e text updated. |
+| OD-CRM-5 | SQL approved as written: widen the two CHECKs, add the one create-claim-return function, replace nothing. |
+| OD-CRM-6 | No backfill. |
+
+Brian's additional conditions: existing email/Prime tests pass **unmodified**; missing CRM env vars keep the step a no-op (kill switch).
+
+## 14. Exact interfaces (parallel builder / test-guard packet)
+
+### 14.1 SQL — `sql/fsc-crm-lead-effect.draft.sql`
+- Applied after the AM-003 draft. One transaction. Preflight RAISEs (and changes nothing) if `fsc_private.assessment_effects` or `public.fsc_effect_claim_draft(text,uuid,text)` is missing, if `fsc_private.account_for_fsc('fsc')` fails, or if `public.fsc_crm_claim_draft(text,uuid)` already exists. The existing CHECK constraints are located via `pg_constraint` by their column, not by an assumed name.
+- `assessment_effects.effect` allows `company_email, customer_email, prime_lead, crm_lead`. `error_category` additionally allows `conflict, validation`.
+- `public.fsc_crm_claim_draft(p_slug text, p_request uuid) RETURNS jsonb`, SECURITY INVOKER, `SET search_path=pg_catalog`:
+  1. `account := fsc_private.account_for_fsc(p_slug)`. Lock the receipt row `FOR UPDATE`. If absent, `{"code":"NOT_FOUND"}`.
+  2. If `purged_at IS NOT NULL` or `clock_timestamp() >= expires_at` → `{"code":"EXPIRED"}` (no insert).
+  3. If `accepted_at IS NULL` → `{"code":"PRIMARY_PENDING"}` (no insert).
+  4. `INSERT INTO fsc_private.assessment_effects(account_id,request_id,effect,idempotency_key,state) VALUES(account,p_request,'crm_lead',NULL,'pending') ON CONFLICT DO NOTHING`.
+  5. `result := public.fsc_effect_claim_draft(p_slug,p_request,'crm_lead')`. If `result->>'code'='CLAIMED'`, return `result || jsonb_build_object('payload', r.payload)`; else return `result` unchanged.
+- EXECUTE revoked from PUBLIC/anon/authenticated; granted to service_role.
+- Finish uses the existing `public.fsc_effect_finish_draft(p_slug,p_request,'crm_lead',token,state,provider_id,category)`.
+- `sql/fsc-crm-lead-effect.rollback.draft.sql`: drops the function. Restoring the CHECKs requires the owner to first dispose of `crm_lead` rows and `conflict`/`validation` categories; the rollback RAISEs if any exist rather than deleting them.
+- `sql/fsc-receipt-reconciliation-report.sql` (read-only, D-030) additionally lists accepted receipts within their 7-day payload window that have **no** `crm_lead` row (effect shown as `crm_lead`, state `missing`). This covers the kill switch, the budget skip and RPC failures before the row existed. Pre-migration receipts appear for at most 7 days (OD-CRM-6, documented).
+
+### 14.2 `lib/leads/crmIntake.ts`
+```ts
+export const CRM_MIN_SECRET_LENGTH = 32;
+export const CRM_TIMEOUT_CAP_MS = 4000;
+export const CRM_MIN_REMAINING_MS = 6000;
+export async function signCrmRequest(secret: string, timestamp: number, body: string): Promise<string>;
+//   'v1=' + 64 lowercase hex; throws Error('MISSING_SECRET'|'BAD_TIMESTAMP'|'BAD_BODY') exactly like hmac.mjs signRequest
+export function buildCrmBody(requestId: string, payload: Record<string, unknown>): string; // JSON.stringify({ requestId, lead: payload })
+export type CrmOutcome =
+  | { kind: 'succeeded'; receiptId: string | null }
+  | { kind: 'conflict' } | { kind: 'validation' } | { kind: 'configuration' } | { kind: 'ambiguous' };
+export function classifyCrmResponse(status: number, body: unknown): CrmOutcome;
+//   200 + body.code 'RECEIVED'|'REPLAYED' -> succeeded (receiptId = body.receiptId if a string of <=200 chars, else null);
+//   any other 2xx -> ambiguous; 409 conflict; 422 validation; 401/405/413 configuration; everything else ambiguous.
+export type CrmDependencies = { post(rawBody: string, signal: AbortSignal): Promise<CrmOutcome> };
+export function crmDependencies(env?: NodeJS.ProcessEnv, fetchImpl?: typeof fetch, nowSeconds?: () => number): CrmDependencies | null;
+//   null unless FSC_CRM_INTAKE_URL (trimmed) parses as https:, hostname ends with '.supabase.co', has no username/password/query/hash,
+//   pathname exactly '/functions/v1/crm-intake', and FSC_CRM_INTAKE_HMAC_SECRET (trimmed) has length >= 32.
+//   post(): fresh unix-seconds timestamp per call; signs rawBody unchanged;
+//   fetchImpl(url, { method:'POST', headers:{'Content-Type':'application/json','X-FSC-CRM-Timestamp':String(ts),'X-FSC-CRM-Signature':sig},
+//   body: rawBody, signal, redirect:'error', cache:'no-store' }); network error/abort -> ambiguous;
+//   unparseable JSON -> classifyCrmResponse(status, null). Never logs anything.
+```
+
+### 14.3 `lib/leads/productionReceipt.ts` (as amended by D-031 and D-032)
+- `ReceiptDependencies` gains `crm?: CrmDependencies`. `productionDependencies()` attaches it only when `crmDependencies()` returns non-null, inside try/catch. The existing required-config checks, the shared `rpc()`/`signal()`/`finish()`, and the company_email, prime and customer_email logic are unchanged.
+- `await resolveCrmLead()` runs between `resolvePrimeLead()` and the customer_email step. It is wrapped so it never throws, and the returned `DeliveryResult` is unchanged.
+  - No `deps.crm` → log `crm_configuration`, zero RPC calls (the kill switch).
+  - R = remaining budget. If R < 6000 → log `crm_pending`, zero RPC calls.
+  - Window W = min(7000, R − 3000), measured on the monotonic elapsed clock. The whole step stays inside W, so customer_email keeps at least 3000 ms.
+  - Claim: `deps.rpc('fsc_crm_claim_draft', {p_slug, p_request}, timeout min(1500, left))`, called directly.
+    - `SUCCEEDED` → return quietly.
+    - Any other code, a malformed claim, a non-object payload, or a throw → `crm_pending`.
+  - POST budget = min(4000, left − 1000, lease − 1000, cutoff − 1000).
+    - Under 1000 → finish `uncertain`/`cutoff` (bounded), then `crm_pending`.
+    - Otherwise POST `buildCrmBody(requestId, claim.payload)`.
+  - Finish: `deps.rpc('fsc_effect_finish_draft', …, timeout min(1500, max(1, left)))`.
+    - succeeded → (`succeeded`, receiptId).
+    - conflict/validation/configuration → (`failed`, category).
+    - ambiguous → (`uncertain`, `ambiguous`).
+  - Logging follows the RECORDED result:
+    - `crm_failed` only when the finish returns `FAILED`.
+    - Silence when it returns `SUCCEEDED`.
+    - Otherwise `crm_pending`.

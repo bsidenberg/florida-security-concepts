@@ -185,3 +185,7 @@ Implementation may now execute S-005, with hosted preview provider refusal/noind
 ### AM-004 activation — 2026-09-14
 
 Brian renewed approval to finish launch after the update on bounded no-raw-IP/no-paid-service spam protection. The existing source threshold remains20newlogicalrequests/rolling10minutes, unchanged retries exempt. Adopt the concrete technical design in ABUSE-AND-PRIVACY-PROPOSAL.md: dedicated server HMAC key, transient private source counter, atomic quota+receipt creation, expiry tenminutes afterlastadmission and next-minute cleanup. New paidservices/rawIPstorage remain prohibited. This is a recorded amendment before implementation; owner alone enters production secret and executes SQL. Builder extends current S-005 permittedlib/API/SQL paths and sharedform only for factual disclosure; testguard adds contractcoverage; independent safetyreview required. No new contentpage or new trackingtechnology.
+
+### AM-005 approval — website → FSC CRM intake, 2026-09-18
+
+Brian approved S-CRM-001 and OD-CRM-1..6 (DECISIONS AM-005, D-029). C-04 gains a fourth best-effort secondary effect, `crm_lead` (ordering company_email → prime_lead → crm_lead → customer_email). The website holds only the dedicated HMAC secret, never a CRM Supabase key. Production-only env scope. No queue or cron; ambiguous outcomes are visible in the reconciliation report. Brian alone creates the secret, applies `sql/fsc-crm-lead-effect.draft.sql` and merges.

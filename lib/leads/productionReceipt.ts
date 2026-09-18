@@ -1,6 +1,16 @@
 import { canonicalFingerprint } from './localReceipt';
 import type { DeliveryResult, ValidatedLead } from './types';
 import { RECEIPT_TEMPLATE_VERSION, snapshotEmailEnvelopes, type EmailEnvelope } from './providers/resend';
+import {
+  buildCrmBody,
+  crmDependencies,
+  CRM_CUSTOMER_RESERVE_MS,
+  CRM_MIN_REMAINING_MS,
+  CRM_RPC_CAP_MS,
+  CRM_TIMEOUT_CAP_MS,
+  type CrmDependencies,
+  type CrmOutcome,
+} from './crmIntake';
 
 export type RpcResult = { code?: string; [key: string]: unknown };
 
@@ -16,6 +26,8 @@ export type ReceiptDependencies = {
   rpc: (name: string, args: Record<string, unknown>, signal: AbortSignal) => Promise<RpcResult>;
   send: (envelope: EmailEnvelope, idempotencyKey: string, signal: AbortSignal) => Promise<ResendOutcome>;
   snapshot?: (lead: ValidatedLead) => Record<string, EmailEnvelope>;
+  /** AM-005: best-effort secondary FSC CRM lead delivery. Absent = kill switch (no-op). */
+  crm?: CrmDependencies;
   /**
    * Elapsed/monotonic clock in milliseconds (M-6), used ONLY to track the
    * 15s total server budget — immune to wall-clock jumps. Defaults to
@@ -81,6 +93,10 @@ export async function deliverProductionReceipt(
   const rpc = (name: string, args: Record<string, unknown>) =>
     deps.rpc(name, { p_slug: 'fsc', p_request: requestId, ...args }, signal());
 
+  // M-1 (safety review round 1): the CRM step never uses this shared rpc()/
+  // finish() (bounded by the 15s/8s signal shared with every other effect).
+  // It has its own bounded deadline below so it can never starve
+  // customer_email. Do not widen this back to accept 'crm_lead'.
   async function finish(effect: 'company_email' | 'customer_email', token: string, state: string, providerId: string | null, category: string | null) {
     try {
       return await rpc('fsc_effect_finish_draft', { p_effect: effect, p_token: token, p_state: state, p_provider_id: providerId, p_error: category });
@@ -197,6 +213,150 @@ export async function deliverProductionReceipt(
     }
   }
 
+  // AM-005: best-effort secondary CRM lead delivery. Ordering: company_email
+  // -> prime_lead -> crm_lead -> customer_email. Wrapped end-to-end so
+  // nothing here can throw into the coordinator or change the returned
+  // DeliveryResult; every branch either returns quietly (kill switch,
+  // budget skip, unclaimable, RPC throw) or finishes the crm_lead effect
+  // and logs one of the fixed category strings below.
+  //
+  // M-1 (safety review round 1): this step never uses the shared rpc()/
+  // signal()/finish() above (those are bounded by the 15s/8s signal shared
+  // with every other effect, which could starve customer_email — see the
+  // safety review for the exact failure scenarios). Instead it calls
+  // deps.rpc directly against its OWN bounded deadline (`windowMs`, capped
+  // at 7s and always leaving at least CRM_CUSTOMER_RESERVE_MS for
+  // customer_email), so the whole CRM step can never exceed that window
+  // regardless of RPC stalls, migration locks or PostgREST slowness.
+  async function resolveCrmLead(): Promise<void> {
+    try {
+      if (!deps.crm) {
+        console.warn('[lead-receipt]', 'crm_configuration');
+        return;
+      }
+      const crm = deps.crm;
+      const entryBudget = remainingServerBudget();
+      if (entryBudget < CRM_MIN_REMAINING_MS) {
+        console.warn('[lead-receipt]', 'crm_pending');
+        return;
+      }
+      const windowMs = Math.min(7000, entryBudget - CRM_CUSTOMER_RESERVE_MS);
+      const deadline = elapsed() + windowMs;
+      const crmLeft = () => deadline - elapsed();
+
+      if (crmLeft() < 1) {
+        console.warn('[lead-receipt]', 'crm_pending');
+        return;
+      }
+
+      // Direct fsc_effect_finish_draft call for crm_lead only, bounded by
+      // the same CRM-specific deadline, never the shared finish() above.
+      // Returns the RpcResult so the caller can log by the RECORDED result
+      // (TG-2), never by the locally-guessed outcome: fsc_effect_finish_draft
+      // may downgrade a requested 'failed' to 'uncertain' (its own
+      // claimed_from_state backstop), refuse a stale lease, or the RPC
+      // itself may throw — {code:'RPC_FAILURE'} on a throw, same shape as
+      // the shared finish() above. The durable lease remains recoverable
+      // with the same key either way; nothing else to report locally.
+      const crmFinish = async (token: string, state: string, providerId: string | null, category: string | null): Promise<RpcResult> => {
+        try {
+          return await deps.rpc(
+            'fsc_effect_finish_draft',
+            { p_slug: 'fsc', p_request: requestId, p_effect: 'crm_lead', p_token: token, p_state: state, p_provider_id: providerId, p_error: category },
+            AbortSignal.timeout(Math.min(CRM_RPC_CAP_MS, Math.max(1, Math.floor(crmLeft()))))
+          );
+        } catch {
+          return { code: 'RPC_FAILURE' } as RpcResult;
+        }
+      };
+
+      let claim: RpcResult;
+      try {
+        claim = await deps.rpc(
+          'fsc_crm_claim_draft',
+          { p_slug: 'fsc', p_request: requestId },
+          AbortSignal.timeout(Math.min(CRM_RPC_CAP_MS, Math.floor(crmLeft())))
+        );
+      } catch {
+        console.warn('[lead-receipt]', 'crm_pending');
+        return;
+      }
+      if (claim.code === 'SUCCEEDED') return;
+      const leaseUntil = Date.parse(String(claim.lease_until));
+      const cutoff = Date.parse(String(claim.retry_cutoff));
+      const payload = claim.payload;
+      if (
+        claim.code !== 'CLAIMED' ||
+        typeof claim.lease_token !== 'string' ||
+        !Number.isFinite(leaseUntil) ||
+        !Number.isFinite(cutoff) ||
+        typeof payload !== 'object' ||
+        payload === null ||
+        Array.isArray(payload)
+      ) {
+        console.warn('[lead-receipt]', 'crm_pending');
+        return;
+      }
+      const token = claim.lease_token;
+      // Bounded by the CRM cap, the CRM-specific deadline (never the
+      // shared 15s server budget), and the SQL-owned lease/cutoff —
+      // whichever leaves the least room.
+      const budget = Math.min(
+        CRM_TIMEOUT_CAP_MS,
+        crmLeft() - 1000,
+        leaseUntil - 1000 - Date.now(),
+        cutoff - 1000 - Date.now()
+      );
+      if (budget < 1000) {
+        // R2-N1: too little room to attempt the send, but still enough to
+        // try recording 'uncertain'/'cutoff' so the lease isn't left
+        // dangling unnecessarily — bounded by crmFinish's own
+        // min(1500, max(1, crmLeft())) signal, so this can never exceed
+        // the CRM window itself. 'cutoff' is an existing AM-003
+        // error_category.
+        await crmFinish(token, 'uncertain', null, 'cutoff');
+        console.warn('[lead-receipt]', 'crm_pending');
+        return;
+      }
+      const rawBody = buildCrmBody(requestId, payload as Record<string, unknown>);
+      let outcome: CrmOutcome;
+      try {
+        outcome = await crm.post(rawBody, AbortSignal.timeout(Math.floor(budget)));
+      } catch {
+        outcome = { kind: 'ambiguous' };
+      }
+      switch (outcome.kind) {
+        case 'succeeded': {
+          // TG-2: log by the RECORDED result, never the local guess — a
+          // throw or a non-SUCCEEDED return (e.g. STALE_LEASE) means the
+          // provider accepted it but the finish itself is unconfirmed.
+          const recorded = await crmFinish(token, 'succeeded', outcome.receiptId, null);
+          if (recorded.code !== 'SUCCEEDED') console.warn('[lead-receipt]', 'crm_pending');
+          return;
+        }
+        case 'conflict':
+        case 'validation':
+        case 'configuration': {
+          // TG-2: only log crm_failed if the finish call actually recorded
+          // 'failed'. The SQL backstop may downgrade this to 'uncertain'
+          // when the prior claim state was itself uncertain, or the finish
+          // RPC may hit a stale lease or throw — all of those are
+          // crm_pending, not crm_failed.
+          const recorded = await crmFinish(token, 'failed', null, outcome.kind);
+          console.warn('[lead-receipt]', recorded.code === 'FAILED' ? 'crm_failed' : 'crm_pending');
+          return;
+        }
+        case 'ambiguous':
+        default:
+          await crmFinish(token, 'uncertain', null, 'ambiguous');
+          console.warn('[lead-receipt]', 'crm_pending');
+          return;
+      }
+    } catch {
+      console.warn('[lead-receipt]', 'crm_pending');
+    }
+  }
+
   let created: RpcResult;
   try {
     created = await rpc('fsc_receipt_create_draft', {
@@ -243,6 +403,7 @@ export async function deliverProductionReceipt(
   }
 
   const primeOk = await resolvePrimeLead();
+  await resolveCrmLead();
   try {
     await claimAndSend('customer_email');
   } catch {
@@ -269,7 +430,7 @@ export function productionDependencies(): ReceiptDependencies {
   ) {
     throw new Error('CONFIGURATION');
   }
-  return {
+  const dependencies: ReceiptDependencies = {
     async rpc(name, args, signal) {
       const response = await fetch(`${base.replace(/\/$/, '')}/rest/v1/rpc/${name}`, {
         method: 'POST',
@@ -314,4 +475,15 @@ export function productionDependencies(): ReceiptDependencies {
       return classifyResendResponse(response.status, body);
     },
   };
+  // N-9 (safety review round 1): crmDependencies() cannot throw today, but
+  // this path also serves the primary company_email/prime_lead delivery —
+  // never let a future change in crmDependencies() throw into it.
+  let crm: CrmDependencies | null = null;
+  try {
+    crm = crmDependencies();
+  } catch {
+    crm = null;
+  }
+  if (crm) dependencies.crm = crm;
+  return dependencies;
 }

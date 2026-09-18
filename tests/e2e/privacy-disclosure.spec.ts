@@ -5,7 +5,7 @@ import { test, expect, type Page } from '@playwright/test';
 // Independent contract: typed here from the approved wording, deliberately not imported from the component.
 // P2 contains an em dash (U+2014); P1 uses a straight apostrophe (U+0027) in "don't".
 const APPROVED_DISCLOSURE = [
-  "We use the details you submit, plus the page and campaign that brought you here, to respond to your request. Submissions are emailed to us via Resend and stored in our private business system. Please don't include gate codes, passwords, or other sensitive information.",
+  "We use the details you submit, plus the page and campaign that brought you here, to respond to your request. Submissions are emailed to us via Resend and stored in our private business systems. Please don't include gate codes, passwords, or other sensitive information.",
   'We keep a short-lived copy of each submission for seven days to prevent duplicates and troubleshoot delivery, then minimal records after that. To limit repeat submissions we use a protected identifier derived from your network address; the address itself is not stored. We use Plausible, a cookie-free analytics service, to measure page visits and form steps by general category only — never your contact details or message.',
   'Questions about your information: info@floridasecurityconcepts.com.',
 ];
