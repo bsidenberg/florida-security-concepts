@@ -18,7 +18,7 @@ Tier 3. Harness approved by Brian 2026-09-11, with AM-002 visual-continuity requ
 | S-006 | Release QA, analytics and reviewable PR | Builder + test-guard | S-005 machine verified; S-003/S-004 deferred by owner launch scope | **ACCEPTED — RELEASED to production 2026-09-15** (merge 0498794); gate exit 0; OD-07 closed (D-027); post-deploy and live receipt test verified | S-006-verify-20260915-074700-671-8242639fba904fdcb8995e7e4672cf4d.log (supersedes S-006-verify-20260914-223338-346-eaf7150d9c6149eb8ae8c99a788ebff4.log); S-006-privacy-review.md; S-006-traceability.md |
 | S-CI-001 | Real PostgreSQL 17 runtime in GitHub Actions so the CI gate is honest | Builder + test-guard + safety reviewer | S-006 pushed; Brian's go-ahead | DRAFT CONTRACT — NOT AUTHORIZED TO RUN | sessions/S-CI-001-postgres-ci-contract.md |
 | S-DELIV-001 | Customer confirmation deliverability and DMARC alignment | Scout + staff architect + safety reviewer | S-006 released; Brian's go-ahead | DRAFT CONTRACT — NOT AUTHORIZED TO RUN; **LOW PRIORITY** (external recipient delivers normally; same-tenant only) | sessions/S-DELIV-001-dmarc-alignment-contract.md; evidence/S-006-post-deploy-20260915.md §5 |
-| S-CRM-001 | Website lead → FSC CRM intake as AM-003 `crm_lead` secondary effect | Scout + builder + test-guard + safety reviewer + verifier | S-006 released; CRM NEEDS-BRIAN #7 decided 2026-09-16; Brian's contract approval | **MACHINE VERIFIED / PR OPEN — awaiting Brian** (secret, SQL, merge, live test) — gate exit 0; safety review APPROVED WITH NOTES (round 3) | S-CRM-001-verify-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.log; S-CRM-001-safety-review.md; sessions/S-CRM-001-crm-intake-contract.md |
+| S-CRM-001 | Website lead → FSC CRM intake as AM-003 `crm_lead` secondary effect | Scout + builder + test-guard + safety reviewer + verifier | S-006 released; CRM NEEDS-BRIAN #7 decided 2026-09-16; Brian's contract approval | **ACCEPTED — RELEASED to production 2026-09-18** (PR #4, merge 3cac25e); gate exit 0; safety review APPROVED WITH NOTES (round 3); live test verified; Brian accepted (D-033) | S-CRM-001-verify-20260918-102634-095-6d2d23c4012f45338c8fa970007024ad.log; S-CRM-001-safety-review.md; sessions/S-CRM-001-crm-intake-contract.md |
 
 Status lifecycle: NOT STARTED → IN PROGRESS → IN REVIEW → ACCEPTED, or BLOCKED with exact reason. S-002 may be MACHINE VERIFIED / AWAITING PREVIEW after its gate, but cannot unlock S-003 until Brian approves. No session is ACCEPTED on agent claims alone.
 
@@ -294,4 +294,23 @@ Limitations:
 - Deletion requests require manual deletion in the CRM.
 
 Next, owner-only: runbook AM-005 steps 0–3, then a controlled live test (contract §12).
+
+### S-CRM-001 — ACCEPTED and released, 2026-09-18
+
+- **Owner steps (Brian):**
+  - Secret set on the CRM Edge Function and in Vercel Production, with FSC_CRM_INTAKE_URL.
+  - `sql/fsc-crm-lead-effect.draft.sql` applied in Prime.
+  - PR #4 merged at 2026-09-18T14:51:30Z (merge 3cac25e). The merged head 1b1e98e contains gated revision e4773411 plus the evidence commit only.
+- **Live test (Brian):** two separate manual submissions at 14:53:08 and 14:53:57 UTC.
+  - Both produced a company email and a separate CRM card.
+- **Read-only log verification (orchestrator):**
+  - CRM `crm-intake` function logs: two `200 RECEIVED`, with distinct request-ID prefixes 69466a17 and 8fa62103. No REPLAYED, CONFLICT or 401 responses.
+  - Prime API logs: each request ran the full sequence once, in the contracted order (create → company claim/finish → Prime claim/record → fsc_crm_claim_draft → finish → customer claim/finish). All calls returned 200, and the CRM step took about 0.5 s.
+  - Two new requestIds producing two leads is correct by design (C-02; the same rule as D-028).
+- **Not live-tested:** the same-ID retry path. Brian chose to skip the replay test. It stays covered by the S-CRM-001 gate suite (real PostgreSQL: 503 → uncertain → same-ID retry → REPLAYED, one lead, one company email).
+- **Open follow-ups (not blockers):**
+  - Delete the two test cards in the CRM app (Brian).
+  - Deletion requests now also require deleting the lead in the CRM app by hand.
+  - Ambiguous CRM outcomes surface only in `sql/fsc-crm-lead-reconciliation-report.sql` (OD-CRM-2).
+  - The GitHub CI `verify` job cannot run the gate's PostgreSQL tests until S-CI-001 is authorized.
 

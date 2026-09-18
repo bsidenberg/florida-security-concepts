@@ -1,6 +1,6 @@
 # S-CRM-001 session contract — website lead → FSC CRM intake (`crm_lead` effect), 2026-09-18
 
-**Status: APPROVED BY BRIAN 2026-09-18 — IN PROGRESS.** Brian: "Approved" with OD-CRM-1..6 decided as recorded in §13a and DECISIONS AM-005/D-029. Stop point: PR opened; Brian alone sets the secret, applies SQL and merges.
+**Status: CLOSED — ACCEPTED AND RELEASED 2026-09-18** (PR #4, merge 3cac25e; live test verified; DECISIONS D-033). Originally approved 2026-09-18 with OD-CRM-1..6 as recorded in §13a and AM-005/D-029.
 
 Tier 3 (customer-facing production, lead data, new outbound integration holding a secret). Full standard applies: machine gate, independent safety review, owner-applied SQL, owner merge.
 
