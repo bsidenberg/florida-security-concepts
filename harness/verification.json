@@ -64,6 +64,14 @@
       "build",
       "test:e2e",
       "test:release"
+    ],
+    "S-CRM-001": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
     ]
   },
   "buildArtifact": ".next/BUILD_ID",

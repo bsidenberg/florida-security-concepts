@@ -57,3 +57,67 @@ To pause the scheduled cleanup job without touching any other project's jobs: `S
 **Warning:** pausing or unscheduling the cleanup job makes the published "seven days before scheduled cleanup" disclosure untrue for as long as it stays paused — receipt payloads and admission counters simply keep accumulating past their eligibility window instead of being deleted on the next tick. Re-enable the job (or otherwise purge the backlog) before that public statement is relied on again, and treat an extended pause as an operational/privacy issue to resolve promptly, not a routine maintenance state.
 
 `fsc-cleanup-health.sql` reads `cron.job`/`cron.job_run_details`, which carry pg_cron's own row-visibility policy restricting rows to the job owner (and superuser/service roles) — this is pg_cron's own access control, not a Supabase-specific RLS policy. Run the health check as the same role that owns the scheduled job (typically the role that executed `fsc-cleanup-schedule.draft.sql`), or it may silently report `job_exists = false` even though the job exists.
+
+## AM-005 `crm_lead` (session S-CRM-001)
+
+Additive, secondary-effect amendment: after the company email is durably accepted, every website assessment also creates exactly one lead in the FSC CRM, best-effort. Nothing in AM-003/AM-004 above is changed; `company_email`, `customer_email` and `prime_lead` behavior is unaffected.
+
+### Application order
+
+0. **Before applying**, confirm the two CHECK constraints on `fsc_private.assessment_effects` have not drifted from the AM-003 file — the migration's strict discovery refuses to run otherwise anyway, but checking first avoids a surprise RAISE:
+   ```sql
+   SELECT a.attname AS column_name, c.conname, pg_get_constraintdef(c.oid) AS definition
+   FROM pg_constraint c
+   JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = ANY(c.conkey)
+   WHERE c.conrelid = 'fsc_private.assessment_effects'::regclass AND c.contype = 'c'
+     AND cardinality(c.conkey) = 1 AND a.attname IN ('effect', 'error_category')
+   ORDER BY 1;
+   ```
+   This finds the constraints by column, the same way the migration does. Expect **exactly two rows**, one per column. Zero rows, or more than two, means stop and investigate. The definitions must be exactly:
+   - `effect`: `CHECK ((effect = ANY (ARRAY['company_email'::text, 'customer_email'::text, 'prime_lead'::text])))`
+   - `error_category`: `CHECK ((error_category = ANY (ARRAY['provider_unavailable'::text, 'ambiguous'::text, 'database_unavailable'::text, 'cutoff'::text, 'configuration'::text])))`
+
+   If either differs, **stop** — the migration will refuse anyway (`FSC_CRM_UNEXPECTED_EFFECT_CHECK` / `FSC_CRM_UNEXPECTED_ERROR_CATEGORY_CHECK`), and changes nothing when it does. (The already-widened text, if this migration was already applied and then rolled back via Part A, is also accepted — see "Rollback" below.)
+1. Set the shared secret on **both** sides, and the URL, together: generate the secret once (Brian only), set it as the CRM `crm-intake` Edge Function secret, and set Vercel **Production-only** `FSC_CRM_INTAKE_URL` and `FSC_CRM_INTAKE_HMAC_SECRET`. Values never go in chat, Git or evidence — only names/presence/length are verified by anyone but Brian. **The secret must have no leading or trailing whitespace on either side** — `crmDependencies()` treats a value that differs from its own `.trim()` as invalid config (the kill switch engages), it never silently strips it, because the CRM side does not trim either and a padded value would sign bytes the CRM verifies differently.
+2. Apply `sql/fsc-crm-lead-effect.draft.sql` in the **Prime** project's SQL editor (the same project `fsc-assessment-receipts.draft.sql` was applied to), **at low traffic**. It preflights that the AM-003 objects exist and that `public.fsc_crm_claim_draft(text,uuid)` does not already exist; otherwise it RAISEs and changes nothing. The `ALTER TABLE ... DROP/ADD CONSTRAINT` statements take an `ACCESS EXCLUSIVE` lock on `fsc_private.assessment_effects` for the duration of the transaction, bounded by `lock_timeout = '5s'` — every concurrent `company_email`/`customer_email`/`prime_lead` claim/finish RPC briefly queues behind it. Applying during a quiet period keeps that queuing imperceptible.
+3. Merge the PR (auto-deploys production).
+
+This order (secret+URL, then SQL at low traffic, then merge) is **preferred**, but the code tolerates any order between (1)/(2) and (3): before the SQL is applied, `fsc_crm_claim_draft` doesn't exist yet, so the RPC call 404s and the step logs `crm_pending` — a no-op, with `company_email`/`prime_lead`/`customer_email` unaffected. Before the secret/env vars are set, `crmDependencies()` returns `null` and the step logs `crm_configuration` — also a no-op.
+
+### Verification queries (read-only)
+
+Run in the Prime project's SQL editor after applying the migration:
+
+```sql
+-- Confirm the new function exists.
+SELECT proname FROM pg_proc WHERE proname = 'fsc_crm_claim_draft' AND pronamespace = 'public'::regnamespace;
+
+-- Confirm ACL: only service_role may execute (anon/authenticated must be denied).
+-- has_function_privilege checks the actual, effective grant (including role
+-- membership and default-privilege interactions); a routine_privileges query
+-- can miss grants that resolve through membership rather than a direct row.
+SELECT has_function_privilege('anon', 'public.fsc_crm_claim_draft(text,uuid)', 'EXECUTE') AS anon_can_execute,
+       has_function_privilege('authenticated', 'public.fsc_crm_claim_draft(text,uuid)', 'EXECUTE') AS authenticated_can_execute,
+       has_function_privilege('service_role', 'public.fsc_crm_claim_draft(text,uuid)', 'EXECUTE') AS service_role_can_execute;
+-- Expect: anon_can_execute = false, authenticated_can_execute = false, service_role_can_execute = true.
+```
+
+After a live submission (owner-run, per §12 of the session contract), `sql/fsc-crm-lead-reconciliation-report.sql` shows the outcome: a `crm_lead` row with `state` not `succeeded`/`skipped` (e.g. `pending` or `uncertain`) if something needs attention, or no `crm_lead` row at all with `state = 'missing'` if the kill switch was engaged, the budget was skipped, or the RPC failed before the row existed. A `succeeded` `crm_lead` row never appears in the report (same as the other three effects). This is a **separate** report file from `sql/fsc-receipt-reconciliation-report.sql` — kept separate so that existing report's output stays byte-for-byte unchanged for its own pinned gate test, **not** because that report is scoped to only the other three effects: it has no `effect` filter at all, so it lists every non-`succeeded`/`skipped` row for *any* effect, including a `crm_lead` row, once one exists. `sql/fsc-crm-lead-reconciliation-report.sql` additionally lists the "missing" case that the other report cannot express (no `crm_lead` row exists at all). Before the AM-005 migration is applied, the "missing" half of this report is intentionally empty (it only lists a receipt as missing a `crm_lead` row once `public.fsc_crm_claim_draft` exists to actually claim one).
+
+### Rollback
+
+**Part A — `sql/fsc-crm-lead-effect.rollback.draft.sql` (the normal, always-safe rollback):** revokes and drops `public.fsc_crm_claim_draft` only. It always succeeds, including after live `crm_lead` rows already exist — nothing in this codebase ever deletes `fsc_private.assessment_effects` rows (purge/erase only null columns; `service_role` has no `DELETE` grant on that table), so a rollback that first demanded those rows be gone could never run once a single lead had gone through. The widened `effect`/`error_category` CHECK constraints are deliberately left in place by Part A: they are harmless supersets, and once the function is dropped nothing can insert a new `crm_lead` row or `conflict`/`validation` category again. This is sufficient containment on its own.
+
+**Pair Part A with the kill switch.** Dropping the function does not stop the application from calling it: every future submission's CRM step will still call `fsc_crm_claim_draft`, get a 404 (function does not exist), and log `crm_pending` — harmless (no visitor-facing effect, `company_email`/`prime_lead`/`customer_email` all unaffected) but needlessly noisy. Unset `FSC_CRM_INTAKE_URL` in Vercel Production (and redeploy) alongside Part A so `crmDependencies()` returns `null` and the step is a clean, silent-by-design `crm_configuration` no-op instead.
+
+**Re-enabling after Part A: just re-apply `sql/fsc-crm-lead-effect.draft.sql`.** Its strict CHECK discovery accepts either the original AM-003 text or the already-widened text Part A leaves behind (see "Application order" step 0), so re-running the migration after Part A succeeds even with `crm_lead`/`conflict`/`validation` rows already present — it leaves the (already-widened) CHECKs alone and only re-creates the function. There is no separate "re-enable" file or procedure.
+
+**Part B — `sql/fsc-crm-lead-effect.rollback-narrow.destructive.draft.sql` (DESTRUCTIVE, owner-only, NOT RECOMMENDED, does not run by default):** additionally narrows both CHECK constraints back to their exact pre-AM-005 lists. It preflights that Part A has already run (the function must not exist), then RAISEs and changes nothing if any `crm_lead` effect row, or any row with `error_category` `conflict`/`validation`, still exists — this file contains **no `DELETE` statement**. Disposing of those rows is Brian's own separate, explicitly authorized, manual action, performed and reviewed on its own outside this file, before re-running Part B. There is no other path (purge/erase never delete rows, only null columns) — do not describe "wait for them to age out" as a way to unblock this file, because nothing ages them out of existence. Once Part B has narrowed the CHECKs, re-enabling requires the full migration again (which will widen them back from the original text, per step 0).
+
+### Kill switch
+
+Unset `FSC_CRM_INTAKE_URL` (or `FSC_CRM_INTAKE_HMAC_SECRET`) in Vercel Production and redeploy, exactly like the AM-003 containment step above (env var changes only take effect on a new deployment). With either variable missing or invalid, `crmDependencies()` returns `null`, the application makes **zero** RPC calls and **zero** fetches for the CRM step, and logs exactly one line: `[lead-receipt] crm_configuration`. No `crm_lead` row is created. `company_email`, `prime_lead` and `customer_email` are entirely unaffected, in production or already-running deployments.
+
+### Erasure note
+
+`fsc_receipt_erase_draft` (and the scheduled purge) clear the website-side `crm_lead` effect row like the other three effects — but **do not reach the CRM**. A deletion request is only fully honored by also deleting the corresponding lead in the CRM app by hand (F-8). There is no automated propagation from this website's erase/purge path into the CRM.
