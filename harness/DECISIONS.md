@@ -142,3 +142,11 @@ D-032 / 2026-09-18 — ROUND-2 DISPOSITIONS (safety review APPROVED WITH NOTES; 
 - R2-N4: runbook wording corrected.
 - R2-N5: rollback Part A is paired with the env kill switch plus a redeploy.
 
+D-033 / 2026-09-18 — OWNER ACCEPTANCE: S-CRM-001 CLOSED.
+- Brian applied the AM-005 SQL, set the Production-only CRM env vars and merged PR #4 (merge 3cac25e). He then ran a live test of two separate identical submissions, which produced two emails and two CRM cards.
+- Brian confirmed "two-cards-is-correct, no fix needed": distinct manual submissions carry distinct requestIds and are distinct leads. Dedup applies only to same-requestId retries (C-02, as in D-028).
+- Read-only logs confirmed two RECEIVED with distinct requestIds and one complete effect sequence per request.
+- Brian elected to skip the live same-ID replay test. Retry dedup rests on gate evidence (S-CRM-001-verify-20260918-102634-095-….log).
+- D-031's corrected customer_email guarantee (at least 3 s) shipped as described in the PR. Brian did not separately confirm it in writing.
+- Brian directed close-out.
+
