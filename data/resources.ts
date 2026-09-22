@@ -343,6 +343,115 @@ export const resources: Resource[] = [
       'portfolio security platform',
     ],
   },
+  {
+    slug: 'hoa-gate-preventive-maintenance-checklist',
+    question: 'What Should an HOA Include on a Gate Preventive Maintenance Checklist?',
+    metaTitle: 'HOA Gate Preventive Maintenance Checklist',
+    metaDescription:
+      'What HOA boards and property managers in Orlando and Tampa should review when gate, operator, safety devices, and credentials are one system.',
+    publishedDate: '2026-09-22',
+    updatedDate: '2026-09-22',
+    shortAnswer:
+      'Treat the gate leaf, operator, safety devices, and credentials as one system. A useful HOA checklist names what fails repeatedly in Central Florida, who owns the resident and vendor lists, how after-hours failures escalate, and which checks and records the community keeps between visits.',
+    intro:
+      'Most repeat gate trouble at an HOA is not a mystery part. It is a leaf, an operator, a safety device, or a credential list drifting out of sync. Boards and property managers get more from a written checklist than from waiting for the next stuck gate.',
+    sections: [
+      {
+        heading: 'Think of the gate as one system',
+        body: [
+          'A preventive visit that only looks at the operator misses the pieces that actually stop traffic. The leaf, the operator, the safety devices, and the credentials have to work together.',
+        ],
+        bullets: [
+          'Gate — alignment, rollers or hinges, track or swing path, and anything blocking full travel',
+          'Operator — duty cycle fit, manual release, limits, and signs of strain in heat and storms',
+          'Safety devices — photo eyes, vehicle loops, and edges that still stop or reverse the gate',
+          'Credentials — residents, vendors, guests, and staff as separate lists with a named owner',
+        ],
+      },
+      {
+        heading: 'What fails repeatedly in Central Florida',
+        body: [
+          'Orlando and Tampa communities see the same patterns. Heat, afternoon storms, landscaping, and turnover do more damage than a single dramatic failure.',
+        ],
+        bullets: [
+          'Photo eyes knocked out of alignment or blocked by growth, debris, or standing water',
+          'Loops and edges that stop detecting after paving, landscaping, or a repair',
+          'Rollers, hinges, and tracks that drag until the operator is doing extra work',
+          'Shared or leftover vendor codes that stay active after the vendor is gone',
+          'Manual release that nobody on site has practiced before a power event',
+        ],
+      },
+      {
+        heading: 'Who owns resident and vendor credential lists',
+        body: [
+          'Someone at the community has to own the living lists. Hardware cannot decide who still belongs.',
+          'In most HOAs that owner is the property manager, with the board knowing who can add and revoke access. The service company should support the process and keep a second copy of the procedure, not be the only place the names live. When management changes, the lists and the authority to change them should transfer in writing.',
+        ],
+        bullets: [
+          'Residents — add on move-in and revoke on move-out, including household members',
+          'Vendors — time-bound access tied to the actual service window, not a permanent shared code',
+          'Guests and staff — a separate path so they are not mixed into the resident list',
+          'A named backup when the primary manager is out, plus a handoff checklist for the next company',
+        ],
+      },
+      {
+        heading: 'After-hours escalation',
+        body: [
+          'Write the path before the gate is stuck at night. The checklist should say who is called, in what order, and what the on-site person is allowed to do.',
+          'Separate a gate that will not open from a gate that will not close. One strands residents. The other leaves the community open. Both need a named contact and a manual-release plan that a board member or manager has actually walked through.',
+        ],
+      },
+      {
+        heading: 'Scheduled checks and the record they leave',
+        body: [
+          'Cadence follows how hard the gate works, not a generic calendar. A busy Orlando or Tampa entrance needs a tighter schedule than a low-traffic side gate. Agree on the interval with the service team and write it down.',
+          'Each visit should leave a record the next manager can read without a phone call: what was checked, which safety devices were tested, what was adjusted, what was left open, and any credential issue noticed on site. Keep those notes with the community, not only in a vendor inbox.',
+        ],
+        bullets: [
+          'Date, gate, and who performed the check',
+          'Travel, manual release, and each safety device tested',
+          'Open items and who is responsible for the next step',
+          'Notes that belong in the board or management file',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'How often should an HOA schedule gate checks?',
+        a: 'Match the interval to traffic, gate weight, and how often the entrance fails. Busy Central Florida entrances usually need a shorter cycle than a quiet side gate. Put the agreed interval on the checklist so it survives a board or management change.',
+      },
+      {
+        q: 'Who should keep the resident and vendor lists?',
+        a: 'The property manager or another named person at the HOA should own the lists. The gate company supports adds, revocations, and reviews. One company should not be the only copy of who is allowed in.',
+      },
+      {
+        q: 'What belongs in an after-hours plan?',
+        a: 'A call order, a distinction between a gate that will not open and one that will not close, and a manual-release step someone on site has practiced. Post the plan where the after-hours contact can find it.',
+      },
+      {
+        q: 'What should a maintenance visit document?',
+        a: 'The gate and date, safety devices tested, adjustments made, items left open, and any credential problem noticed. Store the note with the community records.',
+      },
+      {
+        q: 'Why include credentials on a gate maintenance checklist?',
+        a: 'A tuned operator still leaves the community exposed if old vendor codes and former residents remain active. The gate, the operator, the safety devices, and the lists are one system.',
+      },
+    ],
+    relatedServices: [
+      'gate-automation',
+      'access-control',
+      'emergency-service',
+      'security-gate-systems',
+    ],
+    relatedIndustries: ['hoa-gated-communities', 'property-managers'],
+    keywords: [
+      'HOA gate preventive maintenance',
+      'HOA gate maintenance checklist',
+      'Orlando HOA gate maintenance',
+      'Tampa gated community gate service',
+      'Central Florida gate preventive maintenance',
+    ],
+  },
 ];
 
 export const resourcesBySlug: Record<string, Resource> = Object.fromEntries(
