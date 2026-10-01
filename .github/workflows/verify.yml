@@ -5,9 +5,13 @@ on:
   pull_request:
 permissions:
   contents: read
+concurrency:
+  group: verify-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: windows-latest
+    timeout-minutes: 45
     defaults:
       run:
         shell: pwsh
@@ -21,8 +25,17 @@ jobs:
         run: npm ci --script-shell=pwsh
       - name: Install Chromium
         run: node node_modules/@playwright/test/cli.js install chromium
+      # S-CI-001 (D-018 extended to CI): the pinned PostgreSQL 17.11 portable test runtime. The ZIP is
+      # cached by its pinned hash and re-verified before extraction by the provisioning script.
+      - name: Restore PostgreSQL 17.11 test runtime archive
+        uses: actions/cache@v4
+        with:
+          path: .fsc-test/pgsql/postgresql-17.11-1-windows-x64-binaries.zip
+          key: pg17-win-x64-4b8db0930c38f6ef845db919551dedda3b6b845aeb0927b3d79a6e8e9e4537cf
+      - name: Provision PostgreSQL 17.11 test runtime (hash-verified)
+        run: ./scripts/ci-provision-postgres.ps1
       - name: Verification gate
-        run: ./scripts/verify.ps1 -SessionId S-001
+        run: ./scripts/verify.ps1 -SessionId S-CI-001
       - name: Retain raw verification evidence
         if: always()
         uses: actions/upload-artifact@v4
