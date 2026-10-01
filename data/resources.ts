@@ -563,6 +563,122 @@ export const resources: Resource[] = [
       'Florida gated community gate outage',
     ],
   },
+  {
+    slug: 'hoa-vendor-delivery-gate-access',
+    question:
+      'How Should an HOA Manage Vendor and Delivery Access at the Gate?',
+    metaTitle: 'HOA Vendor and Delivery Gate Access Guide',
+    metaDescription:
+      'How Orlando and Tampa HOAs should handle vendors, deliveries, and temporary contractors at the gate — time-bound credentials, guest paths, audit logs, and what boards should avoid.',
+    publishedDate: '2026-10-01',
+    updatedDate: '2026-10-01',
+    shortAnswer:
+      'An HOA should treat vendors, deliveries, and temporary contractors as their own access population — not as residents with a shared code. Use time-bound credentials tied to real service windows, a separate guest or delivery path, a named owner for the vendor list, and an audit trail the board can review. Shared permanent codes and leftover contractor access are the patterns that leave gated communities exposed after the work is done.',
+    intro:
+      'Most gated communities in Central Florida and Tampa Bay do not fail because the gate operator is wrong. They fail because lawn crews, pool techs, package carriers, and project contractors keep using the same entry method months after the job ended. Boards and property managers get more control from a written vendor-and-delivery policy than from another keypad at the entrance. Florida Security Concepts designs gate automation and access control so each population — residents, vendors, guests, and responders — has its own path.',
+    sections: [
+      {
+        heading: 'Why vendors and deliveries are a different problem than residents',
+        body: [
+          'Residents need durable access that is easy to revoke on move-out. Vendors and deliveries need short, scheduled access that expires when the work window ends. Mixing those two groups into one shared code or one permanent fob list is how former contractors stay active and how boards lose the audit trail.',
+          'Treat four populations separately from day one: residents, recurring vendors, one-time contractors and deliveries, and emergency responders. Each needs a credential class, a schedule rule, and a named owner who can add or revoke access without waiting for a board meeting.',
+        ],
+        bullets: [
+          'Residents — mobile credentials or fobs with fast revocation on move-out',
+          'Recurring vendors — time-bound access tied to their actual service days and hours',
+          'Deliveries and one-time crews — guest, telephone-entry, or temporary credentials that expire',
+          'Emergency responders — a documented entry behavior under alarm or power-loss conditions',
+        ],
+      },
+      {
+        heading: 'Replace shared codes with time-bound vendor credentials',
+        body: [
+          'A single community code for "all vendors" is convenient for about a week. After that it is copied onto notes, texted to subcontractors, and never revoked. Time-bound credentials fix the lifecycle: each vendor gets access only during the windows they are supposed to work, and every entry is logged against that vendor.',
+          'Agree with the property manager who issues and revokes those credentials. The gate company should support the process and keep a second copy of the procedure. The living list should live with the community so a management change does not wipe institutional knowledge.',
+        ],
+        bullets: [
+          'One credential (or code) per vendor account — never a community-wide permanent code',
+          'Service windows that match the contract days and hours, not "always open"',
+          'Automatic or scheduled expiration when a contract ends',
+          'A written revoke step for no-shows, disputes, and staff turnover at the vendor',
+        ],
+      },
+      {
+        heading: 'Give deliveries and guests a path that does not open the whole community',
+        body: [
+          'Package carriers, food delivery, and short guest visits should not inherit a vendor code. Telephone entry, video entry, or a temporary guest credential that a resident or manager issues for a limited window keeps the main vendor list clean.',
+          'Write what happens when nobody answers. Some Orlando and Tampa communities allow a managed delivery window; others require resident approval every time. The policy matters less than having one that staff and residents can follow without improvising at the keypad.',
+        ],
+        bullets: [
+          'Separate guest or delivery entry from the standing vendor credential list',
+          'Clear instructions for residents on how to admit a guest or carrier',
+          'A fallback when the resident does not answer — written, not invented on the call',
+          'Cameras at the gate that can support an incident review if something goes wrong',
+        ],
+      },
+      {
+        heading: 'What the board and property manager should review',
+        body: [
+          'Hardware without governance drifts. Put vendor and delivery access on a recurring board or management review — monthly or quarterly depending on how busy the entrance is.',
+          'The review should answer simple questions: who still has vendor access, which credentials expired, whether any shared codes remain, and whether after-hours stuck-gate escalation still has current phone numbers. Keep those notes with the community records, not only in a vendor inbox.',
+        ],
+        bullets: [
+          'Active vendor list with contract end dates or review dates',
+          'Count of temporary or guest credentials issued since the last review',
+          'Confirmation that no community-wide permanent vendor code is in use',
+          'After-hours contact order for gate will not open versus gate will not close',
+        ],
+      },
+      {
+        heading: 'Design gate automation and access control as one system',
+        body: [
+          'A reliable operator that opens for anyone with a leaked code is not a security system. Credentials, schedules, safety devices, and the gate leaf have to be specified together so the entrance enforces the policy the board actually wants.',
+          'When Florida Security Concepts assesses an HOA gate in the Orlando or Tampa area, the conversation starts with who needs to enter, when, and with what accountability — then the operator, readers, intercom, and cameras are sized to that model.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'Should lawn and pool vendors get permanent gate codes?',
+        a: 'No. Give each vendor time-bound access for their service windows and revoke it when the contract ends. Permanent shared codes are copied and rarely cleaned up.',
+      },
+      {
+        q: 'How should package deliveries get through the gate?',
+        a: 'Use a guest, telephone-entry, or temporary delivery path — not the standing vendor code list. Write what happens when a resident does not answer so staff are not inventing policy at the keypad.',
+      },
+      {
+        q: 'Who should own the vendor access list?',
+        a: 'Usually the property manager, with the board knowing who can add and revoke. The service company supports the process. One vendor should not be the only place the list lives.',
+      },
+      {
+        q: 'What should an HOA look at in a quarterly access review?',
+        a: 'Active vendors and end dates, leftover temporary credentials, any remaining shared codes, and whether after-hours gate contacts are still current.',
+      },
+      {
+        q: 'Do cameras replace good vendor credentials?',
+        a: 'No. Cameras help after an incident. Time-bound credentials and a clean vendor list prevent the wrong people from having ongoing access in the first place.',
+      },
+    ],
+    relatedServices: [
+      'access-control',
+      'gate-automation',
+      'security-gate-systems',
+      'video-surveillance',
+      'security-system-integration',
+    ],
+    relatedIndustries: [
+      'hoa-gated-communities',
+      'property-managers',
+      'multifamily-apartments-condos',
+    ],
+    keywords: [
+      'HOA vendor gate access',
+      'gated community delivery access',
+      'HOA vendor credentials',
+      'time-bound gate access HOA',
+      'Orlando Tampa HOA gate vendor management',
+    ],
+  },
 ];
 
 export const resourcesBySlug: Record<string, Resource> = Object.fromEntries(
