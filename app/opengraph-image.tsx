@@ -15,7 +15,7 @@ import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
 export const alt =
-  'Florida Security Concepts — Advanced Gates, Access Control, and Video Surveillance for Central Florida and Tampa Bay.';
+  'Florida Security Concepts — Gates, Access Control and Video Surveillance for commercial and residential properties across Florida.';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -57,7 +57,7 @@ export default function OpengraphImage() {
               boxShadow: '0 0 16px rgba(96,165,250,0.7)',
             }}
           />
-          <div>Florida Security Concepts · Central FL · Tampa Bay</div>
+          <div>Florida Security Concepts · Serving all of Florida</div>
         </div>
 
         {/* spacer to push content down */}

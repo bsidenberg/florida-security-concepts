@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 const locationFaqs = (city: string) => [
   {
     q: `Does Florida Security Concepts serve ${city}?`,
-    a: `Yes. ${city} is part of our Central Florida and Tampa Bay coverage area. We service communities, commercial properties, storage facilities, industrial sites, and estates throughout the area.`,
+    a: `Yes. ${city} is part of our statewide Florida coverage. We service communities, commercial properties, storage facilities, industrial sites, and estates throughout the area.`,
   },
   {
     q: `Do you offer same-day or emergency service in ${city}?`,

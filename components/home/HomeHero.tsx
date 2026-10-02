@@ -16,13 +16,13 @@ export function HomeHero() {
       <HeroMap hoverSlug={hover} />
       <div className="fsc-container fsc-hero-grid">
         <div className="fsc-hero-left">
-          <p className="fsc-kicker">For HOAs, property managers &amp; CAMs · Orlando &amp; Tampa</p>
+          <p className="fsc-kicker">Commercial &amp; residential · Serving all of Florida</p>
           <h1>Gate &amp; access-control service <em>you can see working.</em></h1>
           <div className="fsc-hero-ctas">
             <Link href="/contact" className="fsc-btn-primary fsc-main-cta" data-fsc-event="assessment_cta" data-fsc-placement="hero">Request a Free Property Assessment <span aria-hidden="true">›</span></Link>
             <a href="#night-view" className="fsc-btn-outline">See the night view <span aria-hidden="true">↓</span></a>
           </div>
-          <p className="fsc-hero-intro">Preventive maintenance, repairs, 24/7 emergency service and new installations for the gates, access control, plate recognition and cameras your community relies on.</p>
+          <p className="fsc-hero-intro">Preventive maintenance, repairs, 24/7 emergency service and new installations for the gates, access control, plate recognition and cameras your property relies on. Based in Lake County, working statewide.</p>
           <div className="fsc-hero-needs" aria-label="Service choices">
             <Link href="#maintenance" data-fsc-event="maintenance_interest" data-fsc-placement="hero">Maintenance</Link>
             <Link href="/contact?service=repair">Repairs</Link>

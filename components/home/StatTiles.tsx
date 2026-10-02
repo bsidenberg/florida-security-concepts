@@ -3,7 +3,7 @@
 // or approved wording only; the markup carries the final number for no-JS.
 import { useEffect, useRef } from 'react';
 
-export type Stat = { value: number; display: string; label: string; note: string };
+export type Stat = { value?: number; display: string; label: string; note: string };
 
 export function StatTiles({ stats }: { stats: Stat[] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -23,7 +23,7 @@ export function StatTiles({ stats }: { stats: Stat[] }) {
   return (
     <div className="fsc-stats" ref={ref}>
       {stats.map((s) => {
-        const suffix = s.display.replace(String(s.value), '');
+        const suffix = s.value === undefined ? '' : s.display.replace(String(s.value), '');
         return <div key={s.label} className="fsc-stat"><b data-count={s.value} data-suffix={suffix}>{s.display}</b><span>{s.label}</span><small>{s.note}</small></div>;
       })}
     </div>

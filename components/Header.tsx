@@ -20,7 +20,7 @@ export function Header() {
     return () => document.removeEventListener('keydown', escape);
   }, [open]);
   return <header className="fsc-header">
-    <div className="fsc-emergency-strip"><div className="fsc-container"><span>Orlando & Tampa</span><a href={`tel:${site.emergencyPhone}`} data-fsc-event="emergency_call" data-fsc-placement="emergency_strip">24/7 emergency service <span aria-hidden="true">·</span> <strong>{site.emergencyPhoneDisplay}</strong></a></div></div>
+    <div className="fsc-emergency-strip"><div className="fsc-container"><span>Serving all of Florida · Lake County HQ</span><a href={`tel:${site.emergencyPhone}`} data-fsc-event="emergency_call" data-fsc-placement="emergency_strip">24/7 emergency service <span aria-hidden="true">·</span> <strong>{site.emergencyPhoneDisplay}</strong></a></div></div>
     <div className="fsc-container fsc-header-main">
       <Link href="/" className="fsc-brand" aria-label="Florida Security Concepts home">
         <Image src={logo} alt="" width={181} height={92} priority sizes="181px" /><span className="sr-only">Florida Security Concepts</span>

@@ -11,13 +11,13 @@ import { site } from '@/data/site';
 export const metadata: Metadata = {
   title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
   description:
-    'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties across Central Florida and Tampa Bay.',
+    'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties throughout Florida.',
   alternates: { canonical: '/industries' },
   twitter: {
     card: 'summary_large_image',
     title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
     description:
-      'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties across Central Florida and Tampa Bay.',
+      'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties throughout Florida.',
   },
 };
 

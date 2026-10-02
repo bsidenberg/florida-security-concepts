@@ -1,5 +1,5 @@
 'use client';
-// "Night view" (S-007): a wireframe community entry the cursor illuminates like
+// "Night view" (S-007): a wireframe controlled entry the cursor illuminates like
 // an IR illuminator, with hover detections. Labelled a simulated demonstration;
 // it is not a live monitoring service.
 import { useEffect, useRef, useState } from 'react';
@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 type Hotspot = { id: string; style: React.CSSProperties; label: string; title: string; lines: { text: string; tone?: 'ok' | 'alert' }[]; up?: boolean };
 
 const HOTSPOTS: Hotspot[] = [
-  { id: 'car-1', style: { left: '41%', top: '43%', width: '19%', height: '28%' }, label: 'Resident vehicle, plate QRT 482', title: 'VEHICLE · PLATE QRT 482', lines: [{ text: 'Resident · Lot 114 · read 99.1%' }, { text: 'GRANTED · gate opening', tone: 'ok' }] },
-  { id: 'car-2', style: { left: '72%', top: '70%', width: '17%', height: '18%' }, label: 'Flagged vehicle, plate ZEP 614', title: 'VEHICLE · PLATE ZEP 614', lines: [{ text: 'Flagged by board · read 98.8%' }, { text: 'DENIED · alert sent to manager', tone: 'alert' }], up: true },
+  { id: 'car-1', style: { left: '41%', top: '43%', width: '19%', height: '28%' }, label: 'Resident vehicle, plate QRT 482', title: 'VEHICLE · PLATE QRT 482', lines: [{ text: 'Authorized · credential 114 · read 99.1%' }, { text: 'GRANTED · gate opening', tone: 'ok' }] },
+  { id: 'car-2', style: { left: '72%', top: '70%', width: '17%', height: '18%' }, label: 'Flagged vehicle, plate ZEP 614', title: 'VEHICLE · PLATE ZEP 614', lines: [{ text: 'Flagged by site · read 98.8%' }, { text: 'DENIED · alert sent to manager', tone: 'alert' }], up: true },
   { id: 'cam', style: { left: '74%', top: '15%', width: '8%', height: '10%' }, label: 'Camera CAM-01', title: 'CAM-01 · ENTRY LPR', lines: [{ text: '2560×1440 · IR on · 30 fps' }, { text: 'Retention 30 days · health OK' }] },
   { id: 'gate', style: { left: '33%', top: '38%', width: '34%', height: '18%' }, label: 'Slide gate operator', title: 'SLIDE GATE · OPERATOR 01', lines: [{ text: 'UL 325 · battery 100% · 1,284 cycles this month' }, { text: 'Last service 14 days ago', tone: 'ok' }] },
   { id: 'callbox', style: { left: '26%', top: '56%', width: '5%', height: '14%' }, label: 'Visitor call box', title: 'CALL BOX · VISITOR LANE', lines: [{ text: 'Cellular · 2 calls tonight' }, { text: 'Guest passes active: 6' }] },

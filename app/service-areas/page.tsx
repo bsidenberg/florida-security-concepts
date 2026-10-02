@@ -9,13 +9,13 @@ import { locations } from '@/data/locations';
 import { site } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: 'Service Areas | Central Florida & Tampa Bay Security Systems',
+  title: 'Service Areas | Florida Security Systems, Statewide',
   description:
     'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
   alternates: { canonical: '/service-areas' },
   twitter: {
     card: 'summary_large_image',
-    title: 'Service Areas | Central Florida & Tampa Bay Security Systems',
+    title: 'Service Areas | Florida Security Systems, Statewide',
     description:
       'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
   },
@@ -26,8 +26,8 @@ export default function ServiceAreasPage() {
     <>
       <Hero
         eyebrow="Service Areas"
-        title="A regional team across Central Florida and Tampa Bay."
-        subtitle="From Orlando to Tampa to the surrounding metros, we operate as one team — same credential standards, same response posture, same documentation across every site we touch."
+        title="One team, serving all of Florida."
+        subtitle="From our Lake County base to every corner of the state, we operate as one team — same credential standards, same response posture, same documentation across every site we touch."
         primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
@@ -52,7 +52,7 @@ export default function ServiceAreasPage() {
 
       <CTASection
         title="Working across multiple sites or metros?"
-        body="We standardize credential platforms, escalation paths, and reporting across multi-site portfolios — Orlando to Tampa to Ocala, one platform."
+        body="We standardize credential platforms, escalation paths, and reporting across multi-site portfolios anywhere in Florida — one platform."
         primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
         secondaryCta={{ label: 'Property Manager Industry', href: '/industries/property-managers' }}
       />
