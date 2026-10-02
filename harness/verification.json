@@ -80,6 +80,14 @@
       "test:gate",
       "build",
       "test:e2e"
+    ],
+    "S-007": [
+      "lint",
+      "typecheck",
+      "test:unit",
+      "test:gate",
+      "build",
+      "test:e2e"
     ]
   },
   "buildArtifact": ".next/BUILD_ID",

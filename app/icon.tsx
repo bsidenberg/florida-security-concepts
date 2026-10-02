@@ -24,7 +24,7 @@ export default function Icon() {
           alignItems: 'center',
           justifyContent: 'center',
           background:
-            'linear-gradient(135deg, #1d4ed8 0%, #0f1422 55%, #070a13 100%)',
+            'linear-gradient(135deg, #002868 0%, #001A4A 55%, #0B1230 100%)',
           color: '#f8fafc',
           fontFamily: 'sans-serif',
         }}
@@ -45,7 +45,7 @@ export default function Icon() {
             width: 96,
             height: 8,
             borderRadius: 4,
-            background: '#60a5fa',
+            background: '#FF8FA3',
             boxShadow: '0 0 24px rgba(96,165,250,0.7)',
           }}
         />
