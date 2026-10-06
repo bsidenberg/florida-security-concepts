@@ -60,21 +60,21 @@ export const photos = {
     placeName: 'Tampa, Florida',
     illustrative: true,
   },
-  storageSwing: {
-    src: '/photos/clermont-fl-self-storage-swing-gate-keypad-bollard.webp',
+  storageSlideKeypad: {
+    src: '/photos/clermont-fl-self-storage-slide-gate-keypad.webp',
     width: 1280,
     height: 720,
-    alt: 'Black ornamental swing gate with keypad access pedestal at a Clermont, Florida self-storage entry',
-    caption: 'Black ornamental swing gate with keypad access pedestal at a Clermont, Florida self-storage entry. Illustrative scene, not a photograph of a specific job or address.',
+    alt: 'Commercial slide gate with gooseneck keypad stand at a Clermont, Florida self-storage entry',
+    caption: 'Commercial slide gate with gooseneck keypad stand at a Clermont, Florida self-storage entry',
     placeName: 'Clermont, Lake County, Florida',
-    illustrative: true,
+    illustrative: false,
   },
-  postReceiver: {
-    src: '/photos/orlando-fl-gate-post-wireless-receiver-operator-cabinet.webp',
+  operatorService: {
+    src: '/photos/orlando-fl-technician-servicing-slide-gate-operator.webp',
     width: 1280,
     height: 720,
-    alt: 'Wireless access receiver on a gate post with gate operator cabinet at an Orlando, Florida commercial entry',
-    caption: 'Wireless access receiver on a gate post with gate operator cabinet at an Orlando, Florida commercial entry. Illustrative scene, not a photograph of a specific job or address.',
+    alt: 'Gate technician servicing a slide gate operator control board at an Orlando, Florida apartment community',
+    caption: 'Gate technician servicing a slide gate operator control board at an Orlando, Florida apartment community',
     placeName: 'Orlando, Florida',
     illustrative: true,
   },
@@ -83,16 +83,16 @@ export const photos = {
 export type PhotoId = keyof typeof photos;
 
 const servicePhotoIds: Record<string, PhotoId[]> = {
-  'security-gate-systems': ['storageSlide', 'hoaCallbox', 'storageSwing'],
+  'security-gate-systems': ['storageSlide', 'hoaCallbox', 'storageSlideKeypad'],
   'gate-automation': ['storageSlide', 'technician'],
-  'access-control': ['hoaCallbox', 'postReceiver'],
+  'access-control': ['hoaCallbox', 'operatorService'],
   'video-surveillance': ['commercialLpr'],
   'security-system-integration': ['commercialLpr', 'receiver'],
   'emergency-service': ['technician'],
 };
 
 const industryPhotoIds: Record<string, PhotoId[]> = {
-  'storage-facilities': ['storageSwing', 'storageSlide'],
+  'storage-facilities': ['storageSlideKeypad', 'storageSlide'],
   'hoa-gated-communities': ['hoaCallbox'],
 };
 

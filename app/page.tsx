@@ -75,7 +75,7 @@ export default function HomePage() {
 
     <section className="fsc-light fsc-section-new" aria-labelledby="field-photos"><div className="fsc-container">
       <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-photos">What managed entry looks like<br/><em>across Florida.</em></h2></div><p>Scenes of the gates, readers, cameras, and operator equipment we install and maintain.</p></div>
-      <PhotoGrid photos={[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.storageSwing, photos.postReceiver]} />
+      <PhotoGrid photos={[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.storageSlideKeypad, photos.operatorService]} />
     </div></section>
 
     <section className="fsc-ir-section" id="night-view"><div className="fsc-container">
@@ -106,6 +106,6 @@ export default function HomePage() {
 
     <section className="fsc-final-cta"><div className="fsc-container"><p className="fsc-kicker">Let’s talk about your property</p><h2>A clear next step starts here.</h2><p>Request a free property assessment. We’ll contact you to discuss your needs and arrange the next step.</p><Link href="/contact" className="fsc-btn-primary" data-fsc-event="assessment_cta" data-fsc-placement="home_final">Request a Free Property Assessment <span aria-hidden="true">›</span></Link></div></section>
     <FAQSchema items={faqs} />
-    {[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.storageSwing, photos.postReceiver].map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
+    {[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.storageSlideKeypad, photos.operatorService].map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
   </div>;
 }
