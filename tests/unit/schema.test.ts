@@ -91,5 +91,9 @@ describe('JSON-LD', () => {
     expect(swing.caption).toBe(photos.storageSwing.caption);
     expect(JSON.stringify(photos)).not.toContain('florida-self-storage-keypad-bollard-swing-gate');
     expect(JSON.stringify(photos)).not.toContain('florida-gate-post-wireless-receiver.webp');
+    expect(JSON.stringify(photos)).not.toContain('florida-self-storage-keypad-pedestal');
+    expect(JSON.stringify(photos)).not.toContain('florida-self-storage-ornamental-gate-bollard');
+    const home = readFileSync(join(root, 'app/page.tsx'), 'utf8');
+    expect(home).not.toContain('Equipment on service visits');
   });
 });

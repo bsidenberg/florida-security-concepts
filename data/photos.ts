@@ -1,6 +1,5 @@
-// On-site photography. AI scenes are illustrative and must not be captioned as a
-// named job or street address. Field photographs are real equipment photos with
-// third-party business signage cropped or blurred; do not name the property.
+// On-site photography. These scenes are illustrative and must not be described
+// as a named job or street address.
 
 export type SitePhoto = {
   src: string;
@@ -14,7 +13,6 @@ export type SitePhoto = {
 };
 
 const illustrative = ' Illustrative scene, not a photograph of a specific job or address.';
-const field = ' Field photograph of equipment at a Florida self-storage entry. The property is not identified.';
 
 export const photos = {
   commercialLpr: {
@@ -62,25 +60,6 @@ export const photos = {
     placeName: 'Tampa, Florida',
     illustrative: true,
   },
-  fieldKeypad: {
-    src: '/photos/florida-self-storage-keypad-pedestal.webp',
-    width: 1600,
-    height: 891,
-    alt: 'Keypad on a pedestal at a Florida self-storage vehicle entrance',
-    caption: `Keypad pedestal used for resident and tenant access at a Florida self-storage entry.${field}`,
-    placeName: 'Florida',
-    illustrative: false,
-  },
-  fieldGate: {
-    src: '/photos/florida-self-storage-ornamental-gate-bollard.webp',
-    width: 814,
-    height: 1200,
-    alt: 'Black ornamental vehicle gate and yellow keypad bollard at a Florida self-storage entrance',
-    caption: `Ornamental vehicle gate and keypad bollard at a Florida self-storage entrance.${field}`,
-    placeName: 'Florida',
-    illustrative: false,
-    objectPosition: 'center 40%',
-  },
   storageSwing: {
     src: '/photos/clermont-fl-self-storage-swing-gate-keypad-bollard.webp',
     width: 1280,
@@ -105,16 +84,16 @@ export type PhotoId = keyof typeof photos;
 
 const servicePhotoIds: Record<string, PhotoId[]> = {
   'security-gate-systems': ['storageSlide', 'hoaCallbox', 'storageSwing'],
-  'gate-automation': ['storageSlide', 'fieldGate', 'technician'],
-  'access-control': ['fieldKeypad', 'hoaCallbox', 'postReceiver'],
+  'gate-automation': ['storageSlide', 'technician'],
+  'access-control': ['hoaCallbox', 'postReceiver'],
   'video-surveillance': ['commercialLpr'],
   'security-system-integration': ['commercialLpr', 'receiver'],
   'emergency-service': ['technician'],
 };
 
 const industryPhotoIds: Record<string, PhotoId[]> = {
-  'storage-facilities': ['fieldKeypad', 'storageSwing', 'storageSlide'],
-  'hoa-gated-communities': ['hoaCallbox', 'fieldGate'],
+  'storage-facilities': ['storageSwing', 'storageSlide'],
+  'hoa-gated-communities': ['hoaCallbox'],
 };
 
 export function photosById(ids: readonly PhotoId[]): SitePhoto[] {
