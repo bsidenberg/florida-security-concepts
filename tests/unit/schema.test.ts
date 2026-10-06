@@ -36,6 +36,8 @@ describe('JSON-LD', () => {
     expect(JSON.stringify(data)).toContain('Clermont');
     expect(JSON.stringify(data)).toContain('+13522820692');
     expect(JSON.stringify(data)).toContain('Florida');
+    expect(data.image).toContain('central-florida-commercial-slide-gate-lpr-camera.webp');
+    expect(JSON.stringify(data)).not.toContain('central-florida-commercial-gate-license-plate-recognition-camera');
     const hours = data.openingHoursSpecification as { opens: string; closes: string; dayOfWeek: string[] };
     expect(hours.opens).toBe('00:00');
     expect(hours.closes).toBe('23:59');

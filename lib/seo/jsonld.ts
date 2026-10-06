@@ -2,6 +2,7 @@
 // never become structured data. Address is area-level (Clermont, FL) until a
 // verified street and postal code exist.
 
+import { photos } from '@/data/photos';
 import { site, hasPhone, hasEmail, hasPostalAddress, activeSocialLinks } from '@/data/site';
 
 export const HQ_GEO = { latitude: 28.4447, longitude: -81.7987 } as const;
@@ -74,7 +75,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     description:
       'Florida Security Concepts provides Managed Entry Reliability for commercial and residential properties: preventive maintenance, repairs, 24/7 emergency service, retrofits, and new installations for gates, access control, video surveillance, and license plate recognition. Based in Clermont, Lake County, and serving Florida statewide.',
     url: site.url,
-    image: `${site.url}/photos/central-florida-commercial-gate-license-plate-recognition-camera.webp`,
+    image: `${site.url}${photos.commercialLpr.src}`,
     telephone: hasPhone() ? site.phone : undefined,
     email: hasEmail() ? site.email : undefined,
     address: areaAddressNode(),

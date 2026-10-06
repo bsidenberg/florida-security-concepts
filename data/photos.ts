@@ -16,11 +16,11 @@ const illustrative = ' Illustrative scene, not a photograph of a specific job or
 
 export const photos = {
   commercialLpr: {
-    src: '/photos/central-florida-commercial-gate-license-plate-recognition-camera.webp',
+    src: '/photos/central-florida-commercial-slide-gate-lpr-camera.webp',
     width: 1280,
     height: 720,
-    alt: 'Commercial slide gate with a license plate recognition camera and card reader at a Central Florida industrial site',
-    caption: `Commercial cantilever slide gate with license plate recognition and a card reader at a Central Florida industrial entrance.${illustrative}`,
+    alt: 'Commercial slide gate with operator, keypad pedestal, and license plate recognition camera at a Central Florida industrial facility',
+    caption: 'Commercial slide gate with operator, keypad pedestal, and license plate recognition camera at a Central Florida industrial facility',
     placeName: 'Central Florida',
     illustrative: true,
   },
