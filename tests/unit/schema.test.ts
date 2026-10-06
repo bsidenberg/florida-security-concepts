@@ -84,9 +84,11 @@ describe('JSON-LD', () => {
     expect(hero).not.toContain('PhotoFigure');
     expect(hero).toContain('fsc-hero-map-slot');
     expect(photos.storageSlideKeypad.src).toContain('clermont-fl-self-storage-slide-gate-keypad.webp');
-    expect(photos.operatorService.src).toContain('orlando-fl-technician-servicing-slide-gate-operator.webp');
+    expect(photos.gateCamera.src).toContain('orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp');
     expect(photos.storageSlideKeypad.alt).toContain('Clermont');
-    expect(photos.operatorService.alt).toContain('Orlando');
+    expect(photos.gateCamera.alt).toContain('Orlando');
+    expect(imageObjectJsonLd(photos.gateCamera).contentUrl).toContain('orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp');
+    expect(JSON.stringify(photos)).not.toContain('orlando-fl-technician-servicing-slide-gate-operator');
     const slide = imageObjectJsonLd(photos.storageSlideKeypad);
     expect(slide.caption).toBe(photos.storageSlideKeypad.caption);
     expect(slide.contentUrl).toContain('clermont-fl-self-storage-slide-gate-keypad.webp');

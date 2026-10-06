@@ -69,12 +69,12 @@ export const photos = {
     placeName: 'Clermont, Lake County, Florida',
     illustrative: false,
   },
-  operatorService: {
-    src: '/photos/orlando-fl-technician-servicing-slide-gate-operator.webp',
+  gateCamera: {
+    src: '/photos/orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp',
     width: 1280,
     height: 720,
-    alt: 'Gate technician servicing a slide gate operator control board at an Orlando, Florida apartment community',
-    caption: 'Gate technician servicing a slide gate operator control board at an Orlando, Florida apartment community',
+    alt: 'Security camera monitoring a car entering a gated community entrance in Orlando, Florida',
+    caption: 'Security camera monitoring a car entering a gated community entrance in Orlando, Florida',
     placeName: 'Orlando, Florida',
     illustrative: true,
   },
@@ -85,7 +85,7 @@ export type PhotoId = keyof typeof photos;
 const servicePhotoIds: Record<string, PhotoId[]> = {
   'security-gate-systems': ['storageSlide', 'hoaCallbox', 'storageSlideKeypad'],
   'gate-automation': ['storageSlide', 'technician'],
-  'access-control': ['hoaCallbox', 'operatorService'],
+  'access-control': ['hoaCallbox', 'gateCamera'],
   'video-surveillance': ['commercialLpr'],
   'security-system-integration': ['commercialLpr', 'receiver'],
   'emergency-service': ['technician'],
