@@ -40,10 +40,9 @@ export const site = {
   email: 'info@floridasecurityconcepts.com',
 
   address: {
-    // No verified street address. street/postalCode intentionally blank — the
-    // hasPostalAddress() helper requires all three (street + city + postalCode)
-    // before any LocalBusiness PostalAddress schema is emitted, so partial
-    // address data is structurally prevented from leaking into JSON-LD.
+    // No verified street address. street/postalCode stay blank. Schema emits an
+    // area-level PostalAddress (Clermont, FL) and omits streetAddress until
+    // hasPostalAddress() is true. Do not invent a street or ZIP.
     street: '',
     city: 'Clermont',
     region: 'FL',
@@ -53,6 +52,23 @@ export const site = {
 
   hours: '24/7 emergency service',
   serviceRegions: ['Florida'],
+  // Named in on-page copy and areaServed. Not a claim that each city has an office.
+  serviceCities: [
+    'Clermont',
+    'Orlando',
+    'Tampa',
+    'Lakeland',
+    'The Villages',
+    'Ocala',
+    'Kissimmee',
+    'Winter Garden',
+    'Lake Mary',
+    'Sanford',
+    'St. Petersburg',
+    'Clearwater',
+    'Brandon',
+    'Wesley Chapel',
+  ],
   serviceAreaSummary:
     'Statewide across Florida from our Lake County base, with local pages for Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon and Wesley Chapel.',
 

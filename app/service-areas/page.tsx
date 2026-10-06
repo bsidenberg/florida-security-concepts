@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { LocationGrid } from '@/components/LocationGrid';
@@ -8,18 +9,12 @@ import { BreadcrumbSchema } from '@/components/Schema';
 import { locations } from '@/data/locations';
 import { site } from '@/data/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'Service Areas | Florida Security Systems, Statewide',
   description:
-    'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
-  alternates: { canonical: '/service-areas' },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Service Areas | Florida Security Systems, Statewide',
-    description:
-      'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
-  },
-};
+    'Service areas from our Clermont, Lake County base, including Orlando, Tampa, Lakeland, The Villages, Ocala, and the rest of Florida.',
+  path: '/service-areas',
+});
 
 export default function ServiceAreasPage() {
   return (
@@ -27,7 +22,7 @@ export default function ServiceAreasPage() {
       <Hero
         eyebrow="Service Areas"
         title="One team, serving all of Florida."
-        subtitle="From our Lake County base to every corner of the state, we operate as one team — same credential standards, same response posture, same documentation across every site we touch."
+        subtitle="From our headquarters in Clermont, Lake County, we operate as one team — same credential standards, same response posture, same documentation across every site we touch."
         primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
@@ -39,7 +34,7 @@ export default function ServiceAreasPage() {
           />
           <Eyebrow>Coverage map</Eyebrow>
           <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text">
-            Cities and metros we serve
+            Cities we serve from Clermont, Lake County
           </h2>
           <p className="mt-4 max-w-3xl text-base text-fsc-text-dim leading-relaxed">
             Every page below is a real local resource — services available, industries served, FAQ, and CTA tailored to the area. If your property sits between metros or just outside a listed city, we still serve it. Reach out for confirmation.

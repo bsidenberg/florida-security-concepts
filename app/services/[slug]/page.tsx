@@ -13,7 +13,10 @@ import {
   ServiceSchema,
   FAQSchema,
   BreadcrumbSchema,
+  ImageObjectSchema,
 } from '@/components/Schema';
+import { PhotoGrid } from '@/components/PhotoFigure';
+import { photosForService } from '@/data/photos';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
 import {
   services,
@@ -56,6 +59,7 @@ export default async function ServicePage({ params }: Params) {
     .filter(Boolean);
 
   const url = `${site.url}/services/${svc.slug}`;
+  const gallery = photosForService(svc.slug);
   const isEmergency = svc.slug === 'emergency-service';
   const ctaLabel = isEmergency
     ? 'Request emergency service'
@@ -90,6 +94,9 @@ export default async function ServicePage({ params }: Params) {
             <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
               {svc.directAnswer}
             </p>
+            <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
+              Florida Security Concepts provides this from its base in Clermont, Lake County, for commercial and residential properties throughout Florida.
+            </p>
             <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
               Updated {formatDate(svc.updatedDate)} · {site.name}
             </p>
@@ -97,12 +104,26 @@ export default async function ServicePage({ params }: Params) {
         </Container>
       </Section>
 
+      {gallery.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>In the field</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
+              {svc.navLabel} on Florida properties.
+            </h2>
+            <div className="mt-8">
+              <PhotoGrid photos={gallery} sizes="(min-width: 1024px) 360px, 100vw" />
+            </div>
+          </Container>
+        </Section>
+      )}
+
       {/* Capabilities */}
       <Section>
         <Container>
           <Eyebrow>Capabilities</Eyebrow>
           <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-            What this service includes.
+            {svc.navLabel} capabilities.
           </h2>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
             {svc.capabilities.map((c) => (
@@ -155,7 +176,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <Eyebrow>Process</Eyebrow>
             <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-              From assessment to a working system.
+              How {svc.navLabel.toLowerCase()} moves from assessment to a working system.
             </h2>
             <ol className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               {svc.process.map((p, i) => (
@@ -182,7 +203,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <Eyebrow>Industries that use this service</Eyebrow>
             <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-              How this service applies across property types.
+              How {svc.navLabel.toLowerCase()} applies across property types.
             </h2>
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {relatedIndustries.map((i) => (
@@ -207,7 +228,7 @@ export default async function ServicePage({ params }: Params) {
             <div className="lg:col-span-5">
               <Eyebrow>Plan this service</Eyebrow>
               <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-                Start with a site assessment.
+                Request a site assessment for {svc.navLabel.toLowerCase()}.
               </h2>
               <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
                 Tell us about the property — we use the assessment to scope the
@@ -233,7 +254,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <Eyebrow>Related services</Eyebrow>
             <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-              Often deployed together.
+              Services often paired with {svc.navLabel.toLowerCase()}.
             </h2>
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {related.map((r) => (
@@ -256,7 +277,9 @@ export default async function ServicePage({ params }: Params) {
         description={svc.metaDescription}
         url={url}
         serviceType={svc.shortLabel}
+        image={gallery[0]?.src}
       />
+      {gallery.map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
       <FAQSchema items={svc.faqs} />
       <BreadcrumbSchema
         items={[

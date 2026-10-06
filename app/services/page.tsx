@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { Hero } from '@/components/Hero';
 import { Container, Section, Eyebrow } from '@/components/Container';
 import { ServiceCard } from '@/components/ServiceCard';
@@ -8,18 +9,12 @@ import { BreadcrumbSchema } from '@/components/Schema';
 import { services } from '@/data/services';
 import { site } from '@/data/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'Security Services | Gates, Access Control, Surveillance & Integration',
   description:
     'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, system integration, and 24/7 emergency support.',
-  alternates: { canonical: '/services' },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Security Services | Gates, Access Control, Surveillance & Integration',
-    description:
-      'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, system integration, and 24/7 emergency support.',
-  },
-};
+  path: '/services',
+});
 
 export default function ServicesIndexPage() {
   return (

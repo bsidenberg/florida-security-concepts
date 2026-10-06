@@ -73,7 +73,7 @@ export function NightView() {
     stage.appendChild(ring); setTimeout(() => ring.remove(), 1000);
     setSnap(`SNAPSHOT SAVED · ${clock} · CAM-01`); setTimeout(() => setSnap(null), 2200);
   };
-  const snapshot = (e: React.PointerEvent<HTMLDivElement>) => { const r = stageRef.current?.getBoundingClientRect(); if (r) snapshotAt(e.clientX - r.left, e.clientY - r.top); };
+  const snapshot = (e: React.MouseEvent<HTMLDivElement>) => { const r = stageRef.current?.getBoundingClientRect(); if (r) snapshotAt(e.clientX - r.left, e.clientY - r.top); };
   const keySnapshot = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key !== 'Enter' && e.key !== ' ') return; e.preventDefault();
     const r = stageRef.current?.getBoundingClientRect(), b = e.currentTarget.getBoundingClientRect(); if (!r) return;
@@ -83,7 +83,7 @@ export function NightView() {
   };
 
   return (
-    <div className="fsc-ir-stage" ref={stageRef} onPointerDown={snapshot}>
+    <div className="fsc-ir-stage" ref={stageRef} onClick={snapshot} role="group" aria-label="Simulated infrared night view of a controlled gate entry. Not a live camera feed.">
       <div className="fsc-ir-ui"><span className="fsc-ir-rec"><i />CAM-01 · ENTRY · IR ILLUMINATOR: CURSOR · SIMULATED</span><span>{clock}</span></div>
       <div className="fsc-ir-layer fsc-ir-dim"><Scene /></div>
       <div className="fsc-ir-layer fsc-ir-bright" ref={brightRef}><Scene /></div>

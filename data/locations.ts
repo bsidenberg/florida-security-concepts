@@ -26,7 +26,7 @@ export const locations: Location[] = [
     intro:
       'Orlando’s mix of master-planned communities, mixed-use commercial districts, and tourism-adjacent industrial zones puts unique pressure on security systems. We design gate, access, and camera systems for the realities of the metro — high vendor and delivery volume, regional weather exposure, and tight expectations on after-hours response.',
     localContext:
-      'From downtown Orlando to Lake Nona, MetroWest, and Dr. Phillips, properties span gated communities, multi-tenant offices, storage portfolios, and estate properties. Florida Security Concepts services Orlando with a Central Florida team that knows the corridor and how local properties actually operate.',
+      'From downtown Orlando to Lake Nona, MetroWest, and Dr. Phillips, properties span gated communities, multi-tenant offices, storage portfolios, and estate properties. Orlando visits are scheduled from our Clermont, Lake County headquarters.',
     highlightServices: [
       'security-gate-systems',
       'gate-automation',
@@ -62,7 +62,7 @@ export const locations: Location[] = [
     intro:
       'Tampa concentrates a high density of multifamily, storage, commercial, and industrial properties — each with its own access and surveillance demands. We design integrated security systems engineered for the operational pace of the Tampa Bay region.',
     localContext:
-      'From downtown Tampa to Westshore, New Tampa, and the surrounding industrial corridors, the region puts a wide spectrum of demands on security infrastructure — from estate-class entries to high-cycle warehouse gates.',
+      'From downtown Tampa to Westshore, New Tampa, and the surrounding industrial corridors, the region puts a wide spectrum of demands on security infrastructure — from estate-class entries to high-cycle warehouse gates. Tampa Bay visits are scheduled from our Clermont, Lake County base.',
     highlightServices: [
       'security-gate-systems',
       'gate-automation',
@@ -98,7 +98,7 @@ export const locations: Location[] = [
     intro:
       'Lakeland’s industrial, logistics, and growing community footprint sits at the operational center of the I-4 corridor. We design security systems that match the pace of Polk County properties — credentialed lanes, yard coverage, and integrated community access.',
     localContext:
-      'Lakeland mixes long-standing industrial sites with newer residential communities and growing commercial centers. Each property class needs a security system tuned to its operational reality.',
+      'Lakeland mixes long-standing industrial sites with newer residential communities and growing commercial centers. Each property class needs a security system tuned to its operational reality. Polk County visits are scheduled from our Clermont, Lake County base along the I-4 corridor.',
     highlightServices: [
       'gate-automation',
       'access-control',
@@ -193,11 +193,11 @@ export const locations: Location[] = [
     metaTitle:
       'Clermont Security Gate, Access Control & Camera Systems',
     metaDescription:
-      'Security systems for Clermont communities, estates, and commercial properties in Lake County — gate automation, access control, and video surveillance.',
+      'Gate, access control, and camera service in Clermont and Lake County, home base for Florida Security Concepts, with coverage across Florida.',
     intro:
-      'Clermont’s mix of new master-planned communities, established neighborhoods, and growing commercial corridors puts a premium on security systems that scale with the property.',
+      'Clermont, in Lake County, is home base for Florida Security Concepts. From here we service gates, access control, and cameras for communities, commercial sites, and estates in Clermont, and we schedule work across Florida.',
     localContext:
-      'Clermont and the surrounding Lake County area are growing fast — security systems specified today have to fit the property as it exists in five years, not just on opening day.',
+      'Clermont and the surrounding Lake County communities are growing fast. A gate, keypad, or camera plan has to fit how the property is used every day. Statewide coverage is coordinated from this Lake County base.',
     highlightServices: [
       'security-gate-systems',
       'gate-automation',
@@ -288,7 +288,7 @@ export const locations: Location[] = [
     intro:
       'Ocala’s estate and equestrian properties, alongside its growing commercial and community footprint, demand security systems engineered for both presence and reliability.',
     localContext:
-      'From the equestrian corridor to downtown Ocala and the surrounding communities, properties range from large estates to commercial centers — each with distinct gate and credential requirements.',
+      'From the equestrian corridor to downtown Ocala and the surrounding communities, properties range from large estates to commercial centers — each with distinct gate and credential requirements. Ocala visits are scheduled from our Clermont, Lake County base.',
     highlightServices: [
       'security-gate-systems',
       'gate-automation',
@@ -316,7 +316,7 @@ export const locations: Location[] = [
     intro:
       'The Villages and its surrounding communities expect security systems that respect the lifestyle and operational realities of the area.',
     localContext:
-      'The Villages combines a high-density active-adult community footprint with surrounding commercial and residential properties, each with its own security profile.',
+      'The Villages combines a high-density active-adult community footprint with surrounding commercial and residential properties, each with its own security profile. Visits are scheduled from our Clermont, Lake County base.',
     highlightServices: [
       'gate-automation',
       'access-control',

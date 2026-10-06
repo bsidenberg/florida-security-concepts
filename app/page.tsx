@@ -1,17 +1,24 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FAQSchema } from '@/components/Schema';
+import { FAQSchema, ImageObjectSchema } from '@/components/Schema';
+import { PhotoGrid } from '@/components/PhotoFigure';
 import { HomeHero } from '@/components/home/HomeHero';
 import { StatTiles, type Stat } from '@/components/home/StatTiles';
 import { CursorCards, type CapabilityCard } from '@/components/home/CursorCards';
 import { NightView } from '@/components/home/NightView';
 import { Reveal } from '@/components/home/Reveal';
+import { buildPageMetadata } from '@/lib/seo/metadata';
 import { site } from '@/data/site';
 import { industries } from '@/data/industries';
 import { resources } from '@/data/resources';
+import { photos } from '@/data/photos';
 
-export const metadata: Metadata = { title: 'Security Gates, Access Control & Cameras | Florida Statewide', description: 'Preventive maintenance, repairs, 24/7 emergency service and new installations for commercial and residential properties throughout Florida. Request a free property assessment.', alternates: { canonical: '/' } };
+export const metadata: Metadata = buildPageMetadata({
+  title: 'Security Gates, Access Control & Cameras | Clermont & Statewide',
+  description: 'Managed Entry Reliability for gates, access control, and cameras. Maintenance, repairs, and 24/7 emergency service from Clermont, Lake County, across Florida.',
+  path: '/',
+});
 
 // Equipment platforms FSC installs and services (owner-confirmed 2026-10-02).
 const manufacturers = [
@@ -51,7 +58,7 @@ const steps = [
 const faqs = [
   { q: 'Do you offer preventive-maintenance contracts?', a: 'Yes. We offer preventive maintenance for gates, access-control and camera systems on commercial and residential properties. The equipment, condition and use of your property help determine the scope. Start with a free property assessment request.' },
   { q: 'Can you work on an existing system?', a: 'We handle service, repairs, retrofits and upgrades as well as new installations. Tell us about your existing equipment and the issue so we can discuss the right next step. Compatibility is assessed for each property.' },
-  { q: 'Where do you provide service?', a: 'We serve properties throughout Florida from our base in Lake County. Share your property’s city or area so we can confirm scheduling for your location.' },
+  { q: 'Where do you provide service?', a: 'Florida Security Concepts is based in Clermont, Lake County, and serves commercial and residential properties throughout Florida. Share your property’s city so we can confirm scheduling.' },
   { q: 'What should I do if a gate or access system is down?', a: 'Call Florida Security Concepts for 24/7 emergency service. A website request does not automatically dispatch a technician or confirm an arrival time.' },
 ];
 
@@ -62,8 +69,16 @@ export default function HomePage() {
     <div className="fsc-container fsc-stats-wrap"><StatTiles stats={stats} /></div>
 
     <section className="fsc-light fsc-section-new fsc-grid-bg" id="capabilities"><div className="fsc-container">
-      <div className="fsc-section-heading fsc-section-heading-center"><div><h2>One partner.<br/><em>Four systems that work as one.</em></h2></div><p>From the gate operator to the camera to the credential in a resident’s pocket, we install and maintain the whole entry, so there is one number to call.</p></div>
+      <div className="fsc-section-heading fsc-section-heading-center"><div><h2>Managed Entry Reliability.<br/><em>Four systems that work as one.</em></h2></div><p>One partner, from the gate operator to the camera to the credential in a resident’s pocket. We install and maintain the whole entry, so there is one number to call.</p></div>
       <CursorCards cards={capabilities} />
+    </div></section>
+
+    <section className="fsc-light fsc-section-new" aria-labelledby="field-photos"><div className="fsc-container">
+      <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-photos">What managed entry looks like<br/><em>across Florida.</em></h2></div><p>Illustrative scenes of the systems we install and maintain, plus field photographs of equipment. Field photos are not labeled with a property name.</p></div>
+      <PhotoGrid photos={[photos.storageSlide, photos.hoaCallbox, photos.technician]} />
+      <h3 className="mt-10 text-xl font-semibold text-fsc-text">Equipment on service visits</h3>
+      <p className="mt-2 mb-6 max-w-2xl text-sm text-fsc-text-dim">Keypads, ornamental gates, and receivers photographed in the field. Captions describe the equipment, not a client.</p>
+      <PhotoGrid photos={[photos.fieldKeypad, photos.fieldSwing, photos.fieldReceiver]} />
     </div></section>
 
     <section className="fsc-ir-section" id="night-view"><div className="fsc-container">
@@ -84,7 +99,9 @@ export default function HomePage() {
       <div className="fsc-marquee" aria-hidden="false"><ul className="fsc-marquee-track">{[...manufacturers, ...manufacturers].map((m, i) => <li key={`${m.file}-${i}`} className="fsc-mfr-card" aria-hidden={i >= manufacturers.length || undefined}><Image src={`/manufacturers/${m.file}.png`} alt={i < manufacturers.length ? m.name : ''} width={160} height={70} sizes="160px" loading="eager" unoptimized /></li>)}</ul></div>
     </section>
 
-    <section className="fsc-light fsc-section-new"><div className="fsc-container fsc-two-column"><div><p className="fsc-kicker">Based in Lake County. Serving all of Florida.</p><h2>Commercial and residential,<br/>anywhere in the state.</h2><p>Warehouses, offices, storage facilities, gated communities, multifamily and estates. From one property to a portfolio, start with the city, the equipment and the work you need.</p><Link href="/service-areas" className="fsc-text-link">Explore our service areas →</Link><div className="fsc-area-links"><Link href="/industries/commercial-properties">Commercial properties</Link><Link href="/industries/hoa-gated-communities">HOAs & gated communities</Link><Link href="/industries">All property types</Link></div></div><div className="fsc-faq"><h3>A few things to know</h3>{faqs.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></div></section>
+    <section className="fsc-light fsc-section-new" id="service-areas"><div className="fsc-container fsc-two-column"><div><p className="fsc-kicker">Headquarters in Clermont, Lake County</p><h2>Commercial and residential,<br/>from Clermont across Florida.</h2><p>Warehouses, offices, storage facilities, gated communities, multifamily and estates. From one property to a portfolio, start with the city, the equipment and the work you need.</p><Link href="/service-areas" className="fsc-text-link">Explore our service areas →</Link><nav className="fsc-city-links" aria-label="City service areas"><Link href="/service-areas/clermont">Clermont &amp; Lake County</Link><Link href="/service-areas/orlando">Orlando</Link><Link href="/service-areas/tampa">Tampa</Link><Link href="/service-areas/the-villages">The Villages</Link><Link href="/service-areas/ocala">Ocala</Link><Link href="/service-areas/lakeland">Lakeland</Link></nav><div className="fsc-area-links"><Link href="/industries/commercial-properties">Commercial properties</Link><Link href="/industries/hoa-gated-communities">HOAs & gated communities</Link><Link href="/industries/storage-facilities">Storage facilities</Link><Link href="/industries">All property types</Link></div></div><div className="fsc-faq"><h3>A few things to know</h3>{faqs.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></div></section>
+
+    <section className="fsc-trust fsc-light fsc-section-new" aria-labelledby="proof-heading"><div className="fsc-container fsc-trust-grid"><div><p className="fsc-kicker">How to reach us</p><h2 id="proof-heading">Talk with the Clermont team.</h2><p>License numbers, manufacturer certifications, and customer reviews are published here only after they are verified. Use the details below to reach Florida Security Concepts about your property.</p></div><ul><li><span>Headquarters area</span>Clermont, Lake County, Florida</li><li><span>Phone</span><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li><li><span>Emergency coverage</span>24/7 emergency service</li><li><span>Email</span><a href={`mailto:${site.email}`}>{site.email}</a></li></ul></div></section>
 
     <section className="fsc-resources-row fsc-section-new"><div className="fsc-container"><div className="fsc-section-heading"><div><p className="fsc-kicker">Straight from the field</p><h2>Answers you can<br/>act on.</h2></div><Link href="/resources" className="fsc-text-link">All resources →</Link></div>
       <div className="fsc-notes">{latest.map((r) => <Link key={r.slug} href={`/resources/${r.slug}`} className="fsc-note"><small>{new Date(r.updatedDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</small><b>{r.question}</b><span>{r.shortAnswer.length > 180 ? `${r.shortAnswer.slice(0, 177).trimEnd()}…` : r.shortAnswer}</span></Link>)}</div>
@@ -92,5 +109,6 @@ export default function HomePage() {
 
     <section className="fsc-final-cta"><div className="fsc-container"><p className="fsc-kicker">Let’s talk about your property</p><h2>A clear next step starts here.</h2><p>Request a free property assessment. We’ll contact you to discuss your needs and arrange the next step.</p><Link href="/contact" className="fsc-btn-primary" data-fsc-event="assessment_cta" data-fsc-placement="home_final">Request a Free Property Assessment <span aria-hidden="true">›</span></Link></div></section>
     <FAQSchema items={faqs} />
+    {[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.fieldKeypad, photos.fieldReceiver].map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
   </div>;
 }

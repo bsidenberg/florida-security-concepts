@@ -1,0 +1,76 @@
+import { describe, expect, it } from 'vitest';
+import { photos } from '../../data/photos';
+import {
+  breadcrumbJsonLd,
+  faqJsonLd,
+  imageObjectJsonLd,
+  organizationJsonLd,
+  serviceJsonLd,
+} from '../../lib/seo/jsonld';
+
+function walk(value: unknown, path: string, problems: string[]) {
+  if (typeof value === 'string') {
+    if (value.length === 0) problems.push(`${path} is empty`);
+    return;
+  }
+  if (Array.isArray(value)) {
+    if (value.length === 0) problems.push(`${path} is an empty array`);
+    value.forEach((item, index) => walk(item, `${path}[${index}]`, problems));
+    return;
+  }
+  if (value && typeof value === 'object') {
+    for (const [key, inner] of Object.entries(value)) walk(inner, `${path}.${key}`, problems);
+  }
+}
+
+describe('JSON-LD', () => {
+  it('describes the Clermont business with 24/7 emergency hours and no empty fields', () => {
+    const data = organizationJsonLd();
+    const problems: string[] = [];
+    walk(data, '$', problems);
+    expect(problems).toEqual([]);
+    expect(data['@context']).toBe('https://schema.org');
+    expect(data['@type']).toEqual(expect.arrayContaining(['ProfessionalService', 'HomeAndConstructionBusiness']));
+    expect(JSON.stringify(data)).toContain('Clermont');
+    expect(JSON.stringify(data)).toContain('+13522820692');
+    expect(JSON.stringify(data)).toContain('Florida');
+    const hours = data.openingHoursSpecification as { opens: string; closes: string; dayOfWeek: string[] };
+    expect(hours.opens).toBe('00:00');
+    expect(hours.closes).toBe('23:59');
+    expect(hours.dayOfWeek).toHaveLength(7);
+    expect(data.address).toMatchObject({ addressLocality: 'Clermont', addressRegion: 'FL' });
+    expect(data.address).not.toHaveProperty('streetAddress');
+    expect(() => JSON.parse(JSON.stringify(data))).not.toThrow();
+  });
+
+  it('builds service, FAQ, breadcrumb, and image objects', () => {
+    const photo = photos.commercialLpr;
+    const image = imageObjectJsonLd(photo);
+    expect(image['@type']).toBe('ImageObject');
+    expect(image.contentUrl).toBe(`https://www.floridasecurityconcepts.com${photo.src}`);
+    expect(image.width).toBe(photo.width);
+    expect(image.height).toBe(photo.height);
+    expect(String(image.caption).length).toBeGreaterThan(20);
+
+    const service = serviceJsonLd({
+      name: 'Gate automation',
+      description: 'Operators and safety devices for Florida properties.',
+      url: 'https://www.floridasecurityconcepts.com/services/gate-automation',
+      serviceType: 'Gate Automation',
+      image: photo.src,
+    });
+    expect(service['@type']).toBe('Service');
+    expect(service.image).toContain(photo.src);
+
+    const faq = faqJsonLd([{ q: 'Where are you based?', a: 'Clermont, Lake County, Florida.' }]);
+    expect(faq?.['@type']).toBe('FAQPage');
+
+    const crumbs = breadcrumbJsonLd([
+      { name: 'Home', url: 'https://www.floridasecurityconcepts.com/' },
+      { name: 'Services', url: 'https://www.floridasecurityconcepts.com/services' },
+    ]);
+    const items = crumbs?.itemListElement as { position: number }[];
+    expect(items.map((item) => item.position)).toEqual([1, 2]);
+    expect(faqJsonLd([])).toBeNull();
+  });
+});

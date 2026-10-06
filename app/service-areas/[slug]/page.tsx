@@ -23,6 +23,7 @@ import {
 import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
+import { HQ_GEO } from '@/lib/seo/jsonld';
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -208,6 +209,7 @@ export default async function LocationPage({ params }: Params) {
         region={loc.region}
         url={url}
         description={loc.metaDescription}
+        geo={loc.slug === 'clermont' ? HQ_GEO : undefined}
       />
       <FAQSchema items={faqs} />
       <BreadcrumbSchema

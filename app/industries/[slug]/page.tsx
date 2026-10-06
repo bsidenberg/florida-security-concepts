@@ -12,7 +12,10 @@ import {
   ServiceSchema,
   FAQSchema,
   BreadcrumbSchema,
+  ImageObjectSchema,
 } from '@/components/Schema';
+import { PhotoGrid } from '@/components/PhotoFigure';
+import { photosForIndustry } from '@/data/photos';
 import { industries, getIndustry } from '@/data/industries';
 import { servicesBySlug } from '@/data/services';
 import { site } from '@/data/site';
@@ -47,6 +50,7 @@ export default async function IndustryPage({ params }: Params) {
     .filter(Boolean);
 
   const url = `${site.url}/industries/${ind.slug}`;
+  const gallery = photosForIndustry(ind.slug);
   const ctaLabel = `Plan security for your ${ind.shortLabel.toLowerCase()} property`;
   const ctaHref = `/contact?industry=${ind.slug}`;
 
@@ -75,12 +79,29 @@ export default async function IndustryPage({ params }: Params) {
             <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
               {ind.directAnswer}
             </p>
+            <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
+              Work is scheduled from Florida Security Concepts in Clermont, Lake County, for properties throughout Florida.
+            </p>
             <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
               Updated {formatDate(ind.updatedDate)} · {site.name}
             </p>
           </div>
         </Container>
       </Section>
+
+      {gallery.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>In the field</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
+              {ind.shortLabel} entries in Florida.
+            </h2>
+            <div className="mt-8">
+              <PhotoGrid photos={gallery} />
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* Pains */}
       <Section>
@@ -191,6 +212,7 @@ export default async function IndustryPage({ params }: Params) {
         url={url}
         serviceType={`Security systems for ${ind.shortLabel}`}
       />
+      {gallery.map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
       <FAQSchema items={ind.faqs} />
       <BreadcrumbSchema
         items={[
