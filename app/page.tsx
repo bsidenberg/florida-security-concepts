@@ -74,7 +74,7 @@ export default function HomePage() {
     </div></section>
 
     <section className="fsc-light fsc-section-new" aria-labelledby="field-photos"><div className="fsc-container">
-      <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-photos">What managed entry looks like<br/><em>across Florida.</em></h2></div><p>Scenes of the gates, readers, cameras, and operator equipment we install and maintain.</p></div>
+      <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-photos">What managed entry looks like<br/><em>across Florida.</em></h2></div></div>
       <PhotoGrid photos={[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.storageSlideKeypad, photos.operatorService]} />
     </div></section>
 
