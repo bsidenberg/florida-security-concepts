@@ -81,41 +81,39 @@ export const photos = {
     illustrative: false,
     objectPosition: 'center 40%',
   },
-  fieldSwing: {
-    src: '/photos/florida-self-storage-keypad-bollard-swing-gate.webp',
-    width: 1154,
-    height: 1600,
-    alt: 'Keypad bollard beside a black ornamental swing gate at a Florida self-storage entry',
-    caption: `Swing gate and keypad bollard at a Florida self-storage vehicle lane.${field}`,
-    placeName: 'Florida',
-    illustrative: false,
-    objectPosition: 'center 55%',
+  storageSwing: {
+    src: '/photos/clermont-fl-self-storage-swing-gate-keypad-bollard.webp',
+    width: 1280,
+    height: 720,
+    alt: 'Black ornamental swing gate with keypad access pedestal at a Clermont, Florida self-storage entry',
+    caption: 'Black ornamental swing gate with keypad access pedestal at a Clermont, Florida self-storage entry. Illustrative scene, not a photograph of a specific job or address.',
+    placeName: 'Clermont, Lake County, Florida',
+    illustrative: true,
   },
-  fieldReceiver: {
-    src: '/photos/florida-gate-post-wireless-receiver.webp',
-    width: 1400,
-    height: 1050,
-    alt: 'Wireless receiver enclosure on a gate post next to an operator cabinet at a Florida vehicle gate',
-    caption: `Wireless receiver on a gate post, with the operator cabinet beyond it, at a Florida vehicle entry.${field}`,
-    placeName: 'Florida',
-    illustrative: false,
-    objectPosition: '18% center',
+  postReceiver: {
+    src: '/photos/orlando-fl-gate-post-wireless-receiver-operator-cabinet.webp',
+    width: 1280,
+    height: 720,
+    alt: 'Wireless access receiver on a gate post with gate operator cabinet at an Orlando, Florida commercial entry',
+    caption: 'Wireless access receiver on a gate post with gate operator cabinet at an Orlando, Florida commercial entry. Illustrative scene, not a photograph of a specific job or address.',
+    placeName: 'Orlando, Florida',
+    illustrative: true,
   },
 } as const satisfies Record<string, SitePhoto>;
 
 export type PhotoId = keyof typeof photos;
 
 const servicePhotoIds: Record<string, PhotoId[]> = {
-  'security-gate-systems': ['storageSlide', 'hoaCallbox', 'fieldSwing'],
+  'security-gate-systems': ['storageSlide', 'hoaCallbox', 'storageSwing'],
   'gate-automation': ['storageSlide', 'fieldGate', 'technician'],
-  'access-control': ['fieldKeypad', 'hoaCallbox', 'fieldReceiver'],
+  'access-control': ['fieldKeypad', 'hoaCallbox', 'postReceiver'],
   'video-surveillance': ['commercialLpr'],
   'security-system-integration': ['commercialLpr', 'receiver'],
   'emergency-service': ['technician'],
 };
 
 const industryPhotoIds: Record<string, PhotoId[]> = {
-  'storage-facilities': ['fieldKeypad', 'fieldSwing', 'storageSlide'],
+  'storage-facilities': ['fieldKeypad', 'storageSwing', 'storageSlide'],
   'hoa-gated-communities': ['hoaCallbox', 'fieldGate'],
 };
 

@@ -25,7 +25,6 @@ export function PhotoFigure({
           style={cover ? { objectPosition: photo.objectPosition ?? 'center' } : undefined}
         />
       </div>
-      <figcaption>{photo.caption}</figcaption>
     </figure>
   );
 }

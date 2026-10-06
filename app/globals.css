@@ -222,15 +222,10 @@ body {
    emergency timeline, equipment strip, resources row. Plain CSS to match the
    existing homepage rules above. All content is visible without JS.
 --------------------------------------------------------------------------- */
-.fsc-hero{position:relative;overflow:hidden;padding:64px 0 130px;background:#fff}
-.fsc-hero{touch-action:pan-y}
+.fsc-hero{position:relative;overflow:hidden;padding:64px 0 130px;background:#fff;touch-action:pan-y}
 .fsc-hero-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;touch-action:none}
-.fsc-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,560px) 1fr;grid-template-areas:"copy visual" "follow visual";gap:28px 40px;align-items:stretch}
-.fsc-hero-left{grid-area:copy;align-self:start}
-.fsc-hero-follow{grid-area:follow;display:flex;flex-direction:column;gap:22px;align-self:start}
-.fsc-hero-visual{grid-area:visual;position:relative;min-width:0;min-height:460px}
-.fsc-hero-map-slot{position:absolute;inset:0;z-index:0;pointer-events:none}
-.fsc-hero-visual .fsc-photo{position:relative;z-index:1;width:min(100%,520px);margin-left:auto;background:#fff;padding:10px 10px 12px;border-radius:16px}
+.fsc-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,600px) 1fr;gap:40px;align-items:center}
+.fsc-hero-map-slot{align-self:stretch;min-height:100%}
 .fsc-hero-left{display:flex;flex-direction:column;gap:22px}
 .fsc-hero .fsc-kicker{color:#4A5673;margin:0}
 .fsc-hero h1{font-size:clamp(40px,5.2vw,64px);font-weight:800;line-height:1.08;letter-spacing:-.025em;color:#002868;max-width:640px}
@@ -252,7 +247,6 @@ body {
 .fsc-photo-natural img{width:100%;height:auto;border-radius:12px;display:block;border:1px solid #DDE3EE;box-shadow:0 16px 40px rgba(0,26,74,.12)}
 .fsc-photo-frame{position:relative;aspect-ratio:3/2;overflow:hidden;border-radius:12px;border:1px solid #DDE3EE;background:#F4F6FA}
 .fsc-photo-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.fsc-photo figcaption{margin-top:8px;font-size:13px;line-height:1.5;color:#435d70}
 .fsc-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .fsc-city-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .fsc-city-links a{display:inline-flex;align-items:center;min-height:40px;border:1px solid #DDE3EE;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:650;background:#fff;color:#0E1B3A}
@@ -331,6 +325,6 @@ body {
 .fsc-note:hover{transform:translateY(-3px)}
 .fsc-note small{font-family:var(--font-mono);font-size:11px;color:#BF0A30;letter-spacing:.1em}.fsc-note b{font-size:18px;line-height:1.3;color:#002868}.fsc-note span{font-size:14px;color:#4A5673;line-height:1.6}
 @media(max-width:1199px){.fsc-stats{grid-template-columns:repeat(2,1fr)}.fsc-cap-cards{grid-template-columns:repeat(2,1fr)}.fsc-timeline{grid-template-columns:repeat(2,1fr);row-gap:28px}.fsc-notes{grid-template-columns:1fr}}
-@media(max-width:900px){.fsc-hero-grid{grid-template-columns:1fr;grid-template-areas:"copy" "visual" "follow";gap:22px}.fsc-hero{padding:48px 0 110px}.fsc-hero-visual{display:flex;flex-direction:column;gap:14px;min-height:0}.fsc-hero-map-slot{position:relative;inset:auto;height:240px;order:2}.fsc-hero-visual .fsc-photo{width:100%;margin:0;order:1;padding:0;background:transparent}.fsc-ir-stage{height:460px}.fsc-photo-grid{grid-template-columns:1fr 1fr}.fsc-trust-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.fsc-hero-grid{grid-template-columns:1fr;gap:24px}.fsc-hero{padding:48px 0 110px}.fsc-hero-map-slot{height:300px}.fsc-ir-stage{height:460px}.fsc-photo-grid{grid-template-columns:1fr 1fr}.fsc-trust-grid{grid-template-columns:1fr}}
 @media(max-width:767px){.fsc-photo-grid{grid-template-columns:1fr}.fsc-hero h1{font-size:38px}.fsc-hero-intro{font-size:15px}.fsc-main-cta{width:100%}.fsc-btn-outline{width:100%}.fsc-stats{grid-template-columns:1fr 1fr;gap:12px}.fsc-stat b{font-size:28px}.fsc-cap-cards{grid-template-columns:1fr}.fsc-ir-section{padding:56px 0}.fsc-ir-stage{height:380px}.fsc-ir-lbl{white-space:normal;min-width:200px}.fsc-emergency-head{display:block}.fsc-timeline{grid-template-columns:1fr}.fsc-timeline::before,.fsc-timeline-bar{display:none}.fsc-mfr-card{width:150px;height:80px}}
 @media(prefers-reduced-motion:reduce){.fsc-marquee-track{animation:none;flex-wrap:wrap;width:auto}.fsc-marquee-track>li[aria-hidden="true"]{display:none}.fsc-timeline-bar{width:100%}.fsc-timeline .fsc-step i{border-color:#BF0A30;background:#BF0A30}}

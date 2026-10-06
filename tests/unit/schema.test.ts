@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { photos } from '../../data/photos';
 import {
@@ -72,5 +74,22 @@ describe('JSON-LD', () => {
     const items = crumbs?.itemListElement as { position: number }[];
     expect(items.map((item) => item.position)).toEqual([1, 2]);
     expect(faqJsonLd([])).toBeNull();
+  });
+
+  it('keeps captions in schema only and leaves the hero map clear of photos', () => {
+    const root = join(__dirname, '../..');
+    const figure = readFileSync(join(root, 'components/PhotoFigure.tsx'), 'utf8');
+    const hero = readFileSync(join(root, 'components/home/HomeHero.tsx'), 'utf8');
+    expect(figure).not.toContain('figcaption');
+    expect(hero).not.toContain('PhotoFigure');
+    expect(hero).toContain('fsc-hero-map-slot');
+    expect(photos.storageSwing.src).toContain('clermont-fl-self-storage-swing-gate-keypad-bollard.webp');
+    expect(photos.postReceiver.src).toContain('orlando-fl-gate-post-wireless-receiver-operator-cabinet.webp');
+    expect(photos.storageSwing.alt).toContain('Clermont');
+    expect(photos.postReceiver.alt).toContain('Orlando');
+    const swing = imageObjectJsonLd(photos.storageSwing);
+    expect(swing.caption).toBe(photos.storageSwing.caption);
+    expect(JSON.stringify(photos)).not.toContain('florida-self-storage-keypad-bollard-swing-gate');
+    expect(JSON.stringify(photos)).not.toContain('florida-gate-post-wireless-receiver.webp');
   });
 });

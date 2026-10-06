@@ -1,10 +1,9 @@
 'use client';
 // Homepage hero (S-007): compact Source1-style hero with the cursor-reactive
-// Florida map and a priority photograph. Service-area chips are real internal links.
+// Florida map. Service-area chips are real internal links; hovering one pings
+// its city on the map. Photographs live further down the page, not over the map.
 import Link from 'next/link';
 import { useState } from 'react';
-import { PhotoFigure } from '@/components/PhotoFigure';
-import { photos } from '@/data/photos';
 import { HeroMap, MAP_CITIES } from './HeroMap';
 
 const CHIP_SLUGS = ['orlando', 'tampa', 'lakeland', 'the-villages', 'ocala', 'clermont'];
@@ -23,16 +22,6 @@ export function HomeHero() {
             <Link href="/contact" className="fsc-btn-primary fsc-main-cta" data-fsc-event="assessment_cta" data-fsc-placement="hero">Request a Free Property Assessment <span aria-hidden="true">›</span></Link>
             <a href="#night-view" className="fsc-btn-outline">See the night view <span aria-hidden="true">↓</span></a>
           </div>
-        </div>
-        <div className="fsc-hero-visual">
-          <PhotoFigure
-            photo={photos.commercialLpr}
-            priority
-            sizes="(min-width: 900px) 440px, 100vw"
-          />
-          <div className="fsc-hero-map-slot" aria-hidden="true" />
-        </div>
-        <div className="fsc-hero-follow">
           <p className="fsc-hero-intro">Managed Entry Reliability for the gates, access control, plate recognition and cameras your property relies on. Preventive maintenance, repairs, 24/7 emergency service and new installations. Based in Clermont, Lake County, working statewide.</p>
           <div className="fsc-hero-needs" aria-label="Service choices">
             <Link href="#maintenance" data-fsc-event="maintenance_interest" data-fsc-placement="hero">Maintenance</Link>
@@ -50,6 +39,7 @@ export function HomeHero() {
           </nav>
           <p className="fsc-hero-hint" aria-hidden="true"><i />Move across the map · click to ping</p>
         </div>
+        <div className="fsc-hero-map-slot" aria-hidden="true" />
       </div>
     </section>
   );
