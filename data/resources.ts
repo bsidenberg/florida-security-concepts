@@ -32,9 +32,9 @@ export const resources: Resource[] = [
     metaDescription:
       'A direct breakdown of automatic gate cost factors in Central Florida and Tampa Bay — gate type, operator class, access control, and infrastructure.',
     publishedDate: '2026-04-01',
-    updatedDate: '2026-05-01',
+    updatedDate: '2026-10-09',
     shortAnswer:
-      'A typical automatic gate installation in Florida ranges from roughly $8,000 for a basic single-leaf swing gate with a residential operator to $35,000 or more for a commercial slide gate with full access control, intercom, surveillance integration, and infrastructure work. Total cost is driven by gate type, operator duty class, access control complexity, site infrastructure, and integration requirements — not by the gate panel alone.',
+      'What an automatic gate project includes matters more than the gate panel. Scope follows the gate type, the operator’s duty class, access control, site infrastructure, and how the entry connects to the rest of the property. A basic single-leaf swing gate with a residential operator is a different project from a commercial slide gate with access control, intercom, surveillance, and infrastructure work.',
     intro:
       'Automatic gate quotes vary widely because the gate panel is usually the smallest part of the project. The bigger drivers are operator duty class, infrastructure (power, conduit, foundation), access control hardware, intercom, and integration with the rest of the property’s security system.',
     sections: [
@@ -52,15 +52,15 @@ export const resources: Resource[] = [
         ],
       },
       {
-        heading: 'Approximate ranges',
+        heading: 'How scope changes from one property to the next',
         body: [
-          'These ranges are typical for Central Florida and Tampa Bay properties at the time of writing. Specific quotes always require a site assessment.',
+          'The same factors show up in different combinations. In Central Florida and Tampa Bay, the useful comparison is the gate, the operator, the entry devices, and the site. A specific recommendation still starts with an assessment of the property.',
         ],
         bullets: [
-          'Residential single swing gate, basic operator, keypad: ~$8,000–$14,000',
-          'Residential dual swing gate, operator, keypad, intercom: ~$12,000–$22,000',
-          'Commercial slide gate, continuous-duty operator, access control: ~$18,000–$35,000+',
-          'Estate gate with custom panel, integrated camera and intercom: $25,000–$60,000+',
+          'A residential single swing gate usually means one leaf, a residential-duty operator, and a keypad, with safety devices and power matched to that leaf',
+          'A residential dual swing gate adds a second leaf to align and protect, and often an intercom beside the keypad',
+          'A commercial slide gate needs a continuous-duty operator and access control sized for daily traffic, along with loops, photo eyes, and a foundation that can take that use',
+          'An estate gate with a custom panel also has to carry camera and intercom integration so the entry fits the rest of the property',
         ],
       },
       {
