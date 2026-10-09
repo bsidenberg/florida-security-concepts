@@ -7,9 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 type Hotspot = { id: string; style: React.CSSProperties; label: string; title: string; lines: { text: string; tone?: 'ok' | 'alert' }[]; up?: boolean };
 
 const HOTSPOTS: Hotspot[] = [
-  { id: 'car-1', style: { left: '41%', top: '43%', width: '19%', height: '28%' }, label: 'Resident vehicle, plate QRT 482', title: 'VEHICLE · PLATE QRT 482', lines: [{ text: 'Authorized · credential 114 · read 99.1%' }, { text: 'GRANTED · gate opening', tone: 'ok' }] },
-  { id: 'car-2', style: { left: '72%', top: '70%', width: '17%', height: '18%' }, label: 'Flagged vehicle, plate ZEP 614', title: 'VEHICLE · PLATE ZEP 614', lines: [{ text: 'Flagged by site · read 98.8%' }, { text: 'DENIED · alert sent to manager', tone: 'alert' }], up: true },
-  { id: 'cam', style: { left: '74%', top: '15%', width: '8%', height: '10%' }, label: 'Camera CAM-01', title: 'CAM-01 · ENTRY LPR', lines: [{ text: '2560×1440 · IR on · 30 fps' }, { text: 'Retention 30 days · health OK' }] },
+  { id: 'car-1', style: { left: '41%', top: '43%', width: '19%', height: '28%' }, label: 'Resident vehicle in the lane', title: 'RESIDENT VEHICLE', lines: [{ text: 'Credential accepted' }, { text: 'Gate opening', tone: 'ok' }] },
+  { id: 'car-2', style: { left: '72%', top: '70%', width: '17%', height: '18%' }, label: 'Visitor vehicle at the call box', title: 'VISITOR VEHICLE', lines: [{ text: 'Waiting at the call box' }, { text: 'Gate still closed' }] , up: true },
+  { id: 'cam', style: { left: '74%', top: '15%', width: '8%', height: '10%' }, label: 'Entry camera', title: 'CAM-01 · ENTRY CAMERA', lines: [{ text: 'Aimed at the lane' }, { text: 'Recording · retention set per site' }] },
   { id: 'gate', style: { left: '33%', top: '38%', width: '34%', height: '18%' }, label: 'Slide gate operator', title: 'SLIDE GATE · OPERATOR 01', lines: [{ text: 'UL 325 · battery 100% · 1,284 cycles this month' }, { text: 'Last service 14 days ago', tone: 'ok' }] },
   { id: 'callbox', style: { left: '26%', top: '56%', width: '5%', height: '14%' }, label: 'Visitor call box', title: 'CALL BOX · VISITOR LANE', lines: [{ text: 'Cellular · 2 calls tonight' }, { text: 'Guest passes active: 6' }] },
   { id: 'guard', style: { left: '6%', top: '40%', width: '17%', height: '30%' }, label: 'Guard house', title: 'GUARD HOUSE', lines: [{ text: 'Network cabinet · recorder · UPS' }, { text: 'All devices online', tone: 'ok' }] },
@@ -26,8 +26,8 @@ function Scene() {
         <g stroke="#DDE3EE"><rect x="80" y="260" width="180" height="170" rx="3" /><path d="M80 260 L170 210 L260 260" /><rect x="110" y="300" width="50" height="40" /><rect x="190" y="300" width="50" height="40" /><rect x="150" y="360" width="40" height="70" /></g>
         <g stroke="#DDE3EE"><rect x="920" y="130" width="8" height="300" /><rect x="900" y="110" width="60" height="26" rx="5" /><rect x="956" y="114" width="16" height="18" rx="2" /><circle cx="964" cy="123" r="4" fill="#FF6B84" stroke="none" /><path d="M972 123 L1130 190 M972 123 L1130 60" stroke="#FF6B84" strokeDasharray="6 8" opacity=".8" /></g>
         <g stroke="#DDE3EE"><rect x="330" y="356" width="34" height="74" rx="3" /><rect x="338" y="366" width="18" height="12" rx="1" /><circle cx="347" cy="400" r="6" /><path d="M341 414h12M341 420h12" /></g>
-        <g stroke="#fff"><rect x="500" y="455" width="220" height="70" rx="12" /><path d="M540 455 q20-38 70-38 h40 q40 0 60 38" /><rect x="560" y="425" width="50" height="24" rx="4" /><rect x="616" y="425" width="50" height="24" rx="4" /><circle cx="545" cy="528" r="18" /><circle cx="675" cy="528" r="18" /><rect x="590" y="492" width="56" height="20" rx="2" /><text x="618" y="506" textAnchor="middle" fontFamily="var(--font-mono), monospace" fontSize="11" fill="#fff" stroke="none">QRT 482</text></g>
-        <g stroke="#fff" opacity=".9"><rect x="880" y="470" width="190" height="62" rx="10" /><path d="M915 470 q18-34 60-34 h36 q34 0 52 34" /><circle cx="918" cy="534" r="16" /><circle cx="1032" cy="534" r="16" /><rect x="960" y="500" width="50" height="18" rx="2" /><text x="985" y="513" textAnchor="middle" fontFamily="var(--font-mono), monospace" fontSize="10" fill="#fff" stroke="none">ZEP 614</text></g>
+        <g stroke="#fff"><rect x="500" y="455" width="220" height="70" rx="12" /><path d="M540 455 q20-38 70-38 h40 q40 0 60 38" /><rect x="560" y="425" width="50" height="24" rx="4" /><rect x="616" y="425" width="50" height="24" rx="4" /><circle cx="545" cy="528" r="18" /><circle cx="675" cy="528" r="18" /><rect x="590" y="492" width="56" height="20" rx="2" /><text x="618" y="506" textAnchor="middle" fontFamily="var(--font-mono), monospace" fontSize="11" fill="#fff" stroke="none">LANE 1</text></g>
+        <g stroke="#fff" opacity=".9"><rect x="880" y="470" width="190" height="62" rx="10" /><path d="M915 470 q18-34 60-34 h36 q34 0 52 34" /><circle cx="918" cy="534" r="16" /><circle cx="1032" cy="534" r="16" /><rect x="960" y="500" width="50" height="18" rx="2" /><text x="985" y="513" textAnchor="middle" fontFamily="var(--font-mono), monospace" fontSize="10" fill="#fff" stroke="none">LANE 2</text></g>
         <g stroke="#AEBBD6" opacity=".8"><path d="M1140 430 V300" /><path d="M1140 300 q-40-40-80-30 M1140 300 q40-40 60-20 M1140 300 q-10-50 20-70 M1140 300 q-50-10-60 30" /><path d="M30 430 V330" /><path d="M30 330 q-30-30-50-20 M30 330 q30-30 60-20 M30 330 q0-40 25-55" /></g>
         <g stroke="#5FD69B" opacity=".7"><rect x="520" y="560" width="160" height="30" rx="15" strokeDasharray="8 6" /><text x="600" y="580" textAnchor="middle" fontFamily="var(--font-mono), monospace" fontSize="10" fill="#5FD69B" stroke="none">SAFETY LOOP</text></g>
       </g>
@@ -73,7 +73,7 @@ export function NightView() {
     stage.appendChild(ring); setTimeout(() => ring.remove(), 1000);
     setSnap(`SNAPSHOT SAVED · ${clock} · CAM-01`); setTimeout(() => setSnap(null), 2200);
   };
-  const snapshot = (e: React.PointerEvent<HTMLDivElement>) => { const r = stageRef.current?.getBoundingClientRect(); if (r) snapshotAt(e.clientX - r.left, e.clientY - r.top); };
+  const snapshot = (e: React.MouseEvent<HTMLDivElement>) => { const r = stageRef.current?.getBoundingClientRect(); if (r) snapshotAt(e.clientX - r.left, e.clientY - r.top); };
   const keySnapshot = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key !== 'Enter' && e.key !== ' ') return; e.preventDefault();
     const r = stageRef.current?.getBoundingClientRect(), b = e.currentTarget.getBoundingClientRect(); if (!r) return;
@@ -83,7 +83,7 @@ export function NightView() {
   };
 
   return (
-    <div className="fsc-ir-stage" ref={stageRef} onPointerDown={snapshot}>
+    <div className="fsc-ir-stage" ref={stageRef} onClick={snapshot} role="group" aria-label="Simulated infrared night view of a controlled gate entry. Not a live camera feed.">
       <div className="fsc-ir-ui"><span className="fsc-ir-rec"><i />CAM-01 · ENTRY · IR ILLUMINATOR: CURSOR · SIMULATED</span><span>{clock}</span></div>
       <div className="fsc-ir-layer fsc-ir-dim"><Scene /></div>
       <div className="fsc-ir-layer fsc-ir-bright" ref={brightRef}><Scene /></div>

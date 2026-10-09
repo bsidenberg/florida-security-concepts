@@ -170,9 +170,9 @@ export default async function ResourcePage({ params }: Params) {
 
       <CTASection
         title="Want a recommendation specific to your property?"
-        body="Guides answer general questions. A site assessment gets to the answer specific to your property — and what to do next."
+        body="Guides answer general questions. An advanced consultation gets to the answer for your property."
         primaryCta={{
-          label: 'Talk to a security systems specialist',
+          label: 'Book an advanced consultation',
           href: '/contact',
         }}
         secondaryCta={{ label: 'View Services', href: '/services' }}

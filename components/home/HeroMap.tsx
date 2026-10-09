@@ -6,18 +6,14 @@ import { useEffect, useRef } from 'react';
 
 export type MapCity = { slug: string; city: string; lon: number; lat: number };
 
-// Coordinates for the fourteen canonical service-area routes plus HQ.
+// Coordinates for the service-area routes we still publish, plus HQ.
 export const MAP_CITIES: MapCity[] = [
   { slug: 'orlando', city: 'Orlando', lon: -81.38, lat: 28.54 },
-  { slug: 'tampa', city: 'Tampa', lon: -82.46, lat: 27.95 },
+  { slug: 'tampa', city: 'Tampa Bay', lon: -82.46, lat: 27.95 },
   { slug: 'lakeland', city: 'Lakeland', lon: -81.95, lat: 28.04 },
   { slug: 'kissimmee', city: 'Kissimmee', lon: -81.42, lat: 28.3 },
   { slug: 'winter-garden', city: 'Winter Garden', lon: -81.59, lat: 28.57 },
   { slug: 'clermont', city: 'Clermont', lon: -81.77, lat: 28.55 },
-  { slug: 'lake-mary', city: 'Lake Mary', lon: -81.32, lat: 28.76 },
-  { slug: 'sanford', city: 'Sanford', lon: -81.27, lat: 28.8 },
-  { slug: 'ocala', city: 'Ocala', lon: -82.14, lat: 29.19 },
-  { slug: 'the-villages', city: 'The Villages', lon: -81.96, lat: 28.93 },
   { slug: 'st-petersburg', city: 'St. Petersburg', lon: -82.64, lat: 27.77 },
   { slug: 'clearwater', city: 'Clearwater', lon: -82.8, lat: 27.97 },
   { slug: 'brandon', city: 'Brandon', lon: -82.29, lat: 27.94 },
@@ -79,7 +75,7 @@ export function HeroMap({ hoverSlug }: { hoverSlug: string | null }) {
     const build = () => {
       const r = section.getBoundingClientRect();
       W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, W < 900 ? 1.25 : 1.75);
       cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       mobile = W < 900;
       if (slot) { const sr = slot.getBoundingClientRect(); slotRect = { x: sr.left - r.left, y: sr.top - r.top, w: Math.max(1, sr.width), h: Math.max(1, sr.height) }; }
@@ -87,7 +83,7 @@ export function HeroMap({ hoverSlug }: { hoverSlug: string | null }) {
       scale = Math.min((slotRect.h - 24) / 6.2, (slotRect.w - 24) / (7.7 * 0.9));
       fontFamily = getComputedStyle(document.body).fontFamily || 'sans-serif';
       dots = [];
-      const step = Math.max(0.06, Math.min(0.14, 7 / scale));
+      const step = Math.max(mobile ? 0.14 : 0.09, Math.min(0.18, 8 / Math.max(scale, 1)));
       for (let lon = -87.7; lon < -79.9; lon += step) for (let lat = 24.9; lat < 31.1; lat += step) {
         if (inside(lon, lat)) {
           const [x, y] = proj(lon, lat);
@@ -99,20 +95,28 @@ export function HeroMap({ hoverSlug }: { hoverSlug: string | null }) {
       for (const c of MAP_CITIES) px[c.slug] = proj(c.lon, c.lat);
       cityPx.current = px;
     };
-    build();
-    const onResize = () => { build(); if (reduce) raf = requestAnimationFrame(frame); };
+    let started = false;
+    const boot = () => { if (started) return; started = true; build(); raf = requestAnimationFrame(frame); };
+    const hasIdle = typeof window.requestIdleCallback === 'function';
+    const idleId = hasIdle ? window.requestIdleCallback(boot, { timeout: 600 }) : window.setTimeout(boot, 250);
+    const onResize = () => { if (!started) return; build(); if (reduce) raf = requestAnimationFrame(frame); };
     const io = new IntersectionObserver((es) => { visible = es.some((e) => e.isIntersecting); if (visible && !reduce) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); } }, { threshold: 0 });
     io.observe(section);
     const onMove = (e: PointerEvent) => { const r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; hasMouse = true; lastMove = performance.now(); };
     const onLeave = () => { hasMouse = false; };
-    const onDown = (e: PointerEvent) => { const r = cv.getBoundingClientRect(); pingRef.current.push({ x: e.clientX - r.left, y: e.clientY - r.top, t: 0 }); };
+    const onDown = (e: PointerEvent) => {
+      const target = e.target instanceof Element ? e.target : null;
+      if (target?.closest('a, button, input, select, textarea, summary, label')) return;
+      const r = cv.getBoundingClientRect(); pingRef.current.push({ x: e.clientX - r.left, y: e.clientY - r.top, t: 0 });
+    };
     window.addEventListener('resize', onResize);
     section.addEventListener('pointermove', onMove, { passive: true });
     section.addEventListener('pointerleave', onLeave);
-    section.addEventListener('pointerdown', onDown);
+    section.addEventListener('pointerdown', onDown, { passive: true });
 
     let lastSweep = -1;
     const frame = (t: number) => {
+      if (!started) return;
       const s = t / 1000;
       ctx.clearRect(0, 0, W, H);
       ctx.save();
@@ -131,7 +135,13 @@ export function HeroMap({ hoverSlug }: { hoverSlug: string | null }) {
       pingRef.current.forEach((p) => { p.t += 0.016; });
       const R = 150;
       for (const d of dots) {
-        const dx = d.x - cx, dy = d.y - cy; const dist = Math.hypot(dx, dy);
+        const dx = d.ox - cx, dy = d.oy - cy; const dist = Math.hypot(dx, dy);
+        if (dist >= R && pingRef.current.length === 0) {
+          const near = Math.max(0, 1 - d.d / 2.2);
+          ctx.fillStyle = `rgba(0,40,104,${0.14 + near * 0.22})`;
+          ctx.beginPath(); ctx.arc(d.ox, d.oy, (scale > 70 ? 1.6 : 1.2) + near * 0.5, 0, 6.28); ctx.fill();
+          continue;
+        }
         let f = dist < R ? 1 - dist / R : 0; f = f * f;
         let ring = 0;
         for (const p of pingRef.current) { const pd = Math.hypot(d.x - p.x, d.y - p.y); const w = Math.max(0, 1 - Math.abs(pd - p.t * 420) / 40) * (1 - p.t / 1.4); if (w > ring) ring = w; }
@@ -164,9 +174,10 @@ export function HeroMap({ hoverSlug }: { hoverSlug: string | null }) {
       ctx.restore();
       if (!reduce && visible) raf = requestAnimationFrame(frame);
     };
-    raf = requestAnimationFrame(frame);
     return () => {
       cancelAnimationFrame(raf);
+      if (hasIdle) window.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
       io.disconnect();
       window.removeEventListener('resize', onResize);
       section.removeEventListener('pointermove', onMove);

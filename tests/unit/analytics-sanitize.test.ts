@@ -13,7 +13,7 @@ function expectNoHostile(value: string) {
 }
 
 describe('canonical route inventory', () => {
-  it('equals the independent 38-route launch contract exactly', () => {
+  it('equals the independent public route contract exactly', () => {
     expect([...CANONICAL_ROUTES].sort()).toEqual([...routes].sort());
     expect(new Set(CANONICAL_ROUTES).size).toBe(CANONICAL_ROUTES.length);
   });

@@ -40,7 +40,7 @@ test.afterEach(async ({ page }) => {
 });
 
 async function disclosureBlock(page: Page) {
-  const form = page.locator('form[aria-label="Site assessment request form"]');
+  const form = page.locator('form[aria-label="Advanced consultation request form"]');
   await expect(form, 'Route must render exactly one assessment form').toHaveCount(1);
   // The disclosure is the form's direct-child block that carries the privacy contact address.
   const block = form.locator(':scope > div').filter({ hasText: 'info@floridasecurityconcepts.com' });

@@ -28,7 +28,7 @@ export default function ResourcesIndexPage() {
         eyebrow="Resources · Learning Center"
         title="Practical answers to the security questions properties actually ask."
         subtitle="Direct, jargon-free guides on gate cost, access control, storage cameras, integration, and what property managers should look for."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
 
@@ -81,8 +81,8 @@ export default function ResourcesIndexPage() {
 
       <CTASection
         title="Want a recommendation specific to your property?"
-        body="Resources answer general questions. A site assessment gets to the answer specific to your property — and what to do next."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        body="Resources answer general questions. An advanced consultation gets to the answer for your property."
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
       />
 
       <BreadcrumbSchema

@@ -26,7 +26,7 @@ export const site = {
   businessName: 'Florida Security Concepts',
   domain: 'floridasecurityconcepts.com',
   tagline:
-    'Gate and access-control maintenance, repairs and installations for commercial and residential properties throughout Florida.',
+    'Gate repair, maintenance, and access-control work for commercial and residential properties in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
 
   // Resolved at module load. Override via NEXT_PUBLIC_SITE_URL.
   url: resolveUrl(),
@@ -40,10 +40,9 @@ export const site = {
   email: 'info@floridasecurityconcepts.com',
 
   address: {
-    // No verified street address. street/postalCode intentionally blank — the
-    // hasPostalAddress() helper requires all three (street + city + postalCode)
-    // before any LocalBusiness PostalAddress schema is emitted, so partial
-    // address data is structurally prevented from leaking into JSON-LD.
+    // No verified street address. street/postalCode stay blank. Schema emits an
+    // area-level PostalAddress (Clermont, FL) and omits streetAddress until
+    // hasPostalAddress() is true. Do not invent a street or ZIP.
     street: '',
     city: 'Clermont',
     region: 'FL',
@@ -51,16 +50,30 @@ export const site = {
     country: 'US',
   },
 
-  hours: '24/7 emergency service',
-  serviceRegions: ['Florida'],
+  hours: 'Same-day when available',
+  serviceRegions: ['Orlando', 'Kissimmee', 'Winter Garden', 'Clermont', 'Tampa Bay'],
+  // Named in on-page copy and areaServed. Not a claim that each city has an office.
+  serviceCities: [
+    'Clermont',
+    'Orlando',
+    'Kissimmee',
+    'Winter Garden',
+    'Lakeland',
+    'Tampa',
+    'St. Petersburg',
+    'Clearwater',
+    'Brandon',
+    'Wesley Chapel',
+  ],
   serviceAreaSummary:
-    'Statewide across Florida from our Lake County base, with local pages for Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon and Wesley Chapel.',
+    'Based in Clermont, Lake County. We schedule work in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
 
+  instagramHandle: 'floridasecurityconcepts',
   social: {
-    // Add real profiles before launch.
     google: '',
     facebook: '',
     linkedin: '',
+    instagram: 'https://www.instagram.com/floridasecurityconcepts/',
   },
 
   // TODO: Brian to populate with actual license numbers and manufacturer certifications
@@ -98,6 +111,7 @@ export function activeSocialLinks(): { name: string; url: string }[] {
   if (site.social.google) list.push({ name: 'Google', url: site.social.google });
   if (site.social.facebook) list.push({ name: 'Facebook', url: site.social.facebook });
   if (site.social.linkedin) list.push({ name: 'LinkedIn', url: site.social.linkedin });
+  if (site.social.instagram) list.push({ name: 'Instagram', url: site.social.instagram });
   return list;
 }
 
@@ -109,6 +123,6 @@ export const nav = {
     { label: 'Service Areas', href: '/service-areas' },
     { label: 'Resources', href: '/resources' },
   ],
-  cta: { label: 'Request a Free Property Assessment', href: '/contact' },
-  emergencyCta: { label: '24/7 Emergency Service', href: '/services/emergency-service' },
+  cta: { label: 'Book an advanced consultation', href: '/contact' },
+  emergencyCta: { label: 'Call if a gate is down', href: '/services/emergency-service' },
 } as const;

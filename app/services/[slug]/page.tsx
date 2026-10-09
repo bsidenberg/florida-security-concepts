@@ -13,7 +13,10 @@ import {
   ServiceSchema,
   FAQSchema,
   BreadcrumbSchema,
+  ImageObjectSchema,
 } from '@/components/Schema';
+import { PhotoGrid } from '@/components/PhotoFigure';
+import { photosForService } from '@/data/photos';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
 import {
   services,
@@ -56,12 +59,13 @@ export default async function ServicePage({ params }: Params) {
     .filter(Boolean);
 
   const url = `${site.url}/services/${svc.slug}`;
+  const gallery = photosForService(svc.slug);
   const isEmergency = svc.slug === 'emergency-service';
   const ctaLabel = isEmergency
-    ? 'Request emergency service'
-    : `Request a ${svc.shortLabel.toLowerCase()} site assessment`;
+    ? `Call ${site.phoneDisplay}`
+    : 'Book an advanced consultation';
   const ctaHref = isEmergency
-    ? '/contact?urgency=emergency'
+    ? `tel:${site.phone}`
     : `/contact?service=${svc.slug}`;
 
   return (
@@ -84,25 +88,48 @@ export default async function ServicePage({ params }: Params) {
             ]}
           />
 
-          {/* Direct answer (AEO/GEO) */}
-          <div className="fsc-card p-7 md:p-9 max-w-4xl">
-            <Eyebrow>Direct answer</Eyebrow>
-            <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
-              {svc.directAnswer}
-            </p>
-            <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
-              Updated {formatDate(svc.updatedDate)} · {site.name}
-            </p>
-          </div>
+          <p className="max-w-4xl text-lg md:text-xl leading-relaxed text-fsc-text">
+            {svc.directAnswer}
+          </p>
         </Container>
       </Section>
+
+      {gallery.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>Equipment</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
+              The kind of hardware this work involves.
+            </h2>
+            <div className="mt-8">
+              <PhotoGrid photos={gallery} sizes="(min-width: 1024px) 360px, 100vw" />
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      {svc.spotlight && (
+        <Section>
+          <Container>
+            <div className="fsc-card p-7 md:p-9 max-w-4xl">
+              <Eyebrow>On this work</Eyebrow>
+              <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
+                {svc.spotlight.title}
+              </h2>
+              <p className="mt-4 text-base md:text-lg text-fsc-text-dim leading-relaxed">
+                {svc.spotlight.body}
+              </p>
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* Capabilities */}
       <Section>
         <Container>
           <Eyebrow>Capabilities</Eyebrow>
           <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-            What this service includes.
+            {svc.navLabel} capabilities.
           </h2>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
             {svc.capabilities.map((c) => (
@@ -155,7 +182,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <Eyebrow>Process</Eyebrow>
             <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-              From assessment to a working system.
+              How {svc.navLabel.toLowerCase()} moves from the first look to a working system.
             </h2>
             <ol className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               {svc.process.map((p, i) => (
@@ -182,7 +209,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <Eyebrow>Industries that use this service</Eyebrow>
             <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-              How this service applies across property types.
+              How {svc.navLabel.toLowerCase()} applies across property types.
             </h2>
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {relatedIndustries.map((i) => (
@@ -200,32 +227,47 @@ export default async function ServicePage({ params }: Params) {
         </Container>
       </Section>
 
-      {/* Lead capture */}
-      <Section>
-        <Container>
-          <div className="grid lg:grid-cols-12 gap-10">
-            <div className="lg:col-span-5">
-              <Eyebrow>Plan this service</Eyebrow>
-              <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-                Start with a site assessment.
-              </h2>
-              <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
-                Tell us about the property — we use the assessment to scope the
-                right kind of visit, not to push a generic quote.
-              </p>
+      {isEmergency ? (
+        <Section>
+          <Container>
+            <Eyebrow>Call</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
+              Call {site.phoneDisplay}.
+            </h2>
+            <p className="mt-4 max-w-3xl text-base text-fsc-text-dim leading-relaxed">
+              Same-day when available. Tell us the property, the city, and whether the gate is stuck open or stuck closed. The contact form is for non-urgent requests and does not send a technician.
+            </p>
+            <p className="mt-6">
+              <a className="fsc-btn-primary" href={`tel:${site.phone}`} data-fsc-event="emergency_call" data-fsc-placement="service_emergency">Call {site.phoneDisplay}</a>
+            </p>
+          </Container>
+        </Section>
+      ) : (
+        <Section>
+          <Container>
+            <div className="grid lg:grid-cols-12 gap-10">
+              <div className="lg:col-span-5">
+                <Eyebrow>Plan this service</Eyebrow>
+                <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
+                  Book an advanced consultation for {svc.navLabel.toLowerCase()}.
+                </h2>
+                <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
+                  Tell us about the property. We use that conversation to decide the right visit.
+                </p>
+              </div>
+              <div className="lg:col-span-7">
+                <LeadCaptureForm
+                  defaults={{
+                    service: defaultServiceLabel(svc.slug),
+                    serviceSlug: svc.slug,
+                  }}
+                  submitLabel={ctaLabel}
+                />
+              </div>
             </div>
-            <div className="lg:col-span-7">
-              <LeadCaptureForm
-                defaults={{
-                  service: defaultServiceLabel(svc.slug),
-                  serviceSlug: svc.slug,
-                }}
-                submitLabel={ctaLabel}
-              />
-            </div>
-          </div>
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      )}
 
       {/* Related services */}
       {related.length > 0 && (
@@ -233,7 +275,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <Eyebrow>Related services</Eyebrow>
             <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-              Often deployed together.
+              Services often paired with {svc.navLabel.toLowerCase()}.
             </h2>
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {related.map((r) => (
@@ -256,7 +298,9 @@ export default async function ServicePage({ params }: Params) {
         description={svc.metaDescription}
         url={url}
         serviceType={svc.shortLabel}
+        image={gallery[0]?.src}
       />
+      {gallery.map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
       <FAQSchema items={svc.faqs} />
       <BreadcrumbSchema
         items={[
@@ -296,19 +340,12 @@ function Bullet() {
   );
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
-
-// Map service slug to default form value (matches LeadCaptureForm option labels).
 function defaultServiceLabel(slug: string): string | undefined {
   const map: Record<string, string> = {
     'security-gate-systems': 'New gate system',
+    'gate-repair': 'Repair / service',
     'gate-automation': 'Gate automation',
+    'maintenance-plans': 'Maintenance / service',
     'access-control': 'Access control',
     'video-surveillance': 'Video surveillance',
     'security-system-integration': 'Full security system integration',

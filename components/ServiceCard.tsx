@@ -11,6 +11,8 @@ const iconBySlug: Record<string, string> = {
     'M5 7h5v5H5zM14 12h5v5h-5zM10 9.5l4 0M9.5 12v0M14.5 9.5v3',
   'emergency-service':
     'M12 3v6m0 0l3-3m-3 3l-3-3M5 13l-2 7 7-2m4-12l5 5-9 9H5v-5z',
+  'gate-repair': 'M4 12h16M14 4l6 6-8 8H6v-6z',
+  'maintenance-plans': 'M8 4h8v3H8zM6 7h12v13H6zM9 12h6M9 16h4',
 };
 
 export function ServiceCard({

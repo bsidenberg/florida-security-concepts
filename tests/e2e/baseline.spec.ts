@@ -34,7 +34,7 @@ test('homepage navigates to contact and submits through real local endpoint', as
   const contactLink = page.locator('a[href="/contact"]').filter({ visible: true }).first();
   await contactLink.click();
   await expect(page).toHaveURL(/\/contact/);
-  const form = page.getByRole('form', { name: 'Site assessment request form' });
+  const form = page.getByRole('form', { name: 'Advanced consultation request form' });
   for (const name of ['fullName', 'email', 'phone'] as const) await form.locator(`[name="${name}"]`).fill(validLead[name]);
   for (const name of ['propertyType', 'service'] as const) await form.locator(`[name="${name}"]`).selectOption(validLead[name]);
   await form.locator('[name="city"]').fill(validLead.city);
@@ -54,7 +54,7 @@ test('homepage navigates to contact and submits through real local endpoint', as
 });
 test('empty assessment displays server validation instead of confirmation', async ({ page }) => {
   await page.goto('/contact');
-  const form = page.getByRole('form', { name: 'Site assessment request form' });
+  const form = page.getByRole('form', { name: 'Advanced consultation request form' });
   await form.getByRole('button', { name: /submit|request|assessment/i }).click();
   await expect(form.getByRole('alert')).toContainText(/attention|review/i);
   await expect(form.locator('[name="email"]')).toHaveAttribute('aria-invalid', 'true');

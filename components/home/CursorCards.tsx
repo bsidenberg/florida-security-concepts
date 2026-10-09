@@ -1,6 +1,8 @@
 'use client';
-// Capability cards whose glow and 3D tilt follow the cursor (S-007). Pure
-// enhancement: cards are plain links with full content when JS is off.
+// Capability cards whose glow and 3D tilt follow the cursor (S-007).
+// The whole card is one link. Tilt is applied to an inner layer so the link's
+// hit box stays put — rotating the link itself moved the footer out from under
+// a click and left people on the homepage.
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
@@ -19,17 +21,18 @@ export function CursorCards({ cards }: { cards: CapabilityCard[] }) {
     const root = ref.current; if (!root) return;
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const cards = Array.from(root.querySelectorAll<HTMLElement>('.fsc-cap-card'));
+    const nodes = Array.from(root.querySelectorAll<HTMLElement>('.fsc-cap-card'));
     const section = root.closest('section') as HTMLElement | null;
     const offs: (() => void)[] = [];
-    for (const card of cards) {
+    for (const card of nodes) {
+      const tilt = card.querySelector<HTMLElement>('.fsc-cap-tilt');
       const move = (e: PointerEvent) => {
         const r = card.getBoundingClientRect(); const x = e.clientX - r.left, y = e.clientY - r.top;
         card.style.setProperty('--x', `${x}px`); card.style.setProperty('--y', `${y}px`);
-        if (fine && !reduce) card.style.transform = `rotateX(${(y / r.height - 0.5) * -8}deg) rotateY(${(x / r.width - 0.5) * 10}deg) translateY(-4px)`;
+        if (fine && !reduce && tilt) tilt.style.transform = `rotateX(${(y / r.height - 0.5) * -8}deg) rotateY(${(x / r.width - 0.5) * 10}deg) translateY(-4px)`;
       };
       const enter = () => { const g = card.dataset.glow || '191,10,48'; card.style.setProperty('--glow', g); if (section) section.style.backgroundColor = `rgba(${g},0.04)`; };
-      const leave = () => { card.style.transform = ''; if (section) section.style.backgroundColor = ''; };
+      const leave = () => { if (tilt) tilt.style.transform = ''; if (section) section.style.backgroundColor = ''; };
       card.addEventListener('pointermove', move); card.addEventListener('pointerenter', enter); card.addEventListener('pointerleave', leave);
       offs.push(() => { card.removeEventListener('pointermove', move); card.removeEventListener('pointerenter', enter); card.removeEventListener('pointerleave', leave); });
     }
@@ -38,14 +41,16 @@ export function CursorCards({ cards }: { cards: CapabilityCard[] }) {
   return (
     <div className="fsc-cap-cards" ref={ref}>
       {cards.map((c) => (
-        <article key={c.slug} className="fsc-cap-card" data-glow={c.glow}>
-          <div className="fsc-cap-body">
-            <svg className="fsc-cap-icon" viewBox="0 0 48 48" aria-hidden="true"><path d={ICONS[c.icon]} /></svg>
-            <h3>{c.title}</h3>
-            <p>{c.body}</p>
-          </div>
-          <Link href={c.href} className="fsc-cap-foot">{c.cta} <span aria-hidden="true">›</span></Link>
-        </article>
+        <Link key={c.slug} href={c.href} className="fsc-cap-card" data-glow={c.glow}>
+          <span className="fsc-cap-tilt">
+            <span className="fsc-cap-body">
+              <svg className="fsc-cap-icon" viewBox="0 0 48 48" aria-hidden="true"><path d={ICONS[c.icon]} /></svg>
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </span>
+            <span className="fsc-cap-foot">{c.cta} <span aria-hidden="true">›</span></span>
+          </span>
+        </Link>
       ))}
     </div>
   );

@@ -1,15 +1,16 @@
-// Server-rendered JSON-LD schema components.
-//
-// All emitters omit absent fields rather than rendering empty strings, so
-// pre-launch placeholders never produce malformed structured data.
+// Server-rendered JSON-LD. Builders live in lib/seo/jsonld.ts so the payload can
+// be validated without rendering React.
 
 import {
-  site,
-  hasPhone,
-  hasEmail,
-  hasPostalAddress,
-  activeSocialLinks,
-} from '@/data/site';
+  articleJsonLd,
+  breadcrumbJsonLd,
+  contactPageJsonLd,
+  faqJsonLd,
+  imageObjectJsonLd,
+  localBusinessJsonLd,
+  organizationJsonLd,
+  serviceJsonLd,
+} from '@/lib/seo/jsonld';
 
 export function JsonLd({ data }: { data: object }) {
   return (
@@ -20,216 +21,68 @@ export function JsonLd({ data }: { data: object }) {
   );
 }
 
-// Strip undefined/null/'' and empty arrays so generated JSON-LD stays clean.
-// Empty arrays (e.g. sameAs: []) must not be emitted — they are valid JSON but
-// confuse some validators and provide no signal to crawlers.
-function pruned<T extends Record<string, unknown>>(obj: T): Record<string, unknown> {
-  const out: Record<string, unknown> = {};
-  for (const [k, v] of Object.entries(obj)) {
-    if (v === undefined || v === null) continue;
-    if (typeof v === 'string' && v.length === 0) continue;
-    if (Array.isArray(v) && v.length === 0) continue;
-    out[k] = v;
-  }
-  return out;
-}
-
-function postalAddressNode() {
-  if (!hasPostalAddress()) return undefined;
-  return pruned({
-    '@type': 'PostalAddress',
-    streetAddress: site.address.street,
-    addressLocality: site.address.city,
-    addressRegion: site.address.region,
-    postalCode: site.address.postalCode,
-    addressCountry: site.address.country,
-  });
-}
-
 export function OrganizationSchema() {
-  const sameAs = activeSocialLinks().map((s) => s.url);
-  return (
-    <JsonLd
-      data={pruned({
-        '@context': 'https://schema.org',
-        '@type': 'ProfessionalService',
-        name: site.name,
-        legalName: site.legalName || undefined,
-        description: site.tagline,
-        url: site.url,
-        areaServed: site.serviceRegions.map((r) => ({
-          '@type': 'AdministrativeArea',
-          name: r,
-        })),
-        address: postalAddressNode(),
-        telephone: hasPhone() ? site.phone : undefined,
-        email: hasEmail() ? site.email : undefined,
-        sameAs: sameAs.length > 0 ? sameAs : undefined,
-        // TODO: Once Google Business Profile has ≥10 verified reviews, uncomment and populate:
-        // aggregateRating: {
-        //   '@type': 'AggregateRating',
-        //   ratingValue: 'X.X',   // average from GBP
-        //   reviewCount: N,        // count from GBP
-        //   bestRating: '5',
-        // },
-      })}
-    />
-  );
+  return <JsonLd data={organizationJsonLd()} />;
 }
 
-export function LocalBusinessSchema({
-  city,
-  region,
-  url,
-  description,
-}: {
+export function LocalBusinessSchema(props: {
   city: string;
   region: string;
   url: string;
   description: string;
+  geo?: { latitude: number; longitude: number };
 }) {
-  return (
-    <JsonLd
-      data={pruned({
-        '@context': 'https://schema.org',
-        '@type': 'LocalBusiness',
-        name: `${site.name} — ${city}`,
-        description,
-        url,
-        areaServed: { '@type': 'City', name: city, containedInPlace: region },
-        // Only include address if a verified street/postal is configured.
-        address: postalAddressNode(),
-        telephone: hasPhone() ? site.phone : undefined,
-        email: hasEmail() ? site.email : undefined,
-      })}
-    />
-  );
+  return <JsonLd data={localBusinessJsonLd(props)} />;
 }
 
-export function ServiceSchema({
-  name,
-  description,
-  url,
-  serviceType,
-}: {
+export function ServiceSchema(props: {
   name: string;
   description: string;
   url: string;
   serviceType: string;
+  image?: string;
 }) {
-  return (
-    <JsonLd
-      data={pruned({
-        '@context': 'https://schema.org',
-        '@type': 'Service',
-        name,
-        description,
-        url,
-        serviceType,
-        provider: pruned({
-          '@type': 'ProfessionalService',
-          name: site.name,
-          url: site.url,
-          telephone: hasPhone() ? site.phone : undefined,
-        }),
-        areaServed: site.serviceRegions.map((r) => ({
-          '@type': 'AdministrativeArea',
-          name: r,
-        })),
-      })}
-    />
-  );
+  return <JsonLd data={serviceJsonLd(props)} />;
 }
 
 export function FAQSchema({ items }: { items: { q: string; a: string }[] }) {
-  if (!items?.length) return null;
-  return (
-    <JsonLd
-      data={{
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: items.map((i) => ({
-          '@type': 'Question',
-          name: i.q,
-          acceptedAnswer: { '@type': 'Answer', text: i.a },
-        })),
-      }}
-    />
-  );
+  const data = faqJsonLd(items);
+  if (!data) return null;
+  return <JsonLd data={data} />;
 }
 
-export function BreadcrumbSchema({
-  items,
+export function BreadcrumbSchema({ items }: { items: { name: string; url: string }[] }) {
+  const data = breadcrumbJsonLd(items);
+  if (!data) return null;
+  return <JsonLd data={data} />;
+}
+
+export function ImageObjectSchema({
+  photo,
 }: {
-  items: { name: string; url: string }[];
+  photo: {
+    src: string;
+    width: number;
+    height: number;
+    alt: string;
+    caption: string;
+    placeName: string;
+    illustrative: boolean;
+  };
 }) {
-  if (!items?.length) return null;
-  return (
-    <JsonLd
-      data={{
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: items.map((it, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          name: it.name,
-          item: it.url,
-        })),
-      }}
-    />
-  );
+  return <JsonLd data={imageObjectJsonLd(photo)} />;
 }
 
-export function ArticleSchema({
-  headline,
-  description,
-  url,
-  datePublished,
-  dateModified,
-}: {
+export function ArticleSchema(props: {
   headline: string;
   description: string;
   url: string;
   datePublished: string;
   dateModified: string;
 }) {
-  return (
-    <JsonLd
-      data={pruned({
-        '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline,
-        description,
-        url,
-        datePublished,
-        dateModified,
-        author: { '@type': 'Organization', name: site.name },
-        publisher: pruned({
-          '@type': 'Organization',
-          name: site.name,
-          url: site.url,
-        }),
-      })}
-    />
-  );
+  return <JsonLd data={articleJsonLd(props)} />;
 }
 
 export function ContactPageSchema({ url }: { url: string }) {
-  return (
-    <JsonLd
-      data={pruned({
-        '@context': 'https://schema.org',
-        '@type': 'ContactPage',
-        name: `Contact ${site.name}`,
-        url,
-        publisher: pruned({
-          '@type': 'ProfessionalService',
-          name: site.name,
-          url: site.url,
-          telephone: hasPhone() ? site.phone : undefined,
-          email: hasEmail() ? site.email : undefined,
-        }),
-      })}
-    />
-  );
+  return <JsonLd data={contactPageJsonLd(url)} />;
 }
