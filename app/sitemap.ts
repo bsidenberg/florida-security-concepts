@@ -15,6 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/service-areas',
     '/resources',
     '/contact',
+    '/privacy',
+    '/terms',
   ];
 
   const entries: MetadataRoute.Sitemap = [
