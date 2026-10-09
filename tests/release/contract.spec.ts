@@ -15,7 +15,7 @@ function syntheticBody(requestId: string) {
 }
 const uuid = () => crypto.randomUUID();
 
-test('representative release routes come from the independent 38-route contract', () => {
+test('representative release routes come from the independent public route contract', () => {
   expect(routes).toHaveLength(38);
   for (const path of Object.values(REPRESENTATIVE)) expect(routes, `${path} must be a canonical launch route`).toContain(path);
 });

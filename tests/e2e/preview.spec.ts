@@ -28,17 +28,15 @@ for (const path of ['/', '/contact']) test(`${path} automated accessibility`, as
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   expect(results.violations.map(v => ({ id: v.id, impact: v.impact, targets: v.nodes.map(n => n.target) }))).toEqual([]);
 });
-test('emergency navigation preserves entered identity across history', async ({ page }) => {
+test('contact offers a phone call and no emergency form', async ({ page }) => {
   await page.goto('/contact');
   await page.locator('[name="fullName"]').fill('FSC Synthetic Manager');
   await page.locator('[name="email"]').fill('fsc-history@example.invalid');
-  await page.locator('a[href*="urgency=emergency"]').first().click();
-  await expect(page.locator('[name="urgency"]')).toHaveValue('Emergency');
+  await expect(page.locator('a[href*="urgency=emergency"]')).toHaveCount(0);
+  await expect(page.locator('a[href^="tel:"]').first()).toBeVisible();
+  await expect(page.locator('h1')).toHaveText('Tell us about your property.');
+  await expect(page.getByText('24/7')).toHaveCount(0);
   await expect(page.locator('[name="fullName"]')).toHaveValue('FSC Synthetic Manager');
-  await page.goBack();
-  await expect(page.locator('[name="fullName"]')).toHaveValue('FSC Synthetic Manager');
-  await page.goForward();
-  await expect(page.locator('[name="urgency"]')).toHaveValue('Emergency');
   await expect(page.locator('[name="email"]')).toHaveValue('fsc-history@example.invalid');
 });
 test('mobile menu Escape returns focus to its trigger', async ({ page }) => {

@@ -26,7 +26,7 @@ function walk(value: unknown, path: string, problems: string[]) {
 }
 
 describe('JSON-LD', () => {
-  it('describes the Clermont business with 24/7 emergency hours and no empty fields', () => {
+  it('describes the Clermont business without a street address, 24/7 hours, or plate-reader claims', () => {
     const data = organizationJsonLd();
     const problems: string[] = [];
     walk(data, '$', problems);
@@ -35,15 +35,17 @@ describe('JSON-LD', () => {
     expect(data['@type']).toEqual(expect.arrayContaining(['ProfessionalService', 'HomeAndConstructionBusiness']));
     expect(JSON.stringify(data)).toContain('Clermont');
     expect(JSON.stringify(data)).toContain('+13522820692');
-    expect(JSON.stringify(data)).toContain('Florida');
+    expect(JSON.stringify(data)).toContain('Orlando');
+    expect(JSON.stringify(data)).not.toMatch(/24\/7|license plate|Managed Entry/i);
+    expect(data).not.toHaveProperty('openingHoursSpecification');
     expect(data.image).toContain('central-florida-commercial-slide-gate-lpr-camera.webp');
-    expect(JSON.stringify(data)).not.toContain('central-florida-commercial-gate-license-plate-recognition-camera');
-    const hours = data.openingHoursSpecification as { opens: string; closes: string; dayOfWeek: string[] };
-    expect(hours.opens).toBe('00:00');
-    expect(hours.closes).toBe('23:59');
-    expect(hours.dayOfWeek).toHaveLength(7);
     expect(data.address).toMatchObject({ addressLocality: 'Clermont', addressRegion: 'FL' });
     expect(data.address).not.toHaveProperty('streetAddress');
+    const served = JSON.stringify(data.areaServed);
+    expect(served).not.toContain('Ocala');
+    expect(served).not.toContain('The Villages');
+    expect(served).not.toContain('Lake Mary');
+    expect(served).not.toContain('Sanford');
     expect(() => JSON.parse(JSON.stringify(data))).not.toThrow();
   });
 
@@ -87,8 +89,9 @@ describe('JSON-LD', () => {
     expect(hero).toContain('fsc-hero-map-slot');
     expect(photos.storageSlideKeypad.src).toContain('clermont-fl-self-storage-slide-gate-keypad.webp');
     expect(photos.gateCamera.src).toContain('orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp');
-    expect(photos.storageSlideKeypad.alt).toContain('Clermont');
-    expect(photos.gateCamera.alt).toContain('Orlando');
+    for (const photo of Object.values(photos)) {
+      expect(`${photo.alt} ${photo.caption} ${photo.placeName}`).not.toMatch(/Clermont|Orlando|Tampa|Lake County|license plate|\bLPR\b|job/i);
+    }
     expect(imageObjectJsonLd(photos.gateCamera).contentUrl).toContain('orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp');
     expect(JSON.stringify(photos)).not.toContain('orlando-fl-technician-servicing-slide-gate-operator');
     const slide = imageObjectJsonLd(photos.storageSlideKeypad);

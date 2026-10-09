@@ -6,18 +6,14 @@ import { useEffect, useRef } from 'react';
 
 export type MapCity = { slug: string; city: string; lon: number; lat: number };
 
-// Coordinates for the fourteen canonical service-area routes plus HQ.
+// Coordinates for the service-area routes we still publish, plus HQ.
 export const MAP_CITIES: MapCity[] = [
   { slug: 'orlando', city: 'Orlando', lon: -81.38, lat: 28.54 },
-  { slug: 'tampa', city: 'Tampa', lon: -82.46, lat: 27.95 },
+  { slug: 'tampa', city: 'Tampa Bay', lon: -82.46, lat: 27.95 },
   { slug: 'lakeland', city: 'Lakeland', lon: -81.95, lat: 28.04 },
   { slug: 'kissimmee', city: 'Kissimmee', lon: -81.42, lat: 28.3 },
   { slug: 'winter-garden', city: 'Winter Garden', lon: -81.59, lat: 28.57 },
   { slug: 'clermont', city: 'Clermont', lon: -81.77, lat: 28.55 },
-  { slug: 'lake-mary', city: 'Lake Mary', lon: -81.32, lat: 28.76 },
-  { slug: 'sanford', city: 'Sanford', lon: -81.27, lat: 28.8 },
-  { slug: 'ocala', city: 'Ocala', lon: -82.14, lat: 29.19 },
-  { slug: 'the-villages', city: 'The Villages', lon: -81.96, lat: 28.93 },
   { slug: 'st-petersburg', city: 'St. Petersburg', lon: -82.64, lat: 27.77 },
   { slug: 'clearwater', city: 'Clearwater', lon: -82.8, lat: 27.97 },
   { slug: 'brandon', city: 'Brandon', lon: -82.29, lat: 27.94 },

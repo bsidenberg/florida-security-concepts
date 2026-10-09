@@ -10,6 +10,8 @@ const ROOT = join(__dirname, '../..');
 const ALLOWED = new Set<string>([
   '/',
   '/contact',
+  '/privacy',
+  '/terms',
   '/services',
   '/industries',
   '/service-areas',
@@ -46,7 +48,7 @@ describe('internal links', () => {
 
   it('links each homepage capability card to its service page', () => {
     const source = readFileSync(join(ROOT, 'app/page.tsx'), 'utf8');
-    for (const slug of ['gate-automation', 'access-control', 'video-surveillance', 'security-system-integration']) {
+    for (const slug of ['gate-automation', 'access-control', 'video-surveillance', 'gate-repair', 'security-system-integration']) {
       expect(source).toContain(`'/services/${slug}'`);
     }
   });

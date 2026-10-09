@@ -38,7 +38,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} | Security Gates, Access Control & Surveillance — Florida Statewide`,
+    default: `${site.name} | Security Gates, Access Control & Surveillance`,
     template: `%s | ${site.name}`,
   },
   description: site.tagline,
@@ -54,8 +54,9 @@ export const metadata: Metadata = {
     'commercial security Florida',
     'HOA gate access',
     'commercial gate access control',
-    'statewide security systems Florida',
-    'Florida security integrator',
+    'Clermont gate repair',
+    'Orlando gate service',
+    'Tampa Bay gate service',
   ],
   creator: site.name,
   publisher: site.name,
@@ -65,7 +66,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: site.url,
     siteName: site.name,
-    title: `${site.name} — Security Systems for Commercial & Residential Properties Across Florida`,
+    title: `${site.name} — Gate Repair, Maintenance, and Access Control`,
     description: site.tagline,
   },
   twitter: {

@@ -48,11 +48,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 const locationFaqs = (city: string) => [
   {
     q: `Does Florida Security Concepts serve ${city}?`,
-    a: `Yes. ${city} is part of our statewide Florida coverage. We service communities, commercial properties, storage facilities, industrial sites, and estates throughout the area.`,
+    a: `Yes. We schedule ${city} visits from our Clermont base. We service communities, commercial properties, storage facilities, industrial sites, and estates in the area.`,
   },
   {
-    q: `Do you offer same-day or emergency service in ${city}?`,
-    a: `24/7 emergency support is available, with same-day service when scheduling and travel allow. Emergency requests are triaged on intake.`,
+    q: `What if a gate is down in ${city}?`,
+    a: `Call (352) 282-0692. Same-day when available. The contact form does not send a technician.`,
   },
   {
     q: `Do you handle ${city} HOA and property management work?`,
@@ -60,7 +60,7 @@ const locationFaqs = (city: string) => [
   },
   {
     q: `What kinds of properties do you typically work with in ${city}?`,
-    a: `From gated communities and multifamily to commercial, industrial, storage, and high-value residential. The site assessment scopes itself to the specific property.`,
+    a: `From gated communities and multifamily to commercial, industrial, storage, and residential properties. The consultation is about that specific property.`,
   },
 ];
 
@@ -157,10 +157,10 @@ export default async function LocationPage({ params }: Params) {
             <div className="lg:col-span-5">
               <Eyebrow>Plan your {loc.city} system</Eyebrow>
               <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-                Start with a site assessment.
+                Book an advanced consultation.
               </h2>
               <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
-                Tell us about your {loc.city} property. We respond to most assessment requests the same business day.
+                Tell us about your {loc.city} property. If the gate is down, call {site.phoneDisplay}.
               </p>
             </div>
             <div className="lg:col-span-7">
@@ -199,7 +199,7 @@ export default async function LocationPage({ params }: Params) {
 
       <CTASection
         title={`Plan an integrated security system in ${loc.city}.`}
-        body="Gate, credential, camera, and service infrastructure designed around how your property actually controls vehicles, visitors, vendors, residents, and after-hours access."
+        body="Gate, credentials, cameras, and service planned around how your property actually moves vehicles, visitors, vendors, and residents."
         primaryCta={{ label: ctaLabel, href: ctaHref }}
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
       />
@@ -232,10 +232,6 @@ function matchCity(city: string): string | undefined {
     'Kissimmee',
     'Winter Garden',
     'Clermont',
-    'Lake Mary',
-    'Sanford',
-    'Ocala',
-    'The Villages',
     'St. Petersburg',
     'Clearwater',
     'Brandon',

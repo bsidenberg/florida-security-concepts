@@ -15,18 +15,11 @@ test.use({ baseURL: ORIGINS.local });
 const leadPosts = (page: Page, origin = ORIGINS.local) => (request: Request) => request.url() === `${origin}/api/leads` && request.method() === 'POST';
 const unique = (label: string, browserName: string) => `${label}-${browserName}-${Date.now().toString(36)}`;
 
-async function expectPresentation(page: Page, mode: 'emergency' | 'routine') {
-  const f = form(page);
-  if (mode === 'emergency') {
-    await expect(page.locator('h1')).toHaveText('Request emergency service.');
-    await expect(f.locator('[name="urgency"]')).toHaveValue('Emergency');
-    await expect(submitButton(page)).toHaveText(/^Send emergency request/);
-    await expect(page.locator('.fsc-contact-intro a[href^="tel:"]')).toBeVisible();
-  } else {
-    await expect(page.locator('h1')).toHaveText('Tell us about your property.');
-    await expect(f.locator('[name="urgency"]')).toHaveValue('Not specified');
-    await expect(submitButton(page)).toHaveText(/^Request a Free Property Assessment/);
-  }
+async function expectConsultation(page: Page) {
+  await expect(page.locator('h1')).toHaveText('Tell us about your property.');
+  await expect(submitButton(page)).toHaveText(/^Book an advanced consultation/);
+  await expect(page.locator('a[href*="urgency=emergency"]')).toHaveCount(0);
+  await expect(page.getByText('24/7')).toHaveCount(0);
 }
 
 test('home to contact assessment succeeds with a real local receipt and truthful confirmation', async ({ page, browserName }) => {
@@ -34,7 +27,7 @@ test('home to contact assessment succeeds with a real local receipt and truthful
   await page.goto('/');
   await page.locator('main a.fsc-main-cta[href="/contact"]').click();
   await expect(page).toHaveURL(`${ORIGINS.local}/contact`);
-  await expectPresentation(page, 'routine');
+  await expectConsultation(page);
   await fillLead(page, lead);
   const responsePromise = page.waitForResponse(response => leadPosts(page)(response.request()));
   await submitButton(page).click();
@@ -146,11 +139,17 @@ for (const failure of ['504 RECEIPT_UNKNOWN', 'lost connection'] as const) {
   });
 }
 
-test('emergency direct entry keeps heading, urgency, submit label, payload and confirmation consistent', async ({ page, browserName }) => {
+test('a stuck gate is a phone call, and the contact form stays a consultation', async ({ page, browserName }) => {
   const lead = syntheticLead(unique('emergency', browserName));
+  await page.goto('/');
+  await expect(page.locator('footer a[href*="urgency=emergency"]')).toHaveCount(0);
+  await expect(page.locator('main a.fsc-emergency-call')).toHaveAttribute('href', /^tel:/);
+  await page.goto('/contact');
+  await expectConsultation(page);
+  await expect(form(page).locator('[name="urgency"]')).toHaveValue('Not specified');
   await page.goto('/contact?urgency=emergency');
-  await expectPresentation(page, 'emergency');
-  await expect(page.locator('.fsc-kicker').first()).toHaveText('24/7 emergency service');
+  await expectConsultation(page);
+  await expect(form(page).locator('[name="urgency"]')).toHaveValue('Emergency');
   await fillLead(page, lead);
   const responsePromise = page.waitForResponse(response => leadPosts(page)(response.request()));
   await submitButton(page).click();
@@ -159,47 +158,8 @@ test('emergency direct entry keeps heading, urgency, submit label, payload and c
   expect((response.request().postDataJSON() as Record<string, string>).urgency).toBe('Emergency');
   const body = await response.json();
   await expectTruthfulConfirmation(page, body.requestId);
-  await expect(page.locator('h1')).toHaveText('Request emergency service.');
+  await expect(page.locator('h1')).toHaveText('Tell us about your property.');
   expect(readReceipt(body.requestId).payload.urgency).toBe('Emergency');
-});
-
-test('emergency context agrees through client navigation, back/forward and an explicit switch to routine', async ({ page }) => {
-  await page.goto('/');
-  await page.locator('footer a[href="/contact?urgency=emergency"]').click();
-  await expect(page).toHaveURL(`${ORIGINS.local}/contact?urgency=emergency`);
-  await expectPresentation(page, 'emergency');
-  await page.getByRole('link', { name: 'Return to a routine assessment' }).click();
-  await expect(page).toHaveURL(`${ORIGINS.local}/contact`);
-  await expectPresentation(page, 'routine');
-  const f = form(page);
-  await f.locator('[name="fullName"]').fill('Zyx History Manager');
-  await f.locator('[name="email"]').fill('fsc-history-release@example.invalid');
-  await page.getByRole('link', { name: 'Use the emergency contact form' }).click();
-  await expect(page).toHaveURL(`${ORIGINS.local}/contact?urgency=emergency`);
-  await expectPresentation(page, 'emergency');
-  await expect(f.locator('[name="fullName"]')).toHaveValue('Zyx History Manager');
-  await page.goBack();
-  await expect(page).toHaveURL(`${ORIGINS.local}/contact`);
-  await expectPresentation(page, 'routine');
-  await expect(f.locator('[name="fullName"]')).toHaveValue('Zyx History Manager');
-  await page.goForward();
-  await expect(page).toHaveURL(`${ORIGINS.local}/contact?urgency=emergency`);
-  await expectPresentation(page, 'emergency');
-  await expect(f.locator('[name="email"]')).toHaveValue('fsc-history-release@example.invalid');
-  // The submitted payload must agree with what is displayed after history traversal.
-  const bodies: Record<string, string>[] = [];
-  await page.route(`${ORIGINS.local}/api/leads`, async route => {
-    bodies.push(route.request().postDataJSON());
-    await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false, code: 'DELIVERY_FAILED' }) });
-  });
-  await f.locator('[name="phone"]').fill('2025550166');
-  await f.locator('[name="propertyType"]').selectOption('Storage facility');
-  await f.locator('[name="service"]').selectOption('Repair / service');
-  await f.locator('[name="city"]').fill('Tampa');
-  await submitButton(page).click();
-  await expect.poll(() => bodies.length).toBe(1);
-  expect(bodies[0]).toMatchObject({ urgency: 'Emergency', fullName: 'Zyx History Manager', email: 'fsc-history-release@example.invalid' });
-  await expect(page.locator('h1')).toHaveText('Request emergency service.');
 });
 
 test('keyboard-only completion submits the assessment with no hidden focus', async ({ page, browserName }) => {

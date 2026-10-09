@@ -10,9 +10,9 @@ import { locations } from '@/data/locations';
 import { site } from '@/data/site';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Service Areas | Florida Security Systems, Statewide',
+  title: 'Service Areas | Orlando, Kissimmee, Winter Garden, Clermont, Tampa Bay',
   description:
-    'Service areas from our Clermont, Lake County base, including Orlando, Tampa, Lakeland, The Villages, Ocala, and the rest of Florida.',
+    'Gate, access-control, and camera service from Clermont. Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
   path: '/service-areas',
 });
 
@@ -21,9 +21,9 @@ export default function ServiceAreasPage() {
     <>
       <Hero
         eyebrow="Service Areas"
-        title="One team, serving all of Florida."
-        subtitle="From our headquarters in Clermont, Lake County, we operate as one team — same credential standards, same response posture, same documentation across every site we touch."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        title="Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay."
+        subtitle="We are based in Clermont, Lake County. These are the areas we schedule. If your property is in one of them, tell us the city and the equipment."
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
 
@@ -37,7 +37,7 @@ export default function ServiceAreasPage() {
             Cities we serve from Clermont, Lake County
           </h2>
           <p className="mt-4 max-w-3xl text-base text-fsc-text-dim leading-relaxed">
-            Every page below is a real local resource — services available, industries served, FAQ, and CTA tailored to the area. If your property sits between metros or just outside a listed city, we still serve it. Reach out for confirmation.
+            Orlando, Kissimmee, Winter Garden, and Clermont are scheduled from our Lake County base, along with Tampa Bay. If your property is between those cities, tell us where it is and we will say whether we can take the drive.
           </p>
           <div className="mt-10">
             <LocationGrid items={locations} />
@@ -47,8 +47,8 @@ export default function ServiceAreasPage() {
 
       <CTASection
         title="Working across multiple sites or metros?"
-        body="We standardize credential platforms, escalation paths, and reporting across multi-site portfolios anywhere in Florida — one platform."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        body="We can use the same credentials, the same service notes, and the same call number across more than one site in this area."
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'Property Manager Industry', href: '/industries/property-managers' }}
       />
 

@@ -12,7 +12,7 @@ import { site } from '@/data/site';
 export const metadata: Metadata = buildPageMetadata({
   title: 'Security Services | Gates, Access Control, Surveillance & Integration',
   description:
-    'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, system integration, and 24/7 emergency support.',
+    'Gate repair, maintenance plans, gate automation, access control, video surveillance, and system integration. Same-day when available.',
   path: '/services',
 });
 
@@ -21,9 +21,9 @@ export default function ServicesIndexPage() {
     <>
       <Hero
         eyebrow="Services"
-        title="Security services engineered for the way your property actually operates."
-        subtitle="Each service below is designed to integrate with the others — credential, camera, gate, and service systems built as one platform throughout Florida."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        title="Gate repair, maintenance, and the rest of the entry."
+        subtitle="We repair gates, we maintain them, and we install new ones. Access control and cameras are part of the same visit when the property needs them."
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'Industries we serve', href: '/industries' }}
       />
 
@@ -44,8 +44,8 @@ export default function ServicesIndexPage() {
 
       <CTASection
         title="Not sure which services apply to your property?"
-        body="A short site assessment gets to a realistic recommendation faster than any quote — and tells you what you don’t need, not just what you might want."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        body="Tell us what the gate is doing. We will say what applies and what does not."
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
       />
 

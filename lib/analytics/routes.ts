@@ -1,16 +1,15 @@
 // Canonical public route inventory used ONLY for analytics pageview sanitization.
 // Hardcoded (not derived from data/*) so the shared client bundle does not carry
-// page content. Must equal the 38 launch routes (tests/fixtures/routes.ts).
+// page content. Must equal the public route contract (tests/fixtures/routes.ts).
 export const CANONICAL_ROUTES = [
-  '/', '/contact', '/services', '/industries', '/service-areas', '/resources',
-  '/services/security-gate-systems', '/services/gate-automation', '/services/access-control',
+  '/', '/contact', '/services', '/industries', '/service-areas', '/resources', '/privacy', '/terms',
+  '/services/security-gate-systems', '/services/gate-repair', '/services/gate-automation', '/services/maintenance-plans', '/services/access-control',
   '/services/video-surveillance', '/services/security-system-integration', '/services/emergency-service',
   '/industries/hoa-gated-communities', '/industries/multifamily-apartments-condos', '/industries/storage-facilities',
   '/industries/commercial-properties', '/industries/industrial-warehouses', '/industries/property-managers',
   '/industries/residential-estates',
   '/service-areas/orlando', '/service-areas/tampa', '/service-areas/lakeland', '/service-areas/kissimmee',
-  '/service-areas/winter-garden', '/service-areas/clermont', '/service-areas/lake-mary', '/service-areas/sanford',
-  '/service-areas/ocala', '/service-areas/the-villages', '/service-areas/st-petersburg', '/service-areas/clearwater',
+  '/service-areas/winter-garden', '/service-areas/clermont', '/service-areas/st-petersburg', '/service-areas/clearwater',
   '/service-areas/brandon', '/service-areas/wesley-chapel',
   '/resources/how-much-does-an-automatic-gate-cost', '/resources/best-access-control-system-for-hoa',
   '/resources/storage-facility-security-camera-guide', '/resources/gate-automation-vs-access-control',
@@ -28,7 +27,7 @@ export function canonicalPathname(pathname: unknown): string {
 }
 
 export const PAGE_TEMPLATES = [
-  'home', 'contact', 'services_index', 'service_detail', 'industries_index', 'industry_detail',
+  'home', 'contact', 'privacy', 'terms', 'services_index', 'service_detail', 'industries_index', 'industry_detail',
   'service_areas_index', 'service_area_detail', 'resources_index', 'resource_detail', 'not_found',
 ] as const;
 export type PageTemplate = (typeof PAGE_TEMPLATES)[number];
@@ -38,6 +37,8 @@ export function pageTemplateFor(pathname: unknown): PageTemplate {
   const path = canonicalPathname(pathname);
   if (path === '/') return 'home';
   if (path === '/contact') return 'contact';
+  if (path === '/privacy') return 'privacy';
+  if (path === '/terms') return 'terms';
   const [, section, slug] = path.split('/');
   const families: Record<string, [PageTemplate, PageTemplate]> = {
     services: ['services_index', 'service_detail'],

@@ -20,15 +20,15 @@ export function Header() {
     return () => document.removeEventListener('keydown', escape);
   }, [open]);
   return <header className="fsc-header">
-    <div className="fsc-emergency-strip"><div className="fsc-container"><span>Serving all of Florida · Lake County HQ</span><a href={`tel:${site.emergencyPhone}`} data-fsc-event="emergency_call" data-fsc-placement="emergency_strip">24/7 emergency service <span aria-hidden="true">·</span> <strong>{site.emergencyPhoneDisplay}</strong></a></div></div>
+    <div className="fsc-emergency-strip"><div className="fsc-container"><span>Based in Clermont, Lake County</span><a href={`tel:${site.emergencyPhone}`} data-fsc-event="emergency_call" data-fsc-placement="emergency_strip">Same-day when available <span aria-hidden="true">·</span> <strong>{site.emergencyPhoneDisplay}</strong></a></div></div>
     <div className="fsc-container fsc-header-main">
       <Link href="/" className="fsc-brand" aria-label="Florida Security Concepts home">
         <Image src={logo} alt="" width={181} height={92} priority sizes="181px" /><span className="sr-only">Florida Security Concepts</span>
       </Link>
       <nav className="fsc-desktop-nav" aria-label="Primary">{nav.primary.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined} data-fsc-event={item.href === '/#maintenance' ? 'maintenance_interest' : undefined} data-fsc-placement={item.href === '/#maintenance' ? 'header' : undefined}>{item.label}</Link>)}</nav>
-      <Link href="/contact" className="fsc-btn-primary fsc-header-assessment" data-fsc-event="assessment_cta" data-fsc-placement="header">Free assessment <span aria-hidden="true">↗</span></Link>
+      <Link href="/contact" className="fsc-btn-primary fsc-header-assessment" data-fsc-event="assessment_cta" data-fsc-placement="header">Book an advanced consultation <span aria-hidden="true">↗</span></Link>
       <button ref={button} className="fsc-menu-toggle" aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(!open)}>{open ? 'Close' : 'Menu'} <span aria-hidden="true">{open ? '×' : '☰'}</span></button>
     </div>
-    {open && <nav id="mobile-navigation" className="fsc-mobile-nav fsc-container" aria-label="Mobile">{nav.primary.map(item => <Link key={item.href} href={item.href} onClick={() => setOpen(false)} data-fsc-event={item.href === '/#maintenance' ? 'maintenance_interest' : undefined} data-fsc-placement={item.href === '/#maintenance' ? 'mobile_nav' : undefined}>{item.label}</Link>)}<Link className="fsc-btn-primary" href="/contact" onClick={() => setOpen(false)} data-fsc-event="assessment_cta" data-fsc-placement="mobile_nav">Request a Free Property Assessment</Link></nav>}
+    {open && <nav id="mobile-navigation" className="fsc-mobile-nav fsc-container" aria-label="Mobile">{nav.primary.map(item => <Link key={item.href} href={item.href} onClick={() => setOpen(false)} data-fsc-event={item.href === '/#maintenance' ? 'maintenance_interest' : undefined} data-fsc-placement={item.href === '/#maintenance' ? 'mobile_nav' : undefined}>{item.label}</Link>)}<Link className="fsc-btn-primary" href="/contact" onClick={() => setOpen(false)} data-fsc-event="assessment_cta" data-fsc-placement="mobile_nav">Book an advanced consultation</Link></nav>}
   </header>;
 }

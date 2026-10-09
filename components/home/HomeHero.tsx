@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { HeroMap, MAP_CITIES } from './HeroMap';
 
-const CHIP_SLUGS = ['orlando', 'tampa', 'lakeland', 'the-villages', 'ocala', 'clermont'];
+const CHIP_SLUGS = ['orlando', 'kissimmee', 'winter-garden', 'clermont', 'tampa'];
 
 export function HomeHero() {
   const [hover, setHover] = useState<string | null>(null);
@@ -19,10 +19,10 @@ export function HomeHero() {
           <p className="fsc-kicker">Commercial &amp; residential · Based in Clermont, Lake County</p>
           <h1>Gate &amp; access-control service <em>you can see working.</em></h1>
           <div className="fsc-hero-ctas">
-            <Link href="/contact" className="fsc-btn-primary fsc-main-cta" data-fsc-event="assessment_cta" data-fsc-placement="hero">Request a Free Property Assessment <span aria-hidden="true">›</span></Link>
+            <Link href="/contact" className="fsc-btn-primary fsc-main-cta" data-fsc-event="assessment_cta" data-fsc-placement="hero">Book an advanced consultation <span aria-hidden="true">›</span></Link>
             <a href="#night-view" className="fsc-btn-outline">See the night view <span aria-hidden="true">↓</span></a>
           </div>
-          <p className="fsc-hero-intro">Managed Entry Reliability for the gates, access control, plate recognition and cameras your property relies on. Preventive maintenance, repairs, 24/7 emergency service and new installations. Based in Clermont, Lake County, working statewide.</p>
+          <p className="fsc-hero-intro">We repair and maintain the gates, access control, and cameras your property uses every day. Same-day when available. New installations when you need a new entry. Based in Clermont. We work in Orlando, Kissimmee, Winter Garden, and Tampa Bay.</p>
           <div className="fsc-hero-needs" aria-label="Service choices">
             <Link href="#maintenance" data-fsc-event="maintenance_interest" data-fsc-placement="hero">Maintenance</Link>
             <Link href="/contact?service=repair">Repairs</Link>

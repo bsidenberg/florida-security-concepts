@@ -11,13 +11,13 @@ import { site } from '@/data/site';
 export const metadata: Metadata = {
   title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
   description:
-    'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties throughout Florida.',
+    'HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estates in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
   alternates: { canonical: '/industries' },
   twitter: {
     card: 'summary_large_image',
     title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
     description:
-      'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties throughout Florida.',
+      'HOAs, gated communities, multifamily, storage, commercial sites, warehouses, property managers, and estates. We schedule the work from Clermont.',
   },
 };
 
@@ -28,7 +28,7 @@ export default function IndustriesIndexPage() {
         eyebrow="Industries"
         title="Security systems engineered for the way each property type actually operates."
         subtitle="Each industry has its own credential populations, traffic patterns, and incident profile. We design systems around those realities — not around generic templates."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
 
@@ -49,8 +49,8 @@ export default function IndustriesIndexPage() {
 
       <CTASection
         title="Don’t see your property type?"
-        body="If your property does not fit cleanly into any of these — mixed-use, specialty, or unusual operations — we still want to hear about it. The site assessment scopes itself to the property."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        body="If your property does not fit one of these labels, tell us what it is. We will talk about the gate and the entry you actually have."
+        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
       />
 
       <BreadcrumbSchema

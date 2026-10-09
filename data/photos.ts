@@ -1,5 +1,5 @@
-// On-site photography. These scenes are illustrative and must not be described
-// as a named job or street address.
+// Illustrative equipment photos. Alt text describes the hardware only.
+// Do not name a city, a customer, or a job.
 
 export type SitePhoto = {
   src: string;
@@ -12,70 +12,68 @@ export type SitePhoto = {
   objectPosition?: string;
 };
 
-const illustrative = ' Illustrative scene, not a photograph of a specific job or address.';
-
 export const photos = {
   commercialLpr: {
     src: '/photos/central-florida-commercial-slide-gate-lpr-camera.webp',
     width: 1280,
     height: 720,
-    alt: 'Commercial slide gate with operator, keypad pedestal, and license plate recognition camera at a Central Florida industrial facility',
-    caption: 'Commercial slide gate with operator, keypad pedestal, and license plate recognition camera at a Central Florida industrial facility',
-    placeName: 'Central Florida',
+    alt: 'Commercial slide gate with an operator cabinet and a keypad pedestal at an industrial entry',
+    caption: 'Commercial slide gate with an operator cabinet and a keypad pedestal at an industrial entry',
+    placeName: '',
     illustrative: true,
   },
   storageSlide: {
     src: '/photos/clermont-fl-self-storage-slide-gate-keypad-access-control.webp',
     width: 1280,
     height: 720,
-    alt: 'Self-storage slide gate and keypad pedestal for access control in Clermont, Florida',
-    caption: `Slide gate and keypad pedestal at a self-storage entrance in Clermont, Florida.${illustrative}`,
-    placeName: 'Clermont, Lake County, Florida',
+    alt: 'Slide gate and a keypad pedestal at a self-storage entrance',
+    caption: 'Slide gate and a keypad pedestal at a self-storage entrance',
+    placeName: '',
     illustrative: true,
   },
   hoaCallbox: {
     src: '/photos/lake-county-fl-hoa-gated-community-entry-call-box.webp',
     width: 1280,
     height: 720,
-    alt: 'HOA swing gates and an entry call box at a gated community entrance in Lake County, Florida',
-    caption: `Swing gates and a visitor call box at a gated-community entrance in Lake County, Florida.${illustrative}`,
-    placeName: 'Lake County, Florida',
+    alt: 'Swing gates and a visitor call box at a gated-community entrance',
+    caption: 'Swing gates and a visitor call box at a gated-community entrance',
+    placeName: '',
     illustrative: true,
   },
   technician: {
     src: '/photos/orlando-fl-gate-operator-repair-technician-diagnostics.webp',
     width: 1280,
     height: 720,
-    alt: 'Technician testing a gate operator circuit board with a multimeter during a repair in the Orlando, Florida area',
-    caption: `Gate operator diagnostics with a multimeter in the Orlando, Florida area.${illustrative}`,
-    placeName: 'Orlando, Florida',
+    alt: 'Technician testing a gate operator circuit board with a multimeter',
+    caption: 'Technician testing a gate operator circuit board with a multimeter',
+    placeName: '',
     illustrative: true,
   },
   receiver: {
     src: '/photos/tampa-fl-gate-access-control-receiver-installation.webp',
     width: 1280,
     height: 720,
-    alt: 'Wireless gate access receiver on a post with an operator cabinet at a Tampa, Florida entry',
-    caption: `Access-control receiver and operator cabinet at a Tampa, Florida vehicle gate.${illustrative}`,
-    placeName: 'Tampa, Florida',
+    alt: 'Wireless gate receiver mounted on a post beside an operator cabinet',
+    caption: 'Wireless gate receiver mounted on a post beside an operator cabinet',
+    placeName: '',
     illustrative: true,
   },
   storageSlideKeypad: {
     src: '/photos/clermont-fl-self-storage-slide-gate-keypad.webp',
     width: 1280,
     height: 720,
-    alt: 'Commercial slide gate with gooseneck keypad stand at a Clermont, Florida self-storage entry',
-    caption: 'Commercial slide gate with gooseneck keypad stand at a Clermont, Florida self-storage entry',
-    placeName: 'Clermont, Lake County, Florida',
-    illustrative: false,
+    alt: 'Commercial slide gate with a gooseneck keypad stand',
+    caption: 'Commercial slide gate with a gooseneck keypad stand',
+    placeName: '',
+    illustrative: true,
   },
   gateCamera: {
     src: '/photos/orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp',
     width: 1280,
     height: 720,
-    alt: 'Security camera monitoring a car entering a gated community entrance in Orlando, Florida',
-    caption: 'Security camera monitoring a car entering a gated community entrance in Orlando, Florida',
-    placeName: 'Orlando, Florida',
+    alt: 'Security camera aimed at a vehicle approaching a gate',
+    caption: 'Security camera aimed at a vehicle approaching a gate',
+    placeName: '',
     illustrative: true,
   },
 } as const satisfies Record<string, SitePhoto>;
@@ -84,9 +82,11 @@ export type PhotoId = keyof typeof photos;
 
 const servicePhotoIds: Record<string, PhotoId[]> = {
   'security-gate-systems': ['storageSlide', 'hoaCallbox', 'storageSlideKeypad'],
+  'gate-repair': ['technician', 'storageSlide'],
   'gate-automation': ['storageSlide', 'technician'],
+  'maintenance-plans': ['technician', 'storageSlideKeypad'],
   'access-control': ['hoaCallbox', 'gateCamera'],
-  'video-surveillance': ['commercialLpr'],
+  'video-surveillance': ['gateCamera'],
   'security-system-integration': ['commercialLpr', 'receiver'],
   'emergency-service': ['technician'],
 };

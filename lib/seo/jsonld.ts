@@ -7,8 +7,6 @@ import { site, hasPhone, hasEmail, hasPostalAddress, activeSocialLinks } from '@
 
 export const HQ_GEO = { latitude: 28.4447, longitude: -81.7987 } as const;
 
-const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const;
-
 function prune(value: unknown): unknown {
   if (Array.isArray(value)) {
     const items = value.map(prune).filter((item) => item !== undefined);
@@ -44,24 +42,11 @@ export function areaAddressNode() {
 }
 
 export function areaServedNodes() {
-  return [
-    { '@type': 'State', name: 'Florida' },
-    ...site.serviceCities.map((city) => ({
-      '@type': 'City',
-      name: city,
-      containedInPlace: { '@type': 'State', name: 'Florida' },
-    })),
-  ];
-}
-
-/** 24/7 emergency coverage. This is not a claim that a storefront is staffed all day. */
-export function openingHoursNode() {
-  return {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: [...WEEK],
-    opens: '00:00',
-    closes: '23:59',
-  };
+  return site.serviceCities.map((city) => ({
+    '@type': 'City',
+    name: city,
+    containedInPlace: { '@type': 'State', name: 'Florida' },
+  }));
 }
 
 export function organizationJsonLd(): Record<string, unknown> {
@@ -73,7 +58,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     name: site.name,
     legalName: site.legalName || undefined,
     description:
-      'Florida Security Concepts provides Managed Entry Reliability for commercial and residential properties: preventive maintenance, repairs, 24/7 emergency service, retrofits, and new installations for gates, access control, video surveillance, and license plate recognition. Based in Clermont, Lake County, and serving Florida statewide.',
+      'Florida Security Concepts repairs, maintains, and installs gates, access control, and video surveillance for commercial and residential properties. Based in Clermont, Lake County. We schedule work in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay. Same-day when available.',
     url: site.url,
     image: `${site.url}${photos.commercialLpr.src}`,
     telephone: hasPhone() ? site.phone : undefined,
@@ -81,7 +66,6 @@ export function organizationJsonLd(): Record<string, unknown> {
     address: areaAddressNode(),
     geo: { '@type': 'GeoCoordinates', latitude: HQ_GEO.latitude, longitude: HQ_GEO.longitude },
     areaServed: areaServedNodes(),
-    openingHoursSpecification: openingHoursNode(),
     sameAs: sameAs.length > 0 ? sameAs : undefined,
   }));
 }
@@ -114,7 +98,6 @@ export function localBusinessJsonLd({
       name: city,
       containedInPlace: { '@type': 'AdministrativeArea', name: region },
     },
-    openingHoursSpecification: openingHoursNode(),
     geo: geo ? { '@type': 'GeoCoordinates', latitude: geo.latitude, longitude: geo.longitude } : undefined,
   }));
 }
@@ -198,10 +181,10 @@ export function imageObjectJsonLd(photo: {
     caption: photo.caption,
     width: photo.width,
     height: photo.height,
-    contentLocation: { '@type': 'Place', name: photo.placeName },
-    creditText: photo.illustrative
-      ? 'Illustrative scene. Not a photograph of a specific job or address.'
-      : 'Field photograph. The property is not identified.',
+    contentLocation: photo.placeName
+      ? { '@type': 'Place', name: photo.placeName }
+      : undefined,
+    creditText: 'Illustrative scene. Not a photograph of a specific job or address.',
   }));
 }
 

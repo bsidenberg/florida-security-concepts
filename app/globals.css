@@ -265,6 +265,7 @@ body {
 .fsc-home h2 em{font-style:normal;color:#BF0A30}
 #capabilities{transition:background-color .5s}
 .fsc-cap-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;perspective:1200px}
+.fsc-cap-note{margin:28px auto 0;max-width:640px;text-align:center;color:#334155}
 .fsc-cap-card{--x:50%;--y:50%;--glow:191,10,48;position:relative;background:#fff;border:1px solid #DDE3EE;border-radius:12px;box-shadow:0 10px 30px rgba(0,26,74,.08);display:flex;flex-direction:column;overflow:hidden;color:inherit;text-decoration:none;cursor:pointer}
 .fsc-cap-card::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--x) var(--y),rgba(var(--glow),.14),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
 .fsc-cap-card::after{content:"";position:absolute;inset:0;border-radius:12px;padding:1.5px;background:radial-gradient(220px circle at var(--x) var(--y),rgba(var(--glow),.95),transparent 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none;z-index:2}

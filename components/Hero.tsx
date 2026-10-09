@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { Container } from './Container';
 
 type HeroProps = {
@@ -10,6 +11,17 @@ type HeroProps = {
   align?: 'left' | 'center';
   variant?: 'home' | 'page';
 };
+
+function CtaLink({ href, className, placement, children }: { href: string; className: string; placement?: string; children: ReactNode }) {
+  const tel = href.startsWith('tel:') || href.startsWith('mailto:');
+  const props = {
+    className,
+    'data-fsc-event': href.startsWith('/contact') ? 'assessment_cta' : undefined,
+    'data-fsc-placement': href.startsWith('/contact') ? placement : undefined,
+  };
+  if (tel) return <a href={href} {...props}>{children}</a>;
+  return <Link href={href} {...props}>{children}</Link>;
+}
 
 export function Hero({ eyebrow, title, subtitle, primaryCta, secondaryCta, align = 'left', variant = 'page' }: HeroProps) {
   return (
@@ -25,8 +37,8 @@ export function Hero({ eyebrow, title, subtitle, primaryCta, secondaryCta, align
           </p>
           {(primaryCta || secondaryCta) && (
             <div className={`mt-8 flex flex-wrap gap-3 ${align === 'center' ? 'justify-center' : ''}`}>
-              {primaryCta && <Link href={primaryCta.href} className="fsc-btn-primary" data-fsc-event={primaryCta.href.startsWith('/contact') ? 'assessment_cta' : undefined} data-fsc-placement={primaryCta.href.startsWith('/contact') ? 'page_hero' : undefined}>{primaryCta.label}</Link>}
-              {secondaryCta && <Link href={secondaryCta.href} className="fsc-btn-secondary">{secondaryCta.label}</Link>}
+              {primaryCta && <CtaLink href={primaryCta.href} className="fsc-btn-primary" placement="page_hero">{primaryCta.label}</CtaLink>}
+              {secondaryCta && <CtaLink href={secondaryCta.href} className="fsc-btn-secondary">{secondaryCta.label}</CtaLink>}
             </div>
           )}
         </div>

@@ -26,12 +26,12 @@ export const industries: Industry[] = [
     metaTitle:
       'HOA Gate, Access Control & Security Systems',
     metaDescription:
-      'Security systems for HOAs and gated communities — gate automation, resident credentials, vendor access, video surveillance, and integrated property security throughout Florida.',
+      'Security systems for HOAs and gated communities — gate automation, resident credentials, vendor access, video surveillance, and integrated property security in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     eyebrow: 'Industry · HOAs & Gated Communities',
     intro:
       'A gated community is a credential and traffic system before it is anything else. Residents, vendors, deliveries, guests, contractors, and emergency responders all need to enter — under different rules, on different schedules, with different accountability.',
     directAnswer:
-      'Florida Security Concepts designs and integrates gate automation, access control, and video surveillance for HOAs and gated communities throughout Florida — including resident credentials, time-bound vendor access, telephone entry, and incident-grade camera coverage at the gate.',
+      'Florida Security Concepts designs and integrates gate automation, access control, and video surveillance for HOAs and gated communities in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay — including resident credentials, time-bound vendor access, telephone entry, and incident-grade camera coverage at the gate.',
     pains: [
       {
         title: 'Shared codes that never get changed',
@@ -47,7 +47,7 @@ export const industries: Industry[] = [
       },
       {
         title: 'After-hours incidents with no footage',
-        body: 'Cameras that look impressive but cannot resolve a license plate or identify a person at the gate.',
+        body: 'Cameras aimed at the sky, a wall, or a tree instead of the gate and the lane.',
       },
     ],
     recommendedServices: [
@@ -105,12 +105,12 @@ export const industries: Industry[] = [
     metaTitle:
       'Multifamily Security Systems | Apartments & Condos',
     metaDescription:
-      'Gate automation, access control, video surveillance, and integrated security for apartment communities and condominiums throughout Florida.',
+      'Gate automation, access control, video surveillance, and integrated security for apartment communities and condominiums in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     eyebrow: 'Industry · Multifamily',
     intro:
       'Apartments and condos move faster than any other property type — turnover, staff changes, vendor rotation, and amenity scheduling all happen monthly. Security systems have to keep up without becoming a leasing-office burden.',
     directAnswer:
-      'Florida Security Concepts builds gate, access control, and surveillance systems for apartment communities and condominiums — engineered around resident turnover, vendor rotation, amenity access, and incident documentation — throughout Florida.',
+      'Florida Security Concepts builds gate, access control, and surveillance systems for apartment communities and condominiums — engineered around resident turnover, vendor rotation, amenity access, and incident documentation — in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     pains: [
       {
         title: 'High resident turnover',
@@ -178,12 +178,12 @@ export const industries: Industry[] = [
     metaTitle:
       'Storage Facility Security | Cameras & Access Control',
     metaDescription:
-      'Security camera, gate, and access control systems for self-storage facilities throughout Florida — tenant credentials, 24/7 recording, remote monitoring.',
+      'Security camera, gate, and access control systems for self-storage facilities in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay — tenant credentials, recorded video, and remote viewing.',
     eyebrow: 'Industry · Storage Facilities',
     intro:
       'Storage facilities are credential-heavy properties with thin staff coverage. The system has to behave correctly when no one is on site — and it has to leave a clean evidence trail when something goes wrong.',
     directAnswer:
-      'Florida Security Concepts deploys gate access control, video surveillance, remote monitoring, and 24/7 recording for self-storage facilities throughout Florida — tenant-specific gate credentials, license-plate-grade entry cameras, and incident-ready footage retention.',
+      'We set up gate access control and video surveillance for self-storage facilities in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay. Tenants get their own gate credentials. Cameras cover the gate, the lanes, and the unit doors, and we set how long the recorder keeps the footage.',
     pains: [
       {
         title: 'Tenant access disputes',
@@ -194,8 +194,8 @@ export const industries: Industry[] = [
         body: 'Most incidents happen when no one is on site — the system has to be self-sufficient.',
       },
       {
-        title: 'License plate disputes',
-        body: 'A general overview camera will not produce a usable plate — a dedicated LPR scene will.',
+        title: 'Entry footage that misses the vehicle',
+        body: 'A camera aimed at the office will not show which vehicle came through the gate. We aim one at the lane so the vehicle and the entry are in the frame.',
       },
       {
         title: 'Multi-site operators',
@@ -239,7 +239,7 @@ export const industries: Industry[] = [
       'storage facility security cameras',
       'self storage access control',
       'storage gate access',
-      'storage license plate camera',
+      'storage gate camera',
     ],
     updatedDate: '2026-05-27',
   },
@@ -249,14 +249,14 @@ export const industries: Industry[] = [
     navLabel: 'Commercial Properties',
     shortLabel: 'Commercial',
     metaTitle:
-      'Commercial Security Systems | Florida Statewide',
+      'Commercial Security Systems | Central Florida and Tampa Bay',
     metaDescription:
-      'Integrated commercial security systems — gates, access control, video surveillance, and emergency service — for offices, retail, and mixed-use throughout Florida.',
+      'Integrated commercial security systems — gates, access control, video surveillance, and emergency service — for offices, retail, and mixed-use in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     eyebrow: 'Industry · Commercial',
     intro:
       'Commercial properties have the broadest range of security requirements — staff turnover, tenant access, vendor rotation, after-hours operations, and incident documentation — and the highest expectation that the system simply works.',
     directAnswer:
-      'Florida Security Concepts designs commercial security systems — gates, access control, video surveillance, and integrated emergency service — for offices, retail, and mixed-use properties throughout Florida.',
+      'Florida Security Concepts designs commercial security systems — gates, access control, video surveillance, and integrated emergency service — for offices, retail, and mixed-use properties in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     pains: [
       {
         title: 'Key-and-lock turnover',
@@ -324,12 +324,12 @@ export const industries: Industry[] = [
     metaTitle:
       'Industrial Security & Warehouse Access Control',
     metaDescription:
-      'Industrial security systems — gate automation, access control, yard surveillance, and credentialed lane entry — for warehouses, yards, and logistics sites throughout Florida.',
+      'Industrial security systems — gate automation, access control, yard surveillance, and credentialed lane entry — for warehouses, yards, and logistics sites in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     eyebrow: 'Industry · Industrial & Warehouse',
     intro:
       'Industrial sites move trucks, drivers, contractors, and material around a clock. Security systems either match that pace or get worked around — there is no middle ground.',
     directAnswer:
-      'Florida Security Concepts engineers gate, access control, and surveillance systems for warehouses, yards, and logistics properties — credentialed lane access, driver and contractor management, yard coverage, and integration with operations — throughout Florida.',
+      'Florida Security Concepts engineers gate, access control, and surveillance systems for warehouses, yards, and logistics properties — credentialed lane access, driver and contractor management, yard coverage, and integration with operations — in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     pains: [
       {
         title: 'Driver and contractor flow',
@@ -373,8 +373,8 @@ export const industries: Industry[] = [
     ],
     faqs: [
       {
-        q: 'Can the system support a 24/7 operation?',
-        a: 'Yes — it has to. Hardware, power, and software are specified for 24/7 duty and storm-event resilience.',
+        q: 'Can the system support a site that runs around the clock?',
+        a: 'Yes. We size the operator, the power, and the safety devices to the cycle count and the hours that site actually runs, including storms.',
       },
       {
         q: 'Can we differentiate between drivers, contractors, and employees?',
@@ -397,12 +397,12 @@ export const industries: Industry[] = [
     metaTitle:
       'Security Systems for Property Managers | Multi-Site',
     metaDescription:
-      'Standardized gate, access control, surveillance, and emergency service across multi-site portfolios throughout Florida. Built for property management workflows.',
+      'Standardized gate, access control, surveillance, and emergency service across multi-site portfolios in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay. Built for property management workflows.',
     eyebrow: 'Industry · Property Managers',
     intro:
       'Property managers do not buy a security system — they buy a service relationship. Boards, owners, and tenants all rotate. The security platform and the team behind it have to be the consistent part.',
     directAnswer:
-      'Florida Security Concepts works directly with property managers to standardize security across multi-site portfolios — consistent credential platforms, escalation paths, billing structure, and emergency response — throughout Florida.',
+      'Florida Security Concepts works directly with property managers to standardize security across multi-site portfolios — consistent credential platforms, escalation paths, billing structure, and emergency response — in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     pains: [
       {
         title: 'Vendor sprawl',
@@ -470,12 +470,12 @@ export const industries: Industry[] = [
     metaTitle:
       'Estate Gate Automation & Residential Security',
     metaDescription:
-      'Estate-grade gate automation, access control, intercom, and surveillance for high-value residential properties throughout Florida.',
+      'Estate-grade gate automation, access control, intercom, and surveillance for high-value residential properties in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
     eyebrow: 'Industry · Estates',
     intro:
       'Estate properties want presence, privacy, and reliability in equal measure. The gate sets the tone for the property, and the rest of the security system has to feel as considered as the architecture.',
     directAnswer:
-      'Florida Security Concepts designs estate-grade gate automation, access control, intercom, and surveillance systems for high-value residential properties throughout Florida — engineered to be both elegant and reliable.',
+      'Florida Security Concepts designs estate-grade gate automation, access control, intercom, and surveillance systems for high-value residential properties in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay — engineered to be both elegant and reliable.',
     pains: [
       {
         title: 'Generic hardware',
