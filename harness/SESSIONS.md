@@ -314,3 +314,22 @@ Next, owner-only: runbook AM-005 steps 0–3, then a controlled live test (contr
   - Ambiguous CRM outcomes surface only in `sql/fsc-crm-lead-reconciliation-report.sql` (OD-CRM-2).
   - The GitHub CI `verify` job cannot run the gate's PostgreSQL tests until S-CI-001 is authorized.
 
+
+
+### S-007 — brand refresh and homepage redesign, AUTHORIZED 2026-10-02
+
+Contract: `sessions/S-007-redesign-contract.md` (AM-006, D-035). Branch `codex/s-007-redesign`. Gate: `scripts/verify.ps1 -SessionId S-007` (standard six stages, run by CI on push and PR). Roles: builder (application code), test-guard (e2e/release selector updates only, floors untouched), independent reviewer (separate agent, writes `evidence/S-007-review.md`), verifier (CI raw log). Owner gate: PR merge. Deferred to S-008: project teardowns pending owner photos. Drafted, not run: S-SEO-002.
+
+### S-007 — builder handoff, awaiting CI gate and owner merge, 2026-10-02
+
+Roles: builder (Claude, cloud session), independent reviewer (separate agent, no code authored; `evidence/S-007-review.md`, APPROVED WITH NOTES), verifier = CI (`verify.ps1 -SessionId S-007` on push/PR; this Linux build box has no pwsh and no Windows PostgreSQL runtime, so the gate's raw log comes from the GitHub run).
+
+Work completed (files in the PR diff): new brand tokens and fonts (`app/globals.css`, `tailwind.config.ts`, `app/layout.tsx`), logo in header/footer (`components/Header.tsx`, `components/Footer.tsx`, `public/brand/*`), recolored icons/OG, new homepage (`app/page.tsx`, `components/home/*`), eleven manufacturer logos (`public/manufacturers/*`), `components/GateIllustration.tsx` removed (homepage-only). Test-guard change: one mock export added in `tests/unit/preview-isolation.test.ts` (contract §3). Protected paths: `git diff --stat` empty for `app/api lib sql .github scripts tests/gate tests/e2e components/LeadCaptureForm.tsx app/contact data/*.ts app/resources components/Schema.tsx`.
+
+Local evidence (this box): lint 0, typecheck 0, unit 571/571, e2e 87/87 (compiled build), release chromium project 54/66 — the 12 failures are the live-tracker suite needing the owner-saved Plausible script in `.fsc-test/plausible/` (environment, unchanged tests); sitemap contract (38 routes) passed. Lighthouse (release project, 3 runs): home 95/90/93 performance (was 99 on S-006), 100 accessibility/best-practices/SEO, CLS 0; other pages 96–99. Summary: `evidence/S-007-lighthouse/`. Screenshots 390/1440 for home, contact, services, service detail, emergency, industries, industry detail, areas, area detail, resources, article: `evidence/S-007-screens/`.
+
+Environment deviations (not committed): Google Fonts is unreachable from the build box, so local builds used `NEXT_FONT_GOOGLE_MOCKED_RESPONSES` (fallback font in local screenshots; CI and Vercel fetch the real Plus Jakarta Sans); `scripts/local-server.mjs` was temporarily allowed to pass that variable and was restored before commit; Chromium 1194 was aliased to the pinned 1243 build.
+
+Review dispositions: F-1 focus ring scoped to dark sections; F-2 `scroll-padding-top` added; F-3 map fitted to its slot, real canvas font, mile readout from scale; F-4 RAF gated by IntersectionObserver, reduced-motion redraw on resize, marquee duplicates hidden under reduced motion; F-6 hotspots take Enter/Space and have 44px minimum targets; F-7 Lighthouse and sitemap contract run and attached. F-5 (wording) partly softened — "A person answers" and "written service record" removed, "UL 325" removed; remaining owner confirmations listed below. Reviewer NOTES (marquee/blink/idle animations, hover-only detail) left for Brian's preview call.
+
+Owner inputs still open (none block the PR): licence/cert values for `data/site.ts`; three project teardowns with photos (S-008); any operating stats; confirm "Lake County HQ" wording on the map; merge.

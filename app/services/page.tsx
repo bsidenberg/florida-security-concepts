@@ -27,7 +27,7 @@ export default function ServicesIndexPage() {
       <Hero
         eyebrow="Services"
         title="Security services engineered for the way your property actually operates."
-        subtitle="Each service below is designed to integrate with the others — credential, camera, gate, and service systems built as one platform across Central Florida and Tampa Bay."
+        subtitle="Each service below is designed to integrate with the others — credential, camera, gate, and service systems built as one platform throughout Florida."
         primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
         secondaryCta={{ label: 'Industries we serve', href: '/industries' }}
       />

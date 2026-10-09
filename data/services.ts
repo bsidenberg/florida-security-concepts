@@ -22,18 +22,18 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: 'security-gate-systems',
-    title: 'Security Gate System Installation in Central Florida & Tampa Bay',
+    title: 'Security Gate System Installation Across Florida',
     navLabel: 'Security Gate Systems',
     shortLabel: 'Security Gates',
     metaTitle:
-      'Security Gate System Installation | Central Florida & Tampa Bay',
+      'Security Gate System Installation | Florida Statewide',
     metaDescription:
-      'Custom security gate systems engineered for HOAs, gated communities, commercial properties, and estates across Central Florida and Tampa Bay. Design, install, integrate.',
+      'Custom security gate systems engineered for HOAs, gated communities, commercial properties, and estates throughout Florida. Design, install, integrate.',
     eyebrow: 'Service · Security Gates',
     intro:
       'Security gates are the first physical layer of any controlled-access property. We design, fabricate-source, and install gate systems engineered to handle the traffic patterns, vehicle types, and after-hours access policies of the property — not generic off-the-shelf hardware bolted to a driveway.',
     directAnswer:
-      'Florida Security Concepts designs and installs custom security gate systems — slide gates, swing gates, and barrier arms — for HOAs, gated communities, commercial sites, storage facilities, and estate properties across Central Florida and Tampa Bay. Each gate is engineered around the property’s vehicle volume, sight lines, vendor and resident access policies, and integration with access control and surveillance.',
+      'Florida Security Concepts designs and installs custom security gate systems — slide gates, swing gates, and barrier arms — for HOAs, gated communities, commercial sites, storage facilities, and estate properties throughout Florida. Each gate is engineered around the property’s vehicle volume, sight lines, vendor and resident access policies, and integration with access control and surveillance.',
     capabilities: [
       {
         title: 'Slide gates',
@@ -131,7 +131,7 @@ export const services: Service[] = [
     metaTitle:
       'Automatic Gate Operators & Gate Automation',
     metaDescription:
-      'Automatic gate operators for slide and swing gates, barrier arms, keypads, and intercoms. Engineered for Central Florida and Tampa Bay communities, commercial sites, and estates.',
+      'Automatic gate operators for slide and swing gates, barrier arms, keypads, and intercoms. Engineered for Florida communities, commercial sites, and estates.',
     eyebrow: 'Service · Gate Automation',
     intro:
       'A gate is only as reliable as the operator behind it. We size operators to actual gate weight, cycle count, and traffic patterns, then integrate them with the credential and intercom systems your residents, vendors, and emergency responders actually use.',
@@ -221,12 +221,12 @@ export const services: Service[] = [
     metaTitle:
       'Access Control Systems | Card Readers, Keypads, Mobile Credentials',
     metaDescription:
-      'Access control systems for gates, doors, and commercial properties — card readers, keypads, mobile credentials, telephone entry, and visitor management. Central Florida & Tampa Bay.',
+      'Access control systems for gates, doors, and commercial properties — card readers, keypads, mobile credentials, telephone entry, and visitor management. Florida Statewide.',
     eyebrow: 'Service · Access Control',
     intro:
       'Access control is the credential, schedule, and audit layer behind every gate and door. We design systems that handle residents, employees, vendors, and visitors as distinct populations with distinct rules — not one shared code on a sticky note.',
     directAnswer:
-      'Access control systems decide who can enter a property, when, and from which entry point — and log each event. Florida Security Concepts installs card readers, keypads, mobile credentials, telephone entry, and visitor and vendor management at gates and doors across Central Florida and Tampa Bay.',
+      'Access control systems decide who can enter a property, when, and from which entry point — and log each event. Florida Security Concepts installs card readers, keypads, mobile credentials, telephone entry, and visitor and vendor management at gates and doors throughout Florida.',
     capabilities: [
       {
         title: 'Card and fob readers',
@@ -311,12 +311,12 @@ export const services: Service[] = [
     metaTitle:
       'Commercial Video Surveillance & Security Cameras',
     metaDescription:
-      'HD and AI-enabled security camera systems for commercial properties, communities, storage facilities, and industrial sites across Central Florida and Tampa Bay.',
+      'HD and AI-enabled security camera systems for commercial properties, communities, storage facilities, and industrial sites throughout Florida.',
     eyebrow: 'Service · Surveillance',
     intro:
       'Camera systems should answer specific questions — who entered, when, in what vehicle, and what happened next. We design coverage around the actual incidents your property faces, not generic camera counts.',
     directAnswer:
-      'Florida Security Concepts designs and installs HD and AI-enabled video surveillance for commercial properties, communities, storage facilities, and industrial sites — including remote monitoring, license plate capture, and 24/7 recording — across Central Florida and Tampa Bay.',
+      'Florida Security Concepts designs and installs HD and AI-enabled video surveillance for commercial properties, communities, storage facilities, and industrial sites — including remote monitoring, license plate capture, and 24/7 recording — throughout Florida.',
     capabilities: [
       {
         title: 'HD and 4K cameras',
@@ -400,12 +400,12 @@ export const services: Service[] = [
     metaTitle:
       'Integrated Security Systems | Gates, Access Control, Cameras, Monitoring',
     metaDescription:
-      'End-to-end security system integration — gates, access control, video surveillance, monitoring, and service — engineered as one system for Central Florida and Tampa Bay.',
+      'End-to-end security system integration — gates, access control, video surveillance, monitoring, and service — engineered as one system for properties throughout Florida.',
     eyebrow: 'Service · Integration',
     intro:
       'A property does not have a gate problem, a camera problem, or a credential problem in isolation. It has a security system problem. We design and integrate gates, access control, cameras, monitoring, and ongoing service as one coordinated system.',
     directAnswer:
-      'Security system integration combines gate automation, access control, video surveillance, and remote monitoring into a single, coordinated system — instead of three vendors, three credentials, and three timelines. Florida Security Concepts builds and maintains integrated systems across Central Florida and Tampa Bay.',
+      'Security system integration combines gate automation, access control, video surveillance, and remote monitoring into a single, coordinated system — instead of three vendors, three credentials, and three timelines. Florida Security Concepts builds and maintains integrated systems throughout Florida.',
     capabilities: [
       {
         title: 'Unified credential layer',
@@ -480,12 +480,12 @@ export const services: Service[] = [
     metaTitle:
       'Emergency Gate & Security System Service | Same-Day When Available',
     metaDescription:
-      '24/7 emergency support for gates, access control, and security systems across Central Florida and Tampa Bay. Same-day service when available. Request emergency response now.',
+      '24/7 emergency support for gates, access control, and security systems throughout Florida. Same-day service when available. Request emergency response now.',
     eyebrow: 'Service · Emergency',
     intro:
       'A stuck gate, a failed credential database, or a dark camera at 11 PM is an operational emergency. We respond fast, document the failure, and bring the system back to a known-good state — not just the symptom.',
     directAnswer:
-      'Florida Security Concepts provides 24/7 emergency response for security gate, access control, and surveillance system failures across Central Florida and Tampa Bay, with same-day service when available. Request emergency service from this page or by calling our service line.',
+      'Florida Security Concepts provides 24/7 emergency response for security gate, access control, and surveillance system failures throughout Florida, with same-day service when available. Request emergency service from this page or by calling our service line.',
     capabilities: [
       {
         title: 'Stuck or unresponsive gates',
