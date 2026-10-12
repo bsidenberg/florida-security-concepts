@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function SmsConsentPage() {
   return <div className="fsc-light"><div className="fsc-container py-16 max-w-3xl space-y-6">
     <h1 className="text-3xl font-semibold">FSC Sentinel Alerts: optional text message consent</h1>
-    <p>{site.name}, a division of Florida Pole Barn Builders LLC, sends automated gate and access-control equipment alerts to its own employees and on-call technicians. Text messages are one optional way to receive these alerts. There is no public sign-up.</p>
+    <p>Florida Security Concepts LLC sends automated gate and access-control equipment alerts to its own employees and on-call technicians. Text messages are one optional way to receive these alerts. There is no public sign-up.</p>
     <p><strong>Text alerts are optional and not required.</strong> Agreeing to receive texts is not a condition of employment, of being on call, of any job duty, or of any purchase. Staff who do not opt in receive the same alerts by email and in the FSC Sentinel web console.</p>
     <h2 className="text-xl font-semibold">The opt-in form</h2>
     <p>Staff who want text alerts fill out the separate form below (on paper or by email to management). The consent box is unchecked by default, and leaving it unchecked has no effect on employment or on-call duties.</p>
