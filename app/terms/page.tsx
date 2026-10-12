@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return <div className="fsc-light"><div className="fsc-container py-16 max-w-3xl space-y-6">
     <h1 className="text-3xl font-semibold">Terms</h1>
-    <p>{site.name} is a division of Florida Pole Barn Builders LLC. Information on this website is general and does not create a service agreement. Work is performed under a written proposal or agreement.</p>
+    <p>{site.name} is operated by Florida Security Concepts LLC. Information on this website is general and does not create a service agreement. Work is performed under a written proposal or agreement.</p>
     <h2 className="text-xl font-semibold">FSC Sentinel Alerts (SMS program)</h2>
     <p><strong>What it is.</strong> FSC Sentinel Alerts sends automated gate and access-control equipment alerts, such as an operator going offline or a safety sensor fault, to {site.name} staff and on-call technicians. It does not send marketing messages.</p>
     <p><strong>Text alerts are optional.</strong> Receiving texts is not a condition of employment, of being on call, of any job duty, or of any purchase. Staff who do not opt in get the same alerts by email and in the FSC Sentinel web console.</p>
