@@ -18,9 +18,9 @@ const unique = (label: string, browserName: string) => `${label}-${browserName}-
 async function expectPresentation(page: Page, mode: 'emergency' | 'routine') {
   const f = form(page);
   if (mode === 'emergency') {
-    await expect(page.locator('h1')).toHaveText('Request emergency service.');
+    await expect(page.locator('h1')).toHaveText('Call for emergency service.');
     await expect(f.locator('[name="urgency"]')).toHaveValue('Emergency');
-    await expect(submitButton(page)).toHaveText(/^Send emergency request/);
+    await expect(submitButton(page)).toHaveText(/^Request an advanced consultation/);
     await expect(page.locator('.fsc-contact-intro a[href^="tel:"]')).toBeVisible();
   } else {
     await expect(page.locator('h1')).toHaveText('Tell us about your property.');
@@ -159,30 +159,22 @@ test('emergency direct entry keeps heading, urgency, submit label, payload and c
   expect((response.request().postDataJSON() as Record<string, string>).urgency).toBe('Emergency');
   const body = await response.json();
   await expectTruthfulConfirmation(page, body.requestId);
-  await expect(page.locator('h1')).toHaveText('Request emergency service.');
+  await expect(page.locator('h1')).toHaveText('Call for emergency service.');
   expect(readReceipt(body.requestId).payload.urgency).toBe('Emergency');
 });
 
 test('emergency context agrees through client navigation, back/forward and an explicit switch to routine', async ({ page }) => {
-  await page.goto('/');
-  await page.locator('footer a[href="/contact?urgency=emergency"]').click();
+  await page.goto('/contact?urgency=emergency');
   await expect(page).toHaveURL(`${ORIGINS.local}/contact?urgency=emergency`);
   await expectPresentation(page, 'emergency');
-  await page.getByRole('link', { name: 'Return to a routine assessment' }).click();
-  await expect(page).toHaveURL(`${ORIGINS.local}/contact`);
-  await expectPresentation(page, 'routine');
   const f = form(page);
   await f.locator('[name="fullName"]').fill('Zyx History Manager');
   await f.locator('[name="email"]').fill('fsc-history-release@example.invalid');
-  await page.getByRole('link', { name: 'Use the emergency contact form' }).click();
-  await expect(page).toHaveURL(`${ORIGINS.local}/contact?urgency=emergency`);
-  await expectPresentation(page, 'emergency');
-  await expect(f.locator('[name="fullName"]')).toHaveValue('Zyx History Manager');
-  await page.goBack();
+  await page.getByRole('link', { name: 'Return to an advanced consultation' }).click();
   await expect(page).toHaveURL(`${ORIGINS.local}/contact`);
   await expectPresentation(page, 'routine');
   await expect(f.locator('[name="fullName"]')).toHaveValue('Zyx History Manager');
-  await page.goForward();
+  await page.goBack();
   await expect(page).toHaveURL(`${ORIGINS.local}/contact?urgency=emergency`);
   await expectPresentation(page, 'emergency');
   await expect(f.locator('[name="email"]')).toHaveValue('fsc-history-release@example.invalid');
@@ -199,7 +191,7 @@ test('emergency context agrees through client navigation, back/forward and an ex
   await submitButton(page).click();
   await expect.poll(() => bodies.length).toBe(1);
   expect(bodies[0]).toMatchObject({ urgency: 'Emergency', fullName: 'Zyx History Manager', email: 'fsc-history-release@example.invalid' });
-  await expect(page.locator('h1')).toHaveText('Request emergency service.');
+  await expect(page.locator('h1')).toHaveText('Call for emergency service.');
 });
 
 test('keyboard-only completion submits the assessment with no hidden focus', async ({ page, browserName }) => {

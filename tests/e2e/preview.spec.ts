@@ -29,15 +29,16 @@ for (const path of ['/', '/contact']) test(`${path} automated accessibility`, as
   expect(results.violations.map(v => ({ id: v.id, impact: v.impact, targets: v.nodes.map(n => n.target) }))).toEqual([]);
 });
 test('emergency navigation preserves entered identity across history', async ({ page }) => {
-  await page.goto('/contact');
+  await page.goto('/contact?urgency=emergency');
+  await expect(page.locator('a[href*="urgency=emergency"]')).toHaveCount(0);
+  await expect(page.locator('a[href^="tel:"]').first()).toBeVisible();
   await page.locator('[name="fullName"]').fill('FSC Synthetic Manager');
   await page.locator('[name="email"]').fill('fsc-history@example.invalid');
-  await page.locator('a[href*="urgency=emergency"]').first().click();
   await expect(page.locator('[name="urgency"]')).toHaveValue('Emergency');
+  await page.getByRole('link', { name: 'Return to an advanced consultation' }).click();
+  await expect(page.locator('[name="urgency"]')).toHaveValue('Not specified');
   await expect(page.locator('[name="fullName"]')).toHaveValue('FSC Synthetic Manager');
   await page.goBack();
-  await expect(page.locator('[name="fullName"]')).toHaveValue('FSC Synthetic Manager');
-  await page.goForward();
   await expect(page.locator('[name="urgency"]')).toHaveValue('Emergency');
   await expect(page.locator('[name="email"]')).toHaveValue('fsc-history@example.invalid');
 });

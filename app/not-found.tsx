@@ -12,8 +12,8 @@ export default function NotFound() {
           </h1>
           <p className="mt-4 text-base md:text-lg text-fsc-text-dim leading-relaxed">
             The link may be outdated, the page may have moved, or it may never
-            have existed. Try one of the links below — or request a site
-            assessment if you came here for help.
+            have existed. Try one of the links below — or request an advanced
+            consultation if you came here for help.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/" className="fsc-btn-primary">

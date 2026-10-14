@@ -54,7 +54,7 @@ export const resources: Resource[] = [
       {
         heading: 'How scope changes from one property to the next',
         body: [
-          'The same factors show up in different combinations. In Central Florida and Tampa Bay, the useful comparison is the gate, the operator, the entry devices, and the site. A specific recommendation still starts with an assessment of the property.',
+          'The same factors show up in different combinations. In Central Florida and Tampa Bay, the useful comparison is the gate, the operator, the entry devices, and the site. A specific recommendation still starts with an advanced consultation.',
         ],
         bullets: [
           'A residential single swing gate usually means one leaf, a residential-duty operator, and a keypad, with safety devices and power matched to that leaf',
@@ -1057,7 +1057,7 @@ export const resources: Resource[] = [
         heading: 'What boards should bring to that review',
         body: [
           'Bring the record the community already has, even when it is incomplete. A model number, an approximate install year, and the last year of service notes show which failures are new. A short description of the day — morning resident rush, midday vendors, evening guests — is more useful than a guess about duty class. Note power problems, lightning hits, and whether anyone on site has practiced the manual release.',
-          'Also bring the decisions hardware cannot invent. Who owns the resident and vendor lists. What the board wants the new access hardware to do. Any written note from the local fire marshal or AHJ about emergency access. Contact Florida Security Concepts to request a site assessment. The review uses that packet on site in Orlando, Tampa Bay, or elsewhere in Central Florida, and it separates retrofit scope from replacement scope.',
+          'Also bring the decisions hardware cannot invent. Who owns the resident and vendor lists. What the board wants the new access hardware to do. Any written note from the local fire marshal or AHJ about emergency access. Contact Florida Security Concepts to request an advanced consultation. The review uses that packet on site in Orlando, Tampa Bay, or elsewhere in Central Florida, and it separates retrofit scope from replacement scope.',
         ],
         bullets: [
           'Operator make and model if known, plus approximate age and recent repair notes',
@@ -1095,8 +1095,8 @@ export const resources: Resource[] = [
         a: 'Photo eyes, sensing edges, and vehicle loops that still stop or reverse the gate, and that the operator monitors. Also confirm the emergency access path the local authority having jurisdiction already accepted, and retest it after the work. A keypad change that leaves safety devices behind is an unfinished retrofit.',
       },
       {
-        q: 'What should the board bring to a gate operator site assessment?',
-        a: 'The operator model and service history if you have them, how the gate is used through the day, power and backup notes, a list of safety devices, and any fire marshal or AHJ guidance already on file. Contact Florida Security Concepts to schedule the site assessment. The walk records what is on site and separates retrofit scope from replacement scope.',
+        q: 'What should the board bring to a gate operator consultation?',
+        a: 'The operator model and service history if you have them, how the gate is used through the day, power and backup notes, a list of safety devices, and any fire marshal or AHJ guidance already on file. Contact Florida Security Concepts to schedule the advanced consultation. The walk records what is on site and separates retrofit scope from replacement scope.',
       },
     ],
     relatedServices: ['gate-automation', 'security-gate-systems', 'access-control'],

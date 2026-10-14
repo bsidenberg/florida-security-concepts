@@ -28,7 +28,7 @@ export default function ServicesIndexPage() {
         eyebrow="Services"
         title="Security services engineered for the way your property actually operates."
         subtitle="Each service below is designed to integrate with the others — credential, camera, gate, and service systems built as one platform, based in Clermont and Lake County and working through Orlando, Kissimmee, Winter Garden, and Tampa Bay."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        primaryCta={{ label: 'Request an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'Industries we serve', href: '/industries' }}
       />
 
@@ -49,8 +49,8 @@ export default function ServicesIndexPage() {
 
       <CTASection
         title="Not sure which services apply to your property?"
-        body="A short site assessment gets to a realistic recommendation faster than any quote — and tells you what you don’t need, not just what you might want."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        body="An advanced consultation gets to a realistic recommendation faster than any quote — and tells you what you don’t need, not just what you might want."
+        primaryCta={{ label: 'Request an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
       />
 

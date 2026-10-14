@@ -159,10 +159,10 @@ export default async function IndustryPage({ params }: Params) {
             <div className="lg:col-span-5">
               <Eyebrow>Plan your system</Eyebrow>
               <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-                Start with a site assessment.
+                Start with an advanced consultation.
               </h2>
               <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
-                Tell us about your property — we use the assessment to scope a
+                Tell us about your property — we use the consultation to scope a
                 system that fits the property’s actual operations.
               </p>
             </div>

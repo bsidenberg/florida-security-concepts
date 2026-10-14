@@ -60,10 +60,10 @@ export default async function ServicePage({ params }: Params) {
   const url = canonicalUrl(`/services/${svc.slug}`);
   const isEmergency = svc.slug === 'emergency-service';
   const ctaLabel = isEmergency
-    ? 'Request emergency service'
-    : `Request a ${svc.shortLabel.toLowerCase()} site assessment`;
+    ? 'Call 352-282-0692'
+    : 'Request an advanced consultation';
   const ctaHref = isEmergency
-    ? '/contact?urgency=emergency'
+    ? `tel:${site.emergencyPhone}`
     : `/contact?service=${svc.slug}`;
 
   return (
@@ -157,7 +157,7 @@ export default async function ServicePage({ params }: Params) {
           <Container>
             <Eyebrow>Process</Eyebrow>
             <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-              From assessment to a working system.
+              From consultation to a working system.
             </h2>
             <ol className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               {svc.process.map((p, i) => (
@@ -209,21 +209,28 @@ export default async function ServicePage({ params }: Params) {
             <div className="lg:col-span-5">
               <Eyebrow>Plan this service</Eyebrow>
               <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-                Start with a site assessment.
+                {isEmergency ? 'Call us.' : 'Start with an advanced consultation.'}
               </h2>
               <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
-                Tell us about the property — we use the assessment to scope the
-                right kind of visit, not to push a generic quote.
+                {isEmergency
+                  ? 'Same-day when available. Call 352-282-0692. A website form does not dispatch a technician.'
+                  : 'Tell us about the property — we use the consultation to scope the right kind of visit, not to push a generic quote.'}
               </p>
             </div>
             <div className="lg:col-span-7">
-              <LeadCaptureForm
-                defaults={{
-                  service: defaultServiceLabel(svc.slug),
-                  serviceSlug: svc.slug,
-                }}
-                submitLabel={ctaLabel}
-              />
+              {isEmergency ? (
+                <a href={`tel:${site.emergencyPhone}`} className="fsc-btn-emergency px-5 py-3" data-fsc-event="emergency_call" data-fsc-placement="emergency_service">
+                  Call 352-282-0692
+                </a>
+              ) : (
+                <LeadCaptureForm
+                  defaults={{
+                    service: defaultServiceLabel(svc.slug),
+                    serviceSlug: svc.slug,
+                  }}
+                  submitLabel={ctaLabel}
+                />
+              )}
             </div>
           </div>
         </Container>

@@ -178,12 +178,12 @@ export const industries: Industry[] = [
     metaTitle:
       'Storage Facility Security | Cameras & Access Control',
     metaDescription:
-      'Security camera, gate, and access control systems for self-storage facilities in Central Florida and Tampa Bay — tenant credentials, 24/7 recording, remote monitoring.',
+      'Security camera, gate, and access control systems for self-storage facilities in Central Florida and Tampa Bay — tenant credentials, continuous recording, remote monitoring.',
     eyebrow: 'Industry · Storage Facilities',
     intro:
       'Storage facilities are credential-heavy properties with thin staff coverage. The system has to behave correctly when no one is on site — and it has to leave a clean evidence trail when something goes wrong.',
     directAnswer:
-      'Florida Security Concepts deploys gate access control, video surveillance, remote monitoring, and 24/7 recording for self-storage facilities across Central Florida and Tampa Bay — tenant-specific gate credentials, license-plate-grade entry cameras, and incident-ready footage retention.',
+      'Florida Security Concepts deploys gate access control, video surveillance, remote monitoring, and continuous recording for self-storage facilities across Central Florida and Tampa Bay — tenant-specific gate credentials, license-plate-grade entry cameras, and incident-ready footage retention.',
     pains: [
       {
         title: 'Tenant access disputes',
@@ -373,8 +373,8 @@ export const industries: Industry[] = [
     ],
     faqs: [
       {
-        q: 'Can the system support a 24/7 operation?',
-        a: 'Yes — it has to. Hardware, power, and software are specified for 24/7 duty and storm-event resilience.',
+        q: 'Can the system support a continuous operation?',
+        a: 'Yes — it has to. Hardware, power, and software are specified for continuous duty and storm-event resilience.',
       },
       {
         q: 'Can we differentiate between drivers, contractors, and employees?',

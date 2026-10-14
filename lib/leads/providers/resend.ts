@@ -25,8 +25,6 @@
 
 import { Resend } from 'resend';
 import type { DeliveryResult, ValidatedLead } from '../types';
-import { site, hasPhone } from '@/data/site';
-
 export type EmailEnvelope = { from: string; to: string; reply_to?: string; subject: string; text: string; html: string };
 export const RECEIPT_TEMPLATE_VERSION = 'fsc-assessment-v3'; // D-024: confirmation content changed (no free-text echo)
 export function snapshotEmailEnvelopes(lead: ValidatedLead): Record<string, EmailEnvelope> {
@@ -266,15 +264,9 @@ function buildConfirmationPlainText(lead: ValidatedLead): string {
   }
   lines.push('');
 
-  if (hasPhone()) {
-    lines.push(
-      `If this is an urgent gate, access, or security system issue, please call us directly at ${site.phoneDisplay}.`
-    );
-  } else {
-    lines.push(
-      'If this is an urgent gate, access, or security system issue, please reply to this email and note that it is urgent so we can triage it quickly.'
-    );
-  }
+  lines.push(
+    'If this is an urgent gate, access, or security system issue, call 352-282-0692. Same-day when available.'
+  );
 
   lines.push('');
   lines.push('— Florida Security Concepts');
@@ -293,9 +285,7 @@ function buildConfirmationHtml(lead: ValidatedLead): string {
     )
     .join('');
 
-  const urgentLine = hasPhone()
-    ? `If this is an urgent gate, access, or security system issue, please call us directly at <strong>${escapeHtml(site.phoneDisplay)}</strong>.`
-    : 'If this is an urgent gate, access, or security system issue, please reply to this email and note that it is urgent so we can triage it quickly.';
+  const urgentLine = 'If this is an urgent gate, access, or security system issue, call <strong>352-282-0692</strong>. Same-day when available.';
 
   return `<!doctype html>
 <html><body style="margin:0;background:#f3f4f6;padding:24px;font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#111827;">
