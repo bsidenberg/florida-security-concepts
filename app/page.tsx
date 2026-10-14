@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { GateIllustration } from '@/components/GateIllustration';
 import { FAQSchema } from '@/components/Schema';
 import { site } from '@/data/site';
-export const metadata: Metadata = { title: 'Gate & Access-Control Service for HOAs | Orlando & Tampa', description: 'Preventive maintenance, repairs, 24/7 emergency service and new installations for HOAs, property managers and CAMs. Request a free property assessment.', alternates: { canonical: '/' } };
+import { canonicalUrl } from '@/lib/seo/canonical';
+export const metadata: Metadata = { title: 'Gate & Access-Control Service for HOAs | Orlando & Tampa', description: 'Preventive maintenance, repairs, 24/7 emergency service and new installations for HOAs, property managers and CAMs. Request a free property assessment.', alternates: { canonical: canonicalUrl('/') } };
 const needs = [
   { number: '01', title: 'Preventive maintenance', text: 'Plan ongoing care for the gates and access equipment your community relies on.', href: '#maintenance' },
   { number: '02', title: 'Repairs & service', text: 'Get help with recurring faults, unreliable entry or equipment that has stopped working.', href: '/contact?service=repair' },

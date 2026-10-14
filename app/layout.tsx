@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { OrganizationSchema } from '@/components/Schema';
 import { site } from '@/data/site';
+import { CANONICAL_ORIGIN, canonicalUrl } from '@/lib/seo/canonical';
 import { LocalPreviewProvider } from '@/components/LocalPreviewContext';
 import { analyticsScriptSrc } from '@/lib/analytics/config';
 import { PlausibleAnalytics } from '@/lib/analytics/PlausibleAnalytics';
@@ -36,7 +37,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(CANONICAL_ORIGIN),
   title: {
     default: `${site.name} | Security Gates, Access Control & Surveillance — Central Florida & Tampa Bay`,
     template: `%s | ${site.name}`,
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: site.url,
+    url: canonicalUrl('/'),
     siteName: site.name,
     title: `${site.name} — Advanced Security Systems for Central Florida & Tampa Bay`,
     description: site.tagline,

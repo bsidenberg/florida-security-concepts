@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
   title: 'FSC Sentinel Alerts: Optional Text Message Consent',
   description: 'How Florida Security Concepts staff can optionally opt in to FSC Sentinel equipment alert texts.',
-  alternates: { canonical: '/sms-consent' },
+  alternates: { canonical: canonicalUrl('/sms-consent') },
 };
 
 export default function SmsConsentPage() {

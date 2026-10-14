@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'How Florida Security Concepts handles the information you share with us, including text message alerts.',
-  alternates: { canonical: '/privacy' },
+  alternates: { canonical: canonicalUrl('/privacy') },
 };
 
 export default function PrivacyPage() {

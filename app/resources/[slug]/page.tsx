@@ -17,6 +17,7 @@ import { resources, getResource } from '@/data/resources';
 import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -44,7 +45,7 @@ export default async function ResourcePage({ params }: Params) {
   const r = getResource((await params).slug);
   if (!r) notFound();
 
-  const url = `${site.url}/resources/${r.slug}`;
+  const url = canonicalUrl(`/resources/${r.slug}`);
   const relatedServices = r.relatedServices
     .map((s) => servicesBySlug[s])
     .filter(Boolean);
@@ -188,8 +189,8 @@ export default async function ResourcePage({ params }: Params) {
       <FAQSchema items={r.faqs} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Resources', url: site.url + '/resources' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Resources', url: canonicalUrl('/resources') },
           { name: r.question, url },
         ]}
       />

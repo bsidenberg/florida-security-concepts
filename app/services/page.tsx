@@ -6,13 +6,13 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { services } from '@/data/services';
-import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
   title: 'Security Services | Gates, Access Control, Surveillance & Integration',
   description:
     'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, system integration, and 24/7 emergency support.',
-  alternates: { canonical: '/services' },
+  alternates: { canonical: canonicalUrl('/services') },
   twitter: {
     card: 'summary_large_image',
     title: 'Security Services | Gates, Access Control, Surveillance & Integration',
@@ -56,8 +56,8 @@ export default function ServicesIndexPage() {
 
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Services', url: site.url + '/services' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Services', url: canonicalUrl('/services') },
         ]}
       />
     </>
