@@ -33,10 +33,15 @@ const address: PostalAddress = {
 };
 
 const areaServed: (City | AdministrativeArea)[] = [
+  {
+    '@type': 'City',
+    name: 'Clermont',
+    containedInPlace: { '@type': 'AdministrativeArea', name: 'Lake County, Florida' },
+  },
+  { '@type': 'AdministrativeArea', name: 'Lake County' },
   { '@type': 'City', name: 'Orlando' },
   { '@type': 'City', name: 'Kissimmee' },
   { '@type': 'City', name: 'Winter Garden' },
-  { '@type': 'City', name: 'Clermont' },
   { '@type': 'AdministrativeArea', name: 'Tampa Bay' },
 ];
 

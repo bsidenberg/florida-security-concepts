@@ -39,7 +39,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(CANONICAL_ORIGIN),
   title: {
-    default: `${site.name} | Security Gates, Access Control & Surveillance — Central Florida & Tampa Bay`,
+    default: `${site.name} | Gates & Access Control — Clermont, Lake County & Tampa Bay`,
     template: `%s | ${site.name}`,
   },
   description: site.tagline,
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: canonicalUrl('/'),
     siteName: site.name,
-    title: `${site.name} — Advanced Security Systems for Central Florida & Tampa Bay`,
+    title: `${site.name} — Gate and access control in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay`,
     description: site.tagline,
   },
   twitter: {

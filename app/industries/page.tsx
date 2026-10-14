@@ -11,13 +11,13 @@ import { canonicalUrl } from '@/lib/seo/canonical';
 export const metadata: Metadata = {
   title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
   description:
-    'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties across Central Florida and Tampa Bay.',
+    'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   alternates: { canonical: canonicalUrl('/industries') },
   twitter: {
     card: 'summary_large_image',
     title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
     description:
-      'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties across Central Florida and Tampa Bay.',
+      'Florida Security Concepts serves HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estate properties in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   },
 };
 

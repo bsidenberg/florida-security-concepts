@@ -11,13 +11,13 @@ import { canonicalUrl } from '@/lib/seo/canonical';
 export const metadata: Metadata = {
   title: 'Security Services | Gates, Access Control, Surveillance & Integration',
   description:
-    'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, system integration, and 24/7 emergency support.',
+    'Florida Security Concepts services — security gates, gate automation, access control, video surveillance, and system integration for Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   alternates: { canonical: canonicalUrl('/services') },
   twitter: {
     card: 'summary_large_image',
     title: 'Security Services | Gates, Access Control, Surveillance & Integration',
     description:
-      'Florida Security Concepts services — security gate systems, gate automation, access control, video surveillance, system integration, and 24/7 emergency support.',
+      'Florida Security Concepts services — security gates, gate automation, access control, video surveillance, and system integration for Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   },
 };
 
@@ -27,7 +27,7 @@ export default function ServicesIndexPage() {
       <Hero
         eyebrow="Services"
         title="Security services engineered for the way your property actually operates."
-        subtitle="Each service below is designed to integrate with the others — credential, camera, gate, and service systems built as one platform across Central Florida and Tampa Bay."
+        subtitle="Each service below is designed to integrate with the others — credential, camera, gate, and service systems built as one platform, based in Clermont and Lake County and working through Orlando, Kissimmee, Winter Garden, and Tampa Bay."
         primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
         secondaryCta={{ label: 'Industries we serve', href: '/industries' }}
       />

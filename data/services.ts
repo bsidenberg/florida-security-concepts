@@ -22,11 +22,11 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: 'security-gate-systems',
-    title: 'Security Gate System Installation in Central Florida & Tampa Bay',
+    title: 'Security Gate System Installation in Clermont, Lake County & Tampa Bay',
     navLabel: 'Security Gate Systems',
     shortLabel: 'Security Gates',
     metaTitle:
-      'Security Gate System Installation | Central Florida & Tampa Bay',
+      'Security Gate System Installation | Clermont, Lake County & Tampa Bay',
     metaDescription:
       'Custom security gate systems engineered for HOAs, gated communities, commercial properties, and estates across Central Florida and Tampa Bay. Design, install, integrate.',
     eyebrow: 'Service · Security Gates',
@@ -480,12 +480,12 @@ export const services: Service[] = [
     metaTitle:
       'Emergency Gate & Security System Service | Same-Day When Available',
     metaDescription:
-      '24/7 emergency support for gates, access control, and security systems across Central Florida and Tampa Bay. Same-day service when available. Request emergency response now.',
+      'Emergency help for gates, access control, and security systems in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Same-day when scheduling allows.',
     eyebrow: 'Service · Emergency',
     intro:
       'A stuck gate, a failed credential database, or a dark camera at 11 PM is an operational emergency. We respond fast, document the failure, and bring the system back to a known-good state — not just the symptom.',
     directAnswer:
-      'Florida Security Concepts provides 24/7 emergency response for security gate, access control, and surveillance system failures across Central Florida and Tampa Bay, with same-day service when available. Request emergency service from this page or by calling our service line.',
+      'Florida Security Concepts responds to security gate, access control, and surveillance failures in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Same-day service depends on scheduling and travel. Call the service line or use the emergency contact form. A form does not dispatch a technician.',
     capabilities: [
       {
         title: 'Stuck or unresponsive gates',
@@ -548,7 +548,7 @@ export const services: Service[] = [
     ],
     keywords: [
       'emergency gate repair',
-      '24/7 security system service',
+      'emergency security system service',
       'same-day gate service Florida',
       'emergency access control repair',
     ],

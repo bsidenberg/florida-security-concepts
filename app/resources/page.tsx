@@ -11,13 +11,13 @@ import { canonicalUrl } from '@/lib/seo/canonical';
 export const metadata: Metadata = {
   title: 'Resources & Learning Center | Security System Guides',
   description:
-    'Practical guides on security gate cost, access control for HOAs, storage facility cameras, and more — written for Central Florida and Tampa Bay properties.',
+    'Practical guides on security gates, access control for HOAs, storage facility cameras, and more — written for properties in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   alternates: { canonical: canonicalUrl('/resources') },
   twitter: {
     card: 'summary_large_image',
     title: 'Resources & Learning Center | Security System Guides',
     description:
-      'Practical guides on security gate cost, access control for HOAs, storage facility cameras, and more — written for Central Florida and Tampa Bay properties.',
+      'Practical guides on security gates, access control for HOAs, storage facility cameras, and more — written for properties in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   },
 };
 

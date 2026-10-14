@@ -348,7 +348,7 @@ export const resources: Resource[] = [
     question: 'What Should an HOA Include on a Gate Preventive Maintenance Checklist?',
     metaTitle: 'HOA Gate Preventive Maintenance Checklist',
     metaDescription:
-      'What HOA boards and property managers in Orlando and Tampa should review when gate, operator, safety devices, and credentials are one system.',
+      'What HOA boards and property managers in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay should review when the gate, operator, safety devices, and credentials are one system.',
     publishedDate: '2026-09-22',
     updatedDate: '2026-09-22',
     shortAnswer:
@@ -371,7 +371,7 @@ export const resources: Resource[] = [
       {
         heading: 'What fails repeatedly in Central Florida',
         body: [
-          'Orlando and Tampa communities see the same patterns. Heat, afternoon storms, landscaping, and turnover do more damage than a single dramatic failure.',
+          'Communities in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay see the same patterns. Heat, afternoon storms, landscaping, and turnover do more damage than a single dramatic failure.',
         ],
         bullets: [
           'Photo eyes knocked out of alignment or blocked by growth, debris, or standing water',
@@ -458,7 +458,7 @@ export const resources: Resource[] = [
       'What Should You Do to Prepare an Automatic Gate for Florida Storm Season?',
     metaTitle: 'Prepare an Automatic Gate for Florida Storm Season',
     metaDescription:
-      'A practical storm-season checklist for HOAs and property managers in Orlando and Tampa — backup power, manual release, safety devices, debris, and after-hours escalation for automatic gates.',
+      'A practical storm-season checklist for HOAs and property managers in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay — backup power, manual release, safety devices, debris, and after-hours contacts for automatic gates.',
     publishedDate: '2026-09-24',
     updatedDate: '2026-09-24',
     shortAnswer:
@@ -569,7 +569,7 @@ export const resources: Resource[] = [
       'How Should an HOA Manage Vendor and Delivery Access at the Gate?',
     metaTitle: 'HOA Vendor and Delivery Gate Access Guide',
     metaDescription:
-      'How Orlando and Tampa HOAs should handle vendors, deliveries, and temporary contractors at the gate — time-bound credentials, guest paths, audit logs, and what boards should avoid.',
+      'How HOAs in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay should handle vendors, deliveries, and temporary contractors at the gate — time-bound credentials, guest paths, audit logs, and what boards should avoid.',
     publishedDate: '2026-10-01',
     updatedDate: '2026-10-01',
     shortAnswer:
@@ -607,7 +607,7 @@ export const resources: Resource[] = [
         heading: 'Give deliveries and guests a path that does not open the whole community',
         body: [
           'Package carriers, food delivery, and short guest visits should not inherit a vendor code. Telephone entry, video entry, or a temporary guest credential that a resident or manager issues for a limited window keeps the main vendor list clean.',
-          'Write what happens when nobody answers. Some Orlando and Tampa communities allow a managed delivery window; others require resident approval every time. The policy matters less than having one that staff and residents can follow without improvising at the keypad.',
+          'Write what happens when nobody answers. Some communities allow a managed delivery window; others require resident approval every time. The policy matters less than having one that staff and residents can follow without improvising at the keypad.',
         ],
         bullets: [
           'Separate guest or delivery entry from the standing vendor credential list',
@@ -696,7 +696,7 @@ export const resources: Resource[] = [
       {
         heading: 'Confirm the local AHJ before you install or upgrade',
         body: [
-          'Emergency gate access is a local decision. The city, county, or fire district that has jurisdiction over the property — the authority having jurisdiction, or AHJ — sets what responders expect. Orlando and Tampa can differ from each other and from smaller Central Florida jurisdictions. A setup that works at one HOA is not a legal template for the next.',
+          'Emergency gate access is a local decision. The city, county, or fire district that has jurisdiction over the property — the authority having jurisdiction, or AHJ — sets what responders expect. Clermont and Lake County, Kissimmee, Winter Garden, Orlando, and Tampa Bay can differ from each other. A setup that works at one HOA is not a legal template for the next.',
           'Ask the fire marshal or AHJ, in writing, before you specify a new gate operator, access control package, or emergency device. If you are not sure which office covers the address, start with the local fire department and ask them to name the AHJ. Do not invent a city rule from a neighboring community’s equipment.',
         ],
         bullets: [
