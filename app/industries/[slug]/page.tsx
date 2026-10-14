@@ -12,10 +12,9 @@ import {
   ServiceSchema,
   FAQSchema,
   BreadcrumbSchema,
-  ImageObjectSchema,
 } from '@/components/Schema';
-import { PhotoGrid } from '@/components/PhotoFigure';
-import { photosForIndustry } from '@/data/photos';
+import { ConceptGrid } from '@/components/ConceptGrid';
+import { conceptsForIndustry } from '@/data/concepts';
 import { industries, getIndustry } from '@/data/industries';
 import { servicesBySlug } from '@/data/services';
 import { site } from '@/data/site';
@@ -50,7 +49,7 @@ export default async function IndustryPage({ params }: Params) {
     .filter(Boolean);
 
   const url = `${site.url}/industries/${ind.slug}`;
-  const gallery = photosForIndustry(ind.slug);
+  const gallery = conceptsForIndustry(ind.slug);
   const ctaLabel = `Plan security for your ${ind.shortLabel.toLowerCase()} property`;
   const ctaHref = `/contact?industry=${ind.slug}`;
 
@@ -87,8 +86,9 @@ export default async function IndustryPage({ params }: Params) {
             <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
               The kind of hardware this work involves.
             </h2>
+            <p className="mt-4 max-w-3xl text-fsc-text-dim">Line diagrams of the hardware. Not photographs of a job.</p>
             <div className="mt-8">
-              <PhotoGrid photos={gallery} />
+              <ConceptGrid concepts={gallery} />
             </div>
           </Container>
         </Section>
@@ -202,7 +202,6 @@ export default async function IndustryPage({ params }: Params) {
         url={url}
         serviceType={`Security systems for ${ind.shortLabel}`}
       />
-      {gallery.map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
       <FAQSchema items={ind.faqs} />
       <BreadcrumbSchema
         items={[

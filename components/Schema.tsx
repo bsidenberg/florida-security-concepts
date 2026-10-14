@@ -6,7 +6,6 @@ import {
   breadcrumbJsonLd,
   contactPageJsonLd,
   faqJsonLd,
-  imageObjectJsonLd,
   localBusinessJsonLd,
   organizationJsonLd,
   serviceJsonLd,
@@ -55,22 +54,6 @@ export function BreadcrumbSchema({ items }: { items: { name: string; url: string
   const data = breadcrumbJsonLd(items);
   if (!data) return null;
   return <JsonLd data={data} />;
-}
-
-export function ImageObjectSchema({
-  photo,
-}: {
-  photo: {
-    src: string;
-    width: number;
-    height: number;
-    alt: string;
-    caption: string;
-    placeName: string;
-    illustrative: boolean;
-  };
-}) {
-  return <JsonLd data={imageObjectJsonLd(photo)} />;
 }
 
 export function ArticleSchema(props: {

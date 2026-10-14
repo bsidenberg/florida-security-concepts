@@ -2,8 +2,9 @@
 // never become structured data. Address is area-level (Clermont, FL) until a
 // verified street and postal code exist.
 
-import { photos } from '@/data/photos';
 import { site, hasPhone, hasEmail, hasPostalAddress, activeSocialLinks } from '@/data/site';
+
+const brandLogo = `${site.url}/brand/fsc-logo-primary.png`;
 
 export const HQ_GEO = { latitude: 28.4447, longitude: -81.7987 } as const;
 
@@ -60,7 +61,8 @@ export function organizationJsonLd(): Record<string, unknown> {
     description:
       'Florida Security Concepts repairs, maintains, and installs gates, access control, and video surveillance for commercial and residential properties. Based in Clermont, Lake County. We schedule work in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay. Same-day when available.',
     url: site.url,
-    image: `${site.url}${photos.commercialLpr.src}`,
+    logo: brandLogo,
+    image: brandLogo,
     telephone: hasPhone() ? site.phone : undefined,
     email: hasEmail() ? site.email : undefined,
     address: areaAddressNode(),
@@ -159,32 +161,6 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]): Record
       name: item.name,
       item: item.url,
     })),
-  }));
-}
-
-export function imageObjectJsonLd(photo: {
-  src: string;
-  width: number;
-  height: number;
-  alt: string;
-  caption: string;
-  placeName: string;
-  illustrative: boolean;
-}): Record<string, unknown> {
-  return asRecord(prune({
-    '@context': 'https://schema.org',
-    '@type': 'ImageObject',
-    contentUrl: `${site.url}${photo.src}`,
-    url: `${site.url}${photo.src}`,
-    name: photo.alt,
-    description: photo.alt,
-    caption: photo.caption,
-    width: photo.width,
-    height: photo.height,
-    contentLocation: photo.placeName
-      ? { '@type': 'Place', name: photo.placeName }
-      : undefined,
-    creditText: 'Illustrative scene. Not a photograph of a specific job or address.',
   }));
 }
 

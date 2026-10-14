@@ -13,10 +13,9 @@ import {
   ServiceSchema,
   FAQSchema,
   BreadcrumbSchema,
-  ImageObjectSchema,
 } from '@/components/Schema';
-import { PhotoGrid } from '@/components/PhotoFigure';
-import { photosForService } from '@/data/photos';
+import { ConceptGrid } from '@/components/ConceptGrid';
+import { conceptsForService } from '@/data/concepts';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
 import {
   services,
@@ -59,7 +58,7 @@ export default async function ServicePage({ params }: Params) {
     .filter(Boolean);
 
   const url = `${site.url}/services/${svc.slug}`;
-  const gallery = photosForService(svc.slug);
+  const gallery = conceptsForService(svc.slug);
   const isEmergency = svc.slug === 'emergency-service';
   const ctaLabel = isEmergency
     ? `Call ${site.phoneDisplay}`
@@ -101,8 +100,9 @@ export default async function ServicePage({ params }: Params) {
             <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
               The kind of hardware this work involves.
             </h2>
+            <p className="mt-4 max-w-3xl text-fsc-text-dim">Line diagrams of the hardware. Not photographs of a job.</p>
             <div className="mt-8">
-              <PhotoGrid photos={gallery} sizes="(min-width: 1024px) 360px, 100vw" />
+              <ConceptGrid concepts={gallery} />
             </div>
           </Container>
         </Section>
@@ -298,9 +298,7 @@ export default async function ServicePage({ params }: Params) {
         description={svc.metaDescription}
         url={url}
         serviceType={svc.shortLabel}
-        image={gallery[0]?.src}
       />
-      {gallery.map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
       <FAQSchema items={svc.faqs} />
       <BreadcrumbSchema
         items={[

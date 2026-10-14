@@ -1,11 +1,10 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { photos } from '../../data/photos';
+import { concepts } from '../../data/concepts';
 import {
   breadcrumbJsonLd,
   faqJsonLd,
-  imageObjectJsonLd,
   organizationJsonLd,
   serviceJsonLd,
 } from '../../lib/seo/jsonld';
@@ -38,7 +37,9 @@ describe('JSON-LD', () => {
     expect(JSON.stringify(data)).toContain('Orlando');
     expect(JSON.stringify(data)).not.toMatch(/24\/7|license plate|Managed Entry/i);
     expect(data).not.toHaveProperty('openingHoursSpecification');
-    expect(data.image).toContain('central-florida-commercial-slide-gate-lpr-camera.webp');
+    expect(data.image).toContain('/brand/fsc-logo-primary.png');
+    expect(data.logo).toContain('/brand/fsc-logo-primary.png');
+    expect(JSON.stringify(data)).not.toMatch(/\.webp|license plate/i);
     expect(data.address).toMatchObject({ addressLocality: 'Clermont', addressRegion: 'FL' });
     expect(data.address).not.toHaveProperty('streetAddress');
     const served = JSON.stringify(data.areaServed);
@@ -49,24 +50,15 @@ describe('JSON-LD', () => {
     expect(() => JSON.parse(JSON.stringify(data))).not.toThrow();
   });
 
-  it('builds service, FAQ, breadcrumb, and image objects', () => {
-    const photo = photos.commercialLpr;
-    const image = imageObjectJsonLd(photo);
-    expect(image['@type']).toBe('ImageObject');
-    expect(image.contentUrl).toBe(`https://www.floridasecurityconcepts.com${photo.src}`);
-    expect(image.width).toBe(photo.width);
-    expect(image.height).toBe(photo.height);
-    expect(String(image.caption).length).toBeGreaterThan(20);
-
+  it('builds service, FAQ, and breadcrumb objects without a fake equipment photo', () => {
     const service = serviceJsonLd({
       name: 'Gate automation',
       description: 'Operators and safety devices for Florida properties.',
       url: 'https://www.floridasecurityconcepts.com/services/gate-automation',
       serviceType: 'Gate Automation',
-      image: photo.src,
     });
     expect(service['@type']).toBe('Service');
-    expect(service.image).toContain(photo.src);
+    expect(service).not.toHaveProperty('image');
 
     const faq = faqJsonLd([{ q: 'Where are you based?', a: 'Clermont, Lake County, Florida.' }]);
     expect(faq?.['@type']).toBe('FAQPage');
@@ -80,30 +72,43 @@ describe('JSON-LD', () => {
     expect(faqJsonLd([])).toBeNull();
   });
 
-  it('keeps captions in schema only and leaves the hero map clear of photos', () => {
+  it('uses line diagrams instead of equipment photos and leaves the hero map clear', () => {
     const root = join(__dirname, '../..');
-    const figure = readFileSync(join(root, 'components/PhotoFigure.tsx'), 'utf8');
+    const grid = readFileSync(join(root, 'components/ConceptGrid.tsx'), 'utf8');
     const hero = readFileSync(join(root, 'components/home/HomeHero.tsx'), 'utf8');
-    expect(figure).not.toContain('figcaption');
-    expect(hero).not.toContain('PhotoFigure');
-    expect(hero).toContain('fsc-hero-map-slot');
-    expect(photos.storageSlideKeypad.src).toContain('clermont-fl-self-storage-slide-gate-keypad.webp');
-    expect(photos.gateCamera.src).toContain('orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp');
-    for (const photo of Object.values(photos)) {
-      expect(`${photo.alt} ${photo.caption} ${photo.placeName}`).not.toMatch(/Clermont|Orlando|Tampa|Lake County|license plate|\bLPR\b|job/i);
-    }
-    expect(imageObjectJsonLd(photos.gateCamera).contentUrl).toContain('orlando-fl-security-camera-monitoring-vehicle-gate-entry.webp');
-    expect(JSON.stringify(photos)).not.toContain('orlando-fl-technician-servicing-slide-gate-operator');
-    const slide = imageObjectJsonLd(photos.storageSlideKeypad);
-    expect(slide.caption).toBe(photos.storageSlideKeypad.caption);
-    expect(slide.contentUrl).toContain('clermont-fl-self-storage-slide-gate-keypad.webp');
-    expect(JSON.stringify(photos)).not.toContain('clermont-fl-self-storage-swing-gate-keypad-bollard');
-    expect(JSON.stringify(photos)).not.toContain('orlando-fl-gate-post-wireless-receiver-operator-cabinet');
-    expect(JSON.stringify(photos)).not.toContain('florida-self-storage-keypad-bollard-swing-gate');
-    expect(JSON.stringify(photos)).not.toContain('florida-gate-post-wireless-receiver.webp');
-    expect(JSON.stringify(photos)).not.toContain('florida-self-storage-keypad-pedestal');
-    expect(JSON.stringify(photos)).not.toContain('florida-self-storage-ornamental-gate-bollard');
     const home = readFileSync(join(root, 'app/page.tsx'), 'utf8');
+    expect(grid).not.toContain('<img');
+    expect(grid).not.toContain('figcaption');
+    expect(grid).toContain('concept.alt');
+    expect(hero).not.toContain('PhotoFigure');
+    expect(hero).not.toContain('ConceptGrid');
+    expect(hero).toContain('fsc-hero-map-slot');
+    expect(home).toContain('ConceptGrid');
+    expect(home).not.toContain('/photos/');
     expect(home).not.toContain('Equipment on service visits');
+    expect(existsSync(join(root, 'public/photos'))).toBe(false);
+    expect(existsSync(join(root, 'data/photos.ts'))).toBe(false);
+    expect(existsSync(join(root, 'app/opengraph-image.jpg'))).toBe(false);
+    expect(existsSync(join(root, 'public/brand/fsc-logo-primary.png'))).toBe(true);
+    expect(existsSync(join(root, 'public/manufacturers/liftmaster.png'))).toBe(true);
+    for (const concept of Object.values(concepts)) {
+      expect(concept.alt.length).toBeGreaterThan(20);
+      expect(concept.caption.length).toBeGreaterThan(20);
+      expect(`${concept.alt} ${concept.caption} ${concept.title} ${concept.kicker}`).not.toMatch(/Clermont|Orlando|Tampa|Lake County|license plate|\bLPR\b|\bjob\b|24\/7|\$\d/i);
+    }
+    const packed = JSON.stringify(concepts);
+    for (const banned of [
+      '.webp',
+      'orlando-fl-technician-servicing-slide-gate-operator',
+      'clermont-fl-self-storage-swing-gate-keypad-bollard',
+      'orlando-fl-gate-post-wireless-receiver-operator-cabinet',
+      'florida-self-storage-keypad-bollard-swing-gate',
+      'florida-gate-post-wireless-receiver.webp',
+      'florida-self-storage-keypad-pedestal',
+      'florida-self-storage-ornamental-gate-bollard',
+      'central-florida-commercial-slide-gate-lpr-camera',
+    ]) {
+      expect(packed).not.toContain(banned);
+    }
   });
 });
