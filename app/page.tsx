@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FAQSchema, ImageObjectSchema } from '@/components/Schema';
-import { PhotoGrid } from '@/components/PhotoFigure';
+import { FAQSchema } from '@/components/Schema';
+import { ConceptGrid } from '@/components/ConceptGrid';
 import { HomeHero } from '@/components/home/HomeHero';
 import { StatTiles, type Stat } from '@/components/home/StatTiles';
 import { CursorCards, type CapabilityCard } from '@/components/home/CursorCards';
@@ -12,7 +12,7 @@ import { buildPageMetadata } from '@/lib/seo/metadata';
 import { site } from '@/data/site';
 import { industries } from '@/data/industries';
 import { resources } from '@/data/resources';
-import { photos } from '@/data/photos';
+import { homeConcepts } from '@/data/concepts';
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Security Gates, Access Control & Cameras | Clermont',
@@ -76,9 +76,9 @@ export default function HomePage() {
       <p className="fsc-cap-note">The gate, the credentials, and the cameras can be planned as one entry. <Link href={integrationPath} className="fsc-text-link">System integration</Link>.</p>
     </div></section>
 
-    <section className="fsc-light fsc-section-new" aria-labelledby="field-photos"><div className="fsc-container">
-      <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-photos">The equipment<br/><em>we work on.</em></h2></div></div>
-      <PhotoGrid photos={[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.storageSlideKeypad, photos.gateCamera]} />
+    <section className="fsc-light fsc-section-new" aria-labelledby="field-equipment"><div className="fsc-container">
+      <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-equipment">The equipment<br/><em>we work on.</em></h2></div><p>Line diagrams of how a leaf, an operator, a keypad, and a camera fit an entry. Not photographs of a job.</p></div>
+      <ConceptGrid concepts={homeConcepts} />
     </div></section>
 
     <section className="fsc-ir-section" id="night-view"><div className="fsc-container">
@@ -109,6 +109,5 @@ export default function HomePage() {
 
     <section className="fsc-final-cta"><div className="fsc-container"><p className="fsc-kicker">Let’s talk about your property</p><h2>A clear next step starts here.</h2><p>Book an advanced consultation. We’ll contact you to discuss the property and the next step.</p><Link href="/contact" className="fsc-btn-primary" data-fsc-event="assessment_cta" data-fsc-placement="home_final">Book an advanced consultation <span aria-hidden="true">›</span></Link></div></section>
     <FAQSchema items={faqs} />
-    {[photos.commercialLpr, photos.storageSlide, photos.hoaCallbox, photos.technician, photos.storageSlideKeypad, photos.gateCamera].map((photo) => <ImageObjectSchema key={photo.src} photo={photo} />)}
   </div>;
 }
