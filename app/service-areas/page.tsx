@@ -6,18 +6,19 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { locations } from '@/data/locations';
+import { ServiceAreaLinks } from '@/components/LocalLandingPage';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
-  title: 'Service Areas | Central Florida & Tampa Bay Security Systems',
+  title: 'Service Areas | Clermont, Lake County, Orlando & Tampa Bay',
   description:
-    'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
+    'Florida Security Concepts service areas — Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Gate repair and access control pages for each.',
   alternates: { canonical: canonicalUrl('/service-areas') },
   twitter: {
     card: 'summary_large_image',
-    title: 'Service Areas | Central Florida & Tampa Bay Security Systems',
+    title: 'Service Areas | Clermont, Lake County, Orlando & Tampa Bay',
     description:
-      'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
+      'Florida Security Concepts service areas — Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Gate repair and access control pages for each.',
   },
 };
 
@@ -26,23 +27,26 @@ export default function ServiceAreasPage() {
     <>
       <Hero
         eyebrow="Service Areas"
-        title="A regional team across Central Florida and Tampa Bay."
-        subtitle="From Orlando to Tampa to the surrounding metros, we operate as one team — same credential standards, same response posture, same documentation across every site we touch."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        title="Based in Clermont and Lake County."
+        subtitle="Gate repair and access control for Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Same documentation on every entrance we take on."
+        primaryCta={{ label: 'Request an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
+
+      <ServiceAreaLinks service="gate-repair" heading="Gate repair" eyebrow="Service areas" />
+      <ServiceAreaLinks service="access-control" heading="Access control" eyebrow="Service areas" />
 
       <Section>
         <Container>
           <Breadcrumbs
             items={[{ label: 'Home', href: '/' }, { label: 'Service Areas' }]}
           />
-          <Eyebrow>Coverage map</Eyebrow>
+          <Eyebrow>Community pages</Eyebrow>
           <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text">
-            Cities and metros we serve
+            Other community pages already on the site
           </h2>
           <p className="mt-4 max-w-3xl text-base text-fsc-text-dim leading-relaxed">
-            Every page below is a real local resource — services available, industries served, FAQ, and CTA tailored to the area. If your property sits between metros or just outside a listed city, we still serve it. Reach out for confirmation.
+            Gate repair and access control are written up for five areas: Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. The pages below are older community notes. If your property is outside those five, ask before assuming we can schedule it.
           </p>
           <div className="mt-10">
             <LocationGrid items={locations} />
@@ -52,8 +56,8 @@ export default function ServiceAreasPage() {
 
       <CTASection
         title="Working across multiple sites or metros?"
-        body="We standardize credential platforms, escalation paths, and reporting across multi-site portfolios — Orlando to Tampa to Ocala, one platform."
-        primaryCta={{ label: 'Request Site Assessment', href: '/contact' }}
+        body="We standardize credential platforms, escalation paths, and reporting across properties in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay."
+        primaryCta={{ label: 'Request an advanced consultation', href: '/contact' }}
         secondaryCta={{ label: 'Property Manager Industry', href: '/industries/property-managers' }}
       />
 

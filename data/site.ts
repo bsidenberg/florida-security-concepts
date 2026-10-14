@@ -26,7 +26,7 @@ export const site = {
   businessName: 'Florida Security Concepts',
   domain: 'floridasecurityconcepts.com',
   tagline:
-    'Gate and access-control maintenance, repairs and installations for HOAs and property managers in Orlando and Tampa.',
+    'Gate and access-control maintenance, repairs, and installations for HOAs and property managers in Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
 
   // Resolved at module load. Override via NEXT_PUBLIC_SITE_URL.
   url: resolveUrl(),
@@ -59,10 +59,10 @@ export const site = {
     country: 'US',
   },
 
-  hours: '24/7 emergency service',
-  serviceRegions: ['Central Florida', 'Tampa Bay'],
+  hours: 'Call to schedule service',
+  serviceRegions: ['Lake County', 'Orlando', 'Kissimmee', 'Winter Garden', 'Tampa Bay'],
   serviceAreaSummary:
-    'Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
+    'Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
 
   social: {
     // Add real profiles before launch.
@@ -117,6 +117,6 @@ export const nav = {
     { label: 'Service Areas', href: '/service-areas' },
     { label: 'Resources', href: '/resources' },
   ],
-  cta: { label: 'Request a Free Property Assessment', href: '/contact' },
-  emergencyCta: { label: '24/7 Emergency Service', href: '/services/emergency-service' },
+  cta: { label: 'Request an advanced consultation', href: '/contact' },
+  emergencyCta: { label: 'Emergency service', href: '/services/emergency-service' },
 } as const;

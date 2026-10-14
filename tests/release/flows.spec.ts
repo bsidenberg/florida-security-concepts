@@ -25,7 +25,7 @@ async function expectPresentation(page: Page, mode: 'emergency' | 'routine') {
   } else {
     await expect(page.locator('h1')).toHaveText('Tell us about your property.');
     await expect(f.locator('[name="urgency"]')).toHaveValue('Not specified');
-    await expect(submitButton(page)).toHaveText(/^Request a Free Property Assessment/);
+    await expect(submitButton(page)).toHaveText(/^Request an advanced consultation/);
   }
 }
 
@@ -150,7 +150,7 @@ test('emergency direct entry keeps heading, urgency, submit label, payload and c
   const lead = syntheticLead(unique('emergency', browserName));
   await page.goto('/contact?urgency=emergency');
   await expectPresentation(page, 'emergency');
-  await expect(page.locator('.fsc-kicker').first()).toHaveText('24/7 emergency service');
+  await expect(page.locator('.fsc-kicker').first()).toHaveText('Emergency service');
   await fillLead(page, lead);
   const responsePromise = page.waitForResponse(response => leadPosts(page)(response.request()));
   await submitButton(page).click();

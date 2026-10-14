@@ -10,7 +10,7 @@ type CTAProps = {
   variant?: 'default' | 'emergency';
 };
 
-export function CTASection({ eyebrow = 'Next step', title, body, primaryCta = { label: 'Request a Free Property Assessment', href: '/contact' }, secondaryCta, variant = 'default' }: CTAProps) {
+export function CTASection({ eyebrow = 'Next step', title, body, primaryCta = { label: 'Request an advanced consultation', href: '/contact' }, secondaryCta, variant = 'default' }: CTAProps) {
   return (
     <section className={`fsc-shared-cta fsc-navy ${variant === 'emergency' ? 'fsc-shared-cta-emergency' : ''}`}>
       <Container>

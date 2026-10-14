@@ -51,7 +51,7 @@ const locationFaqs = (city: string) => [
   },
   {
     q: `Do you offer same-day or emergency service in ${city}?`,
-    a: `24/7 emergency support is available, with same-day service when scheduling and travel allow. Emergency requests are triaged on intake.`,
+    a: `Call and describe what the gate or entry is doing. Same-day visits depend on scheduling and travel. A form on the website does not dispatch a technician.`,
   },
   {
     q: `Do you handle ${city} HOA and property management work?`,

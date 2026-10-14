@@ -5,6 +5,7 @@ import sitemap from '../../app/sitemap';
 import { OrganizationSchema } from '../../components/Schema';
 import { industries } from '../../data/industries';
 import { locations } from '../../data/locations';
+import { localLandings } from '../../data/localLandings';
 import { resources } from '../../data/resources';
 import { services } from '../../data/services';
 import { CANONICAL_ORIGIN, canonicalUrl } from '../../lib/seo/canonical';
@@ -19,6 +20,7 @@ function publicPaths(): string[] {
     ...services.map((service) => `/services/${service.slug}`),
     ...industries.map((industry) => `/industries/${industry.slug}`),
     ...locations.map((location) => `/service-areas/${location.slug}`),
+    ...localLandings.map((landing) => landing.path),
     ...resources.map((resource) => `/resources/${resource.slug}`),
   ];
 }
@@ -87,7 +89,7 @@ describe('business JSON-LD', () => {
     });
 
     const served = business.areaServed as { name: string }[];
-    expect(served.map((place) => place.name)).toEqual(['Orlando', 'Kissimmee', 'Winter Garden', 'Clermont', 'Tampa Bay']);
+    expect(served.map((place) => place.name)).toEqual(['Clermont', 'Lake County', 'Orlando', 'Kissimmee', 'Winter Garden', 'Tampa Bay']);
 
     const serviceEntries = graph.slice(1) as unknown as Record<string, unknown>[];
     expect(serviceEntries.map((entry) => entry.url)).toEqual(services.map((service) => canonicalUrl(`/services/${service.slug}`)));

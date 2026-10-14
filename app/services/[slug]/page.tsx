@@ -14,6 +14,8 @@ import {
   BreadcrumbSchema,
 } from '@/components/Schema';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
+import { ServiceAreaLinks } from '@/components/LocalLandingPage';
+import { landingsForServicePage } from '@/data/localLandings';
 import {
   services,
   servicesBySlug,
@@ -242,6 +244,12 @@ export default async function ServicePage({ params }: Params) {
             </div>
           </Container>
         </Section>
+      )}
+
+      {landingsForServicePage(svc.slug).length > 0 && (
+        <ServiceAreaLinks
+          service={svc.slug === 'access-control' ? 'access-control' : 'gate-repair'}
+        />
       )}
 
       <CTASection

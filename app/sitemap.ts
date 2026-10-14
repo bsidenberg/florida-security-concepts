@@ -3,6 +3,7 @@ import { services } from '@/data/services';
 import { industries } from '@/data/industries';
 import { locations } from '@/data/locations';
 import { resources } from '@/data/resources';
+import { localLandings } from '@/data/localLandings';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -44,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+    })),
+    ...localLandings.map((landing) => ({
+      url: canonicalUrl(landing.path),
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
     })),
     ...resources.map((r) => ({
       url: canonicalUrl(`/resources/${r.slug}`),
