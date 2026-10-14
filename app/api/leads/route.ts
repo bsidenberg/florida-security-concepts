@@ -56,7 +56,7 @@ export async function POST(req: Request): Promise<NextResponse> {
     };
     return error(delivery.status || 503, messages[code] || 'Request delivery is temporarily unavailable. Please try again or contact us directly.', code, { requestId }, delivery.retryAfter ? { 'Retry-After': String(delivery.retryAfter) } : {});
   }
-  return NextResponse.json({ ok: true, requestId: delivery.mode === 'local' ? delivery.deliveryId : requestId, message: 'Request received. This is an assessment request, not a confirmed appointment.' }, { status: 200 });
+  return NextResponse.json({ ok: true, requestId: delivery.mode === 'local' ? delivery.deliveryId : requestId, message: 'Request received. This is an advanced consultation request, not a confirmed appointment.' }, { status: 200 });
 }
 export async function GET() { return error(405, 'Method Not Allowed.', 'METHOD', {}, { Allow: 'POST' }); }
 export const PUT = GET;

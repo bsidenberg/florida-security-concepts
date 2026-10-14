@@ -69,7 +69,7 @@ export const services: Service[] = [
     ],
     process: [
       {
-        step: 'Site assessment',
+        step: 'Advanced consultation',
         body: 'On-site review of traffic flow, sight lines, soil and slope, existing infrastructure, and integration points.',
       },
       {
@@ -276,7 +276,7 @@ export const services: Service[] = [
       },
       {
         q: 'Will access control work with our existing gate hardware?',
-        a: 'Often, yes. We verify the operator and existing wiring during the site assessment. When existing hardware is incompatible or unsafe, we surface that before quoting — not after install.',
+        a: 'Often, yes. We verify the operator and existing wiring during the advanced consultation. When existing hardware is incompatible or unsafe, we surface that before quoting — not after install.',
       },
     ],
     relatedServices: [
@@ -316,7 +316,7 @@ export const services: Service[] = [
     intro:
       'Camera systems should answer specific questions — who entered, when, in what vehicle, and what happened next. We design coverage around the actual incidents your property faces, not generic camera counts.',
     directAnswer:
-      'Florida Security Concepts designs and installs HD and AI-enabled video surveillance for commercial properties, communities, storage facilities, and industrial sites — including remote monitoring, license plate capture, and 24/7 recording — across Central Florida and Tampa Bay.',
+      'Florida Security Concepts designs and installs HD and AI-enabled video surveillance for commercial properties, communities, storage facilities, and industrial sites — including remote monitoring, license plate capture, and continuous recording — across Central Florida and Tampa Bay.',
     capabilities: [
       {
         title: 'HD and 4K cameras',
@@ -331,7 +331,7 @@ export const services: Service[] = [
         body: 'Loitering, line-cross, vehicle, and person detection used to filter the recorder — not as an alarm gimmick.',
       },
       {
-        title: '24/7 recording',
+        title: 'Continuous recording',
         body: 'Right-sized storage with retention windows set to match the actual investigative needs of the property.',
       },
       {
@@ -480,12 +480,12 @@ export const services: Service[] = [
     metaTitle:
       'Emergency Gate & Security System Service | Same-Day When Available',
     metaDescription:
-      'Emergency help for gates, access control, and security systems in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Same-day when scheduling allows.',
+      'Emergency help for gates, access control, and security systems in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Same-day when available. Call 352-282-0692.',
     eyebrow: 'Service · Emergency',
     intro:
-      'A stuck gate, a failed credential database, or a dark camera at 11 PM is an operational emergency. We respond fast, document the failure, and bring the system back to a known-good state — not just the symptom.',
+      'A stuck gate, a failed credential database, or a dark camera is an operational emergency. Call 352-282-0692. Same-day when available. We document the failure and bring the system back to a known-good state — not just the symptom.',
     directAnswer:
-      'Florida Security Concepts responds to security gate, access control, and surveillance failures in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Same-day service depends on scheduling and travel. Call the service line or use the emergency contact form. A form does not dispatch a technician.',
+      'Florida Security Concepts responds to security gate, access control, and surveillance failures in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Same-day when available. Call 352-282-0692. A website form does not dispatch a technician.',
     capabilities: [
       {
         title: 'Stuck or unresponsive gates',
@@ -515,14 +515,14 @@ export const services: Service[] = [
       'Storage facilities with tenant access disputes mid-event',
     ],
     outcomes: [
-      'Fast response — same-day when available',
+      'Same-day when available',
       'Honest diagnosis instead of repeat callbacks',
       'A system returned to a documented, known-good state',
     ],
     faqs: [
       {
         q: 'How fast can you respond to an emergency?',
-        a: 'Same-day response is available when scheduling and travel allow. Severity, distance, and current load determine actual arrival window. Emergency requests are triaged on intake.',
+        a: 'Same-day when available. Severity, distance, and current load determine the arrival window. Call 352-282-0692.',
       },
       {
         q: 'Do you service systems you did not install?',
@@ -530,7 +530,7 @@ export const services: Service[] = [
       },
       {
         q: 'What information should I have ready when I call?',
-        a: 'Property name and address, gate or system affected, what changed before the failure (storm, power outage, recent service), and your role on the property. The faster we can triage, the faster we can dispatch.',
+        a: 'Call 352-282-0692 with the property name and address, the gate or system affected, what changed before the failure (storm, power outage, recent service), and your role on the property.',
       },
     ],
     relatedServices: [
@@ -549,7 +549,7 @@ export const services: Service[] = [
     keywords: [
       'emergency gate repair',
       'emergency security system service',
-      'same-day gate service Florida',
+      'gate service Florida',
       'emergency access control repair',
     ],
     updatedDate: '2026-05-27',

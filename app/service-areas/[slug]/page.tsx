@@ -50,8 +50,8 @@ const locationFaqs = (city: string) => [
     a: `Yes. ${city} is part of our Central Florida and Tampa Bay coverage area. We service communities, commercial properties, storage facilities, industrial sites, and estates throughout the area.`,
   },
   {
-    q: `Do you offer same-day or emergency service in ${city}?`,
-    a: `Call and describe what the gate or entry is doing. Same-day visits depend on scheduling and travel. A form on the website does not dispatch a technician.`,
+    q: `How should I request emergency help in ${city}?`,
+    a: `Same-day when available. Call 352-282-0692 and describe what the gate or entry is doing. A website form does not dispatch a technician.`,
   },
   {
     q: `Do you handle ${city} HOA and property management work?`,
@@ -59,7 +59,7 @@ const locationFaqs = (city: string) => [
   },
   {
     q: `What kinds of properties do you typically work with in ${city}?`,
-    a: `From gated communities and multifamily to commercial, industrial, storage, and high-value residential. The site assessment scopes itself to the specific property.`,
+    a: `From gated communities and multifamily to commercial, industrial, storage, and high-value residential. The advanced consultation scopes itself to the specific property.`,
   },
 ];
 
@@ -156,10 +156,10 @@ export default async function LocationPage({ params }: Params) {
             <div className="lg:col-span-5">
               <Eyebrow>Plan your {loc.city} system</Eyebrow>
               <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-                Start with a site assessment.
+                Start with an advanced consultation.
               </h2>
               <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
-                Tell us about your {loc.city} property. We respond to most assessment requests the same business day.
+                Tell us about your {loc.city} property. Same-day when available.
               </p>
             </div>
             <div className="lg:col-span-7">

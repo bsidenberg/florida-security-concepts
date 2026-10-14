@@ -13,7 +13,7 @@ test('simulated ambiguous response keeps values and logical ID for explicit retr
     await route.fulfill({ status: 504, contentType: 'application/json', body: JSON.stringify({ ok: false, code: 'RECEIPT_UNKNOWN', error: 'We could not confirm receipt. Retry this same request.' }) });
   });
   await page.goto('/contact');
-  const form = page.getByRole('form', { name: 'Site assessment request form' });
+  const form = page.getByRole('form', { name: 'Advanced consultation request form' });
   for (const field of ['fullName', 'phone', 'email'] as const) await form.locator(`[name="${field}"]`).fill(validLead[field]);
   for (const field of ['propertyType', 'service', 'city'] as const) {
     const control = form.locator(`[name="${field}"]`);
@@ -32,7 +32,7 @@ test('simulated ambiguous response keeps values and logical ID for explicit retr
 });
 for (const status of [503, 429]) test(`simulated ${status} retains assessment input`, async ({ page }) => {
   await page.route('**/api/leads', route => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify({ ok: false, code: status === 429 ? 'RATE_LIMIT' : 'DELIVERY_FAILED' }) }));
-  await page.goto('/contact'); const form = page.getByRole('form', { name: 'Site assessment request form' });
+  await page.goto('/contact'); const form = page.getByRole('form', { name: 'Advanced consultation request form' });
   for (const field of ['fullName', 'phone', 'email', 'city'] as const) await form.locator(`[name="${field}"]`).fill(validLead[field]);
   for (const field of ['propertyType', 'service'] as const) await form.locator(`[name="${field}"]`).selectOption(validLead[field]);
   await form.getByRole('button', { name: /request|assessment|submit/i }).first().click();
@@ -42,7 +42,7 @@ for (const status of [503, 429]) test(`simulated ${status} retains assessment in
 test('two rapid clicks submit one pending request', async ({ page }) => {
   let count = 0;
   await page.route('**/api/leads', async route => { count++; await new Promise(r => setTimeout(r, 250)); await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false, error: 'Synthetic unavailable' }) }); });
-  await page.goto('/contact'); const form = page.getByRole('form', { name: 'Site assessment request form' });
+  await page.goto('/contact'); const form = page.getByRole('form', { name: 'Advanced consultation request form' });
   for (const field of ['fullName', 'phone', 'email'] as const) await form.locator(`[name="${field}"]`).fill(validLead[field]);
   for (const field of ['propertyType', 'service', 'city'] as const) { const control = form.locator(`[name="${field}"]`); if (await control.evaluate(e => e.tagName === 'SELECT')) await control.selectOption(validLead[field]); else await control.fill(validLead[field]); }
   await form.getByRole('button', { name: /request|assessment|submit/i }).first().evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });

@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test';
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-export const FORM_NAME = 'Site assessment request form';
+export const FORM_NAME = 'Advanced consultation request form';
 export type LeadInput = { fullName: string; email: string; phone: string; propertyType: string; service: string; city: string };
 
 /** Distinct synthetic values so each can be searched for in analytics payloads and logs. */
@@ -45,7 +45,7 @@ export async function expectTruthfulConfirmation(page: Page, requestId: string) 
   const status = page.getByRole('status');
   await expect(status).toBeVisible();
   await expect(status.getByRole('heading', { name: 'Request received' })).toBeVisible();
-  await expect(status).toContainText('An assessment is not yet booked.');
+  await expect(status).toContainText('An advanced consultation is not yet booked.');
   await expect(status).toContainText('No technician has been dispatched.');
   await expect(status).toContainText(`Request reference: ${requestId}`);
   await expect(status.locator('a[href^="tel:"]')).toBeVisible();
