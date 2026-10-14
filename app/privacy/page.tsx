@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return <div className="fsc-light"><div className="fsc-container py-16 max-w-3xl space-y-6">
     <h1 className="text-3xl font-semibold">Privacy Policy</h1>
-    <p>{site.name} is a division of Florida Pole Barn Builders LLC. This policy explains how we handle information you share with us.</p>
+    <p>{site.legalName}. This policy explains how we handle information you share with us.</p>
     <h2 className="text-xl font-semibold">Information you send us</h2>
     <p>When you contact us by phone, email or our contact form, we use your details only to respond to your request and provide our services. The contact form explains exactly what it collects and how long it is kept.</p>
     <h2 className="text-xl font-semibold">Text message (SMS) alerts</h2>

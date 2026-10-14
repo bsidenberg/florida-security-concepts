@@ -22,7 +22,7 @@ export const site = {
   // Branding
   name: 'Florida Security Concepts',
   shortName: 'FSC',
-  legalName: 'Florida Security Concepts',
+  legalName: 'Florida Security Concepts LLC',
   businessName: 'Florida Security Concepts',
   domain: 'floridasecurityconcepts.com',
   tagline:

@@ -83,7 +83,8 @@ describe('JSON-LD', () => {
     expect(hero).not.toContain('PhotoFigure');
     expect(hero).not.toContain('ConceptGrid');
     expect(hero).toContain('fsc-hero-map-slot');
-    expect(home).toContain('ConceptGrid');
+    expect(home).toContain('EquipmentGrid');
+    expect(home).not.toContain('ConceptGrid');
     expect(home).not.toContain('/photos/');
     expect(home).not.toContain('Equipment on service visits');
     expect(existsSync(join(root, 'public/photos'))).toBe(false);
@@ -91,6 +92,23 @@ describe('JSON-LD', () => {
     expect(existsSync(join(root, 'app/opengraph-image.jpg'))).toBe(false);
     expect(existsSync(join(root, 'public/brand/fsc-logo-primary.png'))).toBe(true);
     expect(existsSync(join(root, 'public/manufacturers/liftmaster.png'))).toBe(true);
+    const equip = readFileSync(join(root, 'components/home/EquipmentGrid.tsx'), 'utf8');
+    expect(equip).not.toMatch(/<img|figcaption|24\/7|free estimate|license plate|\bLPR\b|AI camera|\$\d|division of/i);
+    expect(equip).toContain('Install');
+    expect(equip).toContain('Repair');
+    expect(equip).toContain('Maintenance');
+    expect(equip).toContain('/services/security-gate-systems');
+    expect(equip).toContain('/services/gate-automation');
+    expect(equip).toContain('/services/access-control');
+    expect(equip).toContain('/services/video-surveillance');
+    expect(equip).toContain('/manufacturers/');
+    for (const name of ['FDC', 'Kings Access', 'Gate Tech', 'KMG', 'Xpress Gates', 'cfgateservices']) {
+      expect(`${home}\n${equip}`).not.toContain(name);
+    }
+    for (const file of ['components/Footer.tsx', 'app/privacy/page.tsx', 'app/terms/page.tsx', 'data/site.ts', 'app/page.tsx']) {
+      expect(readFileSync(join(root, file), 'utf8')).not.toMatch(/division of/i);
+    }
+    expect(readFileSync(join(root, 'data/site.ts'), 'utf8')).toContain("legalName: 'Florida Security Concepts LLC'");
     for (const concept of Object.values(concepts)) {
       expect(concept.alt.length).toBeGreaterThan(20);
       expect(concept.caption.length).toBeGreaterThan(20);

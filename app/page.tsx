@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FAQSchema } from '@/components/Schema';
-import { ConceptGrid } from '@/components/ConceptGrid';
 import { HomeHero } from '@/components/home/HomeHero';
+import { EquipmentGrid } from '@/components/home/EquipmentGrid';
 import { StatTiles, type Stat } from '@/components/home/StatTiles';
 import { CursorCards, type CapabilityCard } from '@/components/home/CursorCards';
 import { NightView } from '@/components/home/NightView';
@@ -12,7 +11,6 @@ import { buildPageMetadata } from '@/lib/seo/metadata';
 import { site } from '@/data/site';
 import { industries } from '@/data/industries';
 import { resources } from '@/data/resources';
-import { homeConcepts } from '@/data/concepts';
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Security Gates, Access Control & Cameras | Clermont',
@@ -77,8 +75,8 @@ export default function HomePage() {
     </div></section>
 
     <section className="fsc-light fsc-section-new" aria-labelledby="field-equipment"><div className="fsc-container">
-      <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-equipment">The equipment<br/><em>we work on.</em></h2></div><p>Line diagrams of how a leaf, an operator, a keypad, and a camera fit an entry. Not photographs of a job.</p></div>
-      <ConceptGrid concepts={homeConcepts} />
+      <div className="fsc-section-heading"><div><p className="fsc-kicker">Gates, readers, and cameras</p><h2 id="field-equipment">The equipment<br/><em>we work on.</em></h2></div><p>Eight kinds of hardware on an entry. We install them, repair them, and maintain them.</p></div>
+      <EquipmentGrid brands={manufacturers} />
     </div></section>
 
     <section className="fsc-ir-section" id="night-view"><div className="fsc-container">
@@ -94,10 +92,6 @@ export default function HomePage() {
       <div className="fsc-emergency-head"><div><p className="fsc-kicker">Same-day when available</p><h2>Gate down? Entry system offline?</h2><p>Call {site.phoneDisplay}. A form does not send a technician.</p></div><a href={`tel:${site.emergencyPhone}`} className="fsc-emergency-call" data-fsc-event="emergency_call" data-fsc-placement="home_emergency">Call {site.emergencyPhoneDisplay} <span aria-hidden="true">›</span></a></div>
       <Reveal className="fsc-timeline"><div className="fsc-timeline-bar" aria-hidden="true" />{steps.map((s) => <div key={s.title} className="fsc-step"><i aria-hidden="true" /><span className="fsc-step-t">{s.t}</span><b>{s.title}</b><p>{s.text}</p></div>)}</Reveal>
     </div></section>
-
-    <section className="fsc-mfr fsc-grid-bg" aria-labelledby="mfr-heading"><div className="fsc-container"><p className="fsc-kicker" id="mfr-heading">Equipment we install and service</p></div>
-      <div className="fsc-marquee" aria-hidden="false"><ul className="fsc-marquee-track">{[...manufacturers, ...manufacturers].map((m, i) => <li key={`${m.file}-${i}`} className="fsc-mfr-card" aria-hidden={i >= manufacturers.length || undefined}><Image src={`/manufacturers/${m.file}.png`} alt={i < manufacturers.length ? m.name : ''} width={160} height={70} sizes="160px" loading="eager" unoptimized /></li>)}</ul></div>
-    </section>
 
     <section className="fsc-light fsc-section-new" id="service-areas"><div className="fsc-container fsc-two-column"><div><p className="fsc-kicker">Headquarters in Clermont, Lake County</p><h2>Commercial and residential,<br/>from Clermont to Tampa Bay.</h2><p>Warehouses, offices, storage facilities, gated communities, multifamily, and estates. Tell us the city, the equipment, and the work you need.</p><Link href="/service-areas" className="fsc-text-link">Explore our service areas →</Link><nav className="fsc-city-links" aria-label="City service areas"><Link href="/service-areas/orlando">Orlando</Link><Link href="/service-areas/kissimmee">Kissimmee</Link><Link href="/service-areas/winter-garden">Winter Garden</Link><Link href="/service-areas/clermont">Clermont</Link><Link href="/service-areas/tampa">Tampa Bay</Link></nav><div className="fsc-area-links"><Link href="/industries/commercial-properties">Commercial properties</Link><Link href="/industries/hoa-gated-communities">HOAs & gated communities</Link><Link href="/industries/storage-facilities">Storage facilities</Link><Link href="/industries">All property types</Link></div></div><div className="fsc-faq"><h3>A few things to know</h3>{faqs.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></div></section>
 
