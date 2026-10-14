@@ -8,8 +8,15 @@ import {
   hasPhone,
   hasEmail,
   hasPostalAddress,
-  activeSocialLinks,
 } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
+import {
+  BUSINESS_ID,
+  BUSINESS_NAME,
+  BUSINESS_PHONE,
+  businessGraph,
+  serviceAreaServed,
+} from '@/lib/seo/structuredData';
 
 export function JsonLd({ data }: { data: object }) {
   return (
@@ -47,34 +54,7 @@ function postalAddressNode() {
 }
 
 export function OrganizationSchema() {
-  const sameAs = activeSocialLinks().map((s) => s.url);
-  return (
-    <JsonLd
-      data={pruned({
-        '@context': 'https://schema.org',
-        '@type': 'ProfessionalService',
-        name: site.name,
-        legalName: site.legalName || undefined,
-        description: site.tagline,
-        url: site.url,
-        areaServed: site.serviceRegions.map((r) => ({
-          '@type': 'AdministrativeArea',
-          name: r,
-        })),
-        address: postalAddressNode(),
-        telephone: hasPhone() ? site.phone : undefined,
-        email: hasEmail() ? site.email : undefined,
-        sameAs: sameAs.length > 0 ? sameAs : undefined,
-        // TODO: Once Google Business Profile has ≥10 verified reviews, uncomment and populate:
-        // aggregateRating: {
-        //   '@type': 'AggregateRating',
-        //   ratingValue: 'X.X',   // average from GBP
-        //   reviewCount: N,        // count from GBP
-        //   bestRating: '5',
-        // },
-      })}
-    />
-  );
+  return <JsonLd data={businessGraph()} />;
 }
 
 export function LocalBusinessSchema({
@@ -123,19 +103,17 @@ export function ServiceSchema({
         '@context': 'https://schema.org',
         '@type': 'Service',
         name,
-        description,
+        description: /24\s*\/\s*7|\$\s?\d/.test(description) ? undefined : description,
         url,
         serviceType,
         provider: pruned({
-          '@type': 'ProfessionalService',
-          name: site.name,
-          url: site.url,
-          telephone: hasPhone() ? site.phone : undefined,
+          '@type': 'HomeAndConstructionBusiness',
+          '@id': BUSINESS_ID,
+          name: BUSINESS_NAME,
+          url: canonicalUrl('/'),
+          telephone: BUSINESS_PHONE,
         }),
-        areaServed: site.serviceRegions.map((r) => ({
-          '@type': 'AdministrativeArea',
-          name: r,
-        })),
+        areaServed: serviceAreaServed(),
       })}
     />
   );
@@ -203,11 +181,12 @@ export function ArticleSchema({
         url,
         datePublished,
         dateModified,
-        author: { '@type': 'Organization', name: site.name },
+        author: { '@type': 'Organization', name: BUSINESS_NAME },
         publisher: pruned({
-          '@type': 'Organization',
-          name: site.name,
-          url: site.url,
+          '@type': 'HomeAndConstructionBusiness',
+          '@id': BUSINESS_ID,
+          name: BUSINESS_NAME,
+          url: canonicalUrl('/'),
         }),
       })}
     />
@@ -223,10 +202,11 @@ export function ContactPageSchema({ url }: { url: string }) {
         name: `Contact ${site.name}`,
         url,
         publisher: pruned({
-          '@type': 'ProfessionalService',
-          name: site.name,
-          url: site.url,
-          telephone: hasPhone() ? site.phone : undefined,
+          '@type': 'HomeAndConstructionBusiness',
+          '@id': BUSINESS_ID,
+          name: BUSINESS_NAME,
+          url: canonicalUrl('/'),
+          telephone: BUSINESS_PHONE,
           email: hasEmail() ? site.email : undefined,
         }),
       })}

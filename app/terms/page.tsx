@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
   title: 'Terms and SMS Terms',
   description: 'Terms for Florida Security Concepts, including the FSC Sentinel Alerts text message program.',
-  alternates: { canonical: '/terms' },
+  alternates: { canonical: canonicalUrl('/terms') },
 };
 
 export default function TermsPage() {

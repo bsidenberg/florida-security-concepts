@@ -10,7 +10,6 @@ import { FAQ } from '@/components/FAQ';
 import { ServiceCard } from '@/components/ServiceCard';
 import { IndustryCard } from '@/components/IndustryCard';
 import {
-  ServiceSchema,
   FAQSchema,
   BreadcrumbSchema,
 } from '@/components/Schema';
@@ -21,6 +20,7 @@ import {
   getService,
 } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
+import { canonicalUrl } from '@/lib/seo/canonical';
 import { site } from '@/data/site';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -55,7 +55,7 @@ export default async function ServicePage({ params }: Params) {
     .map((slug) => industriesBySlug[slug])
     .filter(Boolean);
 
-  const url = `${site.url}/services/${svc.slug}`;
+  const url = canonicalUrl(`/services/${svc.slug}`);
   const isEmergency = svc.slug === 'emergency-service';
   const ctaLabel = isEmergency
     ? 'Request emergency service'
@@ -251,17 +251,11 @@ export default async function ServicePage({ params }: Params) {
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
       />
 
-      <ServiceSchema
-        name={svc.title}
-        description={svc.metaDescription}
-        url={url}
-        serviceType={svc.shortLabel}
-      />
       <FAQSchema items={svc.faqs} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Services', url: site.url + '/services' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Services', url: canonicalUrl('/services') },
           { name: svc.shortLabel, url },
         ]}
       />

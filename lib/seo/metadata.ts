@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 interface BuildPageMetadataParams {
   /** Page title — will receive the "| site.name" suffix from the root template. */
@@ -41,11 +41,12 @@ export function buildPageMetadata({
   modifiedTime,
 }: BuildPageMetadataParams): Metadata {
   const images = image ? [image] : undefined;
+  const pageUrl = canonicalUrl(path);
 
   const ogBase = {
     title,
     description,
-    url: `${site.url}${path}`,
+    url: pageUrl,
     ...(images && { images }),
   };
 
@@ -65,7 +66,7 @@ export function buildPageMetadata({
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: pageUrl },
     ...(keywords && { keywords }),
     openGraph,
     twitter: {

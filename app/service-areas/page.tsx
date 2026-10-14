@@ -6,13 +6,13 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { locations } from '@/data/locations';
-import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
   title: 'Service Areas | Central Florida & Tampa Bay Security Systems',
   description:
     'Florida Security Concepts service areas — Orlando, Tampa, Lakeland, Kissimmee, Winter Garden, Clermont, Lake Mary, Sanford, Ocala, The Villages, St. Petersburg, Clearwater, Brandon, Wesley Chapel, and surrounding regions.',
-  alternates: { canonical: '/service-areas' },
+  alternates: { canonical: canonicalUrl('/service-areas') },
   twitter: {
     card: 'summary_large_image',
     title: 'Service Areas | Central Florida & Tampa Bay Security Systems',
@@ -59,8 +59,8 @@ export default function ServiceAreasPage() {
 
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Service Areas', url: site.url + '/service-areas' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Service Areas', url: canonicalUrl('/service-areas') },
         ]}
       />
     </>
