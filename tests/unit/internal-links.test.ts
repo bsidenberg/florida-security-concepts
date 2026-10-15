@@ -10,6 +10,7 @@ const ROOT = join(__dirname, '../..');
 const ALLOWED = new Set<string>([
   '/',
   '/about',
+  '/sms-consent',
   '/contact',
   '/privacy',
   '/terms',

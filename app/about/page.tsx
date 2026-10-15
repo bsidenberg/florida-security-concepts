@@ -7,9 +7,10 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CTASection } from '@/components/CTASection';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'About Florida Security Concepts | Central Florida Gates, Access Control & Cameras',
+  title: 'About Florida Security Concepts',
   description:
     'Florida Security Concepts LLC is a Central Florida gate, access control, and camera company based in Clermont, Lake County.',
   path: '/about',
@@ -52,7 +53,7 @@ export default function AboutPage() {
         </Container>
       </Section>
       <CTASection title="Tell us about your property." body="We start with an advanced consultation about the gate and the entry you actually have." />
-      <BreadcrumbSchema items={[{ name: 'Home', url: site.url + '/' }, { name: 'About', url: site.url + '/about' }]} />
+      <BreadcrumbSchema items={[{ name: 'Home', url: canonicalUrl('/') }, { name: 'About', url: canonicalUrl('/about') }]} />
     </>
   );
 }

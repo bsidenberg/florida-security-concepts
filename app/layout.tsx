@@ -2,10 +2,12 @@ import { isHostedPreview } from '@/lib/leads/environment';
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import { AttributionCapture } from '@/components/AttributionCapture';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { OrganizationSchema } from '@/components/Schema';
 import { site } from '@/data/site';
+import { CANONICAL_ORIGIN, canonicalUrl } from '@/lib/seo/canonical';
 import { LocalPreviewProvider } from '@/components/LocalPreviewContext';
 import { analyticsScriptSrc } from '@/lib/analytics/config';
 import { PlausibleAnalytics } from '@/lib/analytics/PlausibleAnalytics';
@@ -36,9 +38,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(CANONICAL_ORIGIN),
   title: {
-    default: `${site.name} | Security Gates, Access Control & Surveillance`,
+    default: `${site.name} | Gates & Access Control`,
     template: `%s | ${site.name}`,
   },
   description: site.tagline,
@@ -64,9 +66,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: site.url,
+    url: canonicalUrl('/'),
     siteName: site.name,
-    title: `${site.name} — Gate Repair, Maintenance, and Access Control`,
+    title: `${site.name} — Gate Repair & Access Control`,
     description: site.tagline,
   },
   twitter: {
@@ -100,6 +102,7 @@ export default function RootLayout({
     <html lang="en" className={`${jakarta.variable} ${jetbrains.variable}`}>
       <body className="font-sans">
         <LocalPreviewProvider local={LOCAL_PREVIEW}>
+          <AttributionCapture />
           {LOCAL_PREVIEW && <div className="fsc-preview-notice">Local review · Synthetic details only · Requests stay on this computer</div>}
           <a
             href="#main"

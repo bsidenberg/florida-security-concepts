@@ -24,6 +24,7 @@ import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 import { HQ_GEO } from '@/lib/seo/jsonld';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -78,7 +79,7 @@ export default async function LocationPage({ params }: Params) {
     .map((slug) => locationsBySlug[slug])
     .filter(Boolean);
 
-  const url = `${site.url}/service-areas/${loc.slug}`;
+  const url = canonicalUrl(`/service-areas/${loc.slug}`);
   const faqs = locationFaqs(loc.city);
   const ctaLabel = `Request service in ${loc.city}`;
   const ctaHref = `/contact?location=${loc.slug}`;
@@ -214,8 +215,8 @@ export default async function LocationPage({ params }: Params) {
       <FAQSchema items={faqs} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Service Areas', url: site.url + '/service-areas' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Service Areas', url: canonicalUrl('/service-areas') },
           { name: loc.city, url },
         ]}
       />

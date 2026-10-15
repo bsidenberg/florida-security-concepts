@@ -26,7 +26,7 @@ export const industries: Industry[] = [
     metaTitle:
       'HOA & CDD Gate, Access Control & Security Systems',
     metaDescription:
-      'Security systems for HOAs, community development districts (CDDs), and gated communities — gate automation, resident credentials, vendor access, video surveillance, and integrated property security in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+      'Security systems for HOAs, community development districts (CDDs), and gated communities — gates, resident credentials, vendor access, and cameras.',
     eyebrow: 'Industry · HOAs, CDDs & Gated Communities',
     intro:
       'A gated community is a credential and traffic system before it is anything else. Residents, vendors, deliveries, guests, contractors, and emergency responders all need to enter — under different rules, on different schedules, with different accountability.',
@@ -99,13 +99,13 @@ export const industries: Industry[] = [
   },
   {
     slug: 'multifamily-apartments-condos',
-    title: 'Security Gate, Access Control & Camera Systems for Apartments and Condos',
+    title: 'Gate, Access & Camera Systems for Apartments and Condos',
     navLabel: 'Multifamily / Apartments / Condos',
     shortLabel: 'Multifamily',
     metaTitle:
       'Multifamily Security Systems | Apartments & Condos',
     metaDescription:
-      'Gate automation, access control, video surveillance, and integrated security for apartment communities and condominiums in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+      'Gate automation, access control, and cameras for apartment communities and condominiums.',
     eyebrow: 'Industry · Multifamily',
     intro:
       'Apartments and condos move faster than any other property type — turnover, staff changes, vendor rotation, and amenity scheduling all happen monthly. Security systems have to keep up without becoming a leasing-office burden.',
@@ -178,7 +178,7 @@ export const industries: Industry[] = [
     metaTitle:
       'Storage Facility Security | Cameras & Access Control',
     metaDescription:
-      'Security camera, gate, and access control systems for self-storage facilities in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay — tenant credentials, recorded video, and remote viewing.',
+      'Cameras, gates, and access control for self-storage — tenant credentials, recorded video, and remote viewing.',
     eyebrow: 'Industry · Storage Facilities',
     intro:
       'Storage facilities are credential-heavy properties with thin staff coverage. The system has to behave correctly when no one is on site — and it has to leave a clean evidence trail when something goes wrong.',
@@ -251,7 +251,7 @@ export const industries: Industry[] = [
     metaTitle:
       'Commercial Security Systems | Central Florida and Tampa Bay',
     metaDescription:
-      'Integrated commercial security systems — gates, access control, video surveillance, and emergency service — for offices, retail, and mixed-use in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+      'Gates, access control, cameras, and emergency service for offices, retail, and mixed-use properties.',
     eyebrow: 'Industry · Commercial',
     intro:
       'Commercial properties have the broadest range of security requirements — staff turnover, tenant access, vendor rotation, after-hours operations, and incident documentation — and the highest expectation that the system simply works.',
@@ -324,7 +324,7 @@ export const industries: Industry[] = [
     metaTitle:
       'Industrial Security & Warehouse Access Control',
     metaDescription:
-      'Industrial security systems — gate automation, access control, yard surveillance, and credentialed lane entry — for warehouses, yards, and logistics sites in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+      'Gate automation, access control, yard cameras, and credentialed lane entry for warehouses and logistics sites.',
     eyebrow: 'Industry · Industrial & Warehouse',
     intro:
       'Industrial sites move trucks, drivers, contractors, and material around a clock. Security systems either match that pace or get worked around — there is no middle ground.',
@@ -397,7 +397,7 @@ export const industries: Industry[] = [
     metaTitle:
       'Security Systems for Property Managers | Multi-Site',
     metaDescription:
-      'Standardized gate, access control, surveillance, and emergency service across multi-site portfolios in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay. Built for property management workflows.',
+      'Gate, access control, cameras, and emergency service across multi-site portfolios. Built for property management workflows.',
     eyebrow: 'Industry · Property Managers',
     intro:
       'Property managers do not buy a security system — they buy a service relationship. Boards, owners, and tenants all rotate. The security platform and the team behind it have to be the consistent part.',
@@ -470,7 +470,7 @@ export const industries: Industry[] = [
     metaTitle:
       'Estate Gate Automation & Residential Security',
     metaDescription:
-      'Estate-grade gate automation, access control, intercom, and surveillance for high-value residential properties in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+      'Gate automation, access control, intercom, and cameras for residential estates.',
     eyebrow: 'Industry · Estates',
     intro:
       'Estate properties want presence, privacy, and reliability in equal measure. The gate sets the tone for the property, and the rest of the security system has to feel as considered as the architecture.',

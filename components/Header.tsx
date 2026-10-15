@@ -6,6 +6,14 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { nav, site } from '@/data/site';
 
+function BookProjectCall({ className }: { className: string }) {
+  return (
+    <a className={className} href={site.booking.bookUrl} target="_blank" rel="noopener noreferrer">
+      {site.booking.label}
+    </a>
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -26,9 +34,11 @@ export function Header() {
         <Image src={logo} alt="Florida Security Concepts logo" width={181} height={92} priority sizes="181px" />
       </Link>
       <nav className="fsc-desktop-nav" aria-label="Primary">{nav.primary.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined} data-fsc-event={item.href === '/#maintenance' ? 'maintenance_interest' : undefined} data-fsc-placement={item.href === '/#maintenance' ? 'header' : undefined}>{item.label}</Link>)}</nav>
+      <BookProjectCall className="fsc-header-book" />
       <Link href="/contact" className="fsc-btn-primary fsc-header-assessment" data-fsc-event="assessment_cta" data-fsc-placement="header">Schedule a Site Visit <span aria-hidden="true">↗</span></Link>
       <button ref={button} className="fsc-menu-toggle" aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(!open)}>{open ? 'Close' : 'Menu'} <span aria-hidden="true">{open ? '×' : '☰'}</span></button>
     </div>
+    <div className="fsc-book-bar"><div className="fsc-container"><BookProjectCall className="fsc-header-book" /></div></div>
     {open && <nav id="mobile-navigation" className="fsc-mobile-nav fsc-container" aria-label="Mobile">{nav.primary.map(item => <Link key={item.href} href={item.href} onClick={() => setOpen(false)} data-fsc-event={item.href === '/#maintenance' ? 'maintenance_interest' : undefined} data-fsc-placement={item.href === '/#maintenance' ? 'mobile_nav' : undefined}>{item.label}</Link>)}<Link className="fsc-btn-primary" href="/contact" onClick={() => setOpen(false)} data-fsc-event="assessment_cta" data-fsc-placement="mobile_nav">Schedule a Site Visit</Link></nav>}
   </header>;
 }

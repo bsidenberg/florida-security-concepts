@@ -39,7 +39,7 @@ test('homepage navigates to contact and submits through real local endpoint', as
   for (const name of ['propertyType', 'service'] as const) await form.locator(`[name="${name}"]`).selectOption(validLead[name]);
   await form.locator('[name="city"]').fill(validLead.city);
   const response = page.waitForResponse(r => r.url().endsWith('/api/leads') && r.request().method() === 'POST');
-  await form.getByRole('button', { name: /submit|request|assessment|consultation/i }).click();
+  await form.getByRole('button', { name: /submit|request|assessment|consultation|schedule a site visit/i }).click();
   const received = await response;
   expect(received.status()).toBe(200);
   const body = await received.json();
@@ -55,7 +55,7 @@ test('homepage navigates to contact and submits through real local endpoint', as
 test('empty assessment displays server validation instead of confirmation', async ({ page }) => {
   await page.goto('/contact');
   const form = page.getByRole('form', { name: 'Advanced consultation request form' });
-  await form.getByRole('button', { name: /submit|request|assessment|consultation/i }).click();
+  await form.getByRole('button', { name: /submit|request|assessment|consultation|schedule a site visit/i }).click();
   await expect(form.getByRole('alert')).toContainText(/attention|review/i);
   await expect(form.locator('[name="email"]')).toHaveAttribute('aria-invalid', 'true');
   await expect(page.getByRole('status')).toHaveCount(0);

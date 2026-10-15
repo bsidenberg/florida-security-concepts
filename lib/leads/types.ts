@@ -22,10 +22,15 @@ export type LeadInput = {
   industrySlug?: string;
   locationSlug?: string;
 
-  // Attribution
+  // Attribution. First-touch values captured on arrival.
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  utmTerm?: string;
+  utmContent?: string;
+  gclid?: string;
+  fbclid?: string;
+  landingPage?: string;
   referrer?: string;
 
   // Spam mitigation — must be empty when received.

@@ -98,7 +98,7 @@ export const locations: Location[] = [
     metaTitle:
       'Lakeland Security Gates, Access Control & Cameras',
     metaDescription:
-      'Security systems for Lakeland communities, commercial sites, and industrial properties — gate automation, access control, and video surveillance throughout Polk County.',
+      'Gate, access control, and camera service for Lakeland communities, commercial sites, and industrial properties.',
     intro:
       'Lakeland’s industrial, logistics, and growing community footprint sits at the operational center of the I-4 corridor. We design security systems that match the pace of Polk County properties — credentialed lanes, yard coverage, and integrated community access.',
     localContext:
@@ -202,7 +202,7 @@ export const locations: Location[] = [
     region: 'Central Florida',
     county: 'Orange County',
     metaTitle:
-      'Winter Garden Security Systems | Gates, Access Control & Cameras',
+      'Winter Garden Gates, Access Control & Cameras',
     metaDescription:
       'Security gate, access control, and video surveillance for Winter Garden communities, estates, and commercial properties.',
     intro:
@@ -239,7 +239,7 @@ export const locations: Location[] = [
     metaTitle:
       'Clermont Security Gate, Access Control & Camera Systems',
     metaDescription:
-      'Gate, access control, and camera service in Clermont and Lake County, home base for Florida Security Concepts. We also schedule work in Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
+      'Gate, access control, and camera service in Clermont and Lake County, home base for Florida Security Concepts.',
     intro:
       'Clermont, in Lake County, is home base for Florida Security Concepts. From here we service gates, access control, and cameras in Clermont, and we schedule work in Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
     localContext:
@@ -272,7 +272,7 @@ export const locations: Location[] = [
     region: 'Tampa Bay',
     county: 'Pinellas County',
     metaTitle:
-      'St. Petersburg Security Systems | Gates, Access Control & Cameras',
+      'St. Petersburg Gates & Access Control',
     metaDescription:
       'Security gate, access control, and video surveillance for St. Petersburg communities, commercial sites, condos, and industrial properties in Pinellas County.',
     intro:
@@ -365,7 +365,7 @@ export const locations: Location[] = [
     region: 'Tampa Bay',
     county: 'Pasco County',
     metaTitle:
-      'Wesley Chapel Security Systems | Gates, Access Control & Cameras',
+      'Wesley Chapel Gates & Access Control',
     metaDescription:
       'Security systems for Wesley Chapel communities, multifamily, and commercial properties in Pasco County — gate automation, access control, and video surveillance.',
     intro:

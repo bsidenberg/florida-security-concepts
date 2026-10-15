@@ -6,13 +6,13 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { industries } from '@/data/industries';
-import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
   title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
   description:
     'HOAs, gated communities, multifamily, storage, commercial, industrial, property managers, and estates in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
-  alternates: { canonical: '/industries' },
+  alternates: { canonical: canonicalUrl('/industries') },
   twitter: {
     card: 'summary_large_image',
     title: 'Industries Served | HOAs, Multifamily, Storage, Commercial & More',
@@ -55,8 +55,8 @@ export default function IndustriesIndexPage() {
 
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Industries', url: site.url + '/industries' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Industries', url: canonicalUrl('/industries') },
         ]}
       />
     </>

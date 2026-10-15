@@ -6,6 +6,7 @@ import { regionFromCity } from '@/lib/analytics/region';
 import { propertyTypes, serviceOptions, legacyServices, urgencyOptions, contactMethods } from '@/lib/leads/options';
 import { validateLead } from '@/lib/leads/validateLead';
 import type { LeadFormDefaults } from '@/lib/leads/query';
+import { attributionPayload } from '@/lib/leads/attribution-client';
 import { site } from '@/data/site';
 import { LocalPreviewContext } from './LocalPreviewContext';
 export type { LeadFormDefaults } from '@/lib/leads/query';
@@ -62,7 +63,7 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
     const controller = new AbortController();
     const timer = window.setTimeout(() => controller.abort(),20000);
     try {
-      const response = await fetch('/api/leads',{ method:'POST', headers:{'Content-Type':'application/json'}, signal:controller.signal, body:JSON.stringify({...values, sourcePage:pathname, serviceSlug:defaults.serviceSlug, industrySlug:defaults.industrySlug, locationSlug:defaults.locationSlug, requestId:attempt.current.id}) });
+      const response = await fetch('/api/leads',{ method:'POST', headers:{'Content-Type':'application/json'}, signal:controller.signal, body:JSON.stringify({...values, ...attributionPayload(), sourcePage:pathname, serviceSlug:defaults.serviceSlug, industrySlug:defaults.industrySlug, locationSlug:defaults.locationSlug, requestId:attempt.current.id}) });
       const data = await response.json().catch(() => null);
       if (response.ok && data?.ok === true) {
         setReceipt(typeof data.requestId === 'string' ? data.requestId : attempt.current.id);
@@ -96,7 +97,7 @@ export function LeadCaptureForm({ defaults = {}, submitLabel, showHeading = fals
     <div className="fsc-form-grid">{control('fullName',true)}{control('email',true)}{control('phone',true)}{control('propertyType',true,propertyTypes.map(value => ({value,label:value})))}{control('city',true)}{control('service',true,displayedServices)}</div>
     <details className="fsc-form-details" open={detailsOpen || Boolean(errors.company || errors.urgency || errors.contactMethod || errors.message)} onToggle={event => setDetailsOpen(event.currentTarget.open)}><summary>Add details <span>(optional)</span></summary><div className="fsc-form-grid">{control('company')}{control('urgency',false,urgencyOptions.map(value => ({value,label:value})))}{control('contactMethod',false,contactMethods.map(value => ({value,label:value})))}{control('message')}</div></details>
     <div className="fsc-honeypot" aria-hidden="true"><label>Leave this field empty<input name="fsc_check" tabIndex={-1} autoComplete="off" value={values.honeypot} onChange={e => change('honeypot',e.target.value)}/></label></div>
-    {message && <div className="fsc-form-error" role="alert" ref={errorRef} tabIndex={-1}><p>{message}</p>{Object.keys(errors).length > 0 && <ul>{Object.keys(errors).map(name => <li key={name}><a href={`#${id}-${name}`} onClick={e => {e.preventDefault();document.getElementById(`${id}-${name}`)?.focus();}}>{labels[name] || name}: {errors[name]}</a></li>)}</ul>}<a href={`tel:${site.phone}`}>Call {site.phoneDisplay}</a></div>}
+    {message && <div className="fsc-form-error" role="alert" ref={errorRef} tabIndex={-1}><p>{message}</p>{Object.keys(errors).length > 0 && <ul>{Object.keys(errors).map(name => <li key={name}><a href={`#${id}-${name}`} onClick={e => {e.preventDefault();document.getElementById(`${id}-${name}`)?.focus();}}>{labels[name] || name}: {errors[name]}</a></li>)}</ul>}<a href={`tel:${site.phone}`}>Call 352-282-0692</a></div>}
     <div className="text-xs leading-relaxed text-fsc-text-muted mt-3">
       <p>We use the details you submit, plus the page and campaign that brought you here, to respond to your request. Submissions are emailed to us via Resend and stored in our private business systems. Please {"don't"} include gate codes, passwords, or other sensitive information.</p>
       <p className="mt-2">We keep a short-lived copy of each submission for seven days to prevent duplicates and troubleshoot delivery, then minimal records after that. To limit repeat submissions we use a protected identifier derived from your network address; the address itself is not stored. We use Plausible, a cookie-free analytics service, to measure page visits and form steps by general category only — never your contact details or message.</p>

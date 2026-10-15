@@ -7,10 +7,10 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { services } from '@/data/services';
-import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Security Services | Gates, Access Control, Surveillance & Integration',
+  title: 'Security Services | Gates & Access Control',
   description:
     'Gate repair, maintenance plans, gate automation, access control, video surveillance, and system integration. Same-day when available.',
   path: '/services',
@@ -51,8 +51,8 @@ export default function ServicesIndexPage() {
 
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Services', url: site.url + '/services' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Services', url: canonicalUrl('/services') },
         ]}
       />
     </>

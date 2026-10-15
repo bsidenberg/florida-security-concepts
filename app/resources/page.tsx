@@ -6,18 +6,18 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { resources } from '@/data/resources';
-import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = {
   title: 'Resources & Learning Center | Security System Guides',
   description:
-    'Practical guides on security gate cost, access control for HOAs, storage facility cameras, and more — written for Florida properties.',
-  alternates: { canonical: '/resources' },
+    'Practical guides on security gates, access control for HOAs, and storage facility cameras, written for properties we serve from Clermont.',
+  alternates: { canonical: canonicalUrl('/resources') },
   twitter: {
     card: 'summary_large_image',
     title: 'Resources & Learning Center | Security System Guides',
     description:
-      'Practical guides on security gate cost, access control for HOAs, storage facility cameras, and more — written for Florida properties.',
+      'Practical guides on security gates, access control for HOAs, and storage facility cameras, written for properties we serve from Clermont.',
   },
 };
 
@@ -87,8 +87,8 @@ export default function ResourcesIndexPage() {
 
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Resources', url: site.url + '/resources' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Resources', url: canonicalUrl('/resources') },
         ]}
       />
     </>

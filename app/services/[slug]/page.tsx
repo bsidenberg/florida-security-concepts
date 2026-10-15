@@ -10,7 +10,6 @@ import { FAQ } from '@/components/FAQ';
 import { ServiceCard } from '@/components/ServiceCard';
 import { IndustryCard } from '@/components/IndustryCard';
 import {
-  ServiceSchema,
   FAQSchema,
   BreadcrumbSchema,
 } from '@/components/Schema';
@@ -19,12 +18,15 @@ import { conceptsForService } from '@/data/concepts';
 import { WorkGallery } from '@/components/WorkGallery';
 import { servicePhotos } from '@/data/workPhotos';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
+import { ServiceAreaLinks } from '@/components/LocalLandingPage';
+import { landingsForServicePage } from '@/data/localLandings';
 import {
   services,
   servicesBySlug,
   getService,
 } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
+import { canonicalUrl } from '@/lib/seo/canonical';
 import { site } from '@/data/site';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -59,7 +61,7 @@ export default async function ServicePage({ params }: Params) {
     .map((slug) => industriesBySlug[slug])
     .filter(Boolean);
 
-  const url = `${site.url}/services/${svc.slug}`;
+  const url = canonicalUrl(`/services/${svc.slug}`);
   const gallery = conceptsForService(svc.slug);
   const photos = servicePhotos[svc.slug] ?? [];
   const isEmergency = svc.slug === 'emergency-service';
@@ -304,6 +306,12 @@ export default async function ServicePage({ params }: Params) {
         </Section>
       )}
 
+      {landingsForServicePage(svc.slug).length > 0 && (
+        <ServiceAreaLinks
+          service={svc.slug === 'access-control' ? 'access-control' : 'gate-repair'}
+        />
+      )}
+
       <CTASection
         title={`Ready to scope ${svc.shortLabel.toLowerCase()} for your property?`}
         body="A short conversation gets to a realistic recommendation. We tell you what you don’t need, not just what you might want."
@@ -311,17 +319,11 @@ export default async function ServicePage({ params }: Params) {
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
       />
 
-      <ServiceSchema
-        name={svc.title}
-        description={svc.metaDescription}
-        url={url}
-        serviceType={svc.shortLabel}
-      />
       <FAQSchema items={svc.faqs} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Services', url: site.url + '/services' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Services', url: canonicalUrl('/services') },
           { name: svc.shortLabel, url },
         ]}
       />

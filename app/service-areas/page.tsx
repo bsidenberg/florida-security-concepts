@@ -7,10 +7,11 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { locations } from '@/data/locations';
-import { site } from '@/data/site';
+import { ServiceAreaLinks } from '@/components/LocalLandingPage';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Service Areas | Orlando, Kissimmee, Winter Garden, Clermont, Tampa Bay',
+  title: 'Service Areas | Central Florida & Tampa Bay',
   description:
     'Gate, access-control, and camera service from Clermont. Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
   path: '/service-areas',
@@ -27,12 +28,15 @@ export default function ServiceAreasPage() {
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
 
+      <ServiceAreaLinks service="gate-repair" heading="Gate repair" eyebrow="Service areas" />
+      <ServiceAreaLinks service="access-control" heading="Access control" eyebrow="Service areas" />
+
       <Section>
         <Container>
           <Breadcrumbs
             items={[{ label: 'Home', href: '/' }, { label: 'Service Areas' }]}
           />
-          <Eyebrow>Coverage map</Eyebrow>
+          <Eyebrow>Community pages</Eyebrow>
           <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight text-fsc-text">
             Cities we serve from Clermont, Lake County
           </h2>
@@ -54,8 +58,8 @@ export default function ServiceAreasPage() {
 
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Service Areas', url: site.url + '/service-areas' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Service Areas', url: canonicalUrl('/service-areas') },
         ]}
       />
     </>

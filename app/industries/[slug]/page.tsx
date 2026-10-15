@@ -17,7 +17,7 @@ import { ConceptGrid } from '@/components/ConceptGrid';
 import { conceptsForIndustry } from '@/data/concepts';
 import { industries, getIndustry } from '@/data/industries';
 import { servicesBySlug } from '@/data/services';
-import { site } from '@/data/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -48,7 +48,7 @@ export default async function IndustryPage({ params }: Params) {
     .map((slug) => servicesBySlug[slug])
     .filter(Boolean);
 
-  const url = `${site.url}/industries/${ind.slug}`;
+  const url = canonicalUrl(`/industries/${ind.slug}`);
   const gallery = conceptsForIndustry(ind.slug);
   const ctaLabel = `Plan security for your ${ind.shortLabel.toLowerCase()} property`;
   const ctaHref = `/contact?industry=${ind.slug}`;
@@ -205,8 +205,8 @@ export default async function IndustryPage({ params }: Params) {
       <FAQSchema items={ind.faqs} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: site.url + '/' },
-          { name: 'Industries', url: site.url + '/industries' },
+          { name: 'Home', url: canonicalUrl('/') },
+          { name: 'Industries', url: canonicalUrl('/industries') },
           { name: ind.shortLabel, url },
         ]}
       />

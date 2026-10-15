@@ -39,6 +39,14 @@ export const site = {
   emergencyPhoneDisplay: '(352) 282-0692',
   email: 'info@floridasecurityconcepts.com',
 
+  // Public booking profile. The visible link says "Book a project call" and
+  // does not describe hours.
+  booking: {
+    label: 'Book a project call',
+    profileUrl: 'https://booqer.ai/shops/florida-security-concepts',
+    bookUrl: 'https://booqer.ai/shops/florida-security-concepts/book',
+  },
+
   address: {
     // No verified street address. street/postalCode stay blank. Schema emits an
     // area-level PostalAddress (Clermont, FL) and omits streetAddress until

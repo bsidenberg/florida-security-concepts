@@ -17,7 +17,7 @@ const unique = (label: string, browserName: string) => `${label}-${browserName}-
 
 async function expectConsultation(page: Page) {
   await expect(page.locator('h1')).toHaveText('Tell us about your property.');
-  await expect(submitButton(page)).toHaveText(/^Book an advanced consultation/);
+  await expect(submitButton(page)).toHaveText(/^Schedule a Site Visit/);
   await expect(page.locator('a[href*="urgency=emergency"]')).toHaveCount(0);
   await expect(page.getByText('24/7')).toHaveCount(0);
 }

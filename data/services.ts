@@ -23,13 +23,13 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: 'security-gate-systems',
-    title: 'Security Gate System Installation Across Florida',
+    title: 'Security Gate System Installation',
     navLabel: 'Security Gate Systems',
     shortLabel: 'Security Gates',
     metaTitle:
-      'Security Gate System Installation | Florida Statewide',
+      'Security Gate Installation | Central Florida',
     metaDescription:
-      'Slide, swing, barrier-arm, and vertical-lift gates for communities, commercial sites, storage, and estates in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+      'Slide, swing, barrier-arm, and vertical-lift gates for communities, commercial sites, storage, and estates.',
     eyebrow: 'Service · Security Gates',
     intro:
       'We install the gate that fits the lane. Slide where there is runback, swing where there is an arc, barrier arm where the lane is a control point, and vertical lift where neither a swing nor a slide will fit.',
@@ -78,7 +78,7 @@ export const services: Service[] = [
     ],
     process: [
       {
-        step: 'Site assessment',
+        step: 'Advanced consultation',
         body: 'On-site review of traffic flow, sight lines, soil and slope, existing infrastructure, and integration points.',
       },
       {
@@ -412,7 +412,7 @@ export const services: Service[] = [
     navLabel: 'Access Control',
     shortLabel: 'Access Control',
     metaTitle:
-      'Access Control Systems | Card Readers, Keypads, Mobile Credentials',
+      'Access Control | Readers, Keypads & Mobile',
     metaDescription:
       'Card readers, keypads, mobile credentials, telephone entry, and visitor management for gates and doors.',
     eyebrow: 'Service · Access Control',
@@ -581,11 +581,11 @@ export const services: Service[] = [
   },
   {
     slug: 'security-system-integration',
-    title: 'Integrated Security Systems for Properties, Communities & Facilities',
+    title: 'Integrated Security Systems for Properties and Facilities',
     navLabel: 'System Integration',
     shortLabel: 'System Integration',
     metaTitle:
-      'Integrated Security Systems | Gates, Access Control, Cameras, Monitoring',
+      'Integrated Security | Gates, Access & Cameras',
     metaDescription:
       'Gates, access control, cameras, and service planned as one system, with one team to call.',
     eyebrow: 'Service · Integration',
@@ -667,7 +667,7 @@ export const services: Service[] = [
     metaTitle:
       'Gate Down? Call Florida Security Concepts',
     metaDescription:
-      'If a gate or entry is down, call (352) 282-0692. Emergency service is available after hours. Same-day when available. The website form does not dispatch a technician.',
+      'If a gate or entry is down, call (352) 282-0692. Emergency service is available after hours. Same-day when available.',
     eyebrow: 'Service · Emergency',
     intro:
       'If the gate is stuck or the entry is down, call us. Emergency service is available after hours, too. Same-day when available. A website form does not send a technician.',
@@ -702,7 +702,7 @@ export const services: Service[] = [
       'An operator that failed after a storm',
     ],
     outcomes: [
-      'Fast response — same-day when available',
+      'Same-day when available',
       'Honest diagnosis instead of repeat callbacks',
       'A system returned to a documented, known-good state',
     ],
@@ -713,7 +713,7 @@ export const services: Service[] = [
       },
       {
         q: 'How fast can you respond to an emergency?',
-        a: 'Same-day response is available when scheduling and travel allow. Severity, distance, and current load determine actual arrival window. Emergency requests are triaged on intake.',
+        a: 'Same-day when available. Severity, distance, and current load determine the arrival window. Call 352-282-0692.',
       },
       {
         q: 'Do you service systems you did not install?',

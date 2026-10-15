@@ -38,8 +38,17 @@ export function validateLead(input: unknown): ValidationResult {
   const message = field('message', 2000) || undefined;
   const context: Record<string, string | undefined> = {};
   for (const key of ['sourcePage','serviceSlug','industrySlug','locationSlug','utmSource','utmMedium','utmCampaign','referrer']) context[key] = field(key) || undefined;
-  for (const [camel, snake] of [['utmSource','utm_source'],['utmMedium','utm_medium'],['utmCampaign','utm_campaign']]) {
-    const alias = field(snake);
+  // Attribution must not reject an otherwise valid lead. Over-long or non-text values are dropped.
+  function optionalAttribution(key: string, max = 200): string | undefined {
+    const value = raw[key];
+    if (typeof value !== 'string') return undefined;
+    const trimmed = value.trim();
+    if (!trimmed || trimmed.length > max || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(trimmed)) return undefined;
+    return trimmed;
+  }
+  for (const key of ['utmTerm','utmContent','gclid','fbclid','landingPage']) context[key] = optionalAttribution(key) || undefined;
+  for (const [camel, snake] of [['utmSource','utm_source'],['utmMedium','utm_medium'],['utmCampaign','utm_campaign'],['utmTerm','utm_term'],['utmContent','utm_content'],['landingPage','landing_page']]) {
+    const alias = camel.startsWith('utmT') || camel === 'landingPage' ? optionalAttribution(snake) : field(snake);
     if (!context[camel] && alias) context[camel] = alias;
   }
   if (Object.keys(errors).length) return { ok: false, errors };
