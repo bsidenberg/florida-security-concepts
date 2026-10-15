@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { workPhotos, type WorkPhoto } from '@/data/workPhotos';
 
 export type EquipmentBrand = { file: string; name: string };
 
@@ -13,6 +14,7 @@ type EquipmentItem = {
   benefit: string;
   href: string;
   cta: string;
+  photo?: WorkPhoto;
 };
 
 const work = ['Install', 'Repair', 'Maintenance'] as const;
@@ -20,6 +22,7 @@ const work = ['Install', 'Repair', 'Maintenance'] as const;
 const items: EquipmentItem[] = [
   {
     id: 'slide',
+    photo: workPhotos.ornamentalSlide,
     icon: 'slide',
     title: 'Slide gates',
     benefit: 'The leaf travels along the fence and parks beside the opening.',
@@ -28,6 +31,7 @@ const items: EquipmentItem[] = [
   },
   {
     id: 'swing',
+    photo: workPhotos.estateEntrance,
     icon: 'swing',
     title: 'Swing gates',
     benefit: 'The leaves open on hinges when the lane has room for the arc.',
@@ -52,6 +56,7 @@ const items: EquipmentItem[] = [
   },
   {
     id: 'operator',
+    photo: workPhotos.slideOperatorPad,
     icon: 'operator',
     title: 'Operators',
     benefit: 'The cabinet that moves the leaf, sized to its weight and how often it cycles.',
@@ -60,6 +65,7 @@ const items: EquipmentItem[] = [
   },
   {
     id: 'keypad',
+    photo: workPhotos.touchscreen,
     icon: 'keypad',
     title: 'Keypads & access control',
     benefit: 'A code, a fob, or a phone credential decides who the entry opens for.',
@@ -68,6 +74,7 @@ const items: EquipmentItem[] = [
   },
   {
     id: 'callbox',
+    photo: workPhotos.videoIntercom,
     icon: 'callbox',
     title: 'Call boxes & intercoms',
     benefit: 'A visitor calls someone on the property before the gate opens.',
@@ -76,6 +83,7 @@ const items: EquipmentItem[] = [
   },
   {
     id: 'camera',
+    photo: workPhotos.camera,
     icon: 'camera',
     title: 'Cameras',
     benefit: 'A recorded view of the lane, the vehicle, and the gate.',
@@ -190,6 +198,11 @@ export function EquipmentGrid({ brands }: { brands: readonly EquipmentBrand[] })
         {items.map((item) => (
           <li key={item.id}>
             <Link href={item.href} className="fsc-equip-card">
+              {item.photo && (
+                <span className="fsc-equip-photo">
+                  <Image src={item.photo.src} alt={item.photo.alt} width={item.photo.width} height={item.photo.height} sizes="(max-width: 768px) 100vw, 25vw" />
+                </span>
+              )}
               <span className="fsc-equip-icon">
                 <EquipmentIcon name={item.icon} />
               </span>

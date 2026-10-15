@@ -16,6 +16,8 @@ import {
 } from '@/components/Schema';
 import { ConceptGrid } from '@/components/ConceptGrid';
 import { conceptsForService } from '@/data/concepts';
+import { WorkGallery } from '@/components/WorkGallery';
+import { servicePhotos } from '@/data/workPhotos';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
 import {
   services,
@@ -59,6 +61,7 @@ export default async function ServicePage({ params }: Params) {
 
   const url = `${site.url}/services/${svc.slug}`;
   const gallery = conceptsForService(svc.slug);
+  const photos = servicePhotos[svc.slug] ?? [];
   const isEmergency = svc.slug === 'emergency-service';
   const ctaLabel = isEmergency
     ? `Call ${site.phoneDisplay}`
@@ -92,6 +95,21 @@ export default async function ServicePage({ params }: Params) {
           </p>
         </Container>
       </Section>
+
+      {photos.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>From our jobs</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
+              Recent {svc.shortLabel.toLowerCase()} work.
+            </h2>
+            <p className="mt-4 max-w-3xl text-fsc-text-dim">Photos from FSC jobs around Central Florida and Tampa Bay.</p>
+            <div className="mt-8">
+              <WorkGallery photos={photos} />
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {gallery.length > 0 && (
         <Section>

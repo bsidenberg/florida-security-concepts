@@ -7,6 +7,8 @@ import { StatTiles, type Stat } from '@/components/home/StatTiles';
 import { CursorCards, type CapabilityCard } from '@/components/home/CursorCards';
 import { NightView } from '@/components/home/NightView';
 import { Reveal } from '@/components/home/Reveal';
+import { WorkGallery } from '@/components/WorkGallery';
+import { recentWork } from '@/data/workPhotos';
 import { buildPageMetadata } from '@/lib/seo/metadata';
 import { site } from '@/data/site';
 import { industries } from '@/data/industries';
@@ -67,6 +69,11 @@ export default function HomePage() {
   return <div className="fsc-home">
     <HomeHero />
     <div className="fsc-container fsc-stats-wrap"><StatTiles stats={stats} /></div>
+
+    <section className="fsc-light fsc-section-new" id="recent-work" aria-labelledby="recent-work-heading"><div className="fsc-container">
+      <div className="fsc-section-heading"><div><p className="fsc-kicker">Recent work · Photos from our jobs</p><h2 id="recent-work-heading">Entries we install<br/><em>and keep working.</em></h2></div><p>Swing gates, slide gates, intercoms, and keypads on properties from Clermont and Groveland to Orlando and Tampa Bay.</p></div>
+      <WorkGallery photos={recentWork} lead />
+    </div></section>
 
     <section className="fsc-light fsc-section-new fsc-grid-bg" id="capabilities"><div className="fsc-container">
       <div className="fsc-section-heading fsc-section-heading-center"><div><h2>We like boring gates.<br/><em>They open, they close, they stay that way.</em></h2></div><p>One number for the operator, the credentials, and the cameras. We install them when you need a new entry, and we keep the ones you already have working.</p></div>

@@ -358,3 +358,18 @@ body {
 .fsc-equip-logo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
 @media(max-width:1100px){.fsc-equip-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.fsc-equip-grid{grid-template-columns:1fr}.fsc-equip-logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.fsc-equip-logo{width:auto;flex:none;height:72px;padding:10px}}
+
+/* Real job photo galleries (CompanyCam) */
+.fsc-work-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.fsc-work-grid-lead{grid-auto-rows:220px}
+.fsc-work-grid-lead .fsc-work-item:first-child{grid-column:span 2;grid-row:span 2}
+.fsc-work-item{position:relative;overflow:hidden;border-radius:14px;background:#0B1A3A;aspect-ratio:3/4}
+.fsc-work-grid-lead .fsc-work-item{aspect-ratio:auto}
+.fsc-work-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.fsc-work-item:hover img{transform:scale(1.04)}
+.fsc-work-cap{position:absolute;left:0;right:0;bottom:0;padding:28px 14px 12px;background:linear-gradient(transparent,rgba(0,20,52,.85));color:#F4F7FC;font-size:12px;letter-spacing:.02em}
+.fsc-work-cap b{display:block;font-size:14px;font-weight:600}
+.fsc-equip-photo{margin:-20px -18px 4px;height:150px;overflow:hidden;border-radius:11px 11px 0 0;position:relative}
+.fsc-equip-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.fsc-equip-photo + .fsc-equip-icon{margin-top:-38px;position:relative;z-index:1;border:3px solid #fff}
+@media (max-width:768px){.fsc-work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.fsc-work-grid-lead{grid-auto-rows:160px}}
