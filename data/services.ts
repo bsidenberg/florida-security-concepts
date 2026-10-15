@@ -667,12 +667,12 @@ export const services: Service[] = [
     metaTitle:
       'Gate Down? Call Florida Security Concepts',
     metaDescription:
-      'If a gate or entry is down, call (352) 282-0692. Same-day when available. The website form does not dispatch a technician.',
+      'If a gate or entry is down, call (352) 282-0692. Emergency service is available after hours. Same-day when available. The website form does not dispatch a technician.',
     eyebrow: 'Service · Emergency',
     intro:
-      'If the gate is stuck or the entry is down, call us. Same-day when available. A website form does not send a technician.',
+      'If the gate is stuck or the entry is down, call us. Emergency service is available after hours, too. Same-day when available. A website form does not send a technician.',
     directAnswer:
-      'Call (352) 282-0692. Tell us the property, which gate, and whether it is stuck open or stuck closed. We come same-day when the schedule and the drive allow. Do not use the contact form for this.',
+      'Call (352) 282-0692. Tell us the property, which gate, and whether it is stuck open or stuck closed. Emergency service is available after hours. We come same-day when the schedule and the drive allow. Do not use the contact form for this.',
     capabilities: [
       {
         title: 'Stuck or unresponsive gates',
@@ -707,6 +707,10 @@ export const services: Service[] = [
       'A system returned to a documented, known-good state',
     ],
     faqs: [
+      {
+        q: 'Is emergency service available after hours?',
+        a: 'Yes. Emergency service is available after hours. Call (352) 282-0692 and tell us the property and which gate is down. Same-day when available.',
+      },
       {
         q: 'How fast can you respond to an emergency?',
         a: 'Same-day response is available when scheduling and travel allow. Severity, distance, and current load determine actual arrival window. Emergency requests are triaged on intake.',
