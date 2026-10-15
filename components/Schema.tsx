@@ -1,7 +1,6 @@
-// Server-rendered JSON-LD schema components.
-//
-// All emitters omit absent fields rather than rendering empty strings, so
-// pre-launch placeholders never produce malformed structured data.
+// Server-rendered JSON-LD. The sitewide graph is the LocalBusiness record
+// from lib/seo/structuredData.ts (HomeAndConstructionBusiness, www URLs,
+// city-only address, Book a project call). Page emitters omit empty fields.
 
 import {
   site,
@@ -27,9 +26,6 @@ export function JsonLd({ data }: { data: object }) {
   );
 }
 
-// Strip undefined/null/'' and empty arrays so generated JSON-LD stays clean.
-// Empty arrays (e.g. sameAs: []) must not be emitted — they are valid JSON but
-// confuse some validators and provide no signal to crawlers.
 function pruned<T extends Record<string, unknown>>(obj: T): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(obj)) {
@@ -62,11 +58,13 @@ export function LocalBusinessSchema({
   region,
   url,
   description,
+  geo,
 }: {
   city: string;
   region: string;
   url: string;
   description: string;
+  geo?: { latitude: number; longitude: number };
 }) {
   return (
     <JsonLd
@@ -74,13 +72,15 @@ export function LocalBusinessSchema({
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
         name: `${site.name} — ${city}`,
-        description,
+        description: /24\s*\/\s*7|\$\s?\d/.test(description) ? undefined : description,
         url,
         areaServed: { '@type': 'City', name: city, containedInPlace: region },
-        // Only include address if a verified street/postal is configured.
         address: postalAddressNode(),
         telephone: hasPhone() ? site.phone : undefined,
         email: hasEmail() ? site.email : undefined,
+        geo: geo
+          ? { '@type': 'GeoCoordinates', latitude: geo.latitude, longitude: geo.longitude }
+          : undefined,
       })}
     />
   );

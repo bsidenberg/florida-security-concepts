@@ -1,3 +1,4 @@
+import { crmIntakeLead } from './attribution';
 import { canonicalFingerprint } from './localReceipt';
 import type { DeliveryResult, ValidatedLead } from './types';
 import { RECEIPT_TEMPLATE_VERSION, snapshotEmailEnvelopes, type EmailEnvelope } from './providers/resend';
@@ -318,7 +319,7 @@ export async function deliverProductionReceipt(
         console.warn('[lead-receipt]', 'crm_pending');
         return;
       }
-      const rawBody = buildCrmBody(requestId, payload as Record<string, unknown>);
+      const rawBody = buildCrmBody(requestId, crmIntakeLead(payload as Record<string, unknown>));
       let outcome: CrmOutcome;
       try {
         outcome = await crm.post(rawBody, AbortSignal.timeout(Math.floor(budget)));

@@ -143,7 +143,7 @@ export const resources: Resource[] = [
           'A single shared code for the whole community',
           'A resident list that nobody owns or maintains',
           'Permanent vendor codes for cleaning, lawn, and pool',
-          'Cameras that look impressive but cannot resolve a license plate at the gate',
+          'Cameras aimed away from the gate and the lane',
           'No documented escalation when the gate is down',
         ],
       },
@@ -188,11 +188,11 @@ export const resources: Resource[] = [
     metaTitle:
       'Storage Facility Security Camera Guide',
     metaDescription:
-      'A practical guide to security camera coverage for self-storage facilities — gate scenes, hallway coverage, license plate capture, retention, and remote monitoring.',
+      'A practical guide to security camera coverage for self-storage facilities — the gate, the hallways, the drive-up units, retention, and remote viewing.',
     publishedDate: '2026-04-08',
     updatedDate: '2026-05-01',
     shortAnswer:
-      'A self-storage facility should place cameras at four scene types: a license-plate-grade camera at each entry gate, hallway coverage for indoor units, exterior corner coverage for drive-up units, and overview cameras for the office and gate context. Retention should be sized to match dispute and investigation timelines — commonly 30 to 90 days.',
+      'A self-storage facility should cover the entry gate, the indoor hallways, the drive-up unit doors, and the office. The gate camera should show the vehicle and the lane. Retention should match how long a dispute can take to surface — commonly 30 to 90 days.',
     intro:
       'Storage cameras are evidence systems. They have to answer specific questions — who entered, when, in what vehicle, and what happened after. Generic camera counts and consumer-grade hardware are the most common reasons facilities cannot resolve a real incident.',
     sections: [
@@ -200,8 +200,8 @@ export const resources: Resource[] = [
         heading: 'Scenes that matter',
         body: ['Each scene answers a specific question:'],
         bullets: [
-          'Gate LPR scene — capture license plates of every vehicle entering and exiting',
-          'Gate overview scene — context shot of the vehicle, occupants, and credential use',
+          'Gate lane — the vehicle, the gate, and the keypad in one view',
+          'Gate context — a wider shot of the entry so the lane view has surroundings',
           'Hallway scenes — continuous coverage of indoor unit corridors',
           'Drive-up exterior scenes — coverage of unit doors, especially corners and dead-ends',
           'Office and counter scene — staff interactions, deliveries, and walk-ins',
@@ -216,7 +216,7 @@ export const resources: Resource[] = [
       {
         heading: 'Integration with access control',
         body: [
-          'When the camera system shares an event timeline with access control, an entry event becomes a single record — credential used, plate captured, vehicle at gate, person at counter — instead of five separate timelines that have to be reconciled manually.',
+          'When the camera system shares a timeline with access control, an entry is easier to reconstruct: the credential used, the vehicle at the gate, and the person at the counter, instead of separate recordings that have to be lined up by hand.',
         ],
       },
     ],
@@ -226,8 +226,8 @@ export const resources: Resource[] = [
         a: 'It depends on layout, not site size. The right answer comes from scene design — what question each camera must answer — not from a default count per square foot.',
       },
       {
-        q: 'Do we need analytics?',
-        a: 'Analytics are valuable when used to filter footage during investigations. They are oversold when marketed as alarms.',
+        q: 'Do we need special camera analytics?',
+        a: 'Start with a clear picture of the gate, the lane, and the unit doors. That recorded view is what answers most storage disputes.',
       },
     ],
     relatedServices: ['video-surveillance', 'access-control', 'security-system-integration'],
@@ -235,7 +235,7 @@ export const resources: Resource[] = [
     keywords: [
       'storage facility security cameras',
       'self storage camera setup',
-      'storage license plate camera',
+      'storage gate camera',
       'storage video surveillance',
     ],
   },
@@ -348,7 +348,7 @@ export const resources: Resource[] = [
     question: 'What Should an HOA Include on a Gate Preventive Maintenance Checklist?',
     metaTitle: 'HOA Gate Preventive Maintenance Checklist',
     metaDescription:
-      'What HOA boards and property managers in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay should review when the gate, operator, safety devices, and credentials are one system.',
+      'What HOA boards and property managers should review when the gate, operator, safety devices, and credentials are one system.',
     publishedDate: '2026-09-22',
     updatedDate: '2026-09-22',
     shortAnswer:
@@ -458,7 +458,7 @@ export const resources: Resource[] = [
       'What Should You Do to Prepare an Automatic Gate for Florida Storm Season?',
     metaTitle: 'Prepare an Automatic Gate for Florida Storm Season',
     metaDescription:
-      'A practical storm-season checklist for HOAs and property managers in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay — backup power, manual release, safety devices, debris, and after-hours contacts for automatic gates.',
+      'A storm-season checklist for HOA automatic gates — backup power, manual release, safety devices, debris, and after-hours contacts.',
     publishedDate: '2026-09-24',
     updatedDate: '2026-09-24',
     shortAnswer:
@@ -569,7 +569,7 @@ export const resources: Resource[] = [
       'How Should an HOA Manage Vendor and Delivery Access at the Gate?',
     metaTitle: 'HOA Vendor and Delivery Gate Access Guide',
     metaDescription:
-      'How HOAs in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay should handle vendors, deliveries, and temporary contractors at the gate — time-bound credentials, guest paths, audit logs, and what boards should avoid.',
+      'How HOAs should handle vendors, deliveries, and temporary contractors at the gate — time-bound credentials, guest paths, and audit logs.',
     publishedDate: '2026-10-01',
     updatedDate: '2026-10-01',
     shortAnswer:
@@ -685,7 +685,7 @@ export const resources: Resource[] = [
       'How Should a Florida HOA Handle Emergency Vehicle Gate Access?',
     metaTitle: 'Florida HOA Emergency Vehicle Gate Access',
     metaDescription:
-      'How Orlando, Tampa, and Central Florida HOAs should plan fire department gate access — confirm the local AHJ, Knox-style devices, backup power, fail behavior, and testing records.',
+      'How Central Florida HOAs should plan fire department gate access — confirm the local AHJ, backup power, fail behavior, and testing records.',
     publishedDate: '2026-10-05',
     updatedDate: '2026-10-05',
     shortAnswer:

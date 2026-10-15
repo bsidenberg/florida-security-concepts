@@ -13,9 +13,10 @@ import {
   FAQSchema,
   BreadcrumbSchema,
 } from '@/components/Schema';
+import { ConceptGrid } from '@/components/ConceptGrid';
+import { conceptsForIndustry } from '@/data/concepts';
 import { industries, getIndustry } from '@/data/industries';
 import { servicesBySlug } from '@/data/services';
-import { site } from '@/data/site';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -48,6 +49,7 @@ export default async function IndustryPage({ params }: Params) {
     .filter(Boolean);
 
   const url = canonicalUrl(`/industries/${ind.slug}`);
+  const gallery = conceptsForIndustry(ind.slug);
   const ctaLabel = `Plan security for your ${ind.shortLabel.toLowerCase()} property`;
   const ctaHref = `/contact?industry=${ind.slug}`;
 
@@ -71,17 +73,26 @@ export default async function IndustryPage({ params }: Params) {
             ]}
           />
 
-          <div className="fsc-card p-7 md:p-9 max-w-4xl">
-            <Eyebrow>Direct answer</Eyebrow>
-            <p className="mt-3 text-lg md:text-xl leading-relaxed text-fsc-text">
-              {ind.directAnswer}
-            </p>
-            <p className="mt-5 text-[11px] font-mono uppercase tracking-fsc-eyebrow text-fsc-text-muted">
-              Updated {formatDate(ind.updatedDate)} · {site.name}
-            </p>
-          </div>
+          <p className="max-w-4xl text-lg md:text-xl leading-relaxed text-fsc-text">
+            {ind.directAnswer}
+          </p>
         </Container>
       </Section>
+
+      {gallery.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>Equipment</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
+              The kind of hardware this work involves.
+            </h2>
+            <p className="mt-4 max-w-3xl text-fsc-text-dim">Line diagrams of the hardware. Not photographs of a job.</p>
+            <div className="mt-8">
+              <ConceptGrid concepts={gallery} />
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* Pains */}
       <Section>
@@ -159,11 +170,10 @@ export default async function IndustryPage({ params }: Params) {
             <div className="lg:col-span-5">
               <Eyebrow>Plan your system</Eyebrow>
               <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-                Start with an advanced consultation.
+                Book an advanced consultation.
               </h2>
               <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
-                Tell us about your property — we use the consultation to scope a
-                system that fits the property’s actual operations.
+                Tell us about the property. We use that conversation to scope the work.
               </p>
             </div>
             <div className="lg:col-span-7">
@@ -202,14 +212,6 @@ export default async function IndustryPage({ params }: Params) {
       />
     </>
   );
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
 }
 
 function defaultPropertyType(slug: string): string | undefined {

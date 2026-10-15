@@ -19,7 +19,7 @@ test('simulated ambiguous response keeps values and logical ID for explicit retr
     const control = form.locator(`[name="${field}"]`);
     if (await control.evaluate(e => e.tagName === 'SELECT')) await control.selectOption(validLead[field]); else await control.fill(validLead[field]);
   }
-  const submit = form.getByRole('button', { name: /request|assessment|retry|submit/i }).first();
+  const submit = form.getByRole('button', { name: /request|assessment|consultation|retry|submit|schedule a site visit/i }).first();
   await submit.click(); await expect(form.getByRole('alert')).toContainText('could not confirm');
   await expect(form.locator('[name="email"]')).toHaveValue(validLead.email);
   await submit.click(); await expect.poll(() => bodies.length).toBe(2);
@@ -35,7 +35,7 @@ for (const status of [503, 429]) test(`simulated ${status} retains assessment in
   await page.goto('/contact'); const form = page.getByRole('form', { name: 'Advanced consultation request form' });
   for (const field of ['fullName', 'phone', 'email', 'city'] as const) await form.locator(`[name="${field}"]`).fill(validLead[field]);
   for (const field of ['propertyType', 'service'] as const) await form.locator(`[name="${field}"]`).selectOption(validLead[field]);
-  await form.getByRole('button', { name: /request|assessment|submit/i }).first().click();
+  await form.getByRole('button', { name: /request|assessment|consultation|submit|schedule a site visit/i }).first().click();
   await expect(form.getByRole('alert')).toBeVisible();
   for (const field of ['fullName', 'phone', 'email', 'city'] as const) await expect(form.locator(`[name="${field}"]`)).toHaveValue(validLead[field]);
 });
@@ -45,6 +45,6 @@ test('two rapid clicks submit one pending request', async ({ page }) => {
   await page.goto('/contact'); const form = page.getByRole('form', { name: 'Advanced consultation request form' });
   for (const field of ['fullName', 'phone', 'email'] as const) await form.locator(`[name="${field}"]`).fill(validLead[field]);
   for (const field of ['propertyType', 'service', 'city'] as const) { const control = form.locator(`[name="${field}"]`); if (await control.evaluate(e => e.tagName === 'SELECT')) await control.selectOption(validLead[field]); else await control.fill(validLead[field]); }
-  await form.getByRole('button', { name: /request|assessment|submit/i }).first().evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
+  await form.getByRole('button', { name: /request|assessment|consultation|submit|schedule a site visit/i }).first().evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
   await expect(form.getByRole('alert')).toBeVisible(); expect(count).toBe(1);
 });

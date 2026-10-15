@@ -3,14 +3,13 @@
 // page content. Must equal the public route contract (tests/fixtures/routes.ts).
 export const CANONICAL_ROUTES = [
   '/', '/contact', '/services', '/industries', '/service-areas', '/resources', '/privacy', '/terms',
-  '/services/security-gate-systems', '/services/gate-automation', '/services/access-control',
+  '/services/security-gate-systems', '/services/gate-repair', '/services/gate-automation', '/services/maintenance-plans', '/services/access-control',
   '/services/video-surveillance', '/services/security-system-integration', '/services/emergency-service',
   '/industries/hoa-gated-communities', '/industries/multifamily-apartments-condos', '/industries/storage-facilities',
   '/industries/commercial-properties', '/industries/industrial-warehouses', '/industries/property-managers',
   '/industries/residential-estates',
   '/service-areas/orlando', '/service-areas/tampa', '/service-areas/lakeland', '/service-areas/kissimmee',
-  '/service-areas/winter-garden', '/service-areas/clermont', '/service-areas/lake-mary', '/service-areas/sanford',
-  '/service-areas/ocala', '/service-areas/the-villages', '/service-areas/st-petersburg', '/service-areas/clearwater',
+  '/service-areas/winter-garden', '/service-areas/clermont', '/service-areas/st-petersburg', '/service-areas/clearwater',
   '/service-areas/brandon', '/service-areas/wesley-chapel',
   '/resources/how-much-does-an-automatic-gate-cost', '/resources/best-access-control-system-for-hoa',
   '/resources/storage-facility-security-camera-guide', '/resources/gate-automation-vs-access-control',

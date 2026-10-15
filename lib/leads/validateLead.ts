@@ -38,8 +38,39 @@ export function validateLead(input: unknown): ValidationResult {
   const message = field('message', 2000) || undefined;
   const context: Record<string, string | undefined> = {};
   for (const key of ['sourcePage','serviceSlug','industrySlug','locationSlug','utmSource','utmMedium','utmCampaign','referrer']) context[key] = field(key) || undefined;
-  for (const [camel, snake] of [['utmSource','utm_source'],['utmMedium','utm_medium'],['utmCampaign','utm_campaign']]) {
-    const alias = field(snake);
+  // Attribution must not reject an otherwise valid lead. Over-long or non-text values are dropped.
+  function optionalAttribution(key: string, max = 200): string | undefined {
+    const value = raw[key];
+    if (typeof value !== 'string') return undefined;
+    const trimmed = value.trim();
+    if (!trimmed || trimmed.length > max || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(trimmed)) return undefined;
+    return trimmed;
+  }
+  const optionalKeys = ['utmTerm','utmContent','gclid','fbclid','msclkid','landingPage','lastUtmSource','lastUtmMedium','lastUtmCampaign','lastUtmTerm','lastUtmContent','lastGclid','lastFbclid','lastMsclkid','lastReferrer','lastLandingPage'];
+  for (const key of optionalKeys) {
+    const value = optionalAttribution(key);
+    if (value) context[key] = value;
+  }
+  const aliases: [string, string, 'strict' | 'optional'][] = [
+    ['utmSource','utm_source','strict'],
+    ['utmMedium','utm_medium','strict'],
+    ['utmCampaign','utm_campaign','strict'],
+    ['utmTerm','utm_term','optional'],
+    ['utmContent','utm_content','optional'],
+    ['landingPage','landing_page','optional'],
+    ['lastUtmSource','last_utm_source','optional'],
+    ['lastUtmMedium','last_utm_medium','optional'],
+    ['lastUtmCampaign','last_utm_campaign','optional'],
+    ['lastUtmTerm','last_utm_term','optional'],
+    ['lastUtmContent','last_utm_content','optional'],
+    ['lastGclid','last_gclid','optional'],
+    ['lastFbclid','last_fbclid','optional'],
+    ['lastMsclkid','last_msclkid','optional'],
+    ['lastReferrer','last_referrer','optional'],
+    ['lastLandingPage','last_landing_page','optional'],
+  ];
+  for (const [camel, snake, mode] of aliases) {
+    const alias = mode === 'optional' ? optionalAttribution(snake) : field(snake);
     if (!context[camel] && alias) context[camel] = alias;
   }
   if (Object.keys(errors).length) return { ok: false, errors };

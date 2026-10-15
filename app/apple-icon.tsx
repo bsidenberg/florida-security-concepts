@@ -20,7 +20,7 @@ export default function AppleIcon() {
           alignItems: 'center',
           justifyContent: 'center',
           background:
-            'linear-gradient(135deg, #1d4ed8 0%, #0f1422 55%, #070a13 100%)',
+            'linear-gradient(135deg, #002868 0%, #001A4A 55%, #0B1230 100%)',
           color: '#f8fafc',
           fontFamily: 'sans-serif',
         }}
@@ -41,7 +41,7 @@ export default function AppleIcon() {
             width: 36,
             height: 4,
             borderRadius: 2,
-            background: '#60a5fa',
+            background: '#FF8FA3',
           }}
         />
       </div>

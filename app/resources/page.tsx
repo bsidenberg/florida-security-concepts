@@ -11,13 +11,13 @@ import { canonicalUrl } from '@/lib/seo/canonical';
 export const metadata: Metadata = {
   title: 'Resources & Learning Center | Security System Guides',
   description:
-    'Practical guides on security gates, access control for HOAs, storage facility cameras, and more — written for properties in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
+    'Practical guides on security gates, access control for HOAs, and storage facility cameras, written for properties we serve from Clermont.',
   alternates: { canonical: canonicalUrl('/resources') },
   twitter: {
     card: 'summary_large_image',
     title: 'Resources & Learning Center | Security System Guides',
     description:
-      'Practical guides on security gates, access control for HOAs, storage facility cameras, and more — written for properties in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
+      'Practical guides on security gates, access control for HOAs, and storage facility cameras, written for properties we serve from Clermont.',
   },
 };
 
@@ -28,7 +28,7 @@ export default function ResourcesIndexPage() {
         eyebrow="Resources · Learning Center"
         title="Practical answers to the security questions properties actually ask."
         subtitle="Direct, jargon-free guides on gate cost, access control, storage cameras, integration, and what property managers should look for."
-        primaryCta={{ label: 'Request an advanced consultation', href: '/contact' }}
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
 
@@ -81,8 +81,8 @@ export default function ResourcesIndexPage() {
 
       <CTASection
         title="Want a recommendation specific to your property?"
-        body="Resources answer general questions. An advanced consultation gets to the answer specific to your property — and what to do next."
-        primaryCta={{ label: 'Request an advanced consultation', href: '/contact' }}
+        body="Resources answer general questions. An advanced consultation gets to the answer for your property."
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
       />
 
       <BreadcrumbSchema

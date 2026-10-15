@@ -24,6 +24,7 @@
 // API route can respond with 503. The lead is NOT considered delivered.
 
 import { Resend } from 'resend';
+import { attributionNotesBlock } from '../attribution';
 import type { DeliveryResult, ValidatedLead } from '../types';
 export type EmailEnvelope = { from: string; to: string; reply_to?: string; subject: string; text: string; html: string };
 export const RECEIPT_TEMPLATE_VERSION = 'fsc-assessment-v3'; // D-024: confirmation content changed (no free-text echo)
@@ -127,7 +128,24 @@ function rowsFor(lead: ValidatedLead): FieldRow[] {
     { label: 'UTM source', value: lead.utmSource },
     { label: 'UTM medium', value: lead.utmMedium },
     { label: 'UTM campaign', value: lead.utmCampaign },
+    { label: 'UTM term', value: lead.utmTerm },
+    { label: 'UTM content', value: lead.utmContent },
+    { label: 'GCLID', value: lead.gclid },
+    { label: 'FBCLID', value: lead.fbclid },
+    { label: 'MSCLKID', value: lead.msclkid },
+    { label: 'Landing page', value: lead.landingPage },
     { label: 'Referrer', value: lead.referrer },
+    { label: 'Last UTM source', value: lead.lastUtmSource },
+    { label: 'Last UTM medium', value: lead.lastUtmMedium },
+    { label: 'Last UTM campaign', value: lead.lastUtmCampaign },
+    { label: 'Last UTM term', value: lead.lastUtmTerm },
+    { label: 'Last UTM content', value: lead.lastUtmContent },
+    { label: 'Last GCLID', value: lead.lastGclid },
+    { label: 'Last FBCLID', value: lead.lastFbclid },
+    { label: 'Last MSCLKID', value: lead.lastMsclkid },
+    { label: 'Last referrer', value: lead.lastReferrer },
+    { label: 'Last landing page', value: lead.lastLandingPage },
+    { label: 'Source attribution', value: attributionNotesBlock(lead) || undefined },
   ];
 }
 

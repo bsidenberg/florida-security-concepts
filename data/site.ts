@@ -22,11 +22,11 @@ export const site = {
   // Branding
   name: 'Florida Security Concepts',
   shortName: 'FSC',
-  legalName: 'Florida Security Concepts',
+  legalName: 'Florida Security Concepts LLC',
   businessName: 'Florida Security Concepts',
   domain: 'floridasecurityconcepts.com',
   tagline:
-    'Gate and access-control maintenance, repairs, and installations for HOAs and property managers in Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
+    'Gate repair, maintenance, and access-control work for commercial and residential properties in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
 
   // Resolved at module load. Override via NEXT_PUBLIC_SITE_URL.
   url: resolveUrl(),
@@ -48,10 +48,9 @@ export const site = {
   },
 
   address: {
-    // No verified street address. street/postalCode intentionally blank — the
-    // hasPostalAddress() helper requires all three (street + city + postalCode)
-    // before any LocalBusiness PostalAddress schema is emitted, so partial
-    // address data is structurally prevented from leaking into JSON-LD.
+    // No verified street address. street/postalCode stay blank. Schema emits an
+    // area-level PostalAddress (Clermont, FL) and omits streetAddress until
+    // hasPostalAddress() is true. Do not invent a street or ZIP.
     street: '',
     city: 'Clermont',
     region: 'FL',
@@ -59,16 +58,31 @@ export const site = {
     country: 'US',
   },
 
-  hours: 'Call to schedule service',
-  serviceRegions: ['Lake County', 'Orlando', 'Kissimmee', 'Winter Garden', 'Tampa Bay'],
+  hours: 'Same-day when available',
+  serviceRegions: ['Orlando', 'Kissimmee', 'Winter Garden', 'Clermont', 'Tampa Bay'],
+  // Named in on-page copy and areaServed. Not a claim that each city has an office.
+  serviceCities: [
+    'Clermont',
+    'Orlando',
+    'Kissimmee',
+    'Winter Garden',
+    'Lakeland',
+    'Ocala',
+    'Tampa',
+    'St. Petersburg',
+    'Clearwater',
+    'Brandon',
+    'Wesley Chapel',
+  ],
   serviceAreaSummary:
-    'Clermont and Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
+    'Based in Clermont, Lake County. We schedule work in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
 
+  instagramHandle: 'floridasecurityconcepts',
   social: {
-    // Add real profiles before launch.
     google: '',
     facebook: '',
     linkedin: '',
+    instagram: 'https://www.instagram.com/floridasecurityconcepts/',
   },
 
   // TODO: Brian to populate with actual license numbers and manufacturer certifications
@@ -106,6 +120,7 @@ export function activeSocialLinks(): { name: string; url: string }[] {
   if (site.social.google) list.push({ name: 'Google', url: site.social.google });
   if (site.social.facebook) list.push({ name: 'Facebook', url: site.social.facebook });
   if (site.social.linkedin) list.push({ name: 'LinkedIn', url: site.social.linkedin });
+  if (site.social.instagram) list.push({ name: 'Instagram', url: site.social.instagram });
   return list;
 }
 
@@ -113,10 +128,11 @@ export const nav = {
   primary: [
     { label: 'Maintenance', href: '/#maintenance' },
     { label: 'Services', href: '/services' },
-    { label: 'HOAs & Property Managers', href: '/industries/property-managers' },
+    { label: 'Who We Serve', href: '/industries' },
     { label: 'Service Areas', href: '/service-areas' },
     { label: 'Resources', href: '/resources' },
+    { label: 'About', href: '/about' },
   ],
-  cta: { label: 'Request an advanced consultation', href: '/contact' },
-  emergencyCta: { label: 'Emergency service', href: '/services/emergency-service' },
+  cta: { label: 'Schedule a Site Visit', href: '/contact' },
+  emergencyCta: { label: 'Call if a gate is down', href: '/services/emergency-service' },
 } as const;

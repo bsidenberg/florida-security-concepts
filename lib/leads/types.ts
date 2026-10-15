@@ -22,11 +22,28 @@ export type LeadInput = {
   industrySlug?: string;
   locationSlug?: string;
 
-  // Attribution
+  // Attribution. First touch is the arrival; last touch is the latest
+  // campaign or external referrer in the same visit.
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  utmTerm?: string;
+  utmContent?: string;
+  gclid?: string;
+  fbclid?: string;
+  msclkid?: string;
+  landingPage?: string;
   referrer?: string;
+  lastUtmSource?: string;
+  lastUtmMedium?: string;
+  lastUtmCampaign?: string;
+  lastUtmTerm?: string;
+  lastUtmContent?: string;
+  lastGclid?: string;
+  lastFbclid?: string;
+  lastMsclkid?: string;
+  lastReferrer?: string;
+  lastLandingPage?: string;
 
   // Spam mitigation — must be empty when received.
   honeypot?: string;

@@ -12,7 +12,7 @@ import { CANONICAL_ORIGIN, canonicalUrl } from '../../lib/seo/canonical';
 import { buildPageMetadata } from '../../lib/seo/metadata';
 import { BUSINESS_NAME, BUSINESS_PHONE, businessGraph, sameAsLinks } from '../../lib/seo/structuredData';
 
-const STATIC_PATHS = ['/', '/services', '/industries', '/service-areas', '/resources', '/contact', '/privacy', '/terms', '/sms-consent'];
+const STATIC_PATHS = ['/', '/services', '/industries', '/service-areas', '/resources', '/about', '/contact', '/privacy', '/terms', '/sms-consent'];
 
 function publicPaths(): string[] {
   return [

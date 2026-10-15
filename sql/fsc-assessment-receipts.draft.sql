@@ -316,11 +316,15 @@ BEGIN
   platform:=CASE WHEN src='' THEN 'organic' WHEN src LIKE '%google%' OR src IN ('cpc','ppc','adwords') THEN 'google' WHEN src LIKE '%facebook%' OR src LIKE '%meta%' OR src LIKE '%instagram%' OR src IN ('fb','ig') THEN 'meta' ELSE 'referral' END;
   -- Plain INSERT deliberately fails on any unrelated UUID collision; never UPSERT.
   INSERT INTO public.leads(id,account_id,client_key,source_platform,lead_type,contact_name,contact_email,contact_phone,contact_location,
-    utm_source,utm_medium,utm_campaign,notes,qualification_status,attribution_confidence,dedup_key,ingest_source,raw_payload)
+    utm_source,utm_medium,utm_campaign,utm_content,utm_term,gclid,fbclid,notes,qualification_status,attribution_confidence,dedup_key,ingest_source,raw_payload)
   VALUES(r.prime_lead_id,account,p_slug,platform,'form',r.payload->>'fullName',r.payload->>'email',r.payload->>'phone',r.payload->>'city',
-    r.payload->>'utmSource',r.payload->>'utmMedium',r.payload->>'utmCampaign',r.payload->>'message','new',CASE WHEN nullif(r.payload->>'utmSource','') IS NULL THEN 'low' ELSE 'medium' END,
+    r.payload->>'utmSource',r.payload->>'utmMedium',r.payload->>'utmCampaign',r.payload->>'utmContent',r.payload->>'utmTerm',r.payload->>'gclid',r.payload->>'fbclid',r.payload->>'message','new',CASE WHEN nullif(r.payload->>'utmSource','') IS NULL THEN 'low' ELSE 'medium' END,
     p_slug||'::email::'||lower(r.payload->>'email')||'::'||to_char(r.created_at AT TIME ZONE 'UTC','YYYY-MM-DD'),'fsc-website',
-    jsonb_build_object('fsc',jsonb_build_object('propertyType',r.payload->>'propertyType','service',r.payload->>'service','urgency',r.payload->>'urgency','contactMethod',r.payload->>'contactMethod','company',r.payload->>'company','sourcePage',r.payload->>'sourcePage','serviceSlug',r.payload->>'serviceSlug','industrySlug',r.payload->>'industrySlug','locationSlug',r.payload->>'locationSlug','referrer',r.payload->>'referrer','submittedAt',r.created_at)));
+    jsonb_build_object('fsc',jsonb_build_object('propertyType',r.payload->>'propertyType','service',r.payload->>'service','urgency',r.payload->>'urgency','contactMethod',r.payload->>'contactMethod','company',r.payload->>'company','sourcePage',r.payload->>'sourcePage','serviceSlug',r.payload->>'serviceSlug','industrySlug',r.payload->>'industrySlug','locationSlug',r.payload->>'locationSlug','referrer',r.payload->>'referrer','submittedAt',r.created_at,
+      'attribution',jsonb_strip_nulls(jsonb_build_object(
+        'utmSource',r.payload->>'utmSource','utmMedium',r.payload->>'utmMedium','utmCampaign',r.payload->>'utmCampaign','utmTerm',r.payload->>'utmTerm','utmContent',r.payload->>'utmContent','gclid',r.payload->>'gclid','fbclid',r.payload->>'fbclid','msclkid',r.payload->>'msclkid','referrer',r.payload->>'referrer','landingPage',r.payload->>'landingPage',
+        'lastUtmSource',r.payload->>'lastUtmSource','lastUtmMedium',r.payload->>'lastUtmMedium','lastUtmCampaign',r.payload->>'lastUtmCampaign','lastUtmTerm',r.payload->>'lastUtmTerm','lastUtmContent',r.payload->>'lastUtmContent','lastGclid',r.payload->>'lastGclid','lastFbclid',r.payload->>'lastFbclid','lastMsclkid',r.payload->>'lastMsclkid','lastReferrer',r.payload->>'lastReferrer','lastLandingPage',r.payload->>'lastLandingPage'
+      )))));
   UPDATE fsc_private.assessment_effects SET state='succeeded',lease_token=NULL,lease_until=NULL,error_category=NULL,claimed_from_state=NULL,updated_at=stamp WHERE account_id=account AND request_id=p_request AND effect='prime_lead';
   RETURN jsonb_build_object('code','SUCCEEDED','lead_id',r.prime_lead_id);
 END $fn$;

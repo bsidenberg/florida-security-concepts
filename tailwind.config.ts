@@ -25,6 +25,8 @@ const config: Config = {
           warn: 'rgb(var(--fsc-warn) / <alpha-value>)',
           danger: 'rgb(var(--fsc-danger) / <alpha-value>)',
           ok: 'rgb(var(--fsc-ok) / <alpha-value>)',
+          navy: 'rgb(var(--fsc-navy) / <alpha-value>)',
+          'navy-deep': 'rgb(var(--fsc-navy-deep) / <alpha-value>)',
         },
       },
       fontFamily: {
@@ -33,21 +35,21 @@ const config: Config = {
       },
       backgroundImage: {
         'fsc-grid':
-          'linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px)',
+          'linear-gradient(rgba(0,40,104,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,40,104,0.07) 1px, transparent 1px)',
         'fsc-radial':
-          'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.18) 0%, rgba(7,10,19,0) 60%)',
+          'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(191,10,48,0.12) 0%, rgba(255,255,255,0) 60%)',
         'fsc-card':
           'linear-gradient(rgb(var(--fsc-surface)), rgb(var(--fsc-surface)))',
         'fsc-hairline':
-          'linear-gradient(135deg, rgba(96,165,250,0.6) 0%, rgba(31,41,64,0) 30%, rgba(31,41,64,0) 70%, rgba(96,165,250,0.4) 100%)',
+          'linear-gradient(135deg, rgba(191,10,48,0.6) 0%, rgba(0,40,104,0) 30%, rgba(0,40,104,0) 70%, rgba(191,10,48,0.4) 100%)',
       },
       boxShadow: {
         'fsc-card':
-          '0 6px 22px rgba(21,44,62,0.04)',
+          '0 6px 22px rgba(0,26,74,0.05)',
         'fsc-card-hover':
-          '0 10px 28px rgba(21,44,62,0.09)',
+          '0 10px 28px rgba(0,26,74,0.10)',
         'fsc-glow':
-          '0 0 0 1px rgba(96,165,250,0.5), 0 0 30px rgba(59,130,246,0.35)',
+          '0 0 0 1px rgba(191,10,48,0.5), 0 0 30px rgba(191,10,48,0.3)',
       },
       letterSpacing: {
         'fsc-eyebrow': '0.18em',

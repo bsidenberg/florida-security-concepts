@@ -1,7 +1,8 @@
 import { isHostedPreview } from '@/lib/leads/environment';
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import { AttributionCapture } from '@/components/AttributionCapture';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { OrganizationSchema } from '@/components/Schema';
@@ -24,7 +25,7 @@ const PLAUSIBLE_SRC = analyticsScriptSrc({
   production: process.env.NODE_ENV === 'production',
 });
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
@@ -39,7 +40,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(CANONICAL_ORIGIN),
   title: {
-    default: `${site.name} | Gates & Access Control — Clermont, Lake County & Tampa Bay`,
+    default: `${site.name} | Gates & Access Control`,
     template: `%s | ${site.name}`,
   },
   description: site.tagline,
@@ -54,8 +55,10 @@ export const metadata: Metadata = {
     'security system integration',
     'commercial security Florida',
     'HOA gate access',
-    'Tampa Bay security',
-    'Central Florida security',
+    'commercial gate access control',
+    'Clermont gate repair',
+    'Orlando gate service',
+    'Tampa Bay gate service',
   ],
   creator: site.name,
   publisher: site.name,
@@ -65,7 +68,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: canonicalUrl('/'),
     siteName: site.name,
-    title: `${site.name} — Gate and access control in Clermont, Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay`,
+    title: `${site.name} — Gate Repair & Access Control`,
     description: site.tagline,
   },
   twitter: {
@@ -96,9 +99,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${jetbrains.variable}`}>
       <body className="font-sans">
         <LocalPreviewProvider local={LOCAL_PREVIEW}>
+          <AttributionCapture />
           {LOCAL_PREVIEW && <div className="fsc-preview-notice">Local review · Synthetic details only · Requests stay on this computer</div>}
           <a
             href="#main"

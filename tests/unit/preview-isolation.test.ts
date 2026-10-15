@@ -9,7 +9,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 // Evaluate the JSX dev runtime under the test environment before any NODE_ENV stub (the layout transform targets it).
 import 'react/jsx-dev-runtime';
 
-vi.mock('next/font/google', () => ({ Inter: () => ({ variable: 'font-sans-stub' }), JetBrains_Mono: () => ({ variable: 'font-mono-stub' }) }));
+vi.mock('next/font/google', () => ({ Inter: () => ({ variable: 'font-sans-stub' }), Plus_Jakarta_Sans: () => ({ variable: 'font-sans-stub' }), JetBrains_Mono: () => ({ variable: 'font-mono-stub' }) }));
 vi.mock('../../app/globals.css', () => ({}));
 vi.mock('@/components/Header', () => ({ Header: () => null }));
 vi.mock('@/components/Footer', () => ({ Footer: () => null }));

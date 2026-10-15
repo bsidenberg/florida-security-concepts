@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { site } from '@/data/site';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 interface BuildPageMetadataParams {
@@ -47,6 +48,8 @@ export function buildPageMetadata({
     title,
     description,
     url: pageUrl,
+    locale: 'en_US',
+    siteName: site.name,
     ...(images && { images }),
   };
 
