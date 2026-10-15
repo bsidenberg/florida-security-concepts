@@ -22,7 +22,6 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      { source: '/service-areas/ocala', destination: '/service-areas', permanent: true },
       { source: '/service-areas/the-villages', destination: '/service-areas', permanent: true },
       { source: '/service-areas/lake-mary', destination: '/service-areas', permanent: true },
       { source: '/service-areas/sanford', destination: '/service-areas', permanent: true },
