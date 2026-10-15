@@ -65,7 +65,7 @@ export default async function ServicePage({ params }: Params) {
   const isEmergency = svc.slug === 'emergency-service';
   const ctaLabel = isEmergency
     ? `Call ${site.phoneDisplay}`
-    : 'Book an advanced consultation';
+    : 'Schedule a Site Visit';
   const ctaHref = isEmergency
     ? `tel:${site.phone}`
     : `/contact?service=${svc.slug}`;

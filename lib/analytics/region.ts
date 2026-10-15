@@ -5,7 +5,7 @@
 import type { Region } from './events';
 
 export const CITY_REGIONS: readonly (readonly [city: string, region: 'orlando' | 'tampa'])[] = [
-  ['Orlando', 'orlando'], ['Tampa', 'tampa'], ['Lakeland', 'orlando'], ['Kissimmee', 'orlando'],
+  ['Orlando', 'orlando'], ['Tampa', 'tampa'], ['Lakeland', 'orlando'], ['Ocala', 'orlando'], ['Kissimmee', 'orlando'],
   ['Winter Garden', 'orlando'], ['Clermont', 'orlando'], ['St. Petersburg', 'tampa'], ['Clearwater', 'tampa'],
   ['Brandon', 'tampa'], ['Wesley Chapel', 'tampa'],
 ];

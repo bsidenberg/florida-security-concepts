@@ -59,6 +59,7 @@ export const site = {
     'Kissimmee',
     'Winter Garden',
     'Lakeland',
+    'Ocala',
     'Tampa',
     'St. Petersburg',
     'Clearwater',
@@ -122,7 +123,8 @@ export const nav = {
     { label: 'Who We Serve', href: '/industries' },
     { label: 'Service Areas', href: '/service-areas' },
     { label: 'Resources', href: '/resources' },
+    { label: 'About', href: '/about' },
   ],
-  cta: { label: 'Book an advanced consultation', href: '/contact' },
+  cta: { label: 'Schedule a Site Visit', href: '/contact' },
   emergencyCta: { label: 'Call if a gate is down', href: '/services/emergency-service' },
 } as const;

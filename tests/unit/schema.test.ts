@@ -43,7 +43,7 @@ describe('JSON-LD', () => {
     expect(data.address).toMatchObject({ addressLocality: 'Clermont', addressRegion: 'FL' });
     expect(data.address).not.toHaveProperty('streetAddress');
     const served = JSON.stringify(data.areaServed);
-    expect(served).not.toContain('Ocala');
+    expect(served).toContain('Ocala'); // Ocala added per Jeff Hicks review 2026-10-15
     expect(served).not.toContain('The Villages');
     expect(served).not.toContain('Lake Mary');
     expect(served).not.toContain('Sanford');

@@ -17,9 +17,9 @@ export function HomeHero() {
       <div className="fsc-container fsc-hero-grid">
         <div className="fsc-hero-left">
           <p className="fsc-kicker">Commercial &amp; residential · Based in Clermont, Lake County</p>
-          <h1>Gate &amp; access-control service <em>you can see working.</em></h1>
+          <h1>Central Florida gate &amp; access-control service <em>you can see working.</em></h1>
           <div className="fsc-hero-ctas">
-            <Link href="/contact" className="fsc-btn-primary fsc-main-cta" data-fsc-event="assessment_cta" data-fsc-placement="hero">Book an advanced consultation <span aria-hidden="true">›</span></Link>
+            <Link href="/contact" className="fsc-btn-primary fsc-main-cta" data-fsc-event="assessment_cta" data-fsc-placement="hero">Schedule a Site Visit <span aria-hidden="true">›</span></Link>
             <a href="#night-view" className="fsc-btn-outline">See the night view <span aria-hidden="true">↓</span></a>
           </div>
           <p className="fsc-hero-intro">We repair and maintain the gates, access control, and cameras your property uses every day. Same-day when available. New installations when you need a new entry. Based in Clermont. We work in Orlando, Kissimmee, Winter Garden, and Tampa Bay.</p>

@@ -20,18 +20,18 @@ export type Industry = {
 export const industries: Industry[] = [
   {
     slug: 'hoa-gated-communities',
-    title: 'HOA Gate Access Control & Security Systems',
-    navLabel: 'HOAs & Gated Communities',
-    shortLabel: 'HOAs & Gated Communities',
+    title: 'HOA & CDD Gate Access Control & Security Systems',
+    navLabel: 'HOAs, CDDs & Gated Communities',
+    shortLabel: 'HOAs, CDDs & Gated Communities',
     metaTitle:
-      'HOA Gate, Access Control & Security Systems',
+      'HOA & CDD Gate, Access Control & Security Systems',
     metaDescription:
-      'Security systems for HOAs and gated communities — gate automation, resident credentials, vendor access, video surveillance, and integrated property security in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
-    eyebrow: 'Industry · HOAs & Gated Communities',
+      'Security systems for HOAs, community development districts (CDDs), and gated communities — gate automation, resident credentials, vendor access, video surveillance, and integrated property security in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+    eyebrow: 'Industry · HOAs, CDDs & Gated Communities',
     intro:
       'A gated community is a credential and traffic system before it is anything else. Residents, vendors, deliveries, guests, contractors, and emergency responders all need to enter — under different rules, on different schedules, with different accountability.',
     directAnswer:
-      'Florida Security Concepts designs and integrates gate automation, access control, and video surveillance for HOAs and gated communities in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay — including resident credentials, time-bound vendor access, telephone entry, and incident-grade camera coverage at the gate.',
+      'Florida Security Concepts designs and integrates gate automation, access control, and video surveillance for HOAs, community development districts (CDDs), and gated communities in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay — including resident credentials, time-bound vendor access, telephone entry, and incident-grade camera coverage at the gate.',
     pains: [
       {
         title: 'Shared codes that never get changed',

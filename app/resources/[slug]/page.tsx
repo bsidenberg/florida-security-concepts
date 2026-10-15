@@ -172,7 +172,7 @@ export default async function ResourcePage({ params }: Params) {
         title="Want a recommendation specific to your property?"
         body="Guides answer general questions. An advanced consultation gets to the answer for your property."
         primaryCta={{
-          label: 'Book an advanced consultation',
+          label: 'Schedule a Site Visit',
           href: '/contact',
         }}
         secondaryCta={{ label: 'View Services', href: '/services' }}

@@ -15,7 +15,7 @@ import { industries } from '@/data/industries';
 import { resources } from '@/data/resources';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Security Gates, Access Control & Cameras | Clermont',
+  title: 'Central Florida Security Gates, Access Control & Cameras | Clermont',
   description: 'We repair and maintain gates, access control, and cameras from Clermont. Same-day when available. Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   path: '/',
 });
@@ -25,13 +25,16 @@ const manufacturers = [
   { file: 'linear', name: 'Linear' }, { file: 'hysecurity', name: 'HySecurity' }, { file: 'liftmaster', name: 'LiftMaster' }, { file: 'essex', name: 'Essex Electronics' },
   { file: 'all-o-matic', name: 'All-O-Matic' }, { file: 'access-one', name: 'Access One Technologies' }, { file: 'aiphone', name: 'Aiphone' }, { file: 'chamberlain-elite', name: 'Chamberlain Elite' },
   { file: 'lockey', name: 'Lockey USA' }, { file: 'doorking', name: 'DKS DoorKing' }, { file: 'viking', name: 'Viking Access Systems' },
+  { file: 'cellgate', name: 'CellGate' },
 ];
 
 const stats: Stat[] = [
   { display: 'Same-day', label: 'when available', note: 'CALL IF A GATE IS DOWN' },
   { display: 'Local', label: 'Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay', note: 'BASED IN CLERMONT' },
-  { value: industries.length, display: String(industries.length), label: 'property types, from warehouses to estates', note: 'SEE WHO WE SERVE' },
-  { value: manufacturers.length, display: String(manufacturers.length), label: 'equipment platforms installed and serviced', note: 'GATES · ACCESS · INTERCOM' },
+  // Audit 2026-10-15: industries has 6 property types plus property managers, so the tile says 'property and client types'.
+  { value: industries.length, display: String(industries.length), label: 'property and client types we serve, from warehouses to estates', note: 'SEE WHO WE SERVE' },
+  // Named brands instead of a bare count. Every name here has a logo in the strip below.
+  { display: 'LiftMaster · HySecurity · CellGate', label: `DoorKing, Viking, Linear, Aiphone and ${manufacturers.length - 7} more brands we install and service`, note: 'GATES · ACCESS · INTERCOM' },
 ];
 
 const integrationPath = '/services/security-system-integration';
@@ -100,7 +103,7 @@ export default function HomePage() {
       <Reveal className="fsc-timeline"><div className="fsc-timeline-bar" aria-hidden="true" />{steps.map((s) => <div key={s.title} className="fsc-step"><i aria-hidden="true" /><span className="fsc-step-t">{s.t}</span><b>{s.title}</b><p>{s.text}</p></div>)}</Reveal>
     </div></section>
 
-    <section className="fsc-light fsc-section-new" id="service-areas"><div className="fsc-container fsc-two-column"><div><p className="fsc-kicker">Headquarters in Clermont, Lake County</p><h2>Commercial and residential,<br/>from Clermont to Tampa Bay.</h2><p>Warehouses, offices, storage facilities, gated communities, multifamily, and estates. Tell us the city, the equipment, and the work you need.</p><Link href="/service-areas" className="fsc-text-link">Explore our service areas →</Link><nav className="fsc-city-links" aria-label="City service areas"><Link href="/service-areas/orlando">Orlando</Link><Link href="/service-areas/kissimmee">Kissimmee</Link><Link href="/service-areas/winter-garden">Winter Garden</Link><Link href="/service-areas/clermont">Clermont</Link><Link href="/service-areas/tampa">Tampa Bay</Link></nav><div className="fsc-area-links"><Link href="/industries/commercial-properties">Commercial properties</Link><Link href="/industries/hoa-gated-communities">HOAs & gated communities</Link><Link href="/industries/storage-facilities">Storage facilities</Link><Link href="/industries">All property types</Link></div></div><div className="fsc-faq"><h3>A few things to know</h3>{faqs.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></div></section>
+    <section className="fsc-light fsc-section-new" id="service-areas"><div className="fsc-container fsc-two-column"><div><p className="fsc-kicker">Headquarters in Clermont, Lake County</p><h2>Commercial and residential,<br/>from Clermont to Tampa Bay.</h2><p>Warehouses, offices, storage facilities, gated communities, multifamily, and estates. Tell us the city, the equipment, and the work you need.</p><Link href="/service-areas" className="fsc-text-link">Explore our service areas →</Link><nav className="fsc-city-links" aria-label="City service areas"><Link href="/service-areas/orlando">Orlando</Link><Link href="/service-areas/kissimmee">Kissimmee</Link><Link href="/service-areas/winter-garden">Winter Garden</Link><Link href="/service-areas/clermont">Clermont</Link><Link href="/service-areas/tampa">Tampa Bay</Link><Link href="/service-areas/lakeland">Lakeland</Link><Link href="/service-areas/ocala">Ocala</Link></nav><div className="fsc-area-links"><Link href="/industries/commercial-properties">Commercial properties</Link><Link href="/industries/hoa-gated-communities">HOAs & gated communities</Link><Link href="/industries/storage-facilities">Storage facilities</Link><Link href="/industries">All property types</Link></div></div><div className="fsc-faq"><h3>A few things to know</h3>{faqs.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></div></section>
 
     <section className="fsc-trust fsc-light fsc-section-new" aria-labelledby="proof-heading"><div className="fsc-container fsc-trust-grid"><div><p className="fsc-kicker">How to reach us</p><h2 id="proof-heading">Talk with the Clermont team.</h2><p>Call, email, or send a note about the property. If the gate is down, call.</p></div><ul><li><span>Headquarters area</span>Clermont, Lake County, Florida</li><li><span>Phone</span><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li><li><span>Scheduling</span>Same-day when available</li><li><span>Email</span><a href={`mailto:${site.email}`}>{site.email}</a></li></ul></div></section>
 
@@ -108,7 +111,7 @@ export default function HomePage() {
       <div className="fsc-notes">{latest.map((r) => <Link key={r.slug} href={`/resources/${r.slug}`} className="fsc-note"><small>{new Date(r.updatedDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</small><b>{r.question}</b><span>{r.shortAnswer.length > 180 ? `${r.shortAnswer.slice(0, 177).trimEnd()}…` : r.shortAnswer}</span></Link>)}</div>
     </div></section>
 
-    <section className="fsc-final-cta"><div className="fsc-container"><p className="fsc-kicker">Let’s talk about your property</p><h2>A clear next step starts here.</h2><p>Book an advanced consultation. We’ll contact you to discuss the property and the next step.</p><Link href="/contact" className="fsc-btn-primary" data-fsc-event="assessment_cta" data-fsc-placement="home_final">Book an advanced consultation <span aria-hidden="true">›</span></Link></div></section>
+    <section className="fsc-final-cta"><div className="fsc-container"><p className="fsc-kicker">Let’s talk about your property</p><h2>A clear next step starts here.</h2><p>Book an advanced consultation. We’ll contact you to discuss the property and the next step.</p><Link href="/contact" className="fsc-btn-primary" data-fsc-event="assessment_cta" data-fsc-placement="home_final">Schedule a Site Visit <span aria-hidden="true">›</span></Link></div></section>
     <FAQSchema items={faqs} />
   </div>;
 }

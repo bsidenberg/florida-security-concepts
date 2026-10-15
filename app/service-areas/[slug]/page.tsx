@@ -229,6 +229,7 @@ function matchCity(city: string): string | undefined {
     'Orlando',
     'Tampa',
     'Lakeland',
+    'Ocala',
     'Kissimmee',
     'Winter Garden',
     'Clermont',

@@ -21,7 +21,7 @@ function CtaLink({ href, className, children }: { href: string; className: strin
   return <Link href={href} {...props}>{children}</Link>;
 }
 
-export function CTASection({ eyebrow = 'Next step', title, body, primaryCta = { label: 'Book an advanced consultation', href: '/contact' }, secondaryCta, variant = 'default' }: CTAProps) {
+export function CTASection({ eyebrow = 'Next step', title, body, primaryCta = { label: 'Schedule a Site Visit', href: '/contact' }, secondaryCta, variant = 'default' }: CTAProps) {
   return (
     <section className={`fsc-shared-cta fsc-navy ${variant === 'emergency' ? 'fsc-shared-cta-emergency' : ''}`}>
       <Container>

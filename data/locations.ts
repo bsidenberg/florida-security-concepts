@@ -126,6 +126,42 @@ export const locations: Location[] = [
     ],
   },
   {
+    slug: 'ocala',
+    city: 'Ocala',
+    region: 'Central Florida',
+    county: 'Marion County',
+    metaTitle:
+      'Ocala Security Gates, Access Control & Cameras',
+    metaDescription:
+      'Gate repair, maintenance, access control, and video surveillance for Ocala and Marion County communities, commercial sites, and industrial properties.',
+    intro:
+      'Ocala and Marion County mix distribution and industrial sites, commercial properties, and gated communities. We repair, maintain, and install the gates, access control, and cameras those properties use every day, and we schedule the visit from Clermont.',
+    localContext:
+      'From the I-75 corridor to the communities around the city, Ocala properties range from logistics yards and offices to gated neighborhoods and estates. Marion County visits are scheduled from our Clermont, Lake County base.',
+    highlightServices: [
+      'gate-repair',
+      'maintenance-plans',
+      'security-gate-systems',
+      'gate-automation',
+      'access-control',
+      'video-surveillance',
+      'security-system-integration',
+    ],
+    highlightIndustries: [
+      'industrial-warehouses',
+      'commercial-properties',
+      'hoa-gated-communities',
+      'residential-estates',
+    ],
+    nearby: ['clermont', 'orlando', 'wesley-chapel'],
+    keywords: [
+      'Ocala security systems',
+      'Ocala gate repair',
+      'Marion County access control',
+      'Ocala security cameras',
+    ],
+  },
+  {
     slug: 'kissimmee',
     city: 'Kissimmee',
     region: 'Central Florida',

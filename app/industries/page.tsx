@@ -28,7 +28,7 @@ export default function IndustriesIndexPage() {
         eyebrow="Industries"
         title="Security systems engineered for the way each property type actually operates."
         subtitle="Each industry has its own credential populations, traffic patterns, and incident profile. We design systems around those realities — not around generic templates."
-        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
 
@@ -50,7 +50,7 @@ export default function IndustriesIndexPage() {
       <CTASection
         title="Don’t see your property type?"
         body="If your property does not fit one of these labels, tell us what it is. We will talk about the gate and the entry you actually have."
-        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
       />
 
       <BreadcrumbSchema

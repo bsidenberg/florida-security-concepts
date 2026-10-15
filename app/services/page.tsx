@@ -23,7 +23,7 @@ export default function ServicesIndexPage() {
         eyebrow="Services"
         title="Gate repair, maintenance, and the rest of the entry."
         subtitle="We repair gates, we maintain them, and we install new ones. Access control and cameras are part of the same visit when the property needs them."
-        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
         secondaryCta={{ label: 'Industries we serve', href: '/industries' }}
       />
 
@@ -45,7 +45,7 @@ export default function ServicesIndexPage() {
       <CTASection
         title="Not sure which services apply to your property?"
         body="Tell us what the gate is doing. We will say what applies and what does not."
-        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
       />
 

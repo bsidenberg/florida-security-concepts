@@ -23,7 +23,7 @@ export default function ServiceAreasPage() {
         eyebrow="Service Areas"
         title="Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay."
         subtitle="We are based in Clermont, Lake County. These are the areas we schedule. If your property is in one of them, tell us the city and the equipment."
-        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
 
@@ -48,7 +48,7 @@ export default function ServiceAreasPage() {
       <CTASection
         title="Working across multiple sites or metros?"
         body="We can use the same credentials, the same service notes, and the same call number across more than one site in this area."
-        primaryCta={{ label: 'Book an advanced consultation', href: '/contact' }}
+        primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
         secondaryCta={{ label: 'Property Manager Industry', href: '/industries/property-managers' }}
       />
 
