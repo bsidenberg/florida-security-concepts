@@ -32,6 +32,7 @@ export function Header() {
     <div className="fsc-container fsc-header-main">
       <Link href="/" className="fsc-brand" aria-label="Florida Security Concepts home">
         <Image src={logo} alt="Florida Security Concepts logo" width={181} height={92} priority sizes="181px" />
+        <span className="fsc-sr-only">Florida Security Concepts</span>
       </Link>
       <nav className="fsc-desktop-nav" aria-label="Primary">{nav.primary.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined} data-fsc-event={item.href === '/#maintenance' ? 'maintenance_interest' : undefined} data-fsc-placement={item.href === '/#maintenance' ? 'header' : undefined}>{item.label}</Link>)}</nav>
       <BookProjectCall className="fsc-header-book" />
