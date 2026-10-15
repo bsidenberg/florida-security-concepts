@@ -168,7 +168,8 @@ export function installCrmTransport(
 /** The ValidatedLead key set (lib/leads/types.ts + validateLead output). `honeypot` is deliberately absent. */
 export const VALIDATED_LEAD_KEYS = [
   'fullName', 'email', 'phone', 'propertyType', 'service', 'city', 'urgency', 'contactMethod', 'company', 'message',
-  'sourcePage', 'serviceSlug', 'industrySlug', 'locationSlug', 'utmSource', 'utmMedium', 'utmCampaign', 'utmTerm', 'utmContent', 'gclid', 'fbclid', 'landingPage', 'referrer',
+  'sourcePage', 'serviceSlug', 'industrySlug', 'locationSlug', 'utmSource', 'utmMedium', 'utmCampaign', 'utmTerm', 'utmContent', 'gclid', 'fbclid', 'msclkid', 'landingPage', 'referrer',
+  'lastUtmSource', 'lastUtmMedium', 'lastUtmCampaign', 'lastUtmTerm', 'lastUtmContent', 'lastGclid', 'lastFbclid', 'lastMsclkid', 'lastReferrer', 'lastLandingPage',
   'requestId', 'submittedAt',
 ] as const;
 

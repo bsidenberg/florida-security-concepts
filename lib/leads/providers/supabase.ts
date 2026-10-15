@@ -26,7 +26,8 @@
 //   - source_platform derived from utm_source (else 'organic')
 //   - lead_type = 'form'
 //   - contact_name / contact_email / contact_phone / contact_location (city)
-//   - utm_source / utm_medium / utm_campaign
+//   - utm_source / utm_medium / utm_campaign / utm_content / utm_term / gclid / fbclid
+//     (first touch). msclkid, landing page, and last touch are in raw_payload.
 //   - notes ← lead.message
 //   - qualification_status = 'new'
 //   - attribution_confidence = 'medium' if utm_source present, else 'low'
@@ -45,6 +46,7 @@
 //   - Does NOT modify Prime's schema.
 
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { attributionRecord } from '../attribution';
 import type { DeliveryResult, ValidatedLead } from '../types';
 
 type EnvCheck =
@@ -160,6 +162,7 @@ export async function deliverViaSupabase(
 
   const sourcePlatform = deriveSourcePlatform(lead.utmSource);
   const dedupKey = buildDedupKey(env.slug, lead);
+  const attribution = attributionRecord(lead);
 
   const row = {
     account_id: accountResult.id,
@@ -173,6 +176,10 @@ export async function deliverViaSupabase(
     utm_source: lead.utmSource ?? null,
     utm_medium: lead.utmMedium ?? null,
     utm_campaign: lead.utmCampaign ?? null,
+    utm_content: lead.utmContent ?? null,
+    utm_term: lead.utmTerm ?? null,
+    gclid: lead.gclid ?? null,
+    fbclid: lead.fbclid ?? null,
     notes: lead.message ?? null,
     qualification_status: 'new',
     attribution_confidence: lead.utmSource ? 'medium' : 'low',
@@ -191,6 +198,7 @@ export async function deliverViaSupabase(
         locationSlug: lead.locationSlug,
         referrer: lead.referrer,
         submittedAt: lead.submittedAt,
+        ...(attribution ? { attribution } : {}),
       },
     },
   };

@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
-import { captureFirstTouch } from '@/lib/leads/attribution-client';
+import { captureAttribution } from '@/lib/leads/attribution-client';
 
-/** Records first-touch campaign fields as soon as a visit starts. */
+/** Records first and last touch as soon as a visit starts. */
 export function AttributionCapture() {
   useEffect(() => {
-    captureFirstTouch();
+    captureAttribution();
   }, []);
   return null;
 }

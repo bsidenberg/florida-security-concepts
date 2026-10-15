@@ -1,47 +1,39 @@
-// First-touch attribution captured in the browser on arrival.
-// Stored in sessionStorage and a first-party session cookie. Later pages
-// in the same visit do not overwrite it.
+// First and last touch, captured in the browser.
+// Stored in sessionStorage and a first-party session cookie.
+// First touch is kept. Last touch updates on a later arrival that carries
+// a campaign parameter or an external referrer. Moving around the site does not.
+
+import {
+  ATTRIBUTION_FIELDS,
+  type AttributionField,
+  type StoredVisit,
+  type Touch,
+  combineVisits,
+  mergeVisit,
+  parseStoredAttribution,
+} from './attribution';
 
 export const ATTRIBUTION_STORAGE_KEY = 'fsc_attr';
 
-const QUERY_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'] as const;
-
-export type StoredAttribution = {
-  utm_source?: string;
-  utm_medium?: string;
-  utm_campaign?: string;
-  utm_term?: string;
-  utm_content?: string;
-  gclid?: string;
-  fbclid?: string;
-  referrer?: string;
-  landing_page?: string;
-};
+const QUERY_FIELDS: AttributionField[] = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_term',
+  'utm_content',
+  'gclid',
+  'fbclid',
+  'msclkid',
+];
 
 const LIMIT = 200;
+let appliedThisDocument = false;
 
 function clean(value: string | null | undefined): string | undefined {
   if (!value) return undefined;
   const trimmed = value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '').trim();
   if (!trimmed) return undefined;
   return trimmed.slice(0, LIMIT);
-}
-
-function parse(raw: string | null): StoredAttribution | null {
-  if (!raw) return null;
-  try {
-    const value = JSON.parse(raw) as unknown;
-    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-    const record = value as Record<string, unknown>;
-    const out: StoredAttribution = {};
-    for (const key of [...QUERY_FIELDS, 'referrer', 'landing_page'] as const) {
-      const item = clean(typeof record[key] === 'string' ? record[key] : undefined);
-      if (item) out[key] = item;
-    }
-    return Object.keys(out).length ? out : null;
-  } catch {
-    return null;
-  }
 }
 
 function readCookie(): string | null {
@@ -64,9 +56,40 @@ function writeCookie(serialized: string) {
   document.cookie = `${ATTRIBUTION_STORAGE_KEY}=${encodeURIComponent(serialized)}; Path=/; SameSite=Lax${secure}`;
 }
 
-function currentTouch(): StoredAttribution {
+function readStored(): StoredVisit | null {
+  let session: StoredVisit | null = null;
+  let cookie: StoredVisit | null = null;
+  try {
+    session = parseStoredAttribution(window.sessionStorage.getItem(ATTRIBUTION_STORAGE_KEY));
+  } catch {
+    session = null;
+  }
+  try {
+    cookie = parseStoredAttribution(readCookie());
+  } catch {
+    cookie = null;
+  }
+  if (session && cookie) return combineVisits(session, cookie);
+  return session ?? cookie;
+}
+
+function persist(visit: StoredVisit) {
+  const serialized = JSON.stringify(visit);
+  try {
+    window.sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, serialized);
+  } catch {
+    /* sessionStorage can be blocked; the cookie still holds the visit. */
+  }
+  try {
+    writeCookie(serialized);
+  } catch {
+    /* Cookie writes can be blocked. The form still sends this page's touch. */
+  }
+}
+
+function currentTouch(): Touch {
   const params = new URLSearchParams(window.location.search);
-  const out: StoredAttribution = {};
+  const out: Touch = {};
   for (const key of QUERY_FIELDS) {
     const value = clean(params.get(key));
     if (value) out[key] = value;
@@ -78,38 +101,66 @@ function currentTouch(): StoredAttribution {
   return out;
 }
 
-/** Read the first-touch record, capturing it when this is the first page of the visit. */
-export function captureFirstTouch(): StoredAttribution {
+function externalReferrer(referrer: string | undefined): boolean {
+  if (!referrer) return false;
   try {
-    const fromSession = parse(window.sessionStorage.getItem(ATTRIBUTION_STORAGE_KEY));
-    if (fromSession) return fromSession;
-    const fromCookie = parse(readCookie());
-    if (fromCookie) {
-      window.sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(fromCookie));
-      return fromCookie;
-    }
-    const touch = currentTouch();
-    const serialized = JSON.stringify(touch);
-    window.sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, serialized);
-    writeCookie(serialized);
-    return touch;
+    return new URL(referrer).host !== window.location.host;
   } catch {
-    return {};
+    return false;
   }
 }
 
-/** Camel-case fields for POST /api/leads. Empty fields are omitted. */
+/** Read the visit, recording this document when it is a new arrival. */
+export function captureAttribution(): StoredVisit {
+  const current = currentTouch();
+  try {
+    const stored = readStored();
+    if (appliedThisDocument) return stored ?? { v: 2, first: current, last: { ...current } };
+    const visit = mergeVisit(stored, current, externalReferrer(current.referrer));
+    appliedThisDocument = true;
+    if (visit !== stored) persist(visit);
+    return visit;
+  } catch {
+    appliedThisDocument = true;
+    return { v: 2, first: current, last: { ...current } };
+  }
+}
+
+function assign(out: Record<string, string>, key: string, value: string | undefined) {
+  if (value) out[key] = value;
+}
+
+/** Camel-case fields for POST /api/leads. Empty campaign fields are omitted. Landing pages are always sent. */
 export function attributionPayload(): Record<string, string> {
-  const touch = captureFirstTouch();
+  const visit = captureAttribution();
   const out: Record<string, string> = {};
-  if (touch.utm_source) out.utmSource = touch.utm_source;
-  if (touch.utm_medium) out.utmMedium = touch.utm_medium;
-  if (touch.utm_campaign) out.utmCampaign = touch.utm_campaign;
-  if (touch.utm_term) out.utmTerm = touch.utm_term;
-  if (touch.utm_content) out.utmContent = touch.utm_content;
-  if (touch.gclid) out.gclid = touch.gclid;
-  if (touch.fbclid) out.fbclid = touch.fbclid;
-  if (touch.referrer) out.referrer = touch.referrer;
-  if (touch.landing_page) out.landingPage = touch.landing_page;
+  const firstMap: Record<AttributionField, string> = {
+    utm_source: 'utmSource',
+    utm_medium: 'utmMedium',
+    utm_campaign: 'utmCampaign',
+    utm_term: 'utmTerm',
+    utm_content: 'utmContent',
+    gclid: 'gclid',
+    fbclid: 'fbclid',
+    msclkid: 'msclkid',
+    referrer: 'referrer',
+    landing_page: 'landingPage',
+  };
+  const lastMap: Record<AttributionField, string> = {
+    utm_source: 'lastUtmSource',
+    utm_medium: 'lastUtmMedium',
+    utm_campaign: 'lastUtmCampaign',
+    utm_term: 'lastUtmTerm',
+    utm_content: 'lastUtmContent',
+    gclid: 'lastGclid',
+    fbclid: 'lastFbclid',
+    msclkid: 'lastMsclkid',
+    referrer: 'lastReferrer',
+    landing_page: 'lastLandingPage',
+  };
+  for (const field of ATTRIBUTION_FIELDS) {
+    assign(out, firstMap[field], visit.first[field]);
+    assign(out, lastMap[field], visit.last[field]);
+  }
   return out;
 }
