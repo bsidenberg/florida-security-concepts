@@ -15,7 +15,7 @@ import { industries } from '@/data/industries';
 import { resources } from '@/data/resources';
 
 export const metadata: Metadata = buildPageMetadata({
-  title: 'Central Florida Gates & Access Control',
+  title: 'FSC Gate Repair Clermont FL & Central Florida Access Control',
   description: 'We repair and maintain gates, access control, and cameras from Clermont. Same-day when available. Orlando, Kissimmee, Winter Garden, and Tampa Bay.',
   path: '/',
 });

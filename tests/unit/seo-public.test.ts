@@ -110,7 +110,15 @@ describe('business JSON-LD', () => {
     const served = business.areaServed as { name: string }[];
     expect(served.map((place) => place.name)).toEqual(['Clermont', 'Lake County', 'Orlando', 'Kissimmee', 'Winter Garden', 'Tampa Bay']);
 
-    const serviceEntries = graph.slice(1) as unknown as Record<string, unknown>[];
+    expect(business.alternateName).toEqual(['FSC', 'FSC Gate Repair', 'Florida Security Concepts']);
+
+    const gateEntries = graph.slice(1 + services.length) as unknown as Record<string, unknown>[];
+    expect(gateEntries.map((entry) => entry.serviceType)).toEqual(['Gate repair', 'Gate operator repair', 'Fence gate repair']);
+    for (const entry of gateEntries) {
+      expect((entry.areaServed as { name: string }[]).map((place) => place.name)).toEqual(['Clermont', 'Minneola', 'Groveland', 'Montverde', 'Lake County']);
+    }
+
+    const serviceEntries = graph.slice(1, 1 + services.length) as unknown as Record<string, unknown>[];
     expect(serviceEntries.map((entry) => entry.url)).toEqual(services.map((service) => canonicalUrl(`/services/${service.slug}`)));
     for (const entry of serviceEntries) {
       expect(entry['@type']).toBe('Service');

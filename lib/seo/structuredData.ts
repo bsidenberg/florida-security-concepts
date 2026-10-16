@@ -107,6 +107,7 @@ const business: HomeAndConstructionBusiness = {
   '@id': BUSINESS_ID,
   name: BUSINESS_NAME,
   legalName: BUSINESS_NAME,
+  alternateName: ['FSC', 'FSC Gate Repair', 'Florida Security Concepts'],
   url: canonicalUrl('/'),
   logo,
   image: `${CANONICAL_ORIGIN}/icon`,
@@ -139,9 +140,38 @@ function serviceNode(service: (typeof services)[number]): Service {
   };
 }
 
-/** One Service node per service page that exists in data/services.ts. */
+// Lake County gate work scheduled from Clermont. City and county only.
+const lakeCounty = { '@type': 'AdministrativeArea', name: 'Lake County, Florida' } as const;
+const gateRepairArea: (City | AdministrativeArea)[] = [
+  { '@type': 'City', name: 'Clermont', containedInPlace: lakeCounty },
+  { '@type': 'City', name: 'Minneola', containedInPlace: lakeCounty },
+  { '@type': 'City', name: 'Groveland', containedInPlace: lakeCounty },
+  { '@type': 'City', name: 'Montverde', containedInPlace: lakeCounty },
+  { '@type': 'AdministrativeArea', name: 'Lake County' },
+];
+
+const gateServices = [
+  { key: 'gate-repair', name: 'FSC Gate Repair in Clermont, FL', serviceType: 'Gate repair', path: '/gate-repair/clermont-fl' },
+  { key: 'gate-operator-repair', name: 'Gate Operator Repair in Clermont, FL', serviceType: 'Gate operator repair', path: '/gate-operator-repair/clermont-fl' },
+  { key: 'fence-gate-repair', name: 'Fence Gate Repair in Clermont, FL', serviceType: 'Fence gate repair', path: '/services/gate-repair' },
+] as const;
+
+/** Gate repair, gate operator repair, and fence gate repair for Clermont and Lake County. */
+export function gateServiceNodes(): Service[] {
+  return gateServices.map((item) => ({
+    '@type': 'Service',
+    '@id': `${CANONICAL_ORIGIN}/#${item.key}-lake-county`,
+    name: item.name,
+    serviceType: item.serviceType,
+    url: canonicalUrl(item.path),
+    provider: { '@type': 'HomeAndConstructionBusiness', '@id': BUSINESS_ID, name: BUSINESS_NAME, url: canonicalUrl('/'), telephone: BUSINESS_PHONE },
+    areaServed: gateRepairArea,
+  }));
+}
+
+/** One Service node per service page that exists in data/services.ts, plus the Lake County gate services. */
 export function serviceNodes(): Service[] {
-  return services.map(serviceNode);
+  return [...services.map(serviceNode), ...gateServiceNodes()];
 }
 
 export function businessGraph(): Graph {

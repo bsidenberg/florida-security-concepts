@@ -69,6 +69,15 @@ const winterGardenArea: ServedPlace[] = [
   },
 ];
 
+const lakeCity = (name: string): ServedPlace => ({
+  '@type': 'City',
+  name,
+  containedInPlace: { '@type': 'AdministrativeArea', name: 'Lake County, Florida' },
+});
+
+const minneolaArea: ServedPlace[] = [lakeCity('Minneola'), { '@type': 'AdministrativeArea', name: 'Lake County' }];
+const grovelandArea: ServedPlace[] = [lakeCity('Groveland'), { '@type': 'AdministrativeArea', name: 'Lake County' }];
+
 const tampaBayArea: ServedPlace[] = [
   { '@type': 'AdministrativeArea', name: 'Tampa Bay' },
 ];
@@ -80,7 +89,7 @@ export const localLandings: LocalLanding[] = [
     path: '/gate-repair/clermont-fl',
     areaLabel: 'Clermont & Lake County',
     h1: 'Gate Repair in Clermont & Lake County, FL',
-    title: 'Gate Repair in Clermont & Lake County, FL',
+    title: 'FSC Gate Repair Clermont FL & Lake County',
     metaDescription:
       'Gate operator repair in Clermont and Lake County. Ridge heat, lake wind, and sand in the slide track — what to check before you call.',
     eyebrow: 'Clermont · Lake County, FL',
@@ -155,6 +164,138 @@ export const localLandings: LocalLanding[] = [
       {
         q: 'How do I book an advanced consultation for a Clermont gate?',
         a: 'Book a project call through Booqer at https://booqer.ai/shops/florida-security-concepts/book. Available slots are confirmed instantly. The call is an advanced consultation. It does not dispatch a technician.',
+      },
+    ],
+  },
+  {
+    service: 'gate-repair',
+    slug: 'minneola-fl',
+    path: '/gate-repair/minneola-fl',
+    areaLabel: 'Minneola',
+    h1: 'Gate Repair in Minneola, FL',
+    title: 'FSC Gate Repair Minneola FL',
+    metaDescription:
+      'Gate and gate operator repair in Minneola, scheduled from Clermont. Hill grades, new-build entries, and storm sand in the track. What to check first.',
+    eyebrow: 'Minneola · Lake County, FL',
+    intro:
+      'Florida Security Concepts is based next door in Clermont and schedules Minneola gate repair from there. Most Minneola calls come from newer community entries and private drives on rolling ground north of SR 50: a swing leaf that stopped latching once the fill settled, a slide operator that faults on hot afternoons, or a keypad that works while the gate does not move. We repair swing, slide, and vertical-lift operators and service LiftMaster CSL slide operators and CellGate WXL callboxes. Call (352) 282-0692 if it is down. Same-day when available. An advanced consultation is how we scope a repair when the lane is still open.',
+    localContext:
+      'Minneola has grown fast, and many entrances went in alongside new roads and fresh fill. Ground that is still settling changes the geometry of a swing gate, and irrigation installed after the gate puts water where the housing was never meant to see it. Hills around Sugarloaf Mountain and the Turnpike corridor mean wind and grade matter more than they do on a flat lot.',
+    conditionsHeading: 'What fails at Minneola entrances',
+    conditions: [
+      {
+        title: 'Settling fill on a new-build entry',
+        body: 'A gate that closed cleanly the first year starts stopping short or missing the latch. The post or the pad moved, not the operator. Limits set on day one no longer match where the leaf actually travels.',
+      },
+      {
+        title: 'Grade and wind on a swing leaf',
+        body: 'Swing gates on a slope work harder in one direction. Add wind and the operator hits its force limit and reverses. It reads as a fault, but the cause is the leaf, the hinge, and the grade.',
+      },
+      {
+        title: 'Irrigation and afternoon heat',
+        body: 'Sprinkler spray into a control housing and full afternoon sun on a dark cover lead to intermittent stops that clear by morning. The pattern of when it fails is the clue.',
+      },
+    ],
+    beforeYouCall: [
+      'Note whether the gate fails opening, closing, or mid-travel, and whether it only happens in the afternoon or after rain.',
+      'Look at the swing path or slide track for sand, debris, or a leaf rubbing on the uphill side. Do not force it.',
+      'Check the photo eyes for spray, webs, or a bumped bracket. Leave them connected.',
+      'Find out whether anyone used the manual release, and leave it as found until we talk.',
+      'Stop cycling the remote or keypad on a hot operator. Each extra try adds heat.',
+    ],
+    optionsHeading: 'What a Minneola repair usually turns out to be',
+    options: [
+      {
+        title: 'Reset the geometry, then the limits',
+        body: 'When the ground moved, the fix is hinge, latch, and leaf alignment first. Resetting limits alone brings the same fault back.',
+      },
+      {
+        title: 'Protect the housing',
+        body: 'Redirecting a spray head or sealing an entry point often fixes a stop that looked like a failed board.',
+      },
+      {
+        title: 'Match the operator to the entrance',
+        body: 'If a growing community now cycles the gate far more than planned, the visit should say whether the operator class still fits.',
+      },
+    ],
+    serviceType: 'Gate repair',
+    areaServed: minneolaArea,
+    parentServiceSlug: 'gate-automation',
+    parentServiceLabel: 'Gate automation',
+    faqs: [
+      {
+        q: 'Who does gate repair in Minneola, FL?',
+        a: 'Florida Security Concepts (FSC) repairs gates and gate operators in Minneola, scheduled from our base in Clermont. Call (352) 282-0692. Same-day when available.',
+      },
+      {
+        q: 'How do I book an advanced consultation for a Minneola gate?',
+        a: 'Book a project call through Booqer at https://booqer.ai/shops/florida-security-concepts/book. Available slots are confirmed instantly. The call does not dispatch a technician.',
+      },
+    ],
+  },
+  {
+    service: 'gate-repair',
+    slug: 'groveland-fl',
+    path: '/gate-repair/groveland-fl',
+    areaLabel: 'Groveland',
+    h1: 'Gate Repair in Groveland, FL',
+    title: 'FSC Gate Repair Groveland FL',
+    metaDescription:
+      'Gate and gate operator repair in Groveland, scheduled from Clermont. Long rural drives, farm and ranch gates, and storm power hits. What to check first.',
+    eyebrow: 'Groveland · Lake County, FL',
+    intro:
+      'Florida Security Concepts schedules Groveland gate repair from Clermont, a short drive up SR 50. Groveland gates range from new subdivision entries to long rural drives, ranch and equipment yards, and fence gates that were automated years after they were hung. We repair swing, slide, and vertical-lift operators, service LiftMaster CSL slide operators and CellGate WXL callboxes, and fix fence gates that sag, drag, or will not latch. Call (352) 282-0692 if it is down. Same-day when available. An advanced consultation is how we scope a repair when the gate is still usable.',
+    localContext:
+      'Out here, the operator is often far from the house on a long run of wire, solar, or battery power. Lightning and summer storms hit those runs hard. Sand roads and open pasture put dust and debris into tracks and hinges, and heavy farm or ranch leaves ask more of an operator than a light residential gate.',
+    conditionsHeading: 'What fails on Groveland gates',
+    conditions: [
+      {
+        title: 'Power and batteries at the end of a long run',
+        body: 'A storm surge, a tired battery, or a solar panel covered in dust leaves the operator too weak to finish a cycle. The gate moves a little and stops, or works only at midday.',
+      },
+      {
+        title: 'Heavy leaves and sagging fence gates',
+        body: 'A wide farm or ranch gate that has dropped on its hinges drags and trips the operator. A fence gate that was never built to be automated needs the frame and hinge fixed before the motor.',
+      },
+      {
+        title: 'Sand and debris in the travel path',
+        body: 'Sand roads and open ground fill slide tracks and build up under swing leaves. The operator then fights friction and reports a fault.',
+      },
+    ],
+    beforeYouCall: [
+      'Note whether it failed after a storm, and whether it works better in the middle of the day.',
+      'Check whether the leaf sags or drags, and clear loose debris from the path without forcing the gate.',
+      'Look at the solar panel and battery box if you have one, and note any warning lights.',
+      'Find out whether the manual release was used, and leave it as found.',
+      'Have the property name and which gate it is if there are several.',
+    ],
+    optionsHeading: 'What a Groveland repair usually turns out to be',
+    options: [
+      {
+        title: 'Power first',
+        body: 'Batteries, charging, surge damage, and wire runs get checked before anyone replaces a board.',
+      },
+      {
+        title: 'Fix the gate, then the operator',
+        body: 'Rehanging or reinforcing a sagging leaf often ends the fault. A stronger operator on a dragging gate only hides it for a while.',
+      },
+      {
+        title: 'Size for the leaf you have',
+        body: 'A heavy ranch or commercial gate may need a different operator class than the one that came with it.',
+      },
+    ],
+    serviceType: 'Gate repair',
+    areaServed: grovelandArea,
+    parentServiceSlug: 'gate-automation',
+    parentServiceLabel: 'Gate automation',
+    faqs: [
+      {
+        q: 'Who does gate repair in Groveland, FL?',
+        a: 'Florida Security Concepts (FSC) repairs gates, gate operators, and fence gates in Groveland, scheduled from our base in Clermont. Call (352) 282-0692. Same-day when available.',
+      },
+      {
+        q: 'How do I book an advanced consultation for a Groveland gate?',
+        a: 'Book a project call through Booqer at https://booqer.ai/shops/florida-security-concepts/book. Available slots are confirmed instantly. The call does not dispatch a technician.',
       },
     ],
   },
