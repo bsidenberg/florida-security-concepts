@@ -26,14 +26,19 @@
 import { Resend } from 'resend';
 import { attributionNotesBlock } from '../attribution';
 import type { DeliveryResult, ValidatedLead } from '../types';
-export type EmailEnvelope = { from: string; to: string; reply_to?: string; subject: string; text: string; html: string };
+export type EmailEnvelope = { from: string; to: string; cc?: string[]; reply_to?: string; subject: string; text: string; html: string };
 export const RECEIPT_TEMPLATE_VERSION = 'fsc-assessment-v3'; // D-024: confirmation content changed (no free-text echo)
+// Company notification recipients are fixed here. SQL fsc_receipt_create_draft
+// requires `to` to stay exactly the office inbox; additional recipients are cc.
+// LEAD_NOTIFICATION_TO is not read by this receipt path.
+const COMPANY_INBOX = 'info@floridasecurityconcepts.com';
+const COMPANY_CC = ['jeff@floridasecurityconcepts.com', 'caleb@floridasecurityconcepts.com'];
 export function snapshotEmailEnvelopes(lead: ValidatedLead): Record<string, EmailEnvelope> {
   const from = process.env.LEAD_NOTIFICATION_FROM?.trim();
   if (!from) throw new Error('CONFIGURATION');
-  const to = 'info@floridasecurityconcepts.com';
+  const to = COMPANY_INBOX;
   const envelopes: Record<string, EmailEnvelope> = {
-    company_email: { from, to, reply_to: lead.email, subject: buildSubject(lead), text: buildPlainText(lead), html: buildHtml(lead) },
+    company_email: { from, to, cc: COMPANY_CC, reply_to: lead.email, subject: buildSubject(lead), text: buildPlainText(lead), html: buildHtml(lead) },
   };
   const confirmation = readConfirmationConfig(from, [to]);
   if (confirmation.enabled) envelopes.customer_email = {

@@ -24,7 +24,12 @@ describe('snapshotEmailEnvelopes', () => {
     vi.stubEnv('LEAD_CONFIRMATION_ENABLED', 'true');
     const input = lead();
     const { company_email: company } = snapshotEmailEnvelopes(input);
-    expect(company).toMatchObject({ to: 'info@floridasecurityconcepts.com', from: 'FSC Synthetic <notify@example.invalid>', reply_to: input.email });
+    expect(company).toMatchObject({
+      to: 'info@floridasecurityconcepts.com',
+      cc: ['jeff@floridasecurityconcepts.com', 'caleb@floridasecurityconcepts.com'],
+      from: 'FSC Synthetic <notify@example.invalid>',
+      reply_to: input.email,
+    });
     for (const value of Object.values(FREE_TEXT)) expect(company.text).toContain(value);
     expect(company.html).toContain('Quillonia Phishbait-Relay');
     expect(company.html).not.toContain('<script>');
@@ -38,6 +43,7 @@ describe('snapshotEmailEnvelopes', () => {
     const customer = envelopes.customer_email;
     expect(customer).toBeDefined();
     expect(customer.to).toBe(input.email);
+    expect(customer.cc).toBeUndefined();
     const rendered = `${customer.subject}\n${customer.text}\n${customer.html}`;
     for (const fragment of ['Quillonia', 'Phishbait', 'Zorbtown', 'Clickhere', 'Evil Relay', 'attacker.example.invalid', 'alert(1)', 'Visit http']) {
       expect(rendered.includes(fragment), `customer confirmation echoes "${fragment}"`).toBe(false);

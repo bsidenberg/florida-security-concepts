@@ -74,7 +74,12 @@ describe('primary success and retries', { timeout: 60_000 }, () => {
     const customer = await effect(lead.requestId!, 'customer_email');
     expect(resend.calls[0]).toMatchObject({ method: 'POST', key: company.idempotency_key, authorization: `Bearer ${ENV.RESEND_API_KEY}`, contentType: 'application/json' });
     expect(resend.calls[0].body).toEqual(stored.envelopes.company_email);
-    expect(resend.calls[0].body).toMatchObject({ to: COMPANY, from: ENV.LEAD_NOTIFICATION_FROM, reply_to: lead.email });
+    expect(resend.calls[0].body).toMatchObject({
+      to: COMPANY,
+      cc: ['jeff@floridasecurityconcepts.com', 'caleb@floridasecurityconcepts.com'],
+      from: ENV.LEAD_NOTIFICATION_FROM,
+      reply_to: lead.email,
+    });
     expect(resend.calls[1]).toMatchObject({ key: customer.idempotency_key });
     expect(resend.calls[1].body).toEqual(stored.envelopes.customer_email);
     expect(resend.calls[1].body.to).toBe(lead.email);
