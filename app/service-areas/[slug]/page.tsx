@@ -24,6 +24,8 @@ import { servicesBySlug } from '@/data/services';
 import { industriesBySlug } from '@/data/industries';
 import { site } from '@/data/site';
 import { HQ_GEO } from '@/lib/seo/jsonld';
+import { OperatorRepairLinks } from '@/components/OperatorAnswerPage';
+import { lakeCountyOperatorArea } from '@/data/operatorPages';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -198,6 +200,8 @@ export default async function LocationPage({ params }: Params) {
         </Section>
       )}
 
+      <OperatorRepairLinks />
+
       <CTASection
         title={`Plan an integrated security system in ${loc.city}.`}
         body="Gate, credentials, cameras, and service planned around how your property actually moves vehicles, visitors, vendors, and residents."
@@ -211,6 +215,7 @@ export default async function LocationPage({ params }: Params) {
         url={url}
         description={loc.metaDescription}
         geo={loc.slug === 'clermont' ? HQ_GEO : undefined}
+        areaServed={loc.slug === 'clermont' ? lakeCountyOperatorArea : undefined}
       />
       <FAQSchema items={faqs} />
       <BreadcrumbSchema

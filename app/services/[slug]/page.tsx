@@ -19,6 +19,7 @@ import { WorkGallery } from '@/components/WorkGallery';
 import { servicePhotos } from '@/data/workPhotos';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
 import { ServiceAreaLinks } from '@/components/LocalLandingPage';
+import { OperatorRepairLinks } from '@/components/OperatorAnswerPage';
 import { landingsForServicePage } from '@/data/localLandings';
 import {
   services,
@@ -310,6 +311,10 @@ export default async function ServicePage({ params }: Params) {
         <ServiceAreaLinks
           service={svc.slug === 'access-control' ? 'access-control' : 'gate-repair'}
         />
+      )}
+
+      {['gate-repair', 'gate-automation', 'emergency-service', 'access-control', 'security-gate-systems', 'maintenance-plans'].includes(svc.slug) && (
+        <OperatorRepairLinks />
       )}
 
       <CTASection

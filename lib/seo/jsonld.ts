@@ -3,6 +3,7 @@
 // verified street and postal code exist.
 
 import { site, hasPhone, hasEmail, hasPostalAddress, activeSocialLinks } from '@/data/site';
+import { bookingActions } from '@/lib/seo/structuredData';
 
 const brandLogo = `${site.url}/brand/fsc-logo-primary.png`;
 
@@ -69,6 +70,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     geo: { '@type': 'GeoCoordinates', latitude: HQ_GEO.latitude, longitude: HQ_GEO.longitude },
     areaServed: areaServedNodes(),
     sameAs: sameAs.length > 0 ? sameAs : undefined,
+    potentialAction: bookingActions(),
   }));
 }
 
@@ -101,6 +103,7 @@ export function localBusinessJsonLd({
       containedInPlace: { '@type': 'AdministrativeArea', name: region },
     },
     geo: geo ? { '@type': 'GeoCoordinates', latitude: geo.latitude, longitude: geo.longitude } : undefined,
+    potentialAction: bookingActions(),
   }));
 }
 

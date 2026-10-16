@@ -7,6 +7,7 @@ import { CTASection } from '@/components/CTASection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { services } from '@/data/services';
+import { OperatorRepairLinks } from '@/components/OperatorAnswerPage';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = buildPageMetadata({
@@ -41,6 +42,8 @@ export default function ServicesIndexPage() {
           </div>
         </Container>
       </Section>
+
+      <OperatorRepairLinks />
 
       <CTASection
         title="Not sure which services apply to your property?"

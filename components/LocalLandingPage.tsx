@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Container, Section, Eyebrow } from '@/components/Container';
-import { BreadcrumbSchema, JsonLd } from '@/components/Schema';
+import { BreadcrumbSchema, FAQSchema, JsonLd } from '@/components/Schema';
+import { OperatorRepairLinks } from '@/components/OperatorAnswerPage';
 import { site } from '@/data/site';
 import {
   getLocalLanding,
@@ -10,6 +11,7 @@ import {
   type LocalServiceKey,
 } from '@/data/localLandings';
 import { canonicalUrl } from '@/lib/seo/canonical';
+import { answerLocalBusinessJsonLd } from '@/lib/seo/localAnswer';
 import { BUSINESS_ID } from '@/lib/seo/structuredData';
 
 const PHONE_DISPLAY = '352-282-0692';
@@ -172,7 +174,47 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
         </Container>
       </Section>
 
+      {landing.operatorCoverage && landing.operatorCoverage.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>Operators</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
+              Gate operators we service here
+            </h2>
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+              {landing.operatorCoverage.map((item) => (
+                <div key={item.title} className="fsc-card p-6">
+                  <h3 className="text-base font-semibold text-fsc-text">{item.title}</h3>
+                  <p className="mt-2 text-sm text-fsc-text-dim leading-relaxed">{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      {landing.faqs && landing.faqs.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>Answers</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
+              Questions about gate repair in {landing.areaLabel}
+            </h2>
+            <div className="mt-8 max-w-3xl divide-y divide-fsc-border border-y border-fsc-border">
+              {landing.faqs.map((faq) => (
+                <div key={faq.q} className="py-6">
+                  <h3 className="text-lg font-semibold text-fsc-text">{faq.q}</h3>
+                  <p className="mt-2 text-base text-fsc-text-dim leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
       <ServiceAreaLinks service={landing.service} currentSlug={landing.slug} />
+
+      {landing.path === '/gate-repair/clermont-fl' && <OperatorRepairLinks currentPath={landing.path} />}
 
       {counterpart && (
         <Section tight>
@@ -204,6 +246,17 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
       </section>
 
       <JsonLd data={localServiceJsonLd(landing)} />
+      {landing.faqs && landing.faqs.length > 0 && (
+        <JsonLd
+          data={answerLocalBusinessJsonLd({
+            name: site.name,
+            description: landing.metaDescription,
+            url,
+            areaServed: landing.areaServed,
+          })}
+        />
+      )}
+      {landing.faqs && landing.faqs.length > 0 && <FAQSchema items={landing.faqs} />}
       <BreadcrumbSchema
         items={[
           { name: 'Home', url: canonicalUrl('/') },

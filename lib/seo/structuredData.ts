@@ -9,6 +9,7 @@ import type {
   ImageObject,
   PostalAddress,
   ReserveAction,
+  ScheduleAction,
   Service,
 } from 'schema-dts';
 import { services } from '@/data/services';
@@ -45,11 +46,15 @@ const areaServed: (City | AdministrativeArea)[] = [
   { '@type': 'AdministrativeArea', name: 'Tampa Bay' },
 ];
 
-const reserveAction: ReserveAction = {
-  '@type': 'ReserveAction',
-  name: site.booking.label,
-  target: site.booking.bookUrl,
-};
+/** ReserveAction and ScheduleAction both target the Booqer project-call page. */
+export function bookingActions(): [ReserveAction, ScheduleAction] {
+  const name = site.booking.label;
+  const target = site.booking.bookUrl;
+  return [
+    { '@type': 'ReserveAction', name, target },
+    { '@type': 'ScheduleAction', name, target },
+  ];
+}
 
 /** Profiles the site actually links, plus the Booqer shop page. */
 export function sameAsLinks(): string[] {
@@ -81,7 +86,7 @@ const business: HomeAndConstructionBusiness = {
   address,
   areaServed,
   sameAs: sameAsLinks(),
-  potentialAction: reserveAction,
+  potentialAction: bookingActions(),
 };
 
 function serviceNode(service: (typeof services)[number]): Service {
