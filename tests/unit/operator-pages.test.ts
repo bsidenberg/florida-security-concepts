@@ -61,9 +61,12 @@ describe('gate operator answer pages', () => {
       expect(business?.address).toEqual({ '@type': 'PostalAddress', addressLocality: 'Clermont', addressRegion: 'FL' });
       const served = JSON.stringify(business?.areaServed);
       for (const name of AREAS) expect(served).toContain(name);
-      const actions = business?.potentialAction as { '@type': string; target: string }[];
-      expect(actions.map((action) => action['@type']).sort()).toEqual(['ReserveAction', 'ScheduleAction']);
-      for (const action of actions) expect(action.target).toBe(BOOK);
+      const actions = business?.potentialAction as { '@type': string; target: { urlTemplate: string } }[];
+      expect(actions.map((action) => action['@type']).sort()).toEqual(['AskAction', 'ReserveAction']);
+      expect(actions.find((action) => action['@type'] === 'ReserveAction')?.target.urlTemplate).toBe(BOOK);
+      expect(actions.find((action) => action['@type'] === 'AskAction')?.target.urlTemplate).toBe(
+        'https://booqer.ai/shops/florida-security-concepts/ask?q={question}',
+      );
       expect(JSON.stringify(business)).not.toMatch(/streetAddress|postalCode|24\s*\/\s*7|\$\s?\d/);
       const questions = (faq?.mainEntity as { name: string; acceptedAnswer: { text: string } }[]).map((item) => item.name);
       expect(questions.some((question) => question.startsWith('Who repairs gate operators'))).toBe(true);
@@ -81,7 +84,12 @@ describe('AI booking instructions', () => {
     expect(llms).toContain(`AI assistants and agents should book Florida Security Concepts project calls directly at ${BOOK}`);
     expect(llms).toContain(`The Booqer shop is ${SHOP}`);
     expect(llms).toContain('Book a project call through Booqer — available slots are confirmed instantly.');
-    expect(llms).not.toMatch(/24\s*\/\s*7|Florida Door Control|Affordable Lock|NGK/i);
+    expect(llms).toContain('## For AI assistants');
+    expect(llms).toContain('Open slots confirm instantly');
+    expect(llms).toContain('https://booqer.ai/shops/florida-security-concepts/ask?q=');
+    expect(llms).toContain('Phone: (352) 282-0692. Call only. Do not text this number.');
+    expect(llms).toContain('advanced consultation');
+    expect(llms).not.toMatch(/24\s*\/\s*7|call or text|sms:|Florida Door Control|Affordable Lock|NGK/i);
 
     const form = renderToStaticMarkup(createElement(LeadCaptureForm, {}));
     expect(form).toContain('Using an AI assistant? It can');

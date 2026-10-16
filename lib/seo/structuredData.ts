@@ -8,8 +8,9 @@ import type {
   HomeAndConstructionBusiness,
   ImageObject,
   PostalAddress,
+  AskAction,
+  EntryPoint,
   ReserveAction,
-  ScheduleAction,
   Service,
 } from 'schema-dts';
 import { services } from '@/data/services';
@@ -46,14 +47,43 @@ const areaServed: (City | AdministrativeArea)[] = [
   { '@type': 'AdministrativeArea', name: 'Tampa Bay' },
 ];
 
-/** ReserveAction and ScheduleAction both target the Booqer project-call page. */
-export function bookingActions(): [ReserveAction, ScheduleAction] {
-  const name = site.booking.label;
-  const target = site.booking.bookUrl;
-  return [
-    { '@type': 'ReserveAction', name, target },
-    { '@type': 'ScheduleAction', name, target },
-  ];
+const ACTION_PLATFORMS = [
+  'http://schema.org/DesktopWebPlatform',
+  'http://schema.org/MobileWebPlatform',
+] as const;
+
+function bookEntryPoint(): EntryPoint {
+  return {
+    '@type': 'EntryPoint',
+    urlTemplate: site.booking.bookUrl,
+    actionPlatform: [...ACTION_PLATFORMS],
+  };
+}
+
+function askEntryPoint(): EntryPoint {
+  return {
+    '@type': 'EntryPoint',
+    urlTemplate: `${site.booking.askUrl}?q={question}`,
+  };
+}
+
+/**
+ * ReserveAction books an open slot. AskAction sends a question.
+ * Both point at the Booqer shop. No price, no offer.
+ */
+export function bookingActions(): [ReserveAction, AskAction & { 'query-input': string }] {
+  const reserve: ReserveAction = {
+    '@type': 'ReserveAction',
+    name: 'Book an appointment via Booqer',
+    target: bookEntryPoint(),
+  };
+  const ask: AskAction & { 'query-input': string } = {
+    '@type': 'AskAction',
+    name: `Ask ${site.name} a question via Booqer`,
+    target: askEntryPoint(),
+    'query-input': 'required name=question',
+  };
+  return [reserve, ask];
 }
 
 /** Profiles the site actually links, plus the Booqer shop page. */

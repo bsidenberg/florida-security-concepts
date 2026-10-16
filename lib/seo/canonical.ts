@@ -1,5 +1,6 @@
-// Public canonical origin. The apex host 308-redirects to www, so every
-// canonical, sitemap URL, and JSON-LD URL uses this host — never a preview
+// Public canonical origin. Pages on the apex host 308-redirect to www.
+// /llms.txt is the exception: middleware serves it with 200 on both hosts.
+// Every canonical, sitemap URL, and JSON-LD URL uses this host — never a preview
 // host and never NEXT_PUBLIC_SITE_URL.
 export const CANONICAL_ORIGIN = 'https://www.floridasecurityconcepts.com';
 
