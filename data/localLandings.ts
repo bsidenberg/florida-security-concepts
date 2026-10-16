@@ -1,8 +1,10 @@
 // Local gate-repair and access-control pages. Only these five areas.
-// Copy is specific to the place. Do not add cities, prices, competitor names,
-// street addresses, or availability claims.
+// Copy is specific to the place. Do not add prices, competitor names,
+// street addresses, or 24/7 claims. The Clermont gate-repair page also
+// names the Lake County places scheduled from Clermont.
 
 import type { AdministrativeArea, City } from 'schema-dts';
+import { lakeCountyOperatorArea } from '@/data/operatorPages';
 
 export type LocalServiceKey = 'gate-repair' | 'access-control';
 
@@ -30,6 +32,8 @@ export type LocalLanding = {
   /** Service page that should link here. */
   parentServiceSlug: 'gate-automation' | 'access-control';
   parentServiceLabel: string;
+  faqs?: { q: string; a: string }[];
+  operatorCoverage?: { title: string; body: string }[];
 };
 
 const clermontArea: ServedPlace[] = [
@@ -78,10 +82,10 @@ export const localLandings: LocalLanding[] = [
     h1: 'Gate Repair in Clermont & Lake County, FL',
     title: 'Gate Repair in Clermont & Lake County, FL',
     metaDescription:
-      'Gate repair for Clermont and Lake County HOAs. Ridge heat, lake wind, and storm washouts in the slide track — what to check before you call.',
+      'Gate operator repair in Clermont and Lake County. Ridge heat, lake wind, and sand in the slide track — what to check before you call.',
     eyebrow: 'Clermont · Lake County, FL',
     intro:
-      'Florida Security Concepts is based in Clermont. The gate calls we take in Lake County are rarely a mystery motor. They are operators and leaves that ran fine in spring and start faulting once a south-facing housing heats up, a ridge storm dumps sand into a track, or a swing gate on a sloped drive begins to drag.',
+      'Florida Security Concepts is based in Clermont. The gate calls we take in Lake County are rarely a mystery motor. They are operators and leaves that ran fine in spring and start faulting once a south-facing housing heats up, a ridge storm dumps sand into a track, or a swing gate on a sloped drive begins to drag. We service LiftMaster CSL slide gate operators, CellGate WXL callboxes, and swing, slide, and vertical-lift operators. Call (352) 282-0692 if it is down. Same-day when available. After-hours emergency service is by phone. An advanced consultation is how we scope the repair when the lane is not blocked.',
     localContext:
       'South Lake County entries sit on hills, fill, and wind coming off the Clermont chain of lakes. That is a different problem from a flat Orlando apron. Along State Road 50 and US 27, newer master-planned swing gates share the area with older slide gates whose tracks were poured before the landscaping and irrigation grew in. A repair that ignores the slope, the afternoon wind, and the sand in the track comes back after the next storm.',
     conditionsHeading: 'What fails in Lake County heat, storms, and humidity',
@@ -122,9 +126,37 @@ export const localLandings: LocalLanding[] = [
       },
     ],
     serviceType: 'Gate repair',
-    areaServed: clermontArea,
+    areaServed: lakeCountyOperatorArea,
     parentServiceSlug: 'gate-automation',
     parentServiceLabel: 'Gate automation',
+    operatorCoverage: [
+      {
+        title: 'LiftMaster CSL, CellGate WXL, swing, slide, and vertical lift',
+        body: 'In Clermont, Minneola, Groveland, Montverde, and Winter Garden we service LiftMaster CSL slide gate operators and CellGate WXL callboxes, and we repair swing, slide, and vertical-lift operators. The common symptoms are a gate that will not open, will not close, or stops halfway; an operator that hums or clicks and does not move the leaf; a remote that works when the keypad or callbox does not; a slide gate that grinds; a swing gate that will not latch; and a vertical-lift gate that stops short.',
+      },
+      {
+        title: 'After hours, same-day, and an advanced consultation',
+        body: 'After-hours emergency service is by phone at (352) 282-0692. Same-day when available. The website form does not dispatch a technician. An advanced consultation is the project call for an operator that is failing on a pattern rather than blocking the lane right now. Book a project call through Booqer — available slots are confirmed instantly.',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Who repairs gate operators in Clermont, FL?',
+        a: 'Florida Security Concepts repairs gate operators in Clermont, FL, and across Lake County, including Minneola, Groveland, and Montverde, plus Winter Garden. Call (352) 282-0692. Same-day when available. After-hours emergency service is by phone.',
+      },
+      {
+        q: 'Which operators do you service in Clermont and Lake County?',
+        a: 'We service LiftMaster CSL slide gate operators, CellGate WXL callboxes, and swing, slide, and vertical-lift operators.',
+      },
+      {
+        q: 'Do you offer after-hours emergency gate repair?',
+        a: 'Yes. After-hours emergency service is by phone at (352) 282-0692. Same-day when available. Do not use the website form to request a dispatch.',
+      },
+      {
+        q: 'How do I book an advanced consultation for a Clermont gate?',
+        a: 'Book a project call through Booqer at https://booqer.ai/shops/florida-security-concepts/book. Available slots are confirmed instantly. The call is an advanced consultation. It does not dispatch a technician.',
+      },
+    ],
   },
   {
     service: 'gate-repair',

@@ -3,6 +3,8 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { industries } from '../../data/industries';
 import { locations } from '../../data/locations';
+import { localLandings } from '../../data/localLandings';
+import { operatorPages } from '../../data/operatorPages';
 import { resources } from '../../data/resources';
 import { services } from '../../data/services';
 
@@ -22,6 +24,8 @@ const ALLOWED = new Set<string>([
   ...industries.map((item) => `/industries/${item.slug}`),
   ...locations.map((item) => `/service-areas/${item.slug}`),
   ...resources.map((item) => `/resources/${item.slug}`),
+  ...localLandings.map((item) => item.path),
+  ...operatorPages.map((item) => item.path),
 ]);
 
 function files(dir: string): string[] {

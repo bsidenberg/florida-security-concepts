@@ -6,6 +6,7 @@ import { OrganizationSchema } from '../../components/Schema';
 import { industries } from '../../data/industries';
 import { locations } from '../../data/locations';
 import { localLandings } from '../../data/localLandings';
+import { operatorPages } from '../../data/operatorPages';
 import { resources } from '../../data/resources';
 import { services } from '../../data/services';
 import { CANONICAL_ORIGIN, canonicalUrl } from '../../lib/seo/canonical';
@@ -21,6 +22,7 @@ function publicPaths(): string[] {
     ...industries.map((industry) => `/industries/${industry.slug}`),
     ...locations.map((location) => `/service-areas/${location.slug}`),
     ...localLandings.map((landing) => landing.path),
+    ...operatorPages.map((page) => page.path),
     ...resources.map((resource) => `/resources/${resource.slug}`),
   ];
 }
@@ -83,10 +85,11 @@ describe('business JSON-LD', () => {
     expect(business.address).toEqual({ '@type': 'PostalAddress', addressLocality: 'Clermont', addressRegion: 'FL' });
     expect(business.sameAs).toEqual(sameAsLinks());
     expect(sameAsLinks()).toContain('https://booqer.ai/shops/florida-security-concepts');
-    expect(business.potentialAction).toMatchObject({
-      '@type': 'ReserveAction',
-      target: 'https://booqer.ai/shops/florida-security-concepts/book',
-    });
+    const actions = business.potentialAction as { '@type': string; target: string }[];
+    expect(actions).toEqual([
+      { '@type': 'ReserveAction', name: 'Book a project call', target: 'https://booqer.ai/shops/florida-security-concepts/book' },
+      { '@type': 'ScheduleAction', name: 'Book a project call', target: 'https://booqer.ai/shops/florida-security-concepts/book' },
+    ]);
 
     const served = business.areaServed as { name: string }[];
     expect(served.map((place) => place.name)).toEqual(['Clermont', 'Lake County', 'Orlando', 'Kissimmee', 'Winter Garden', 'Tampa Bay']);

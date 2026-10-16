@@ -8,6 +8,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BreadcrumbSchema } from '@/components/Schema';
 import { locations } from '@/data/locations';
 import { ServiceAreaLinks } from '@/components/LocalLandingPage';
+import { OperatorRepairLinks } from '@/components/OperatorAnswerPage';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 export const metadata: Metadata = buildPageMetadata({
@@ -30,6 +31,7 @@ export default function ServiceAreasPage() {
 
       <ServiceAreaLinks service="gate-repair" heading="Gate repair" eyebrow="Service areas" />
       <ServiceAreaLinks service="access-control" heading="Access control" eyebrow="Service areas" />
+      <OperatorRepairLinks />
 
       <Section>
         <Container>

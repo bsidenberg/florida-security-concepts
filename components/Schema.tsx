@@ -4,15 +4,15 @@
 
 import {
   site,
-  hasPhone,
   hasEmail,
-  hasPostalAddress,
 } from '@/data/site';
+import type { AdministrativeArea, City } from 'schema-dts';
 import { canonicalUrl } from '@/lib/seo/canonical';
 import {
   BUSINESS_ID,
   BUSINESS_NAME,
   BUSINESS_PHONE,
+  bookingActions,
   businessGraph,
   serviceAreaServed,
 } from '@/lib/seo/structuredData';
@@ -37,16 +37,13 @@ function pruned<T extends Record<string, unknown>>(obj: T): Record<string, unkno
   return out;
 }
 
-function postalAddressNode() {
-  if (!hasPostalAddress()) return undefined;
-  return pruned({
+/** City and region only. Never a street or postal code. */
+function cityOnlyAddress() {
+  return {
     '@type': 'PostalAddress',
-    streetAddress: site.address.street,
-    addressLocality: site.address.city,
-    addressRegion: site.address.region,
-    postalCode: site.address.postalCode,
-    addressCountry: site.address.country,
-  });
+    addressLocality: 'Clermont',
+    addressRegion: 'FL',
+  };
 }
 
 export function OrganizationSchema() {
@@ -59,12 +56,14 @@ export function LocalBusinessSchema({
   url,
   description,
   geo,
+  areaServed,
 }: {
   city: string;
   region: string;
   url: string;
   description: string;
   geo?: { latitude: number; longitude: number };
+  areaServed?: (City | AdministrativeArea)[];
 }) {
   return (
     <JsonLd
@@ -74,10 +73,12 @@ export function LocalBusinessSchema({
         name: `${site.name} — ${city}`,
         description: /24\s*\/\s*7|\$\s?\d/.test(description) ? undefined : description,
         url,
-        areaServed: { '@type': 'City', name: city, containedInPlace: region },
-        address: postalAddressNode(),
-        telephone: hasPhone() ? site.phone : undefined,
+        areaServed: areaServed ?? { '@type': 'City', name: city, containedInPlace: region },
+        address: cityOnlyAddress(),
+        telephone: BUSINESS_PHONE,
         email: hasEmail() ? site.email : undefined,
+        parentOrganization: { '@id': BUSINESS_ID },
+        potentialAction: bookingActions(),
         geo: geo
           ? { '@type': 'GeoCoordinates', latitude: geo.latitude, longitude: geo.longitude }
           : undefined,
