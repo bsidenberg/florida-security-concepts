@@ -85,10 +85,26 @@ describe('business JSON-LD', () => {
     expect(business.address).toEqual({ '@type': 'PostalAddress', addressLocality: 'Clermont', addressRegion: 'FL' });
     expect(business.sameAs).toEqual(sameAsLinks());
     expect(sameAsLinks()).toContain('https://booqer.ai/shops/florida-security-concepts');
-    const actions = business.potentialAction as { '@type': string; target: string }[];
+    const actions = business.potentialAction as { '@type': string; target: { '@type': string; urlTemplate: string } }[];
     expect(actions).toEqual([
-      { '@type': 'ReserveAction', name: 'Book a project call', target: 'https://booqer.ai/shops/florida-security-concepts/book' },
-      { '@type': 'ScheduleAction', name: 'Book a project call', target: 'https://booqer.ai/shops/florida-security-concepts/book' },
+      {
+        '@type': 'ReserveAction',
+        name: 'Book an appointment via Booqer',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://booqer.ai/shops/florida-security-concepts/book',
+          actionPlatform: ['http://schema.org/DesktopWebPlatform', 'http://schema.org/MobileWebPlatform'],
+        },
+      },
+      {
+        '@type': 'AskAction',
+        name: 'Ask Florida Security Concepts a question via Booqer',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://booqer.ai/shops/florida-security-concepts/ask?q={question}',
+        },
+        'query-input': 'required name=question',
+      },
     ]);
 
     const served = business.areaServed as { name: string }[];

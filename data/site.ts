@@ -39,12 +39,14 @@ export const site = {
   emergencyPhoneDisplay: '(352) 282-0692',
   email: 'info@floridasecurityconcepts.com',
 
-  // Public booking profile. The visible link says "Book a project call" and
-  // does not describe hours.
+  // Public booking profile. Header and contact links still say "Book a project call".
+  // The Booqer block uses the book and ask URLs. The ask page can be linked before it is live.
   booking: {
     label: 'Book a project call',
+    slug: 'florida-security-concepts',
     profileUrl: 'https://booqer.ai/shops/florida-security-concepts',
     bookUrl: 'https://booqer.ai/shops/florida-security-concepts/book',
+    askUrl: 'https://booqer.ai/shops/florida-security-concepts/ask',
   },
 
   address: {

@@ -1,6 +1,6 @@
 // Server-rendered JSON-LD. The sitewide graph is the LocalBusiness record
 // from lib/seo/structuredData.ts (HomeAndConstructionBusiness, www URLs,
-// city-only address, Book a project call). Page emitters omit empty fields.
+// city-only address, Booqer ReserveAction and AskAction). Page emitters omit empty fields.
 
 import {
   site,

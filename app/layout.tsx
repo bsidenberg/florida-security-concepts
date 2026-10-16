@@ -5,6 +5,7 @@ import './globals.css';
 import { AttributionCapture } from '@/components/AttributionCapture';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { BooqerBlock, BooqerDiscovery } from '@/components/BooqerKit';
 import { OrganizationSchema } from '@/components/Schema';
 import { site } from '@/data/site';
 import { CANONICAL_ORIGIN, canonicalUrl } from '@/lib/seo/canonical';
@@ -101,6 +102,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jakarta.variable} ${jetbrains.variable}`}>
       <body className="font-sans">
+        <BooqerDiscovery />
         <LocalPreviewProvider local={LOCAL_PREVIEW}>
           <AttributionCapture />
           {LOCAL_PREVIEW && <div className="fsc-preview-notice">Local review · Synthetic details only · Requests stay on this computer</div>}
@@ -114,6 +116,7 @@ export default function RootLayout({
           <main id="main" className="min-h-screen">
             {children}
           </main>
+          <BooqerBlock />
           <Footer />
           <OrganizationSchema />
           {PLAUSIBLE_SRC && <PlausibleAnalytics src={PLAUSIBLE_SRC} />}
