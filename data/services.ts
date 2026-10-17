@@ -509,7 +509,7 @@ export const services: Service[] = [
     intro:
       'We put cameras where you need to see what happened: the gate, the lane, the lot, the building. Plain video. You can pull the recording when something goes wrong.',
     directAnswer:
-      'We design and install video surveillance for commercial properties, communities, storage facilities, and industrial sites in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay. Coverage follows the scenes that matter on that property, with retention and remote viewing for the people who should have them.',
+      'Florida Security Concepts (FSC) designs and installs security cameras and video surveillance for HOAs, gated communities, commercial properties, storage facilities, industrial sites, and homes. We are based in Clermont and serve Lake County, Orlando, Kissimmee, Winter Garden, and Tampa Bay. Coverage follows the scenes that matter on that property, with retention and remote viewing for the people who should have them.',
     capabilities: [
       {
         title: 'Cameras for the scene',
@@ -554,6 +554,14 @@ export const services: Service[] = [
         a: 'If we aim it at the lane, you should see the vehicle and the entry. We set the view for that gate, not a generic overview of the property.',
       },
       {
+        q: 'Who installs security cameras in Clermont and Lake County?',
+        a: 'Florida Security Concepts installs security cameras in Clermont and Lake County, including Minneola, Groveland, and Montverde. We are based in Clermont. See /security-cameras/clermont-fl, book an advanced consultation at booqer.ai/shops/florida-security-concepts/book, or call (352) 282-0692.',
+      },
+      {
+        q: 'Do you repair or upgrade existing camera systems?',
+        a: 'Yes. We replace failed cameras, fix recording gaps, re-aim coverage, and restore remote viewing on systems already in place.',
+      },
+      {
         q: 'Will this replace a security guard?',
         a: 'No. The cameras record what happened. People still decide what to do with the recording.',
       },
@@ -574,6 +582,8 @@ export const services: Service[] = [
     keywords: [
       'commercial video surveillance',
       'security camera installation',
+      'security camera installation Clermont FL',
+      'security cameras Lake County FL',
       'gate camera',
       'remote video monitoring',
     ],

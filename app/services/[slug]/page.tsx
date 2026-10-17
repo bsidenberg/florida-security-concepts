@@ -309,7 +309,7 @@ export default async function ServicePage({ params }: Params) {
 
       {landingsForServicePage(svc.slug).length > 0 && (
         <ServiceAreaLinks
-          service={svc.slug === 'access-control' ? 'access-control' : 'gate-repair'}
+          service={svc.slug === 'access-control' ? 'access-control' : svc.slug === 'video-surveillance' ? 'security-cameras' : 'gate-repair'}
         />
       )}
 
