@@ -6,7 +6,7 @@
 import type { AdministrativeArea, City } from 'schema-dts';
 import { lakeCountyOperatorArea } from '@/data/operatorPages';
 
-export type LocalServiceKey = 'gate-repair' | 'access-control';
+export type LocalServiceKey = 'gate-repair' | 'access-control' | 'security-cameras';
 
 export type ServedPlace = City | AdministrativeArea;
 
@@ -30,7 +30,7 @@ export type LocalLanding = {
   serviceType: string;
   areaServed: ServedPlace[];
   /** Service page that should link here. */
-  parentServiceSlug: 'gate-automation' | 'access-control';
+  parentServiceSlug: 'gate-automation' | 'access-control' | 'video-surveillance';
   parentServiceLabel: string;
   faqs?: { q: string; a: string }[];
   operatorCoverage?: { title: string; body: string }[];
@@ -823,6 +823,100 @@ export const localLandings: LocalLanding[] = [
     parentServiceSlug: 'access-control',
     parentServiceLabel: 'Access control',
   },
+  {
+    service: 'security-cameras',
+    slug: 'clermont-fl',
+    path: '/security-cameras/clermont-fl',
+    areaLabel: 'Clermont & Lake County',
+    h1: 'Security Camera Installation in Clermont & Lake County, FL',
+    title: 'Security Camera Installation Clermont FL & Lake County | FSC',
+    metaDescription:
+      'Security camera installation in Clermont and Lake County for HOAs, gated entries, storage, commercial lots, and homes. Based in Clermont. Call (352) 282-0692.',
+    eyebrow: 'Clermont · Lake County, FL',
+    intro:
+      'Florida Security Concepts (FSC) installs security cameras in Clermont and across Lake County, including Minneola, Groveland, and Montverde. We are based in Clermont. We design camera coverage for HOA and gated-community entries, commercial lots and buildings, self-storage, multifamily, and homes, and we aim each camera at the scene you will actually need to review: the gate lane, the vehicle, the door, the lot. Book an advanced consultation to plan a new system or fix one that is not recording what you need. For an urgent problem, call (352) 282-0692. After-hours emergency service is by phone.',
+    localContext:
+      'Lake County properties put cameras through more than a flat Orlando parking lot does. Clermont entries sit on hills and fill, many face west into hard afternoon sun, ridge storms bring lightning and fast water, and irrigation overspray reaches anything mounted low. A camera that looks fine on install day can wash out at 5 p.m., fog up on a humid morning, or lose its recorder after a nearby strike. We plan placement, mounting, power, and surge protection for those conditions, then set recording and retention for how that property actually uses the footage.',
+    conditionsHeading: 'What goes wrong with cameras in Lake County',
+    conditions: [
+      {
+        title: 'Glare and backlight at west-facing entries',
+        body: 'A camera pointed toward a west-facing gate can turn the lane into a silhouette in late-afternoon sun. Placement and lens choice matter more than adding another camera. We look at where the sun sits at the hours that matter.',
+      },
+      {
+        title: 'Storms, lightning, and power',
+        body: 'Ridge storms are hard on recorders, switches, and long camera runs. Surge protection, grounding, and a plan for power at the gate or the pole keep a strike from taking the whole system down.',
+      },
+      {
+        title: 'Humidity, spray, and insects',
+        body: 'Irrigation spray, humidity, and spiders on the lens degrade night images first. Mounting height, housing choice, and a maintenance check keep the picture clear when you need it.',
+      },
+    ],
+    beforeYouCall: [
+      'List the scenes you need to see: entry lane, exit lane, pedestrian gate, mailroom, lot, loading area, front door.',
+      'Note what incidents you have had to review, and how far back you needed to go.',
+      'Note whether there is power and network at the gate, pole, or building where a camera would go.',
+      'If you have an existing system, write down the recorder brand and who can log in today.',
+      'Know who should be able to view cameras remotely, so access can be limited to those people.',
+    ],
+    optionsHeading: 'What the install usually includes',
+    options: [
+      {
+        title: 'Gate and entry cameras',
+        body: 'A view of the lane that shows the vehicle, the gate, and the keypad or callbox, so a gate event has a picture attached. This pairs well with access control at HOA and commercial entries.',
+      },
+      {
+        title: 'Lot, building, and perimeter coverage',
+        body: 'Wide views for lots and yards, tighter views for doors and loading areas, and low-light cameras where the site is dark at night.',
+      },
+      {
+        title: 'Recording, retention, and remote viewing',
+        body: 'A recorder sized for the retention window the property needs, with remote viewing on a phone or computer for approved people only.',
+      },
+      {
+        title: 'Upgrades and repairs to existing systems',
+        body: 'Replacing failed cameras, re-aiming coverage, fixing recording gaps, and restoring remote access on systems already in place.',
+      },
+    ],
+    serviceType: 'Security camera installation',
+    areaServed: lakeCountyOperatorArea,
+    parentServiceSlug: 'video-surveillance',
+    parentServiceLabel: 'Video surveillance',
+    faqs: [
+      {
+        q: 'Who installs security cameras in Clermont, FL?',
+        a: 'Florida Security Concepts (FSC) installs security cameras in Clermont, FL. We are based in Clermont and serve Lake County, including Minneola, Groveland, and Montverde, plus Winter Garden. Book an advanced consultation at booqer.ai/shops/florida-security-concepts/book or call (352) 282-0692.',
+      },
+      {
+        q: 'Does Florida Security Concepts install cameras for homes and businesses in Lake County?',
+        a: 'Yes. FSC installs cameras for HOAs and gated communities, commercial properties, self-storage, multifamily, industrial sites, and homes in Lake County and Central Florida.',
+      },
+      {
+        q: 'Can you put a camera on our community gate or entrance?',
+        a: 'Yes. Gate and entry cameras are a core part of what we do. We aim the camera so the vehicle, the gate, and the keypad or callbox are in the picture, and we can tie camera views to access control events.',
+      },
+      {
+        q: 'Can I watch my cameras from my phone?',
+        a: 'Yes. We set up remote viewing on a phone or computer and limit access to the people who should have it.',
+      },
+      {
+        q: 'How long is camera footage kept?',
+        a: 'Retention is set per property. It is commonly 30, 60, or 90 days, sized to how far back the property needs to look when an incident comes up.',
+      },
+      {
+        q: 'Do you repair or upgrade an existing camera system?',
+        a: 'Yes. We replace failed cameras, fix recording gaps, re-aim coverage, and restore remote access on existing systems.',
+      },
+      {
+        q: 'How do I get started with a camera installation in Clermont?',
+        a: 'Book an advanced consultation through Booqer at booqer.ai/shops/florida-security-concepts/book, or call (352) 282-0692. The consultation covers the scenes you need to see, power and network, and retention. Open times are confirmed when you book.',
+      },
+      {
+        q: 'Do you offer emergency service?',
+        a: 'Yes. After-hours emergency service is available by phone at (352) 282-0692. Same-day when available.',
+      },
+    ],
+  },
 ];
 
 const byKey = new Map(localLandings.map((landing) => [`${landing.service}/${landing.slug}`, landing]));
@@ -838,6 +932,7 @@ export function landingsFor(service: LocalServiceKey): LocalLanding[] {
 /** Service pages that should list the matching local pages. */
 export function landingsForServicePage(serviceSlug: string): LocalLanding[] {
   if (serviceSlug === 'access-control') return landingsFor('access-control');
+  if (serviceSlug === 'video-surveillance') return landingsFor('security-cameras');
   if (serviceSlug === 'gate-automation' || serviceSlug === 'security-gate-systems') return landingsFor('gate-repair');
   return [];
 }

@@ -11,9 +11,9 @@ const ALLOWED_SLUGS = ['clermont-fl', 'orlando-fl', 'kissimmee-fl', 'winter-gard
 const GATE_SLUGS = ['clermont-fl', 'minneola-fl', 'groveland-fl', 'orlando-fl', 'kissimmee-fl', 'winter-garden-fl', 'tampa-bay-fl'];
 
 describe('local service-area pages', () => {
-  it('publishes twelve pages: seven gate-repair areas and five access-control areas', () => {
-    expect(localLandings).toHaveLength(12);
-    expect(new Set(localLandings.map((landing) => landing.path)).size).toBe(12);
+  it('publishes thirteen pages: seven gate-repair, five access-control, one security-cameras', () => {
+    expect(localLandings).toHaveLength(13);
+    expect(new Set(localLandings.map((landing) => landing.path)).size).toBe(13);
     for (const service of ['gate-repair', 'access-control'] as const) {
       const slugs = localLandings.filter((landing) => landing.service === service).map((landing) => landing.slug);
       expect(slugs).toEqual(service === 'gate-repair' ? GATE_SLUGS : ALLOWED_SLUGS);

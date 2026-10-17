@@ -16,6 +16,12 @@ import { BUSINESS_ID } from '@/lib/seo/structuredData';
 
 const PHONE_DISPLAY = '352-282-0692';
 
+function serviceLabel(service: LocalServiceKey): string {
+  if (service === 'gate-repair') return 'Gate repair';
+  if (service === 'security-cameras') return 'Security cameras';
+  return 'Access control';
+}
+
 function ProjectCall({ placement }: { placement: string }) {
   return (
     <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -41,7 +47,7 @@ export function ServiceAreaLinks({
   eyebrow?: string;
 }) {
   const pages = landingsFor(service);
-  const eyebrowText = eyebrow ?? (service === 'gate-repair' ? 'Gate repair' : 'Access control');
+  const eyebrowText = eyebrow ?? serviceLabel(service);
   return (
     <Section>
       <Container>
@@ -88,9 +94,10 @@ function localServiceJsonLd(landing: LocalLanding) {
 
 export function LocalLandingView({ landing }: { landing: LocalLanding }) {
   const url = canonicalUrl(landing.path);
-  const otherService: LocalServiceKey = landing.service === 'gate-repair' ? 'access-control' : 'gate-repair';
+  const otherService: LocalServiceKey = landing.service === 'gate-repair' ? 'access-control' : landing.service === 'security-cameras' ? 'access-control' : 'gate-repair';
   const counterpart = getLocalLanding(otherService, landing.slug);
-  const otherLabel = otherService === 'gate-repair' ? 'Gate repair' : 'Access control';
+  const otherLabel = serviceLabel(otherService);
+  const isCameras = landing.service === 'security-cameras';
 
   return (
     <>
@@ -102,7 +109,7 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
             <p className="mt-6 text-base md:text-lg leading-relaxed text-fsc-text-dim max-w-3xl">{landing.intro}</p>
             <ProjectCall placement="local_hero" />
             <p className="mt-4 text-sm text-fsc-text-dim max-w-3xl">
-              The call is an advanced consultation about this entrance. It is not a dispatched visit, and it does not require a street address to get on the calendar — city and county are enough to confirm the area.
+              The call is an advanced consultation about this property. It is not a dispatched visit, and it does not require a street address to get on the calendar — city and county are enough to confirm the area.
             </p>
           </div>
         </Container>
@@ -198,7 +205,7 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
           <Container>
             <Eyebrow>Answers</Eyebrow>
             <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight">
-              Questions about gate repair in {landing.areaLabel}
+              Questions about {serviceLabel(landing.service).toLowerCase()} in {landing.areaLabel}
             </h2>
             <div className="mt-8 max-w-3xl divide-y divide-fsc-border border-y border-fsc-border">
               {landing.faqs.map((faq) => (
@@ -238,7 +245,7 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
               Book a project call
             </h2>
             <p className="mt-4 text-base md:text-lg text-fsc-text-dim leading-relaxed">
-              Tell us the city, what the entrance is doing, and whether you need gate repair, access control, or both. We will confirm that {landing.areaLabel} is in the area and schedule an advanced consultation.
+              {isCameras ? 'Tell us the city, the scenes you need to see, and whether you need a new camera system or a fix to an existing one.' : 'Tell us the city, what the entrance is doing, and whether you need gate repair, access control, or both.'} We will confirm that {landing.areaLabel} is in the area and schedule an advanced consultation.
             </p>
             <ProjectCall placement="local_footer" />
           </div>
