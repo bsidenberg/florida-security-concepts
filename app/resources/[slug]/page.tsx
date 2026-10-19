@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { buildPageMetadata } from '@/lib/seo/metadata';
@@ -101,7 +102,7 @@ export default async function ResourcePage({ params }: Params) {
                 <div className="mt-4 space-y-4">
                   {sec.body.map((p, j) => (
                     <p key={j} className="text-base text-fsc-text-dim leading-relaxed">
-                      {p}
+                      <ArticleText text={p} />
                     </p>
                   ))}
                   {sec.bullets && sec.bullets.length > 0 && (
@@ -112,7 +113,9 @@ export default async function ResourcePage({ params }: Params) {
                           className="flex items-start gap-3 text-base text-fsc-text-dim"
                         >
                           <span className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-fsc-accent-glow shrink-0" />
-                          <span>{b}</span>
+                          <span>
+                            <ArticleText text={b} />
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -204,4 +207,32 @@ function formatDate(iso: string) {
     day: 'numeric',
     year: 'numeric',
   });
+}
+
+/** Inline internal links use [label](/path) in resource copy. Other text renders as written. */
+function ArticleText({ text }: { text: string }) {
+  const pattern = /\[([^\]]+)\]\((\/[^)\s]+)\)/g;
+  const nodes: ReactNode[] = [];
+  let last = 0;
+  for (const match of text.matchAll(pattern)) {
+    const index = match.index ?? 0;
+    const href = match[2];
+    if (index > last) nodes.push(text.slice(last, index));
+    if (href.startsWith('/') && !href.startsWith('//')) {
+      nodes.push(
+        <Link
+          key={`${index}-${href}`}
+          href={href}
+          className="underline underline-offset-2 decoration-fsc-accent-glow/50 hover:text-fsc-accent-glow"
+        >
+          {match[1]}
+        </Link>,
+      );
+    } else {
+      nodes.push(match[0]);
+    }
+    last = index + match[0].length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return <>{nodes.length > 0 ? nodes : text}</>;
 }
