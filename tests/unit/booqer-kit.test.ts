@@ -20,6 +20,10 @@ describe('Booqer kit', () => {
     expect(html).toContain('Ask a question');
     expect(html).toContain('shop id "florida-security-concepts"');
     expect(html).toContain('https://booqer.ai/mcp');
+    expect(html).toContain('search_businesses, check_availability, request_booking');
+    expect(html).toContain('Assistants can book FSC through Booqer in ChatGPT');
+    expect(html).not.toContain('ask_shop');
+    expect(html).not.toContain('get_shop');
     expect(html).not.toMatch(/24\s*\/\s*7|\$\s?\d|call or text|sms:|streetAddress/i);
   });
 

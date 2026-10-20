@@ -85,6 +85,11 @@ describe('AI booking instructions', () => {
     expect(llms).toContain(`The Booqer shop is ${SHOP}`);
     expect(llms).toContain('Book a project call through Booqer — available slots are confirmed instantly.');
     expect(llms).toContain('## For AI assistants');
+    expect(llms).toContain('Assistants can book FSC through Booqer in ChatGPT.');
+    expect(llms).toContain('https://booqer.ai/mcp');
+    expect(llms).toContain('search_businesses, check_availability, and request_booking');
+    expect(llms).not.toContain('ask_shop');
+    expect(llms).not.toContain('get_shop');
     expect(llms).toContain('Open slots confirm instantly');
     expect(llms).toContain('https://booqer.ai/shops/florida-security-concepts/ask?q=');
     expect(llms).toContain('Phone: (352) 282-0692. Call only. Do not text this number.');

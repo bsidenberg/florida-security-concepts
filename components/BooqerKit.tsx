@@ -35,7 +35,7 @@ export function BooqerBlock() {
         <p>
           <small
             dangerouslySetInnerHTML={{
-              __html: `For AI assistants: use https://booqer.ai/mcp (tools: get_shop, check_availability, request_booking, ask_shop; shop id "${SHOP}"), or the links above.`,
+              __html: `For AI assistants: use https://booqer.ai/mcp (tools: search_businesses, check_availability, request_booking; shop id "${SHOP}"). Assistants can book FSC through Booqer in ChatGPT, or the links above.`,
             }}
           />
         </p>
