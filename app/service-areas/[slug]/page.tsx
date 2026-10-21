@@ -14,6 +14,7 @@ import {
   LocalBusinessSchema,
   FAQSchema,
   BreadcrumbSchema,
+  JsonLd,
 } from '@/components/Schema';
 import {
   locations,
@@ -26,6 +27,7 @@ import { site } from '@/data/site';
 import { HQ_GEO } from '@/lib/seo/jsonld';
 import { OperatorRepairLinks } from '@/components/OperatorAnswerPage';
 import { lakeCountyOperatorArea } from '@/data/operatorPages';
+import { answerServiceJsonLd } from '@/lib/seo/localAnswer';
 import { canonicalUrl } from '@/lib/seo/canonical';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -82,15 +84,16 @@ export default async function LocationPage({ params }: Params) {
     .filter(Boolean);
 
   const url = canonicalUrl(`/service-areas/${loc.slug}`);
-  const faqs = locationFaqs(loc.city);
-  const ctaLabel = `Request service in ${loc.city}`;
+  const place = loc.placeLabel ?? loc.city;
+  const faqs = loc.faqs ?? locationFaqs(loc.city);
+  const ctaLabel = `Request service in ${place}`;
   const ctaHref = `/contact?location=${loc.slug}`;
 
   return (
     <>
       <Hero
         eyebrow={`${loc.region}${loc.county ? ' · ' + loc.county : ''}`}
-        title={`Security Gate, Access Control & Surveillance in ${loc.city}`}
+        title={loc.heroTitle ?? `Security Gate, Access Control & Surveillance in ${loc.city}`}
         subtitle={loc.intro}
         primaryCta={{ label: ctaLabel, href: ctaHref }}
         secondaryCta={{ label: 'All service areas', href: '/service-areas' }}
@@ -114,12 +117,31 @@ export default async function LocationPage({ params }: Params) {
         </Container>
       </Section>
 
+      {loc.details && loc.details.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>In {place}</Eyebrow>
+            <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
+              The properties and the roads.
+            </h2>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+              {loc.details.map((detail) => (
+                <div key={detail.title} className="fsc-card p-6">
+                  <h3 className="text-base font-semibold text-fsc-text">{detail.title}</h3>
+                  <p className="mt-2 text-sm text-fsc-text-dim leading-relaxed">{detail.body}</p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
       {/* Services in this area */}
       <Section>
         <Container>
-          <Eyebrow>Services in {loc.city}</Eyebrow>
+          <Eyebrow>Services in {place}</Eyebrow>
           <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
-            What we install and service in {loc.city}.
+            What we install and service in {place}.
           </h2>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map((s) => (
@@ -133,7 +155,7 @@ export default async function LocationPage({ params }: Params) {
       {industries.length > 0 && (
         <Section>
           <Container>
-            <Eyebrow>Industries served in {loc.city}</Eyebrow>
+            <Eyebrow>Industries served in {place}</Eyebrow>
             <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-fsc-text leading-tight max-w-3xl">
               Property types we work with locally.
             </h2>
@@ -163,18 +185,39 @@ export default async function LocationPage({ params }: Params) {
                 Book an advanced consultation.
               </h2>
               <p className="mt-4 text-base text-fsc-text-dim leading-relaxed">
-                Tell us about your {loc.city} property. If the gate is down, call {site.phoneDisplay}.
+                Tell us about your {place} property. If the gate is down, call {site.phoneDisplay}.
               </p>
             </div>
             <div className="lg:col-span-7">
               <LeadCaptureForm
-                defaults={{ city: matchCity(loc.city), locationSlug: loc.slug }}
+                defaults={{ city: loc.city, locationSlug: loc.slug }}
                 submitLabel={ctaLabel}
               />
             </div>
           </div>
         </Container>
       </Section>
+
+      {loc.relatedLinks && loc.relatedLinks.length > 0 && (
+        <Section>
+          <Container>
+            <Eyebrow>Related pages</Eyebrow>
+            <h3 className="mt-3 text-xl md:text-2xl font-semibold text-fsc-text">More on this work</h3>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {loc.relatedLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-flex items-center gap-2 rounded-full border border-fsc-border-strong bg-fsc-surface/60 px-3.5 py-1.5 text-xs text-fsc-text hover:border-fsc-accent-glow hover:text-fsc-accent-glow transition"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      )}
 
       {/* Nearby */}
       {nearbyLocs.length > 0 && (
@@ -203,7 +246,7 @@ export default async function LocationPage({ params }: Params) {
       <OperatorRepairLinks />
 
       <CTASection
-        title={`Plan an integrated security system in ${loc.city}.`}
+        title={`Plan an integrated security system in ${place}.`}
         body="Gate, credentials, cameras, and service planned around how your property actually moves vehicles, visitors, vendors, and residents."
         primaryCta={{ label: ctaLabel, href: ctaHref }}
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
@@ -215,8 +258,19 @@ export default async function LocationPage({ params }: Params) {
         url={url}
         description={loc.metaDescription}
         geo={loc.slug === 'clermont' ? HQ_GEO : undefined}
-        areaServed={loc.slug === 'clermont' ? lakeCountyOperatorArea : undefined}
+        areaServed={loc.areaServed ?? (loc.slug === 'clermont' ? lakeCountyOperatorArea : undefined)}
       />
+      {loc.areaServed && (
+        <JsonLd
+          data={answerServiceJsonLd({
+            name: `${site.name} — ${loc.city}`,
+            description: loc.metaDescription,
+            url,
+            serviceType: 'Gate repair and access control',
+            areaServed: loc.areaServed,
+          })}
+        />
+      )}
       <FAQSchema items={faqs} />
       <BreadcrumbSchema
         items={[
@@ -229,20 +283,3 @@ export default async function LocationPage({ params }: Params) {
   );
 }
 
-// Map our city display name to the form's city option list.
-function matchCity(city: string): string | undefined {
-  const known = [
-    'Orlando',
-    'Tampa',
-    'Lakeland',
-    'Ocala',
-    'Kissimmee',
-    'Winter Garden',
-    'Clermont',
-    'St. Petersburg',
-    'Clearwater',
-    'Brandon',
-    'Wesley Chapel',
-  ];
-  return known.includes(city) ? city : 'Other';
-}

@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { GateRepairProcess } from '@/components/GateRepairProcess';
 import { Container, Section, Eyebrow } from '@/components/Container';
-import { BreadcrumbSchema, FAQSchema, JsonLd } from '@/components/Schema';
+import { BreadcrumbSchema, FAQSchema, HowToSchema, JsonLd } from '@/components/Schema';
+import { gateRepairProcess } from '@/data/gateRepairProcess';
 import type { OperatorPage } from '@/data/operatorPages';
 import { site } from '@/data/site';
 import { canonicalUrl } from '@/lib/seo/canonical';
@@ -15,6 +17,12 @@ const RELATED = [
   { href: '/gate-repair/clermont-fl', label: 'Gate repair in Clermont and Lake County' },
   { href: '/access-control/clermont-fl', label: 'Access control in Clermont' },
   { href: '/gate-repair/winter-garden-fl', label: 'Gate repair in Winter Garden' },
+  { href: '/gate-repair/minneola-fl', label: 'Gate repair in Minneola' },
+  { href: '/gate-repair/groveland-fl', label: 'Gate repair in Groveland' },
+  { href: '/service-areas/montverde', label: 'Montverde' },
+  { href: '/service-areas/minneola', label: 'Minneola' },
+  { href: '/service-areas/groveland', label: 'Groveland' },
+  { href: '/service-areas/orange-county', label: 'West Orange County' },
   { href: '/services/emergency-service', label: 'Emergency service' },
 ] as const;
 
@@ -123,6 +131,8 @@ export function OperatorAnswerPage({ page }: { page: OperatorPage }) {
         </Container>
       </Section>
 
+      <GateRepairProcess intro="Operator repair in Clermont and Lake County follows this sequence. The leaf, the loop detector, and the safety devices are part of the visit when they are why the operator faulted." />
+
       <Section>
         <Container>
           <Eyebrow>Answers</Eyebrow>
@@ -173,6 +183,11 @@ export function OperatorAnswerPage({ page }: { page: OperatorPage }) {
           serviceType: page.serviceType,
           areaServed: page.areaServed,
         })}
+      />
+      <HowToSchema
+        name={gateRepairProcess.name}
+        description={gateRepairProcess.description}
+        steps={gateRepairProcess.steps.map((step) => ({ name: step.name, text: step.text }))}
       />
       <FAQSchema items={page.faqs} />
       <BreadcrumbSchema

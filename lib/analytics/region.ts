@@ -8,6 +8,7 @@ export const CITY_REGIONS: readonly (readonly [city: string, region: 'orlando' |
   ['Orlando', 'orlando'], ['Tampa', 'tampa'], ['Lakeland', 'orlando'], ['Ocala', 'orlando'], ['Kissimmee', 'orlando'],
   ['Winter Garden', 'orlando'], ['Clermont', 'orlando'], ['St. Petersburg', 'tampa'], ['Clearwater', 'tampa'],
   ['Brandon', 'tampa'], ['Wesley Chapel', 'tampa'],
+  ['Montverde', 'orlando'], ['Minneola', 'orlando'], ['Groveland', 'orlando'], ['Orange County', 'orlando'],
 ];
 
 export function normalizeCity(value: string): string {

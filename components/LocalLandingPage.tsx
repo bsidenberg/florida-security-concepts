@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { GateRepairProcess } from '@/components/GateRepairProcess';
 import { Container, Section, Eyebrow } from '@/components/Container';
-import { BreadcrumbSchema, FAQSchema, JsonLd } from '@/components/Schema';
+import { BreadcrumbSchema, FAQSchema, HowToSchema, JsonLd } from '@/components/Schema';
+import { gateRepairProcess, showsLakeCountyGateRepairProcess } from '@/data/gateRepairProcess';
 import { OperatorRepairLinks } from '@/components/OperatorAnswerPage';
 import { site } from '@/data/site';
 import {
@@ -98,6 +100,7 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
   const counterpart = getLocalLanding(otherService, landing.slug);
   const otherLabel = serviceLabel(otherService);
   const isCameras = landing.service === 'security-cameras';
+  const showRepairProcess = showsLakeCountyGateRepairProcess(landing.service, landing.slug);
 
   return (
     <>
@@ -181,6 +184,10 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
         </Container>
       </Section>
 
+      {showRepairProcess && (
+        <GateRepairProcess intro="On a gate we schedule from Clermont, the visit follows this sequence. We repair the operator, the leaf and hardware, the loop detector, and the safety devices only when they apply to that entrance." />
+      )}
+
       {landing.operatorCoverage && landing.operatorCoverage.length > 0 && (
         <Section>
           <Container>
@@ -253,6 +260,13 @@ export function LocalLandingView({ landing }: { landing: LocalLanding }) {
       </section>
 
       <JsonLd data={localServiceJsonLd(landing)} />
+      {showRepairProcess && (
+        <HowToSchema
+          name={gateRepairProcess.name}
+          description={gateRepairProcess.description}
+          steps={gateRepairProcess.steps.map((step) => ({ name: step.name, text: step.text }))}
+        />
+      )}
       {landing.faqs && landing.faqs.length > 0 && (
         <JsonLd
           data={answerLocalBusinessJsonLd({

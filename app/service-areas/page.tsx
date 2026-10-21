@@ -24,7 +24,7 @@ export default function ServiceAreasPage() {
       <Hero
         eyebrow="Service Areas"
         title="Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay."
-        subtitle="We are based in Clermont, Lake County. These are the areas we schedule. If your property is in one of them, tell us the city and the equipment."
+        subtitle="We are based in Clermont, Lake County. These are the areas we schedule, including Minneola, Montverde, Groveland, and west Orange County. If your property is in one of them, tell us the city and the equipment."
         primaryCta={{ label: 'Schedule a Site Visit', href: '/contact' }}
         secondaryCta={{ label: 'View Services', href: '/services' }}
       />
@@ -43,7 +43,7 @@ export default function ServiceAreasPage() {
             Cities we serve from Clermont, Lake County
           </h2>
           <p className="mt-4 max-w-3xl text-base text-fsc-text-dim leading-relaxed">
-            Orlando, Kissimmee, Winter Garden, and Clermont are scheduled from our Lake County base, along with Tampa Bay. If your property is between those cities, tell us where it is and we will say whether we can take the drive.
+            Orlando, Kissimmee, Winter Garden, and Clermont are scheduled from our Lake County base, along with Tampa Bay. Minneola, Montverde, and Groveland have their own Lake County pages. West Orange County, near Winter Garden, Windermere, and Ocoee, is on the Orange County page. If your property is between those cities, tell us where it is and we will say whether we can take the drive.
           </p>
           <div className="mt-10">
             <LocationGrid items={locations} />

@@ -120,6 +120,35 @@ export function ServiceSchema({
   );
 }
 
+export function HowToSchema({
+  name,
+  description,
+  steps,
+}: {
+  name: string;
+  description: string;
+  steps: { name: string; text: string }[];
+}) {
+  if (!steps?.length) return null;
+  if (/24\s*\/\s*7|\$\s?\d/.test(`${name} ${description} ${steps.map((step) => step.text).join(' ')}`)) return null;
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name,
+        description,
+        step: steps.map((step, index) => ({
+          '@type': 'HowToStep',
+          position: index + 1,
+          name: step.name,
+          text: step.text,
+        })),
+      }}
+    />
+  );
+}
+
 export function FAQSchema({ items }: { items: { q: string; a: string }[] }) {
   if (!items?.length) return null;
   return (

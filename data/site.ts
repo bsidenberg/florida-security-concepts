@@ -75,9 +75,12 @@ export const site = {
     'Clearwater',
     'Brandon',
     'Wesley Chapel',
+    'Minneola',
+    'Groveland',
+    'Montverde',
   ],
   serviceAreaSummary:
-    'Based in Clermont, Lake County. We schedule work in Orlando, Kissimmee, Winter Garden, Clermont, and Tampa Bay.',
+    'Based in Clermont, Lake County. We schedule work in Orlando, Kissimmee, Winter Garden, Clermont, Minneola, Montverde, Groveland, west Orange County, and Tampa Bay.',
 
   instagramHandle: 'floridasecurityconcepts',
   social: {
