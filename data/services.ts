@@ -316,7 +316,7 @@ export const services: Service[] = [
       'slide gate repair',
       'barrier arm repair',
     ],
-    updatedDate: '2026-10-09',
+    updatedDate: '2026-10-21',
   },
   {
     slug: 'maintenance-plans',

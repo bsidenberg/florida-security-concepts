@@ -165,7 +165,7 @@ export const operatorPages: OperatorPage[] = [
         heading: 'Where we schedule in Lake County',
         paragraphs: [
           'Clermont is home base. Minneola, Groveland, and Montverde are on the same Lake County runs, along US 27 and State Road 50 and the ridge communities around the Clermont chain of lakes. Winter Garden is the Orange County city we schedule with those calls. There is no second office. Tell us the city so we can confirm the drive.',
-          'Clermont has its own gate operator repair page and a gate repair page. Winter Garden has its own gate repair page. Minneola, Groveland, and Montverde are covered from this Lake County page. An advanced consultation is the project call for any of them.',
+          'Clermont has its own gate operator repair page and a gate repair page. Minneola and Groveland have their own gate repair pages. Montverde, Minneola, Groveland, and west Orange County have service area pages. Winter Garden has its own gate repair page. An advanced consultation is the project call for any of them.',
         ],
       },
       {

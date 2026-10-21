@@ -12,7 +12,11 @@ import { IndustryCard } from '@/components/IndustryCard';
 import {
   FAQSchema,
   BreadcrumbSchema,
+  HowToSchema,
 } from '@/components/Schema';
+import { GateRepairProcess } from '@/components/GateRepairProcess';
+import { Reviews } from '@/components/Reviews';
+import { gateRepairProcess } from '@/data/gateRepairProcess';
 import { ConceptGrid } from '@/components/ConceptGrid';
 import { conceptsForService } from '@/data/concepts';
 import { WorkGallery } from '@/components/WorkGallery';
@@ -197,6 +201,8 @@ export default async function ServicePage({ params }: Params) {
         </Container>
       </Section>
 
+      {svc.slug === 'gate-repair' && <GateRepairProcess />}
+
       {/* Process */}
       {svc.process && svc.process.length > 0 && (
         <Section>
@@ -240,6 +246,8 @@ export default async function ServicePage({ params }: Params) {
           </Container>
         </Section>
       )}
+
+      <Reviews />
 
       {/* FAQ */}
       <Section>
@@ -324,6 +332,13 @@ export default async function ServicePage({ params }: Params) {
         secondaryCta={{ label: 'Browse Resources', href: '/resources' }}
       />
 
+      {svc.slug === 'gate-repair' && (
+        <HowToSchema
+          name={gateRepairProcess.name}
+          description={gateRepairProcess.description}
+          steps={gateRepairProcess.steps.map((step) => ({ name: step.name, text: step.text }))}
+        />
+      )}
       <FAQSchema items={svc.faqs} />
       <BreadcrumbSchema
         items={[
