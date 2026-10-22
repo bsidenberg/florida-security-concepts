@@ -54,6 +54,7 @@ HOAs, community development districts (CDDs), gated communities, multifamily, se
 ## Guides
 
 - Automatic gate safety for Florida HOAs — entrapment protection (UL 325), gate construction (ASTM F2200), photo eyes, edge sensors, pedestrian separation, warning signs, reversing, and routine testing: https://www.floridasecurityconcepts.com/resources/hoa-gate-safety-entrapment-protection-florida
+- Resident gate credentials for Florida HOAs — gate remotes, RFID windshield and headlight tags, keypad PINs, and smartphone app access, including sharing, move-outs, seasonal residents, and rollout: https://www.floridasecurityconcepts.com/resources/hoa-gate-resident-credentials-remotes-rfid-app-florida
 
 ## Contact
 
